@@ -44,6 +44,8 @@ var platforms;
 var cursors;
 var punchkey;
 var kickkey;
+var j = 0;
+
 var controller;
 var pun;
 
@@ -53,6 +55,9 @@ var scoreText;
 var healthText;
 var enemyText;
 var enemy;
+var bottle;
+var helmet;
+
 var hitbox1;
 var myPlayer;
 var hitboxes;
@@ -186,7 +191,7 @@ function create() {
 
 
     //weapon3
-    weapon3 = game.add.weapon(5, 'slash2');
+    weapon3 = game.add.weapon(5, 'slash');
 
  	//The bullet will be automatically killed when lifespan runs out
     weapon3.bulletKillType = Phaser.Weapon.KILL_LIFESPAN;
@@ -210,6 +215,7 @@ function create() {
 //Disabled temporarily
     //  enemy.sprite.animations.add('still', [0], 5, true);
     
+    /*
     //  Finally some stars to collect
     stars = game.add.group();
 
@@ -231,6 +237,7 @@ function create() {
 
     //  The score
     scoreText = game.add.text(16, 16, 'score: 0', { fontSize: '32px', fill: '#000' });
+	*/
 
     //  controls
     cursors  = game.input.keyboard.createCursorKeys();
@@ -297,6 +304,32 @@ enemy.sprite.body.collideWorldBounds = true;
 //hitbox1 = hitboxes.create(16,8,'hitboxTest');
 //hitbox1.kill;
     
+bottle = new Object();
+//Handles any sprite stuff for the enemy object
+//enemy.sprite = game.add.sprite(130, game.world.height - 200, 'baddie' );
+bottle.sprite = game.add.sprite(330, game.world.height - 200, 'bottle' );
+bottle.sprite.x.scale = 3;
+bottle.sprite.y.scale = 3;
+//physics of enemy, in case we want to implement him later
+game.physics.arcade.enable(bottle.sprite);
+bottle.sprite.enableBody = true;
+bottle.sprite.body.bounce.y = 0.2;
+bottle.sprite.body.gravity.y = 300;
+bottle.sprite.body.collideWorldBounds = true;
+
+helmet = new Object();
+//Handles any sprite stuff for the enemy object
+//enemy.sprite = game.add.sprite(130, game.world.height - 200, 'baddie' );
+helmet.sprite = game.add.sprite(230, game.world.height - 200, 'helmet' );
+helmet.sprite.x.scale = 4;
+helmet.sprite.y.scale = 4;
+//physics of enemy, in case we want to implement him later
+game.physics.arcade.enable(helmet.sprite);
+helmet.sprite.enableBody = true;
+helmet.sprite.body.bounce.y = 0.2;
+helmet.sprite.body.gravity.y = 300;
+helmet.sprite.body.collideWorldBounds = true;
+
 
 
 
@@ -308,8 +341,12 @@ function update() {
     game.physics.arcade.collide(player, platforms);
     game.physics.arcade.collide(stars, platforms);
     game.physics.arcade.collide(enemy.sprite, platforms);
-    game.physics.arcade.collide(stars, enemy.sprite);
+    game.physics.arcade.collide(helmet.sprite, platforms);
+    game.physics.arcade.collide(bottle.sprite, platforms);
+    //game.physics.arcade.collide(stars, enemy.sprite);
     game.physics.arcade.collide(enemy.sprite, player);
+    game.physics.arcade.collide(helmet.sprite, player);
+    game.physics.arcade.collide(bottle.sprite, player);
     
 
     //  Checks to see if the player overlaps with any of the stars, if he does call the collectStar function
@@ -376,20 +413,42 @@ function update() {
 	
      else if (kickkey.isDown)
     {
+    	j += 1;
+    	if (player.scale.x > 0 && j <3 )
+    	{
+       	
+       	player.body.velocity.x = 350;
+
+        }
+
+        else if (player.scale.x < 0 && j <3)
+    	{
+       	
+       	player.body.velocity.x = -350;
+        
+        }
+
+        if(j<3)
+        {
+        	player.body.velocity.y = -250;
+        }
+
         player.animations.play('kick');
         weapon2.fire();
     }
     
      else if (punchkey.isDown)
     {
-    	if (player.scale.x > 0 )
+    	j += 1;
+
+    	if (player.scale.x > 0 && j <3)
     	{
        	
        	player.body.velocity.x = 250;
         
         }
 
-        else if (player.scale.x < 0 )
+        else if (player.scale.x < 0 && j <3)
     	{
        	
        	player.body.velocity.x = -250;
@@ -425,6 +484,7 @@ function update() {
         //idle animation
          player.animations.play('idle');
          
+         j = 0;
     }
     
     //kickkey.isDown.onDown(
