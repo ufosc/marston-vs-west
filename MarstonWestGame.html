@@ -23,7 +23,10 @@ function preload() {
     game.load.image('ground', 'assets/floorblock.png');
     game.load.image('star', 'assets/star.png');
     //game.load.spritesheet('dude', 'assets/dude.png', 32, 48);
+    
     game.load.spritesheet('dude', 'assets/Fighter1master.png', 36, 42);
+    game.load.spritesheet('chick', 'assets/Fighter2master.png', 36, 42);
+
     game.load.image('hitboxTest', 'assets/testHitbox.png');
     game.load.spritesheet('baddie', 'assets/baddie.png', 32, 32 );
     game.load.spritesheet('slash', 'assets/slash (1).png', 64, 64 );
@@ -31,7 +34,7 @@ function preload() {
     game.load.spritesheet('helmet', 'assets/helmet.png', 32, 32 );
     game.load.spritesheet('bottle', 'assets/bottle.png', 32, 32 );
     game.load.spritesheet('book', 'assets/book.png', 32, 32 );
-
+    game.load.spritesheet('Sandbag', 'assets/sandbag.png', 32, 32 );
 }
 
 var player;
@@ -70,7 +73,11 @@ var hitboxes;
 
 var prevkey; //currently unused
 
+var Player1;
+var Player1;
 
+var controller1;
+var controller2;
 
 
 function create() {
@@ -103,546 +110,163 @@ function create() {
     //ledge = platforms.create(-150, 250, 'ground');
     //ledge.body.immovable = true;
 
-    // The player and its settings
-    player = game.add.sprite(90, game.world.height - 150, 'dude');
-    
-    player.scale.x = 2;
-    player.scale.y = 2;
-    player.anchor.setTo(.5,0);
-    
-    
-    //  We need to enable physics on the player
-    game.physics.arcade.enable(player);
-
-    //  Player physics properties. Give the little guy a slight bounce.
-    player.body.bounce.y = 0;//0.2;
-    player.body.gravity.y = 400;
-    player.body.collideWorldBounds = false; //true;
-    
-    /*
-    // Set Anchor to the center of your sprite
-    'leftdude'.anchor.setTo(.5,.5);
-    // Invert scale.x to flip left/
-    'leftdude'.scale.x *= -1;
-
-    //// Invert scale.y to flip up/down
-    //yourSprite.scale.y *= -1;
-    */
-
-    //Our two animations, walking left and right.
-    
-    //player.animations.add('left',  [2, 3, 0], 10, true);
-    player.animations.add('right', [2, 3, 0], 10, true);
-    
-    //idle animation
-    player.animations.add('idle', [0, 1], 5, true);
-    
-    //jump animation
-    player.animations.add('jump', [8, 9], 5, true); //need to adjust animation speed
-    
-    //shield animation
-    player.animations.add('shield', [7], 5, true);
-    
-    //punch animations
-    player.animations.add('punch', [5], 5, true);
-    
-    //kick
-    player.animations.add('kick', [6], 5, true);
-
-    //player got hit animation
-    player.animations.add('ko', [7], 5, true);
-    
-    //playerstate variable
-    playerstate = 0; //0 is idle, 1 is punch, 2 is kick
-
-    //create weapons
-    //weapon
-    weapon = game.add.weapon(1, 'slash');
- 
-    //  The bullet will be automatically killed when it leaves the world bounds
-
-    //	The bullet will be automatically killed when lifespan runs out
-    weapon.bulletKillType = Phaser.Weapon.KILL_LIFESPAN;
-	weapon.bulletLifespan = 50;
-
-    //  The speed at which the bullet is fired
-    weapon.bulletSpeed = 0;
-
-    //  Speed-up the rate of fire, allowing them to shoot 1 bullet every 60ms
-    weapon.fireRate = 1;
-
-    //  Tell the Weapon to track the 'player' Sprite
-    //  With no offsets from the position
-    //  But the 'true' argument tells the weapon to track sprite rotation
-    weapon.trackSprite(player, 28, 40, true);
-
-	
-    //fireButton = this.input.keyboard.addKey(Phaser.KeyCode.SPACEBAR);
-    
-    //weapon2
-    weapon2 = game.add.weapon(1, 'slash');
-
- 	//The bullet will be automatically killed when lifespan runs out
-    weapon2.bulletKillType = Phaser.Weapon.KILL_LIFESPAN;
-	weapon2.bulletLifespan = 50;
-
-    //  The speed at which the bullet is fired
-    weapon2.bulletSpeed = 100;
-
-    //  Speed-up the rate of fire, allowing them to shoot 1 bullet every 60ms
-    weapon2.fireRate = 1;
-
-    //  Tell the Weapon to track the 'player' Sprite
-    //  With no offsets from the position
-    //  But the 'true' argument tells the weapon to track sprite rotation
-    weapon2.trackSprite(player, 28, 50, true);
 
 
-    //weapon3
-    weapon3 = game.add.weapon(5, 'slash');
-
- 	//The bullet will be automatically killed when lifespan runs out
-    weapon3.bulletKillType = Phaser.Weapon.KILL_LIFESPAN;
-	weapon3.bulletLifespan = 100;//30;//80;
-
-    //  The speed at which the bullet is fired
-    weapon3.bulletSpeed = 300;
-
-    //  Speed-up the rate of fire, allowing them to shoot 1 bullet every 60ms
-    weapon3.fireRate = 1;
-
-    //  Tell the Weapon to track the 'player' Sprite
-    //  With no offsets from the position
-    //  But the 'true' argument tells the weapon to track sprite rotation
-    
-    weapon3y = 50 + game.rnd.between(-5, 5);
-
-    weapon3.trackSprite(player, 20, weapon3y, false);
-
-
-//Disabled temporarily
-    //  enemy.sprite.animations.add('still', [0], 5, true);
-    
-    /*
-    //  Finally some stars to collect
-    stars = game.add.group();
-
-    //  We will enable physics for any star that is created in this group
-    stars.enableBody = true;
-
-    //  Here we'll create 12 of them evenly spaced apart
-    for (var i = 0; i < 12; i++)
-    {
-        //  Create a star inside of the 'stars' group
-        var star = stars.create(i * 70, 0, 'star');
-
-        //  Let gravity do its thing
-        star.body.gravity.y = 400;
-
-        //  This just gives each star a slightly random bounce value
-        star.body.bounce.y =  0.7 + Math.random() * 0.2;
-    }
-
-    //  The score
-    scoreText = game.add.text(16, 16, 'score: 0', { fontSize: '32px', fill: '#000' });
-	*/
-
-    //  controls
-    cursors  = game.input.keyboard.createCursorKeys();
-    punchkey = game.input.keyboard.addKey(Phaser.Keyboard.P);
-    kickkey  = game.input.keyboard.addKey(Phaser.Keyboard.O);
-    fireButton = game.input.keyboard.addKey(Phaser.KeyCode.SPACEBAR);
-
-    /*
-    controller = game.input.keyboard.addKeyCapture([
-        Phaser.Keyboard.LEFT,
-        Phaser.Keyboard.RIGHT,
-        Phaser.Keyboard.UP,
-        Phaser.Keyboard.DOWN,
-        Phaser.Keyboard.P,
-        Phaser.Keyboard.O
-    ])
-    */
-
-	//This is where the hitbox will be created
-    hitboxes = game.add.group();
-    
-    hitboxes.enableBody;
-    //hitboxes now a child of player
-	player.addChild(hitboxes);
-
-
-
-//Info for player...needs to be integrated with other player stuff later
-myPlayer = new Object();
-
-//state: idle, walk, jump, block, attack
-
-//hitboxes, state, health, x and y position, spritesheet
-
-//myPlayer = {sprites:"dude", health:100, state:"idle"}
-
-//myCharacter.create()
-
-
-myPlayer.health = 100;
-healthText = game.add.text(8, 32, 'score: 0', { fontSize: '32px', fill: '#000' });
-healthText.text = 'Health: ' + myPlayer.health;
-
-//Extend (make sprite class parent of these 2 classes) item class and fighter class
-
-
-//Random enemy object stuff
-enemy = new Object();
-//stats for enemy object
-
-//enemy.health = 10;
-//enemyText = game.add.text(8, 48, 'Enemy Health: 0', { fontSize: '32px', fill: '#000' });
-//enemyText.text = 'Enemy Health: ' + enemy.health;
-
-//Handles any sprite stuff for the enemy object
-//enemy.sprite = game.add.sprite(130, game.world.height - 200, 'baddie' );
-enemy.sprite = game.add.sprite(130, game.world.height - 200, 'book' );
-enemy.sprite.x.scale = 2;
-enemy.sprite.y.scale = 2;
-//physics of enemy, in case we want to implement him later
-game.physics.arcade.enable(enemy.sprite);
-enemy.sprite.enableBody = true;
-enemy.sprite.body.bounce.y = 0.2;
-enemy.sprite.body.gravity.y = 300;
-enemy.sprite.body.collideWorldBounds = false;
-enemy.sprite.scale.setTo(1.5,1.5);
-//hitbox1 = hitboxes.create(16,8,'hitboxTest');
-//hitbox1.kill;
-    
-bottle = new Object();
-//Handles any sprite stuff for the enemy object
-//enemy.sprite = game.add.sprite(130, game.world.height - 200, 'baddie' );
-bottle.sprite = game.add.sprite(330, game.world.height - 200, 'bottle' );
-bottle.sprite.x.scale = 3;
-bottle.sprite.y.scale = 3;
-//physics of enemy, in case we want to implement him later
-game.physics.arcade.enable(bottle.sprite);
-bottle.sprite.enableBody = true;
-bottle.sprite.body.bounce.y = 0.2;
-bottle.sprite.body.gravity.y = 300;
-bottle.sprite.body.collideWorldBounds = false;
-bottle.sprite.scale.setTo(1.5,1.5);
-
-
-helmet = new Object();
-//Handles any sprite stuff for the enemy object
-//enemy.sprite = game.add.sprite(130, game.world.height - 200, 'baddie' );
-helmet.sprite = game.add.sprite(230, game.world.height - 200, 'helmet' );
-helmet.sprite.x.scale = 10;
-helmet.sprite.y.scale = 10;
-//physics of enemy, in case we want to implement him later
-game.physics.arcade.enable(helmet.sprite);
-helmet.sprite.enableBody = true;
-helmet.sprite.body.bounce.y = 0.2;
-helmet.sprite.body.gravity.y = 300;
-helmet.sprite.body.collideWorldBounds = false;
-helmet.sprite.body.allowDrag = true;
-helmet.sprite.body.Drag = 200;
-
-helmet.sprite.scale.setTo(1.5,1.5);
-
-energyText = game.add.text(8, 60, 'Energy: 0', { fontSize: '32px', fill: '#000' });
-enemyText.text = 'Energy: ' + j;
-
-
-    player.body.velocity.x = 0;
+    Player1 = new Fighter('dude', 100, 200,300,1);
+    Player2 = new Fighter('chick', 100, 400,300,2);
+   
+   	bottle = new item('bottle', 300, 200);
     
 }
 
 function update() {
 
-    //  Collide the player and the stars with the platforms
-    game.physics.arcade.collide(player, platforms);
-    game.physics.arcade.collide(stars, platforms);
-    game.physics.arcade.collide(enemy.sprite, platforms);
-    game.physics.arcade.collide(helmet.sprite, platforms);
-    game.physics.arcade.collide(bottle.sprite, platforms);
-    //game.physics.arcade.collide(stars, enemy.sprite);
-    game.physics.arcade.collide(enemy.sprite, player);
-    game.physics.arcade.collide(helmet.sprite, player);
-    game.physics.arcade.collide(bottle.sprite, player);
+    //  Collide the players with the platforms and eachother
+    game.physics.arcade.collide(Player1.character, platforms); 
+    game.physics.arcade.collide(Player2.character, platforms);
+    game.physics.arcade.collide(Player1.character,Player2.character);
+
+    //Enable items collisions
+    game.physics.arcade.collide(bottle.type, platforms);
+    game.physics.arcade.collide(Player1.character, bottle.type);
+	game.physics.arcade.collide(Player2.character, bottle.type);
+
+   	updateInput(controller1,Player1);
+   	updateInput(controller2,Player2);
     
+}
 
-    //  Checks to see if the player overlaps with any of the stars, if he does call the collectStar function
-    game.physics.arcade.overlap(player, stars, collectStar, null, this);
-
-//Test for overlap between hitbox and enemy
-  //Might have an error below
-  
-  //BROKE GAME?
- // game.physics.arcade.overlap(hitbox1, enemy.sprite, damageEnemy(), null, this);
-
-
-    //  Reset the players velocity (movement)
-    //player.body.velocity.x = 0;
-    if(player.body.velocity.x > 20)
-    {
-    	player.body.velocity.x = player.body.velocity.x - 20;
-    }
-
-    else if(player.body.velocity.x < -20)
-    {
-    	player.body.velocity.x = player.body.velocity.x + 20;
-    }
-    else if(player.body.velocity.x >= -20 && player.body.velocity.x <= 20)
-    {
-    	player.body.velocity.x = 0;
-    }
-   	
-
-    //enemy.body.velocity.x = 0;
-
-    if( j > 0)
+//fighter class
+function Fighter(character,health,startx,starty,controlnum) 
     {
 
-    	player.animations.play('idle');
-      
-        j += -1;
+    this.health = health;//player start health
+    this.state = 0; //player state for state machine?
+    this.startx = startx;
+    this.starty = starty;
+    this.character = game.add.sprite(startx, starty, character);//player character variable to access sprite from phaser and all its properties character variable is name of spritesheet to use
+
+    this.character.anchor.setTo(0.5,0);
+
+        //  We need to enable physics on the player
+    game.physics.arcade.enable(this.character);
+
+    //  Player physics properties. Give the little guy a slight bounce.
+    this.character.body.bounce.y = 0;//0.2;
+    this.character.body.gravity.y = 400;
+    this.character.body.collideWorldBounds = true;
+
+
+    this.character.animations.add('right', [2, 3, 0], 10, true);
+    
+    //idle animation
+    this.character.animations.add('idle', [0, 1], 5, true);
+    
+    //jump animation
+    this.character.animations.add('jump', [8, 9], 5, true); //need to adjust animation speed
+    
+    //shield animation
+    this.character.animations.add('shield', [7], 5, true);
+    
+    //punch animations
+    this.character.animations.add('punch', [5], 5, true);
+    
+    //kick
+    this.character.animations.add('kick', [6], 5, true);
+
+    //player got hit animation
+    this.character.animations.add('ko', [7], 5, true);
+
+
+    this.character.scale.x = 2;
+    this.character.scale.y = 2;
+
+    //this.controller1 = game.input.keyboard.addKeys({ 'up': Phaser.KeyCode.W, 'down': Phaser.KeyCode.S, 'left': Phaser.KeyCode.A, 'right': Phaser.KeyCode.D , 'punch': Phaser.KeyCode.T, 'kick': Phaser.KeyCode.R});
+
+    if(controlnum == 1)
+    {
+    this.controller1 = new Object;
+    controller1 = game.input.keyboard.addKeys({ 'up': Phaser.KeyCode.W, 'down': Phaser.KeyCode.S, 'left': Phaser.KeyCode.A, 'right': Phaser.KeyCode.D , 'punch': Phaser.KeyCode.T, 'kick': Phaser.KeyCode.R});
+	}
+	else if(controlnum == 2)
+	{
+	this.controller2 = new Object;
+	controller2 = game.input.keyboard.addKeys({ 'up': Phaser.KeyCode.UP, 'down': Phaser.KeyCode.DOWN, 'left': Phaser.KeyCode.LEFT, 'right': Phaser.KeyCode.RIGHT , 'punch': Phaser.KeyCode.O, 'kick': Phaser.KeyCode.P});
+	}
 
     }
 
-    else if (cursors.left.isDown)
+
+
+function updateInput(controller,Fighter)
+{
+if (controller.left.isDown)
     {
         //  Move to the left
         
         
-        if (player.scale.x > 0 ){
-        player.scale.x *=-1;
-        weapon.trackSprite(player, 28, -40, true);
-        weapon2.trackSprite(player, 28, -50, true);
-        weapon3y = -35;
-        weapon3.bulletSpeed = -300;
+        if (Fighter.character.scale.x > 0 ){
+        Fighter.character.scale.x *=-1;
         }
         
-        player.body.velocity.x = -250;
-        player.animations.play('right');
+        Fighter.character.body.velocity.x = -250;
+        Fighter.character.animations.play('right');
     }
 
-    else if (cursors.right.isDown)
+    else if (controller.right.isDown)
     {
         //  Move to the right
         
         //logic to change direction facing
-        if (player.scale.x < 0 ){
-        player.scale.x *=-1;
-        weapon.trackSprite(player, 28, 40, true);
-        weapon2.trackSprite(player, 28, 50, true);
-        weapon3y = 35;
-        weapon3.bulletSpeed = 300;
-
+        if (Fighter.character.scale.x < 0 ){
+        Fighter.character.scale.x *=-1;
         }
         
-        player.body.velocity.x = 250;
-        player.animations.play('right');
+        Fighter.character.body.velocity.x = 250;
+        Fighter.character.animations.play('right');
     }
-  
-    
-    else if (cursors.down.isDown && player.body.touching.down)
+    else if (controller.up.isDown && Fighter.character.body.touching.down)
     {
-         //player.body.velocity.x = 150;
-
-        //player.animations.play('kick');
-        player.animations.play('shield');
+        Fighter.character.body.velocity.y = -350;
     }
-    else if (cursors.down.isDown)
+     else if (controller.down.isDown && Fighter.character.body.touching.down)
     {
-        player.body.velocity.y += 10;
-        player.frame = 9;
-        
-        
+        Fighter.character.animations.play('shield');
     }
-
-	
-     else if (kickkey.isDown || playerstate == 3)
+    else if (controller.punch.isDown)
     {
-    	j += 40;
-    	if (player.scale.x > 0 && j < 200 )
-    	{
-       	
-       	player.body.velocity.x = 350;
-       	weapon2.bulletSpeed = 350;
+        //logic to change direction facing
+        if (Fighter.character.scale.x < 0 ){
+       Fighter.character.body.velocity.x = -250;
         }
-
-        else if (player.scale.x < 0 && j <200)
-    	{
-       	
-       	player.body.velocity.x = -350;
-       	weapon2.bulletSpeed = -350;
-        
-        }
-
-        if(j<120 && player.body.touching.down == true)
+        else
         {
-        	player.body.velocity.y = -250;
-        }
-        
-        
-
-        player.animations.play('kick');
-        weapon2.fire();
-
-
-    }
-    
-     else if (punchkey.isDown && j <= 80 )
-    {
-
-    	//playerstate is 3 
-
-    	j += 20;
-    	combo += 1;
-
-    	/*
-    	if (player.scale.x > 0 && j <60)
-    	{
-       	
-       	player.body.velocity.x = 200;
-        
+        Fighter.character.body.velocity.x = 250;
         }
 
-        else if (player.scale.x < 0 && j <60)
-    	{
-       	
-       	player.body.velocity.x = -200;
-        
-        }*/
-
-        if(combo <= 2)
-        {
-        	if (player.scale.x > 0 && j <60)
-    		{
-       	
-       			player.body.velocity.x = 200;
-        
-        	}
-
-        	else if (player.scale.x < 0 && j <60)
-    		{
-       	
-       			player.body.velocity.x = -200;
-        
-        	}
-
-
-        	player.animations.play('punch');
-        	//player.animations.play('kick')
-        	//weapon.bulletAngle = 90;
-        	weapon.fire();
-        	//spawnHitBox();
-    	}
-    	else if(combo == 3)
-        {
-        	player.animations.play('punch');
-        	//player.animations.play('kick')
-        	
-        	weapon.bulletAngle = 45;
-        	weapon.fire();
-        	//weapon.firefrom.set(player.position.x,player.position.y);
-        	//weaon.fireAtXY( 20 , 70);
-        	player.body.velocity.y = -200;
-        	//spawnHitBox();
-    	}
-
-
-
-    }
-    
-
-     else if (fireButton.isDown && j < 100)
+        Fighter.character.animations.play('punch');
+    }        
+    else if (controller.kick.isDown)
     {
-    	//j += 500;
+        //  Move to the right
+        
+        //logic to change direction facing
+        if (Fighter.character.scale.x < 0 ){
+       Fighter.character.body.velocity.x = -250;
+        }
+        else
+        {
+        Fighter.character.body.velocity.x = 250;
+        }
 
-        player.animations.play('punch');
-        //player.animations.play('kick')
-
-    	//weapon3y = 40 + game.rnd.between(-15, 15);game.rnd.between(-15, 15);
-    	weapon3.trackSprite(player, 20, (weapon3y+game.rnd.between(-15, 15)), true);
-
-    	//weapon3.scale.setTo(5,5);
-        weapon3.fire();
-        //spawnHitBox();
-    }
-
+        Fighter.character.animations.play('kick');
+    }        
     else
     {
-        //  Stand still
-        //player.animations.stop();
-        //player.frame = 2;
-        
-        //idle animation
-         player.animations.play('idle');
-
-
-
-         if(j>0)
-         {
-         	j += -1;
-         }
-         else
-         {
-         	combo = 0;
-         }
-         
-    }
-    
-    //kickkey.isDown.onDown(
-  	//	player.animations.play('kick');
-      //  weapon2.fire();
-        //)
-
-    if (cursors.up.isDown && player.body.touching.down )
-    {
-        player.animations.play('jump');
-        player.body.velocity.y = -500;
-
+        Fighter.character.body.velocity.x = 0;
+        Fighter.character.animations.play('idle');
     }
 
-    updateenergy();
-
-    /*
-    //If enemy health drops below zero, kill it
-    if(enemy.health <= 0) {
-        enemy.sprite.kill;
-    }
-    else {
-       enemy.sprite.animations.play("still");
-    }
-    */
-
-}
-
-function collectStar (player, star) {
-    
-    // Removes the star from the screen
-    star.kill();
-
-    //  Add and update the score
-    score += 10;
-    scoreText.text = 'Score: ' + score;
-
-}
-
-function spawnHitBox() {
-    //enemy.hitbox1.revive();
-   // hitbox1.alive = true;
-  // enemy.hitbox1.reset(player.x + 16,player.y - 8);
-   game.time.events.add(Phaser.Timer.SECOND * .1, hitboxTextTest(), hitbox1);
-}
-
-//change the enemy health
-function damageEnemy() {
-    enemyText.health -= 10;
-    
-}
-
-function hitboxTextTest() {
-    enemyText.health += 1;   
 }
 
 function render() {
@@ -651,20 +275,16 @@ function render() {
 
 }
 
-function fighttimer()
-{
-	game.time.events.add(Phaser.Timer.SECOND * .1)
+function item(type, startx, starty){
+	this.type = game.add.sprite(startx, starty, type);
+	
+	game.physics.arcade.enable(this.type);
+
+
+	this.type.body.bounce.y = 0;//0.2;
+    this.type.body.gravity.y = 400;
+    this.type.body.collideWorldBounds = false;
 }
-
-function punch(player){}
-
-
-function updateenergy()
-{
-energyText.text = 'Energy: ' + j; 
-}
-
-
 
 </script>
 
