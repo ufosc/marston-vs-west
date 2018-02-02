@@ -43,6 +43,9 @@ var weapon2;
 var weapon3;
 var weapon3y;
 
+var weapon1;
+
+
 var platforms;
 var cursors;
 var punchkey;
@@ -60,7 +63,19 @@ var pun;
 var stars;
 var score = 0;
 var scoreText;
-var healthText;
+
+var healthtext1;
+var healthtext2;
+
+var livetext1;
+var livetext2;
+
+var style = 
+    {
+        font: "bold 32px Arial", fill: "#fff", boundsAlignH: "left", boundsAlignV: "top" 
+    };
+
+
 var enemyText;
 var enemy;
 var bottle;
@@ -74,11 +89,16 @@ var hitboxes;
 var prevkey; //currently unused
 
 var Player1;
-var Player1;
+var Player2;
 
 var controller1;
 var controller2;
 
+//cooldown vars
+var cooldown1;
+var cooldown2;
+
+var charactername;
 
 function create() {
 
@@ -95,9 +115,9 @@ function create() {
     platforms.enableBody = true;
 
     // Here we create the ground.
-    var ground = platforms.create(90, game.world.height - 30, 'ground');
+    var ground = platforms.create(110, game.world.height - 30, 'ground');
 
-    //  Scale it to fit the width of the game (the original sprite is 400x32 in size)
+    //  Scale it to fit the width of the game (the original sprite is ? in size)
     ground.scale.setTo(18, 1);
 
     //  This stops it from falling away when you jump on it
@@ -111,12 +131,36 @@ function create() {
     //ledge.body.immovable = true;
 
 
+    //Player1 = new Fighter('dude',  0, 3, 200,400,1);
+    //Player2 = new Fighter('chick', 0, 3, 600,400,2);
 
-    Player1 = new Fighter('dude', 100, 200,300,1);
-    Player2 = new Fighter('chick', 100, 400,300,2);
-   
-   	bottle = new item('bottle', 300, 200);
+    Player1 = new Fighter('dude',  0, 3, game.world.width*0.25,game.world.height*0.5,1);
+    Player2 = new Fighter('chick', 0, 3, game.world.width*0.75,game.world.height*0.5,2);
     
+
+   	bottle = new item('bottle', 300, 200);
+
+
+   
+
+    healthtext1 = game.add.text(0,0, `DMG ${Player1.health}`,style);
+
+    healthtext2 = game.add.text(650,0, `DMG ${Player2.health}`,style);
+
+    livetext1 = game.add.text(0,30, `Lives ${Player1.lives}`,style);
+
+    livetext2 = game.add.text(650,30, `Lives ${Player2.lives}`,style);
+
+
+    /*
+    weapon1 = game.add.weapon(1, 'slash');
+    weapon1.bulletKillType = Phaser.Weapon.KILL_LIFESPAN;
+    weapon1.bulletLifespan = 50;
+    weapon1.bulletSpeed = 0;
+    weapon1.fireRate = 1;
+    weapon1.trackSprite(Player2.character, 28, 40, true);
+    */
+
 }
 
 function update() {
@@ -131,20 +175,37 @@ function update() {
     game.physics.arcade.collide(Player1.character, bottle.type);
 	game.physics.arcade.collide(Player2.character, bottle.type);
 
-   	updateInput(controller1,Player1);
-   	updateInput(controller2,Player2);
-    
+   	updateInput(controller1,Player1,cooldown1);
+   	updateInput(controller2,Player2,cooldown2);
+
+     
+
+     healthtext1.text = `DMG ${Player1.health}`;
+     healthtext2.text = `DMG ${Player2.health}`;
+
+     livetext1.text = `Lives ${Player1.lives}`;
+     livetext2.text = `Lives ${Player2.lives}`;
+
+
+    //healthtext2 = game.add.text(690,0, `Lives ${Player2.health}`,style);
+    KO(Player1);
+    KO(Player2);
 }
 
 //fighter class
-function Fighter(character,health,startx,starty,controlnum) 
+function Fighter(character,health,lives,startx,starty,controlnum) 
     {
-
+    
+    this.character = game.add.sprite(startx, starty, character);//player character variable to access sprite from phaser and all its properties character variable is name of spritesheet to use
     this.health = health;//player start health
-    this.state = 0; //player state for state machine?
+    this.lives = lives;
+
     this.startx = startx;
     this.starty = starty;
-    this.character = game.add.sprite(startx, starty, character);//player character variable to access sprite from phaser and all its properties character variable is name of spritesheet to use
+    
+    this.controlnum = controlnum;
+
+    this.state = 0; //player state for state machine?
 
     this.character.anchor.setTo(0.5,0);
 
@@ -154,7 +215,7 @@ function Fighter(character,health,startx,starty,controlnum)
     //  Player physics properties. Give the little guy a slight bounce.
     this.character.body.bounce.y = 0;//0.2;
     this.character.body.gravity.y = 400;
-    this.character.body.collideWorldBounds = true;
+    this.character.body.collideWorldBounds = false;
 
 
     this.character.animations.add('right', [2, 3, 0], 10, true);
@@ -191,22 +252,39 @@ function Fighter(character,health,startx,starty,controlnum)
 	else if(controlnum == 2)
 	{
 	this.controller2 = new Object;
-	controller2 = game.input.keyboard.addKeys({ 'up': Phaser.KeyCode.UP, 'down': Phaser.KeyCode.DOWN, 'left': Phaser.KeyCode.LEFT, 'right': Phaser.KeyCode.RIGHT , 'punch': Phaser.KeyCode.O, 'kick': Phaser.KeyCode.P});
+	controller2 = game.input.keyboard.addKeys({ 'up': Phaser.KeyCode.UP, 'down': Phaser.KeyCode.DOWN, 'left': Phaser.KeyCode.LEFT, 'right': Phaser.KeyCode.RIGHT , 'punch': Phaser.KeyCode.P, 'kick': Phaser.KeyCode.O});
 	}
+
+    /*Weapon Creation
+    if (controlnum == 2){
+        this.weapon1 = game.add.weapon(1, 'slash');
+        weapon1.bulletKillType = Phaser.Weapon.KILL_LIFESPAN;
+        weapon1.bulletLifespan = 50;
+        weapon1.bulletSpeed = 0;
+        weapon1.fireRate = 1;
+        weapon1.trackSprite(character, 28, 50, true);
+    }*/
+
+    this.weapon1 = game.add.weapon(1, 'slash');
+    this.weapon1.bulletKillType = Phaser.Weapon.KILL_LIFESPAN;
+    this.weapon1.bulletLifespan = 50; //50
+    this.weapon1.bulletSpeed = 0; //0
+    this.weapon1.fireRate = 100;
+    this.weapon1.trackSprite(this.character, 28, 40, true);
 
     }
 
 
 
-function updateInput(controller,Fighter)
+function updateInput(controller,Fighter,cooldownNum)
 {
-if (controller.left.isDown)
+    if (controller.left.isDown)
     {
         //  Move to the left
-        
-        
+    
         if (Fighter.character.scale.x > 0 ){
         Fighter.character.scale.x *=-1;
+        Fighter.weapon1.trackSprite(Fighter.character, 28, -40, true);
         }
         
         Fighter.character.body.velocity.x = -250;
@@ -220,6 +298,7 @@ if (controller.left.isDown)
         //logic to change direction facing
         if (Fighter.character.scale.x < 0 ){
         Fighter.character.scale.x *=-1;
+        Fighter.weapon1.trackSprite(Fighter.character, 28, 40, true);
         }
         
         Fighter.character.body.velocity.x = 250;
@@ -233,7 +312,7 @@ if (controller.left.isDown)
     {
         Fighter.character.animations.play('shield');
     }
-    else if (controller.punch.isDown)
+    else if (controller.punch.isDown && controller.punch.downDuration(80))
     {
         //logic to change direction facing
         if (Fighter.character.scale.x < 0 ){
@@ -245,8 +324,12 @@ if (controller.left.isDown)
         }
 
         Fighter.character.animations.play('punch');
+        Fighter.weapon1.fire();
+        Fighter.health += 1; 
+
+
     }        
-    else if (controller.kick.isDown)
+    else if (controller.kick.isDown && controller.kick.downDuration(80))
     {
         //  Move to the right
         
@@ -260,7 +343,10 @@ if (controller.left.isDown)
         }
 
         Fighter.character.animations.play('kick');
-    }        
+        Fighter.weapon1.fire();
+       
+    } 
+    
     else
     {
         Fighter.character.body.velocity.x = 0;
@@ -268,6 +354,7 @@ if (controller.left.isDown)
     }
 
 }
+
 
 function render() {
 
@@ -280,11 +367,46 @@ function item(type, startx, starty){
 	
 	game.physics.arcade.enable(this.type);
 
-
 	this.type.body.bounce.y = 0;//0.2;
     this.type.body.gravity.y = 400;
     this.type.body.collideWorldBounds = false;
 }
+
+function respawn(Fighter){
+    console.log("Beginning of respawn");
+    //this.Fighter = Fighter;  
+    var test = Fighter.controlnum;
+    console.log(Fighter);
+
+    if(Fighter.controlnum == 1 ){
+        console.log("controlnum = 1");
+        //Fighter.character.body.position.x = 200;
+        Fighter.character.x = 200;
+        Fighter.character.y = 300;
+    }
+
+    else if(Fighter.controlnum == 2 ){
+        console.log("controlnum = 2");
+        Fighter.character.x = 600;
+        Fighter.character.y = 300;
+    }
+
+    Fighter.health = 0;
+    Fighter.lives += -1;
+    Fighter.character.body.velocity.x = 0;
+    Fighter.character.body.velocity.y = 0;
+}
+
+function KO(Fighter){
+    if(Fighter.character.body.position.x < -50 || Fighter.character.body.position.x > 900){
+       respawn(Fighter); 
+    }
+    else if(Fighter.character.body.position.y > 700 || Fighter.character.body.position.y < -100){
+       respawn(Fighter); 
+    }
+}
+
+
 
 </script>
 
