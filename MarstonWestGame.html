@@ -100,10 +100,13 @@ var cooldown2;
 
 var charactername;
 
+
 function create() {
 
     //  We're going to be using physics, so enable the Arcade Physics system
     game.physics.startSystem(Phaser.Physics.ARCADE);
+
+    game.time.advandedTiming = true;
 
     //  A simple background for our game
     game.add.sprite(0, 0, 'sky');
@@ -151,6 +154,8 @@ function create() {
 
     livetext2 = game.add.text(650,30, `Lives ${Player2.lives}`,style);
 
+    //fpstext = game.add.text(400, 30, `FPS ${game.time.fps}`,style);
+
 
     /*
     weapon1 = game.add.weapon(1, 'slash');
@@ -190,6 +195,13 @@ function update() {
     //healthtext2 = game.add.text(690,0, `Lives ${Player2.health}`,style);
     KO(Player1);
     KO(Player2);
+
+    respawnEvent(Player1);
+    respawnEvent(Player2);
+
+    
+
+
 }
 
 //fighter class
@@ -199,6 +211,11 @@ function Fighter(character,health,lives,startx,starty,controlnum)
     this.character = game.add.sprite(startx, starty, character);//player character variable to access sprite from phaser and all its properties character variable is name of spritesheet to use
     this.health = health;//player start health
     this.lives = lives;
+
+    //Respawn Animation Activator Switch
+    this.respawnSwitch = false;
+    //m is the respawn animation counter
+    this.m = 0;
 
     this.startx = startx;
     this.starty = starty;
@@ -280,7 +297,7 @@ function Fighter(character,health,lives,startx,starty,controlnum)
 
 function updateInput(controller,Fighter,cooldownNum)
 {
-    if (controller.left.isDown)
+    if (controller.left.isDown && !(Fighter.m < 120 && Fighter.m != 0))
     {
         //  Move to the left
     
@@ -293,7 +310,7 @@ function updateInput(controller,Fighter,cooldownNum)
         Fighter.character.animations.play('right');
     }
 
-    else if (controller.right.isDown)
+    else if (controller.right.isDown && !(Fighter.m < 120 && Fighter.m != 0))
     {
         //  Move to the right
         
@@ -307,16 +324,17 @@ function updateInput(controller,Fighter,cooldownNum)
         Fighter.character.animations.play('right');
     }
     //else if (controller.up.isDown && Fighter.character.body.touching.down)
-    else if (controller.up.isDown && Fighter.jumps <= 5 && controller.up.downDuration(80))
+    else if (controller.up.isDown && Fighter.jumps <= 5 && controller.up.downDuration(80) && !(Fighter.m < 120 && Fighter.m != 0))
     {
         Fighter.character.body.velocity.y = -350;
         Fighter.jumps += 1;
     }
      else if (controller.down.isDown && Fighter.character.body.touching.down)
     {
+    	Fighter.character.body.velocity.x = 0;
         Fighter.character.animations.play('shield');
     }
-    else if (controller.punch.isDown && controller.punch.downDuration(80))
+    else if (controller.punch.isDown && controller.punch.downDuration(80) && !(Fighter.m < 120 && Fighter.m != 0))
     {
         //logic to change direction facing
         if (Fighter.character.scale.x < 0 ){
@@ -333,7 +351,7 @@ function updateInput(controller,Fighter,cooldownNum)
 
 
     }        
-    else if (controller.kick.isDown && controller.kick.downDuration(200))
+    else if (controller.kick.isDown && controller.kick.downDuration(200) && !(Fighter.m < 120 && Fighter.m != 0))
     {
         //  Move to the right
         
@@ -397,18 +415,53 @@ function respawn(Fighter){
         //Fighter.character.body.position.x = 200;
         Fighter.character.x = 200;
         Fighter.character.y = 300;
+        Fighter.respawnSwitch = true;
+        Fighter.m = 0;
     }
 
     else if(Fighter.controlnum == 2 ){
         console.log("controlnum = 2");
         Fighter.character.x = 600;
         Fighter.character.y = 300;
+        Fighter.respawnSwitch = true;
+        Fighter.m = 0;
     }
 
     Fighter.health = 0;
     Fighter.lives += -1;
     Fighter.character.body.velocity.x = 0;
     Fighter.character.body.velocity.y = 0;
+}
+
+function respawnEvent(Fighter){
+	//Respawn Switch is activated during the KO function
+	if (Fighter.respawnSwitch == true){
+    	Fighter.m += 1;
+
+    	//Invisible moment
+    	if (Fighter.m < 60 && Fighter.m != 0){
+    		Fighter.character.body.gravity.y = 0;
+    		Fighter.character.visible = false;
+    	}
+    	//Book Crashing down Animation
+    	else if(Fighter.m >= 60 && Fighter.m < 120){
+    		Fighter.character.body.gravity.y = 800;
+    		Fighter.character.visible = true;
+    	}
+    	else{
+    		Fighter.character.body.gravity.y = 400;
+    	}
+
+    	//Makes character alpha to signify invulnerability
+    	if (Fighter.m <= 360){
+    		Fighter.character.alpha = 0.5;
+    	}
+    	else{
+    		Fighter.character.alpha = 1;
+    		Fighter.m = 0;
+    		Fighter.respawnSwitch = false;
+    	}
+    }
 }
 
 function KO(Fighter){
