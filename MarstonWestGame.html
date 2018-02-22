@@ -174,7 +174,9 @@ function update() {
     game.physics.arcade.collide(Player1.character, platforms); 
     game.physics.arcade.collide(Player2.character, platforms);
     game.physics.arcade.collide(Player1.character,Player2.character);
-
+	game.physics.arcade.collide(Player1.weapon1.bullets, Player2.character, hit);
+	game.physics.arcade.collide(Player2.weapon1.bullets, Player1.character, hit);
+	//overlap(object1, object2, overlapCallback, processCallback, callbackContext) 
     //Enable items collisions
     game.physics.arcade.collide(bottle.type, platforms);
     game.physics.arcade.collide(Player1.character, bottle.type);
@@ -201,6 +203,12 @@ function update() {
 
     
 
+
+}
+
+function hit()
+{
+	Player2.health=Player2.health-5;
 
 }
 
@@ -235,6 +243,8 @@ function Fighter(character,health,lives,startx,starty,controlnum)
     this.character.body.bounce.y = 0;//0.2;
     this.character.body.gravity.y = 400;
     this.character.body.collideWorldBounds = false;
+
+	this.character.body.setSize(20, 42, 10, 0)
 
 
     this.character.animations.add('right', [2, 3, 0], 10, true);
@@ -453,6 +463,7 @@ function respawnEvent(Fighter){
     	}
 
     	//Makes character alpha to signify invulnerability
+
     	if (Fighter.m <= 300){
     		if (Fighter.m % 20 <= 5){
     			Fighter.character.alpha = 1;
@@ -461,6 +472,7 @@ function respawnEvent(Fighter){
     			Fighter.character.alpha = 0.5;
     		}
     		
+
     	}
     	else{
     		Fighter.character.alpha = 1;
