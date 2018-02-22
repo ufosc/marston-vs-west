@@ -453,8 +453,14 @@ function respawnEvent(Fighter){
     	}
 
     	//Makes character alpha to signify invulnerability
-    	if (Fighter.m <= 360){
-    		Fighter.character.alpha = 0.5;
+    	if (Fighter.m <= 300){
+    		if (Fighter.m % 20 <= 5){
+    			Fighter.character.alpha = 1;
+    		}
+    		else {
+    			Fighter.character.alpha = 0.5;
+    		}
+    		
     	}
     	else{
     		Fighter.character.alpha = 1;
