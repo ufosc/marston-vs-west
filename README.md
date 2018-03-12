@@ -3,7 +3,7 @@ A simple street fighter/ smash bros esque video game project about the ongoing d
 
 This project is made using javascript and the Phaser framework
 
-Current issues are creating temporary hitboxes and implementing a statemachine and creation of a fighter class.
+->http://www.netexl.com/blog/making-of-a-responsive-game-in-phaser-part-1/ helpful for later
 
 Future goals for the project is implementing a basic ai fighter as well as couch multiplayer and items and other stages.
 
