@@ -6,3 +6,5 @@ This project is made using javascript and the Phaser framework
 Current issues are creating temporary hitboxes and implementing a statemachine and creation of a fighter class.
 
 Future goals for the project is implementing a basic ai fighter as well as couch multiplayer and items and other stages.
+
+#Download and Unzip States and run w/ Webserver. Sorry about the art and design guys...
