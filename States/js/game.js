@@ -19,6 +19,7 @@ var timerText;
 var player1Icon;
 var player2Icon;
 var marstonPicture;
+var westPicture;
 var mob;
 var people;
 //Display options variables
@@ -65,7 +66,13 @@ var healthtext2;
 var livetext1;
 var livetext2;
 var charactername;
-
+var player1Text;
+var player2Text;
+var gameReadyText;
+var charName1 = "";
+var charName2 = "";
+var charSelected1 = false;
+var charSelected2 = false;
 var style =
     {
         font: "bold 32px Arial", fill: "#fff", boundsAlignH: "left", boundsAlignV: "top"
