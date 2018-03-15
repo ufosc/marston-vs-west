@@ -12,6 +12,7 @@ var config =
 }
 
 var game = new Phaser.Game(config);
+var key1;
 var playSound;
 var playMusic;
 var timer;
@@ -73,6 +74,7 @@ var charName1 = "";
 var charName2 = "";
 var charSelected1 = false;
 var charSelected2 = false;
+
 var style =
     {
         font: "bold 32px Arial", fill: "#fff", boundsAlignH: "left", boundsAlignV: "top"

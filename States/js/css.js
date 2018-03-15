@@ -2,6 +2,7 @@ console.log("winstate reached");
 
 var cssState={
   create: function(){
+    key1 = game.input.keyboard.addKey(Phaser.Keyboard.ONE);
     marstonPicture = game.add.sprite(game.world.width * .5 - 200, game.world.height * .5 + 50, 'marstonPic');
     marstonPicture.anchor.setTo(.5,.5);
     marstonPicture.scale.setTo(.25,.25);
@@ -36,9 +37,9 @@ var cssState={
 
     marstonPicture.enableBody = true;
     westPicture.enableBody = true;
-    var startLabel=game.add.text(80,game.world.height-80,'Press "W" key to play game after selecting characters!',{font: '25px Arial',fill:'#ffffff'});
-    var wkey= game.input.keyboard.addKey(Phaser.Keyboard.W);
-    wkey.onDown.addOnce(this.start,this);
+    var startLabel=game.add.text(80,game.world.height-80,'Press "1" key to play game after selecting characters!',{font: '25px Arial',fill:'#ffffff'});
+    //var wkey= game.input.keyboard.addKey(Phaser.Keyboard.W);
+    //wkey.onDown.addOnce(this.start,this);
     player1Text = game.add.text(80,game.world.height-240,'Character 1 selected: ',{font: '25px Arial',fill:'#ffffff'});
     player2Text = game.add.text(80,game.world.height-160,'Character 2 selected: ',{font: '25px Arial',fill:'#ffffff'});
     gameReadyText = game.add.text(80,game.world.height-320,'',{font: '25px Arial',fill:'#ffffff'});
@@ -56,10 +57,15 @@ var cssState={
    player2Text.text = `Character selected 2: ${charName2}`;
 
    game.physics.arcade.collide(player1Icon, player2Icon);
-   if(charSelected1 && charSelected2)
+   if(charSelected1 && charSelected2 && key1.isDown)
    {
      //Eventually allow the player to start game;
      gameReadyText.text = `Game ready`;
+     game.state.start('play');
+
+
+
+
    }
    else {
      {
@@ -70,28 +76,28 @@ var cssState={
  onDragStop: function() {
    if(game.physics.arcade.overlap(player1Icon, marstonPicture,)) //Call function to change tint/size of icon picture,
    {
-     charName1 = "marston";
+     charName1 = "dude";
      charSelected1 = true;
      marstonPicture.tint =  0xffff00;
      console.log("You selected Marston, they are overlapping and the icon was dropped" + charSelected1);
    }
    if(game.physics.arcade.overlap(player1Icon, westPicture,)) //Call function to change tint/size of icon picture,
    {
-     charName1 = "west";
+     charName1 = "chick";
      charSelected1 = true;
      westPicture.tint =  0xffff00;
      console.log("You selected West, they are overlapping and the icon was dropped" + charSelected1);
    }
    if(game.physics.arcade.overlap(player2Icon, marstonPicture,)) //Call function to change tint/size of icon picture,
    {
-     charName2 = "marston";
+     charName2 = "dude";
      charSelected2 = true;
      marstonPicture.tint =  0xffff00;
      console.log("You selected Marston, they are overlapping and the icon was dropped" + charSelected2);
    }
    if(game.physics.arcade.overlap(player2Icon, westPicture,)) //Call function to change tint/size of icon picture,
    {
-     charName2 = "west";
+     charName2 = "chick";
      charSelected2 = true;
      westPicture.tint =  0xffff00;
      console.log("You selected West, they are overlapping and the icon was dropped" + charSelected2);

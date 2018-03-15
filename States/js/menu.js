@@ -37,7 +37,7 @@ var menuState={
    },
    start: function(){
     music.stop();
-    game.state.start('play');
+    game.state.start('css');
 
   },
   characterSelect: function(){

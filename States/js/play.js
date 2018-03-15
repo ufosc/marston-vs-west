@@ -415,10 +415,10 @@ var playState={
       //Player1 = new Fighter('dude',  0, 3, 200,400,1);
       //Player2 = new Fighter('chick', 0, 3, 600,400,2);
 
-    Player1 =  new Fighter('dude',  0, 3, game.world.width*0.25,game.world.height*0.5,1);
+    Player1 =  new Fighter(charName1,  0, 3, game.world.width*0.25,game.world.height*0.5,1);
       //   Fighter: function(character,health,lives,startx,starty,controlnum)
     //  console.log(Player1);
-    Player2 =  new Fighter('chick', 0, 3, game.world.width*0.75,game.world.height*0.5,2);
+    Player2 =  new Fighter(charName2, 0, 3, game.world.width*0.75,game.world.height*0.5,2);
 
 
      	bottle = this.item('bottle', 300, 200);
