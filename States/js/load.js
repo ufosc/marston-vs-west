@@ -41,6 +41,10 @@ var loadState={
 				game.load.image('displayButton4', 'assets/displayButton4.png');
 				game.load.image('player1cssIcon', 'assets/player1cssIcon.png');
 				game.load.image('player2cssIcon', 'assets/player2cssIcon.png');
+				game.load.image('minusButton', 'assets/minusButton.png');
+				game.load.image('plusButton', 'assets/plusButton.png');
+				game.load.image('dudeIcon', 'assets/dudeIcon.png');
+				game.load.image('chickIcon', 'assets/chickIcon.png');
 				game.load.spritesheet('crowd', 'assets/dude.png', 32, 48);
 				//game.load.audio('playMusic', 'assets/playTestMusic.ogg');
 

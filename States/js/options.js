@@ -1,6 +1,6 @@
 console.log("Reached options state");
 var optionsState={
-  //Plan to add: fullscreen, change aspect ratio, keyboard config?,
+  //Plan to add: fullscreen, change aspect ratio, keyboard config?, Toggle Items
    create: function(){
    	var nameLabel=game.add.text(80,80,'Options menu',{font: '50px Arial',fill: '#ffffff'});
    	var startLabel=game.add.text(80,game.world.height-40,'Under Construction',{font: '25px Arial',fill:'#ffffff'});
@@ -33,14 +33,14 @@ var optionsState={
     var decLabel=game.add.text(game.world.width *.5 + 100 ,game.world.height  - 345,'-',{font: '35px Arial',fill:'#ffffff'});
     minLabel=game.add.text(game.world.width *.5 - 375,game.world.height  - 305,`Min: ${gameMinutes}`,{font: '35px Arial',fill:'#ffffff'});
     secLabel=game.add.text(game.world.width *.5 -375 ,game.world.height  - 255,`Sec: ${gameSeconds}`,{font: '35px Arial',fill:'#ffffff'});
-    gameMinIncButton = game.add.button(game.world.width *.5 -245,game.world.height  - 300, 'fullScreenButton');
+    gameMinIncButton = game.add.button(game.world.width *.5 -245,game.world.height  - 300, 'plusButton');
     gameMinIncButton.onInputUp.add(this.gameMinInc, this);
-    gameMinDecButton = game.add.button(game.world.width *.5 + 50 ,game.world.height  - 300, 'fullScreenButton');
+    gameMinDecButton = game.add.button(game.world.width *.5 + 50 ,game.world.height  - 300, 'minusButton');
     gameMinDecButton.onInputUp.add(this.gameMinDec, this);
 
-    gameSecIncButton = game.add.button(game.world.width *.5 -245,game.world.height  - 250, 'fullScreenButton');
+    gameSecIncButton = game.add.button(game.world.width *.5 -245,game.world.height  - 250, 'plusButton');
     gameSecIncButton.onInputUp.add(this.gameSecInc, this);
-    gameSecDecButton = game.add.button(game.world.width *.5  + 50,game.world.height  - 250, 'fullScreenButton');
+    gameSecDecButton = game.add.button(game.world.width *.5  + 50,game.world.height  - 250, 'minusButton');
     gameSecDecButton.onInputUp.add(this.gameSecDec, this);
 
     //Can add other options as well, music and sfx toggle, anti-alias, and other ideas

@@ -2,7 +2,7 @@ var menuState={
 
    create: function(){
     game.stage.backgroundColor = '#4d4d4d';   //Give us some color pls
-   	var nameLabel=game.add.text(80,80,'Marston vs. West Game',{font: '50px Arial',fill: '#ffffff'});
+   	var nameLabel=game.add.text(80,80,'Marston vs. West',{font: '50px Arial',fill: '#ffffff'});
     var subNameLabel=game.add.text(140,140,'-The fate of two libraries: Arcade Edition',{font: '25px Arial',fill: '#ffffff'});
    	var textLabel=game.add.text(80,game.world.height-80,'Press "W" key to start' + '\n' + 'Press "G" key to select characters',{font: '25px Arial',fill:'#ffffff'});
     var marstonPicture = game.add.image(game.world.width * .5 - 200, game.world.height * .5 + 50, 'marstonPic');
@@ -46,7 +46,7 @@ var menuState={
 
  },
   options: function() {
-    console.log("options state")
+    console.log("options state");
     game.state.start('options');
   },
   quit:function() {

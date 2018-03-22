@@ -74,6 +74,14 @@ var charName1 = "";
 var charName2 = "";
 var charSelected1 = false;
 var charSelected2 = false;
+var charPortrait1;
+var charPortrait2;
+var dudeIcon;
+var chickIcon;
+var dudeBodyIcon;
+var chickBodyIcon;
+var player1BodyIcon;
+var player2BodyIcon;
 
 var style =
     {
