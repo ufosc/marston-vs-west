@@ -56,7 +56,7 @@ class Fighter {
 
        //  Player physics properties. Give the little guy a slight bounce.
        this.character.body.bounce.y = 0;//0.2;
-       this.character.body.gravity.y = 400;
+       this.character.body.gravity.y = 1000;
        this.character.body.collideWorldBounds = false;
      this.character.body.setSize(20, 42, 10, 0)
 
@@ -112,8 +112,7 @@ class Fighter {
 class marstonNerd extends Fighter {
     constructor(character,health,lives,startx,starty,controlnum) {
       super(character,health,lives,startx,starty,controlnum);
-      this.gravityMod = -500;
-      this.character.body.gravity.y = 400 + this.gravitMod;
+      this.character.body.gravity.y = 200;
       console.log("we created the marstonNerd construtor");
     }
 }
