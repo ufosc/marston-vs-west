@@ -3,17 +3,17 @@ console.log("winstate reached");
 var cssState={
   create: function(){
     key1 = game.input.keyboard.addKey(Phaser.Keyboard.ONE);
-    marstonPicture = game.add.sprite(game.world.width * .5 - 200, game.world.height * .5 + 50, 'marstonPic');
-    marstonPicture.anchor.setTo(.5,.5);
-    marstonPicture.scale.setTo(.25,.25);
-    game.physics.arcade.enable(marstonPicture);
-    marstonPicture.tint =  0xffffff;
+    dudeIcon = game.add.sprite(game.world.width * .5 - 200, game.world.height * .25 + 50, 'dudeIcon');
+    dudeIcon.anchor.setTo(.5,.5);
+    dudeIcon.scale.setTo(.5,.5);
+    game.physics.arcade.enable(dudeIcon);
+    dudeIcon.tint =  0xffffff;
 
-    westPicture = game.add.sprite(game.world.width * .5 + 200, game.world.height * .5 + 50, 'westPic');
-    westPicture.anchor.setTo(.5,.5);
-    westPicture.scale.setTo(.25,.25);
-    game.physics.arcade.enable(westPicture);
-    westPicture.tint =  0xffffff;
+    chickIcon = game.add.sprite(game.world.width * .5 + 200, game.world.height * .25 + 50, 'chickIcon');
+    chickIcon.anchor.setTo(.5,.5);
+    chickIcon.scale.setTo(.5,.5);
+    game.physics.arcade.enable(chickIcon);
+    chickIcon.tint =  0xffffff;
 
     player1Icon = game.add.sprite(game.world.width * .5 -50, game.world.height * .5, 'player1cssIcon');
     player2Icon = game.add.sprite(game.world.width * .5 +50, game.world.height * .5, 'player2cssIcon');
@@ -35,28 +35,42 @@ var cssState={
     player2Icon.events.onDragStop.add(this.onDragStop, this);
     player2Icon.events.onDragStart.add(this.onDragStart, this);
 
-    marstonPicture.enableBody = true;
-    westPicture.enableBody = true;
-    var startLabel=game.add.text(80,game.world.height-80,'Press "1" key to play game after selecting characters!',{font: '25px Arial',fill:'#ffffff'});
+    dudeIcon.enableBody = true;
+    chickIcon.enableBody = true;
+    var startLabel=game.add.text(80,game.world.height-40,'Press "1" key to play game after selecting characters!',{font: '25px Arial',fill:'#ffffff'});
     //var wkey= game.input.keyboard.addKey(Phaser.Keyboard.W);
     //wkey.onDown.addOnce(this.start,this);
-    player1Text = game.add.text(80,game.world.height-240,'Character 1 selected: ',{font: '25px Arial',fill:'#ffffff'});
-    player2Text = game.add.text(80,game.world.height-160,'Character 2 selected: ',{font: '25px Arial',fill:'#ffffff'});
-    gameReadyText = game.add.text(80,game.world.height-320,'',{font: '25px Arial',fill:'#ffffff'});
-//TODO: Create needed animations and spawn portrait and character sprite as well
-//find a way to change text, show sprite and name with alpha applied when hovering but NOT selecting character
-//Only make option to start game true if both players have selected characters
+    player1Text = game.add.text(80,game.world.height-60,'Character 1 selected: ',{font: '25px Arial',fill:'#ffffff'});
+    player2Text = game.add.text(80,game.world.height-80,'Character 2 selected: ',{font: '25px Arial',fill:'#ffffff'});
+    gameReadyText = game.add.text(80,game.world.height-100,'',{font: '25px Arial',fill:'#ffffff'});
+    player1BodyIcon = game.add.sprite(game.world.width * .25, game.world.height * .75, '');
+    player2BodyIcon = game.add.sprite(game.world.width * .75, game.world.height * .75, '');
+
+//TODO:Incorperate dragUpdate function event system into current system. I think it's needed to fix bugs/add dynamic features like spawning the character when hovering over while still dragging.
+//TODO:
+//find a way to change text, show sprite and name with alpha applied when hovering but NOT selecting character, SOLUTION: probably above comment
+
   },
   start: function(){
     music.stop();
-    console.log("overlap")
+    
    game.state.start('play');
  },
  update: function() {
    player1Text.text = `Character selected 1: ${charName1}`;
    player2Text.text = `Character selected 2: ${charName2}`;
-
+//If the character is selected, play the selected animation
    game.physics.arcade.collide(player1Icon, player2Icon);
+   if(player1BodyIcon.animations)
+   {
+     player1BodyIcon.animations.play('idle');
+   }
+
+   if(player2BodyIcon.animations)
+   {
+     player2BodyIcon.animations.play('idle');
+   }
+
    if(charSelected1 && charSelected2 && key1.isDown)
    {
      //Eventually allow the player to start game;
@@ -67,6 +81,12 @@ var cssState={
 
 
    }
+   else if(charSelected1 && charSelected2)
+   {
+     //Eventually allow the player to start game;
+     gameReadyText.text = `Game ready`;
+
+   }
    else {
      {
        gameReadyText.text = ``;
@@ -74,64 +94,168 @@ var cssState={
    }
  },
  onDragStop: function() {
-   if(game.physics.arcade.overlap(player1Icon, marstonPicture,)) //Call function to change tint/size of icon picture,
+
+//If you drop the curser on the icon
+   if(game.physics.arcade.overlap(player1Icon, dudeIcon))
    {
+
+     //Determine's what's spawned, and lets you start game
      charName1 = "dude";
      charSelected1 = true;
-     marstonPicture.tint =  0xffff00;
-     console.log("You selected Marston, they are overlapping and the icon was dropped" + charSelected1);
+      //"select" dude, and change color of pic
+     dudeIcon.tint =  0xffff00;
+     //destroys the old sprite so when you create a new one only one exists
+     player1BodyIcon.kill();
+
+     player1BodyIcon = game.add.sprite(game.world.width * .25 - 100, game.world.height * .5, 'dude');
+
+     player1BodyIcon.scale.setTo(3.5,3.5);
+     player1BodyIcon.animations.add('idle', [0, 1], 5, true);
+     player1BodyIcon.animations.add('kick', [6], 5, true);
+     if(player1BodyIcon.animations)
+     {
+       player1BodyIcon.alpha = 1;
+     }
    }
-   if(game.physics.arcade.overlap(player1Icon, westPicture,)) //Call function to change tint/size of icon picture,
+   else
+   {
+    // player1BodyIcon.kill();
+   }
+
+   //If you drop the icon on the chick Picture
+   if(game.physics.arcade.overlap(player1Icon, chickIcon))
    {
      charName1 = "chick";
      charSelected1 = true;
-     westPicture.tint =  0xffff00;
-     console.log("You selected West, they are overlapping and the icon was dropped" + charSelected1);
+     chickIcon.tint =  0xffff00;
+     player1BodyIcon.kill();
+
+     player1BodyIcon = game.add.sprite(game.world.width * .25 - 100, game.world.height * .5, 'chick');
+
+     player1BodyIcon.scale.setTo(3.5,3.5);
+     player1BodyIcon.animations.add('idle', [0, 1], 5, true);
+     player1BodyIcon.animations.add('kick', [6], 5, true);
+     if(player1BodyIcon.animations)
+     {
+       player1BodyIcon.alpha = 1;
+     }
    }
-   if(game.physics.arcade.overlap(player2Icon, marstonPicture,)) //Call function to change tint/size of icon picture,
+
+
+
+   if(game.physics.arcade.overlap(player2Icon,dudeIcon))
    {
      charName2 = "dude";
      charSelected2 = true;
-     marstonPicture.tint =  0xffff00;
-     console.log("You selected Marston, they are overlapping and the icon was dropped" + charSelected2);
+     dudeIcon.tint =  0xffff00;
+     player2BodyIcon.kill();
+
+     player2BodyIcon = game.add.sprite(game.world.width * .75 - 100, game.world.height * .5, 'dude');
+     player2BodyIcon.scale.setTo(3.5,3.5);
+     player2BodyIcon.animations.add('idle', [0, 1], 5, true);
+     player2BodyIcon.animations.add('kick', [6], 5, true);
+     player2BodyIcon.visible = true;
+
+
+     if(player2BodyIcon.animations)
+     {
+       player2BodyIcon.alpha = 1;
+     }
    }
-   if(game.physics.arcade.overlap(player2Icon, westPicture,)) //Call function to change tint/size of icon picture,
+   else
+   {
+     //player2BodyIcon.kill();
+   }
+
+
+
+   if(game.physics.arcade.overlap(player2Icon,chickIcon))
    {
      charName2 = "chick";
      charSelected2 = true;
-     westPicture.tint =  0xffff00;
-     console.log("You selected West, they are overlapping and the icon was dropped" + charSelected2);
+     chickIcon.tint =  0xffff00;
+     player2BodyIcon.kill();
+
+     player2BodyIcon = game.add.sprite(game.world.width * .75 - 100, game.world.height * .5, 'chick');
+     player2BodyIcon.scale.setTo(3.5,3.5);
+     player2BodyIcon.animations.add('idle', [0, 1], 5, true);
+     player2BodyIcon.animations.add('kick', [6], 5, true);
+
+     if(player2BodyIcon.animations)
+     {
+       player2BodyIcon.alpha = 1;
+     }
+   }
+   else
+   {
+    // player2BodyIcon.kill();
+   }
+
+   if(!game.physics.arcade.overlap(player1Icon,dudeIcon) && !game.physics.arcade.overlap(player1Icon,chickIcon))
+   {
+     player1BodyIcon.kill();
+   }
+
+   if(!game.physics.arcade.overlap(player2Icon,dudeIcon) && !game.physics.arcade.overlap(player2Icon,chickIcon))
+   {
+     player2BodyIcon.kill();
    }
 
  },
  onDragStart: function() {
-   if(game.physics.arcade.overlap(player1Icon, marstonPicture)) //Call function to revert tint/size of icon pic
-   {
-     charName1 = "";
-     charSelected1 = false;
-     marstonPicture.tint =  0xffffff;
-     console.log("You De-selected Marston, they are overlapping and the icon was picked up" + charSelected1);
-   }
-   if(game.physics.arcade.overlap(player1Icon, westPicture)) //Call function to revert tint/size of icon pic
-   {
-     charName1 = "";
-     charSelected1 = false;
-     westPicture.tint =  0xffffff;
-     console.log("You De-selected West, they are overlapping and the icon was picked up" + charSelected1);
-   }
-   if(game.physics.arcade.overlap(player2Icon, marstonPicture)) //Call function to revert tint/size of icon pic
+
+
+   if(game.physics.arcade.overlap(player1Icon, dudeIcon))
    {
      charName2 = "";
      charSelected2 = false;
-     marstonPicture.tint =  0xffffff;
-     console.log("You De-selected Marston, they are overlapping and the icon was picked up" + charSelected2);
+     dudeIcon.tint =  0xffffff;
+
+      if(player1BodyIcon.animations)
+      {
+        player1BodyIcon.alpha = .5;
+      }
    }
-   if(game.physics.arcade.overlap(player2Icon, westPicture)) //Call function to revert tint/size of icon pic
+
+
+   if(game.physics.arcade.overlap(player1Icon, chickIcon))
+   {
+     charName1 = "";
+     charSelected1 = false;
+     chickIcon.tint =  0xffffff;
+
+      if(player1BodyIcon.animations)
+      {
+        player1BodyIcon.alpha = .5;
+      }
+   }
+
+
+   if(game.physics.arcade.overlap(player2Icon, dudeIcon))
    {
      charName2 = "";
      charSelected2 = false;
-     westPicture.tint =  0xffffff;
-     console.log("You De-selected West, they are overlapping and the icon was picked up" + charSelected2);
+     dudeIcon.tint =  0xffffff;
+
+      if(player2BodyIcon.animations)
+      {
+        player2BodyIcon.alpha = .5;
+      }
    }
+
+
+   if(game.physics.arcade.overlap(player2Icon, chickIcon))
+   {
+     charName2 = "";
+     charSelected2 = false;
+     chickIcon.tint =  0xffffff;
+
+      if(player2BodyIcon.animations)
+      {
+        player2BodyIcon.alpha = .5;
+      }
+   }
+
+
  }
 };
