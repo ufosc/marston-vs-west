@@ -28,6 +28,21 @@ class Fighter {
        this.startx = startx;
        this.starty = starty;
 
+       //Cooldown for attacks
+           this.hitCD = 0;
+           //Switch for when an attack is on CD
+           this.hitSwitchPunch = false;
+           this.hitSwitchKick = false;
+
+
+       //shielding is the boolean if the shield is up or not
+       this.shielding = false;
+
+       //hitVelocity determines the knockback
+       this.hitVelocity = 0;
+       //Hit stun counter
+       this.stunCounter = 0;
+
        this.controlnum = controlnum;
 
        this.state = 0; //player state for state machine?
@@ -63,7 +78,7 @@ class Fighter {
        this.character.animations.add('kick', [6], 5, true);
 
        //player got hit animation
-       this.character.animations.add('ko', [7], 5, true);
+       this.character.animations.add('ko', [10], 5, true);
 
 
        this.character.scale.x = 2;
@@ -94,191 +109,267 @@ class Fighter {
      }
   }
 
+class marstonNerd extends Fighter {
+    constructor(character,health,lives,startx,starty,controlnum) {
+      super(character,health,lives,startx,starty,controlnum);
+      this.gravityMod = -500;
+      this.character.body.gravity.y = 400 + this.gravitMod;
+      console.log("we created the marstonNerd construtor");
+    }
+}
 
 
 
 var playState={
 
-  hit: function()
+  hitPlayer1: function()
+{
+
+	if (Player1.m == 0 && !Player1.shielding){
+		Player1.health = Player1.health + (2/3) + (0.1 * (Player1.health * 0.1));
+		Player1.hitVelocity = Player2.character.scale.x * Player1.health * 2;
+    console.log("Before call")
+      //  Player1.character.body.velocity.y = this.yHitVelocity(Player1);
+        console.log("after call")
+         Player1.character.body.velocity.y = -(Math.pow(Player1.health, 1.25));
+
+        if (Player1.health >= 0 || Player1.health <= 75)
+      	{
+      		Player1.stunCounter = 15;
+      	}
+      	else if (Player1.health > 75 || Player1.health <= 150)
+      	{
+          Player1.stunCounter = 45;
+      	}
+      	else if(Player1.health > 150 || Player1.health < 200)
+      	{
+      		Player1.stunCounter = 90;
+      	}
+      	else
+      	{
+      		Player1.stunCounter = 150;
+      	}
+	}
+},
+
+hitPlayer2: function(){
+
+	if (Player2.m == 0 && !Player2.shielding){
+		//Player2.health = Player2.health + (1/3) + (0.1 * (Player2.health * 0.1));
+		Player2.health = Player2.health + (2/3) + (0.1 * (Player2.health * 0.1));
+		Player2.hitVelocity = Player1.character.scale.x * Player2.health * 2;
+    //this.yHitVelocity(Player2);
+     Player2.character.body.velocity.y = -(Math.pow(Player2.health, 1.25));
+     if (Player2.health >= 0 || Player2.health <= 75)
+     {
+       Player2.stunCounter = 15;
+     }
+     else if (Player2.health > 75 || Player2.health <= 150)
+     {
+       Player2.stunCounter = 45;
+     }
+     else if(Player2.health > 150 || Player2.health < 200)
+     {
+       Player2.stunCounter = 90;
+     }
+     else
+     {
+       Player2.stunCounter = 150;
+     }
+	}
+},
+
+yHitVelocity: function(Fighter)
+{
+  Fighter.character.body.velocity.y = -(Math.pow(Fighter.health, 1.25));
+  console.log("during call")
+},
+
+updateInput: function(controller,Fighter,cooldownNum)
+{
+//Cooldown for attacking
+if (Fighter.hitCD != 0)
+{
+  Fighter.hitCD -= 1;
+}
+//Cooldown for hit stun
+if (Fighter.stunCounter != 0)
+{
+  Fighter.stunCounter -= 1;
+}
+  //update function to decrease/increase the hit velocity based on the original direction of the punch. The natural slowing down of hit velocity
+if(Fighter.hitVelocity < 0)
+{
+  Fighter.hitVelocity += 1;
+}
+else if (Fighter.hitVelocity > 0)
+{
+  Fighter.hitVelocity -= 1;
+}
+else
+{
+  Fighter.hitVelocity = 0;
+}
+  if (controller.down.isDown && Fighter.character.body.touching.down && Fighter.stunCounter == 0 && Fighter.hitVelocity == 0)
   {
-    Player2.health=Player2.health-5;
-  },
-/**
-  //fighter class
-   Fighter: function(character,health,lives,startx,starty,controlnum)
-      {
+      Fighter.character.body.velocity.x = 0;
+      Fighter.character.animations.play('shield');
+      Fighter.shielding = true;
 
-      this.character = game.add.sprite(startx, starty, character);//player character variable to access sprite from phaser and all its properties character variable is name of spritesheet to use
-      this.health = health;//player start health
-      this.lives = lives;
-
-      //Respawn Animation Activator Switch
-      this.respawnSwitch = false;
-      //m is the respawn animation counter
-      this.m = 0;
-
-      this.startx = startx;
-      this.starty = starty;
-
-      this.controlnum = controlnum;
-
-      this.state = 0; //player state for state machine?
-
-      this.jumps = 0;
-
-      this.character.anchor.setTo(0.5,0);
-
-          //  We need to enable physics on the player
-      game.physics.arcade.enable(this.character);
-
-      //  Player physics properties. Give the little guy a slight bounce.
-      this.character.body.bounce.y = 0;//0.2;
-      this.character.body.gravity.y = 400;
-      this.character.body.collideWorldBounds = false;
-    this.character.body.setSize(20, 42, 10, 0)
-
-      this.character.animations.add('right', [2, 3, 0], 10, true);
-
-      //idle animation
-      this.character.animations.add('idle', [0, 1], 5, true);
-
-      //jump animation
-      this.character.animations.add('jump', [8, 9], 5, true); //need to adjust animation speed
-
-      //shield animation
-      this.character.animations.add('shield', [7], 5, true);
-
-      //punch animations
-      this.character.animations.add('punch', [5], 5, true);
-
-      //kick
-      this.character.animations.add('kick', [6], 5, true);
-
-      //player got hit animation
-      this.character.animations.add('ko', [7], 5, true);
-
-
-      this.character.scale.x = 2;
-      this.character.scale.y = 2;
-
-      //this.controller1 = game.input.keyboard.addKeys({ 'up': Phaser.KeyCode.W, 'down': Phaser.KeyCode.S, 'left': Phaser.KeyCode.A, 'right': Phaser.KeyCode.D , 'punch': Phaser.KeyCode.T, 'kick': Phaser.KeyCode.R});
-
-      if(controlnum == 1)
-      {
-      this.controller1 = new Object;
-      controller1 = game.input.keyboard.addKeys({ 'up': Phaser.KeyCode.W, 'down': Phaser.KeyCode.S, 'left': Phaser.KeyCode.A, 'right': Phaser.KeyCode.D , 'punch': Phaser.KeyCode.T, 'kick': Phaser.KeyCode.R});
-    }
-    else if(controlnum == 2)
-    {
-    this.controller2 = new Object;
-    controller2 = game.input.keyboard.addKeys({ 'up': Phaser.KeyCode.UP, 'down': Phaser.KeyCode.DOWN, 'left': Phaser.KeyCode.LEFT, 'right': Phaser.KeyCode.RIGHT , 'punch': Phaser.KeyCode.P, 'kick': Phaser.KeyCode.O});
-    }
-
-
-
-      this.weapon1 = game.add.weapon(1, 'slash');
-      this.weapon1.bulletKillType = Phaser.Weapon.KILL_LIFESPAN;
-      this.weapon1.bulletLifespan = 50; //50
-      this.weapon1.bulletSpeed = 0; //0
-      this.weapon1.fireRate = 100;
-      this.weapon1.trackSprite(this.character, 28, 40, true);
-      return this;
-    };
-
-*/
-
-  updateInput: function(controller,Fighter,cooldownNum)
+  }
+else if (controller.punch.isDown && controller.punch.downDuration(80) && !(Fighter.m < 120 && Fighter.m != 0) && Fighter.stunCounter == 0 && Fighter.hitCD == 0)
   {
-      if (controller.left.isDown && !(Fighter.m < 120 && Fighter.m != 0))
-      {
-          //  Move to the left
-
-          if (Fighter.character.scale.x > 0 ){
-          Fighter.character.scale.x *=-1;
-          Fighter.weapon1.trackSprite(Fighter.character, 28, -40, true);
-          }
-
-          Fighter.character.body.velocity.x = -250;
-          Fighter.character.animations.play('right');
+      //logic to change direction facing
+      if (Fighter.character.scale.x < 0 ){
+        Fighter.character.body.velocity.x = -250;
       }
-
-      else if (controller.right.isDown && !(Fighter.m < 120 && Fighter.m != 0))
-      {
-          //  Move to the right
-
-          //logic to change direction facing
-          if (Fighter.character.scale.x < 0 ){
-          Fighter.character.scale.x *=-1;
-          Fighter.weapon1.trackSprite(Fighter.character, 28, 40, true);
-          }
-
-          Fighter.character.body.velocity.x = 250;
-          Fighter.character.animations.play('right');
-      }
-      //else if (controller.up.isDown && Fighter.character.body.touching.down)
-      else if (controller.up.isDown && Fighter.jumps <= 5 && controller.up.downDuration(80) && !(Fighter.m < 120 && Fighter.m != 0))
-      {
-          Fighter.character.body.velocity.y = -350;
-          Fighter.jumps += 1;
-      }
-       else if (controller.down.isDown && Fighter.character.body.touching.down)
-      {
-        Fighter.character.body.velocity.x = 0;
-          Fighter.character.animations.play('shield');
-      }
-      else if (controller.punch.isDown && controller.punch.downDuration(80) && !(Fighter.m < 120 && Fighter.m != 0))
-      {
-          //logic to change direction facing
-          if (Fighter.character.scale.x < 0 ){
-         Fighter.character.body.velocity.x = -250;
-          }
-          else
-          {
-          Fighter.character.body.velocity.x = 250;
-          }
-
-          Fighter.character.animations.play('punch');
-          Fighter.weapon1.fire();
-          Fighter.health += 1;
-
-
-      }
-      else if (controller.kick.isDown && controller.kick.downDuration(200) && !(Fighter.m < 120 && Fighter.m != 0))
-      {
-          //  Move to the right
-
-          //logic to change direction facing
-          if (Fighter.character.scale.x < 0 ){
-         Fighter.character.body.velocity.x = -350;
-          }
-          else
-          {
-          Fighter.character.body.velocity.x = 350;
-          }
-
-          Fighter.character.animations.play('kick');
-          Fighter.weapon1.fire();
-
-          if(Fighter.character.body.touching.down)
-          {
-            Fighter.character.body.velocity.y = -200;
-        }
-
-      }
-
       else
       {
-          Fighter.character.body.velocity.x = 0;
-          Fighter.character.animations.play('idle');
+        Fighter.character.body.velocity.x = 250;
+      }
+      Fighter.character.animations.play('punch');
+      Fighter.weapon1.fire();
+      //Fighter.hitCD = 30;
+      Fighter.shielding = false;
+      Fighter.hitSwitchPunch = true;
+      //Causes Player health to increase
+      //Fighter.health += 1;
+  }
+  else if (controller.kick.isDown && controller.kick.downDuration(200) && !(Fighter.m < 120 && Fighter.m != 0) && Fighter.stunCounter == 0 && Fighter.hitCD == 0)
+  {
+      //  Move to the right
 
-          if(Fighter.character.body.touching.down)
-          {
-            Fighter.jumps = 0;
+      //logic to change direction facing
+      if (Fighter.character.scale.x < 0 ){
+        Fighter.character.body.velocity.x = -350;
+      }
+      else
+      {
+        Fighter.character.body.velocity.x = 350;
+      }
+      Fighter.character.animations.play('kick');
+      //Fighter.hitCD = 60;
+      Fighter.weapon1.fire();
+
+      if(Fighter.character.body.touching.down)
+      {
+        Fighter.character.body.velocity.y = -200;
+    }
+    Fighter.shielding = false;
+    Fighter.hitSwitchKick = true;
+  }
+  else if (controller.up.isDown && Fighter.jumps <= 5 && controller.up.downDuration(80) && !(Fighter.m < 120 && Fighter.m != 0) && Fighter.stunCounter == 0)
+  {
+      Fighter.character.body.velocity.y = -350;
+      Fighter.jumps += 1;
+      Fighter.shielding = false;
+  }
+  else if (controller.left.isDown && !(Fighter.m < 120 && Fighter.m != 0) && Fighter.stunCounter == 0)
+  {
+      //  Move to the left
+      if(Fighter.character.body.touching.down)
+      {
+        Fighter.jumps = 0;
+    }
+
+      if (Fighter.character.scale.x > 0 ){
+      Fighter.character.scale.x *=-1;
+      Fighter.weapon1.trackSprite(Fighter.character, 28, -40, true);
+      }
+      if (Fighter.character.body.touching.down)
+      {
+        Fighter.character.body.velocity.x = -250 + Fighter.hitVelocity;
+      }
+      else
+      {
+        Fighter.character.body.velocity.x = -200 + Fighter.hitVelocity;
+      }
+      //Determines the hitvelocity of the player based on inputs from keyboard to decrease the velocity
+      if (Fighter.hitVelocity != 0)
+      {
+        if (Fighter.hitVelocity + -125 < 0){
+          Fighter.hitVelocity = 0;
+        }
+        else
+        {
+          Fighter.hitVelocity += -125;
         }
       }
+      Fighter.character.animations.play('right');
+      Fighter.shielding = false;
+  }
+  else if (controller.right.isDown && !(Fighter.m < 120 && Fighter.m != 0) && Fighter.stunCounter == 0)
+  {
+      //  Move to the right
+      if(Fighter.character.body.touching.down)
+      {
+        Fighter.jumps = 0;
+    }
+      //logic to change direction facing
+      if (Fighter.character.scale.x < 0 ){
+      Fighter.character.scale.x *=-1;
+      Fighter.weapon1.trackSprite(Fighter.character, 28, 40, true);
+      }
+      if (Fighter.character.body.touching.down)
+      {
+        Fighter.character.body.velocity.x = 250 + Fighter.hitVelocity;
+      }
+      else
+      {
+        Fighter.character.body.velocity.x = 200 + Fighter.hitVelocity;
+      }
+      //Determines the hitvelocity of the player based on inputs from keyboard to decrease the velocity
+      if (Fighter.hitVelocity != 0)
+      {
+        if (Fighter.hitVelocity + 125 > 0){
+          Fighter.hitVelocity = 0;
+        }
+        else
+        {
+          Fighter.hitVelocity += 125;
+        }
+      }
+      Fighter.character.animations.play('right');
+      Fighter.shielding = false;
+  }
 
-  },
+  else
+  {
+      //Code that assigns the velocity of the player based on the current hitVelocity. Keeps track of jump count and determines the idle animation of the character
+    if (Fighter.hitVelocity != 0)
+    {
+      Fighter.character.body.velocity.x = Fighter.hitVelocity;
+    }
+    else
+    {
+      Fighter.character.body.velocity.x = 0;
+    }
+      if (Fighter.stunCounter > 0)
+      {
+        Fighter.character.animations.play('ko');
+      }
+      else
+      {
+        Fighter.character.animations.play('idle');
+      }
+      Fighter.shielding = false;
 
+      if(Fighter.character.body.touching.down)
+      {
+        Fighter.jumps = 0;
+    }
+  }
+  if(controller.punch.isUp && Fighter.hitSwitchPunch)
+  {
+    Fighter.hitCD = 15;
+    Fighter.hitSwitchPunch = false;
+  }
+  if (controller.kick.isUp && Fighter.hitSwitchKick)
+  {
+    Fighter.hitCD = 15;
+    Fighter.hitSwitchKick= false;
+  }
+},
 
 
   item: function(type, startx, starty){
@@ -323,39 +414,64 @@ var playState={
 
   respawnEvent: function(Fighter){
     //Respawn Switch is activated during the KO function
-    if (Fighter.respawnSwitch == true){
-        Fighter.m += 1;
-
-        //Invisible moment
-        if (Fighter.m < 60 && Fighter.m != 0){
-          Fighter.character.body.gravity.y = 0;
-          Fighter.character.visible = false;
-        }
-        //Book Crashing down Animation
-        else if(Fighter.m >= 60 && Fighter.m < 120){
-          Fighter.character.body.gravity.y = 800;
-          Fighter.character.visible = true;
-        }
-        else{
-          Fighter.character.body.gravity.y = 400;
-        }
-
-        //Makes character alpha to signify invulnerability
-        if (Fighter.m <= 360){
-          Fighter.character.alpha = 0.5;
-        }
-        else{
-          Fighter.character.alpha = 1;
-          Fighter.m = 0;
-          Fighter.respawnSwitch = false;
-        }
+if (Fighter.respawnSwitch == true){
+    Fighter.m += 1;
+    //Invisible moment
+    if (Fighter.m < 60 && Fighter.m != 0){
+      Fighter.character.body.gravity.y = 0;
+      Fighter.character.visible = false;
+    }
+    //Book Crashing down Animation
+    else if(Fighter.m >= 60 && Fighter.m < 120){
+      Fighter.character.body.gravity.y = 800;
+      Fighter.character.visible = true;
+    }
+    else{
+      Fighter.character.body.gravity.y = 1000;
+    }
+    //Makes character alpha to signify invulnerability
+    if (Fighter.m <= 300){
+      if (Fighter.m % 20 <= 5){
+        Fighter.character.alpha = 1;
       }
+      else {
+        Fighter.character.alpha = 0.5;
+      }
+
+    }
+    else{
+      Fighter.character.alpha = 1;
+      Fighter.m = 0;
+      Fighter.respawnSwitch = false;
+    }
+  }
   },
+
+
+playerHitStun: function(Fighter)
+{
+	if (Fighter.health >= 0 || Fighter.health <= 75)
+	{
+		Fighter.stunCounter = 15;
+	}
+	else if (Fighter.health > 75 || Fighter.health <= 150)
+	{
+		Fighter.stunCounter = 45;
+	}
+	else if(Fighter.health > 150 || Fighter.health < 200)
+	{
+		Fighter.stunCounter = 90;
+	}
+	else
+	{
+		Fighter.stunCounter = 150;
+	}
+},
 
   KO:function(Fighter){
       if(Fighter.character.body.position.x < -50 || Fighter.character.body.position.x > 900){
          this.respawn(Fighter);
-         addOnce(this.start,this);
+
       }
       else if(Fighter.character.body.position.y > 700 || Fighter.character.body.position.y < -100){
          this.respawn(Fighter);
@@ -414,8 +530,17 @@ var playState={
 
       //Player1 = new Fighter('dude',  0, 3, 200,400,1);
       //Player2 = new Fighter('chick', 0, 3, 600,400,2);
-
-    Player1 =  new Fighter(charName1,  0, 3, game.world.width*0.25,game.world.height*0.5,1);
+if(charName1 == 'dude')
+{
+  Player1 =  new marstonNerd(charName1,  0, 3, game.world.width*0.25,game.world.height*0.5,1);
+  console.log("We created a marstonNerd!!!");
+}
+else
+{
+  Player1 =  new Fighter(charName1,  0, 3, game.world.width*0.25,game.world.height*0.5,1);
+  console.log("we have a basic fighter :(");
+}
+    //Player1 =  new Fighter(charName1,  0, 3, game.world.width*0.25,game.world.height*0.5,1);
       //   Fighter: function(character,health,lives,startx,starty,controlnum)
     //  console.log(Player1);
     Player2 =  new Fighter(charName2, 0, 3, game.world.width*0.75,game.world.height*0.5,2);
@@ -514,8 +639,9 @@ timerText.anchor.setTo(.5,.5);
     game.physics.arcade.collide(Player1.character, platforms );
     game.physics.arcade.collide(Player2.character, platforms );
     game.physics.arcade.collide(Player1.character,Player2.character);
-  	game.physics.arcade.collide(Player1.weapon1.bullets, Player2.character, this.hit);
-  	game.physics.arcade.collide(Player2.weapon1.bullets, Player1.character, this.hit);
+
+    game.physics.arcade.overlap(Player1.weapon1.bullets, Player2.character, this.hitPlayer2);
+	  game.physics.arcade.overlap(Player2.weapon1.bullets, Player1.character, this.hitPlayer1);
   	//overlap(object1, object2, overlapCallback, processCallback, callbackContext)
       //Enable items collisions
     game.physics.arcade.collide(bottle.type, platforms);
@@ -527,8 +653,8 @@ timerText.anchor.setTo(.5,.5);
       this.crowdupdate(mob);
 
 
-       healthtext1.text = `DMG ${Player1.health}`;
-       healthtext2.text = `DMG ${Player2.health}`;
+      healthtext1.text = `DMG ${Math.ceil(Player1.health)} %`;
+      healthtext2.text = `DMG ${Math.ceil(Player2.health)} %`;
 
        livetext1.text = `Lives ${Player1.lives}`;
        livetext2.text = `Lives ${Player2.lives}`;
