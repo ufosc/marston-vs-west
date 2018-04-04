@@ -37,6 +37,9 @@ var cssState={
 
     dudeIcon.enableBody = true;
     chickIcon.enableBody = true;
+
+    
+    
     var startLabel=game.add.text(80,game.world.height-40,'Press "1" key to play game after selecting characters!',{font: '25px Arial',fill:'#ffffff'});
     //var wkey= game.input.keyboard.addKey(Phaser.Keyboard.W);
     //wkey.onDown.addOnce(this.start,this);
@@ -53,7 +56,7 @@ var cssState={
   },
   start: function(){
     music.stop();
-    
+
    game.state.start('play');
  },
  update: function() {
@@ -76,16 +79,12 @@ var cssState={
      //Eventually allow the player to start game;
      gameReadyText.text = `Game ready`;
      game.state.start('play');
-
-
-
-
    }
    else if(charSelected1 && charSelected2)
    {
      //Eventually allow the player to start game;
      gameReadyText.text = `Game ready`;
-
+     game.state.start('play');//temporary fix, edit later
    }
    else {
      {
@@ -95,7 +94,7 @@ var cssState={
  },
  onDragStop: function() {
 
-//If you drop the curser on the icon
+//If you drop the cursor on the icon
    if(game.physics.arcade.overlap(player1Icon, dudeIcon))
    {
 
@@ -110,7 +109,7 @@ var cssState={
      player1BodyIcon = game.add.sprite(game.world.width * .25 - 100, game.world.height * .5, 'dude');
 
      player1BodyIcon.scale.setTo(3.5,3.5);
-     player1BodyIcon.animations.add('idle', [0, 1], 5, true);
+     player1BodyIcon.animations.add('idle', [1, 2], 5, true);
      player1BodyIcon.animations.add('kick', [6], 5, true);
      if(player1BodyIcon.animations)
      {
@@ -133,7 +132,7 @@ var cssState={
      player1BodyIcon = game.add.sprite(game.world.width * .25 - 100, game.world.height * .5, 'chick');
 
      player1BodyIcon.scale.setTo(3.5,3.5);
-     player1BodyIcon.animations.add('idle', [0, 1], 5, true);
+     player1BodyIcon.animations.add('idle', [1, 2], 5, true);
      player1BodyIcon.animations.add('kick', [6], 5, true);
      if(player1BodyIcon.animations)
      {
@@ -152,7 +151,7 @@ var cssState={
 
      player2BodyIcon = game.add.sprite(game.world.width * .75 - 100, game.world.height * .5, 'dude');
      player2BodyIcon.scale.setTo(3.5,3.5);
-     player2BodyIcon.animations.add('idle', [0, 1], 5, true);
+     player2BodyIcon.animations.add('idle', [1, 2], 5, true);
      player2BodyIcon.animations.add('kick', [6], 5, true);
      player2BodyIcon.visible = true;
 
@@ -178,7 +177,7 @@ var cssState={
 
      player2BodyIcon = game.add.sprite(game.world.width * .75 - 100, game.world.height * .5, 'chick');
      player2BodyIcon.scale.setTo(3.5,3.5);
-     player2BodyIcon.animations.add('idle', [0, 1], 5, true);
+     player2BodyIcon.animations.add('idle', [1, 2], 5, true);
      player2BodyIcon.animations.add('kick', [6], 5, true);
 
      if(player2BodyIcon.animations)

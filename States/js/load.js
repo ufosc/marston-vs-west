@@ -5,6 +5,8 @@ var loadState={
 		var loadingLabel= game.add.text(80,150,'Loading...',{font: '30px Courier',fill: '#ffffff'});
 
 
+				//Fighting assets
+
 				//game.load.image('sky', 'assets/sky.png');
 				game.load.image('sky', 'assets/TestStage2.png');
 				//game.load.image('ground', 'assets/platform.png');
@@ -13,8 +15,12 @@ var loadState={
 				game.load.image('star', 'assets/star.png');
 				//game.load.spritesheet('dude', 'assets/dude.png', 32, 48);
 
-				game.load.spritesheet('dude', 'assets/Fighter1master.png', 36, 42);
-				game.load.spritesheet('chick', 'assets/Fighter2master.png', 36, 42);
+				//game.load.spritesheet('dude', 'assets/Fighter1master.png', 36, 42);
+				//game.load.spritesheet('chick', 'assets/Fighter2master.png', 36, 42);
+				game.load.spritesheet('dude', 'assets/TESTFIGHTER1.png', 64, 84);
+				game.load.spritesheet('chick', 'assets/TESTFIGHTER2.png', 64, 84);
+
+
 
 				game.load.image('hitboxTest', 'assets/testHitbox.png');
 				game.load.spritesheet('baddie', 'assets/baddie.png', 32, 32 );
@@ -24,6 +30,22 @@ var loadState={
 				game.load.spritesheet('bottle', 'assets/bottle.png', 32, 32 );
 				game.load.spritesheet('book', 'assets/book.png', 32, 32 );
 				game.load.spritesheet('Sandbag', 'assets/sandbag.png', 32, 32 );
+				
+				
+				//Virtual controller assets
+				game.load.image('leftButton', 'assets/ButtonLeftbig.png');
+				
+				game.load.image('rightButton', 'assets/ButtonRightbig.png');
+				game.load.image('upButton', 'assets/ButtonUpbig.png');
+				game.load.image('downButton', 'assets/ButtonDownbig.png');
+
+				game.load.image('aButton', 'assets/ButtonAbig.png');
+				game.load.image('bButton', 'assets/ButtonBbig.png');
+				game.load.image('xButton', 'assets/ButtonXbig.png');
+				game.load.image('yButton', 'assets/ButtonYbig.png');
+
+
+				//Menu Assets
 				game.load.image('startButton', 'assets/startButton.png');
 				game.load.image('optionsButton', 'assets/optionsButton.png');
 				game.load.image('quitButton', 'assets/quitButton.png');
