@@ -30,11 +30,11 @@ var loadState={
 				game.load.spritesheet('bottle', 'assets/bottle.png', 32, 32 );
 				game.load.spritesheet('book', 'assets/book.png', 32, 32 );
 				game.load.spritesheet('Sandbag', 'assets/sandbag.png', 32, 32 );
-				
-				
+
+
 				//Virtual controller assets
 				game.load.image('leftButton', 'assets/ButtonLeftbig.png');
-				
+
 				game.load.image('rightButton', 'assets/ButtonRightbig.png');
 				game.load.image('upButton', 'assets/ButtonUpbig.png');
 				game.load.image('downButton', 'assets/ButtonDownbig.png');
@@ -68,6 +68,11 @@ var loadState={
 				game.load.image('dudeIcon', 'assets/dudeIcon.png');
 				game.load.image('chickIcon', 'assets/chickIcon.png');
 				game.load.spritesheet('crowd', 'assets/dude.png', 32, 48);
+				game.load.audio('hitSound', 'assets/hitSound.wav');
+				game.load.audio('jumpSound', 'assets/jumpSound.wav');
+				game.load.audio('buttonSound', 'assets/buttonSound.wav');
+				game.load.audio('deathSound', 'assets/deathSound.wav');
+				game.load.audio('respawnSound', 'assets/respawnSound.wav');
 				//game.load.audio('playMusic', 'assets/playTestMusic.ogg');
 
 		},

@@ -42,6 +42,7 @@ var optionsState={
     gameSecIncButton.onInputUp.add(this.gameSecInc, this);
     gameSecDecButton = game.add.button(game.world.width *.5  + 50,game.world.height  - 250, 'minusButton');
     gameSecDecButton.onInputUp.add(this.gameSecDec, this);
+    buttonSound = game.add.audio('buttonSound');
 
     //Can add other options as well, music and sfx toggle, anti-alias, and other ideas
   },
@@ -53,16 +54,18 @@ var optionsState={
   gameMinInc: function()
   {
     gameMinutes++;
+    buttonSound.play();
 console.log("Minutes: " + gameMinutes);
   },
   gameSecInc: function()
   {
     gameSeconds = gameSeconds + 30;
+    buttonSound.play();
 console.log("Seconds: " + gameSeconds);
   },
   gameMinDec: function()
   {
-
+    buttonSound.play();
     gameMinutes--;
     if(gameMinutes < 0)
     {
@@ -73,6 +76,7 @@ console.log("Minutes: " + gameMinutes);
   gameSecDec: function()
   {
     gameSeconds = gameSeconds - 30;
+    buttonSound.play();
     if(gameSeconds < 0)
     {
       gameSeconds = 0;
@@ -123,6 +127,7 @@ console.log("Minutes: " + gameMinutes);
     }
   },
   menu: function () {
+    buttonSound.play();
     game.state.start('menu');
   },
   fullScreenConfig: function()

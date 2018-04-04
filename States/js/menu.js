@@ -28,6 +28,8 @@ var menuState={
     quitButton = game.add.button(game.world.width *.5 -65,game.world.height *.5 + 200, 'quitButton');
     quitButton.onInputUp.add(this.quit,this);
 
+    buttonSound = game.add.audio('buttonSound');
+
     if(music.name != 'menuMusic')
     {
       music = game.add.audio('menuMusic');
@@ -36,25 +38,30 @@ var menuState={
 
    },
    start: function(){
+    buttonSound.play();
     music.stop();
     game.state.start('css');
 
   },
   characterSelect: function(){
+  buttonSound.play();
    console.log("css State");
    game.state.start('css');
 
  },
   options: function() {
+    buttonSound.play();
     console.log("options state");
     game.state.start('options');
   },
   quit:function() {
     console.log("quit state");
+    buttonSound.play();
     music.stop();
     game.state.start('boot'); //Placeholder until we change it to something else
   },
   credits: function() {
+    buttonSound.play();
     music.stop();
     game.state.start('credits');
   }

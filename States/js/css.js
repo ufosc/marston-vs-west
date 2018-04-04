@@ -38,8 +38,8 @@ var cssState={
     dudeIcon.enableBody = true;
     chickIcon.enableBody = true;
 
-    
-    
+    buttonSound = game.add.audio('buttonSound');
+
     var startLabel=game.add.text(80,game.world.height-40,'Press "1" key to play game after selecting characters!',{font: '25px Arial',fill:'#ffffff'});
     //var wkey= game.input.keyboard.addKey(Phaser.Keyboard.W);
     //wkey.onDown.addOnce(this.start,this);
@@ -97,7 +97,7 @@ var cssState={
 //If you drop the cursor on the icon
    if(game.physics.arcade.overlap(player1Icon, dudeIcon))
    {
-
+     buttonSound.play();
      //Determine's what's spawned, and lets you start game
      charName1 = "dude";
      charSelected1 = true;
@@ -124,6 +124,7 @@ var cssState={
    //If you drop the icon on the chick Picture
    if(game.physics.arcade.overlap(player1Icon, chickIcon))
    {
+     buttonSound.play();
      charName1 = "chick";
      charSelected1 = true;
      chickIcon.tint =  0xffff00;
@@ -144,6 +145,7 @@ var cssState={
 
    if(game.physics.arcade.overlap(player2Icon,dudeIcon))
    {
+     buttonSound.play();
      charName2 = "dude";
      charSelected2 = true;
      dudeIcon.tint =  0xffff00;
@@ -170,6 +172,7 @@ var cssState={
 
    if(game.physics.arcade.overlap(player2Icon,chickIcon))
    {
+     buttonSound.play();
      charName2 = "chick";
      charSelected2 = true;
      chickIcon.tint =  0xffff00;
