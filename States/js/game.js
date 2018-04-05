@@ -30,19 +30,7 @@ var westPicture;
 var mob;
 var people;
 
-//Virtual controller variables
-/*var leftpress = false;
-var rightpress = false;
-var uppress = false;
-var downpress = false;
-
-//var jump = false;
-var apress = false;
-var bpress = false;
-var xpress = false;
-var ypress = false;
-*/
-
+var lives;
 
 //Display options variables
 var stretchFullScreen;
