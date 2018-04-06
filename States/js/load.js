@@ -52,7 +52,7 @@ var loadState={
 				game.load.image('creditsButton', 'assets/creditsButton.png');
 				game.load.image('menuButton', 'assets/menuButton.png');
 				this.game.load.audio('creditsMusic', 'assets/creditsTestMusic.ogg');
-				this.game.load.audio('menuMusic', 'assets/menuTestMusic.ogg');
+				this.game.load.audio('menuMusic', 'assets/creditsTestMusic.ogg');
 				this.game.load.audio('allstar', 'assets/allstar.ogg');
 				game.load.image('marstonPic', 'assets/thegreatestlibrary.JPEG');
 				game.load.image('westPic', 'assets/theworstlibrary.JPG');
@@ -73,6 +73,7 @@ var loadState={
 				game.load.audio('buttonSound', 'assets/buttonSound.wav');
 				game.load.audio('deathSound', 'assets/deathSound.wav');
 				game.load.audio('respawnSound', 'assets/respawnSound.wav');
+				game.load.image('vsIcon', 'assets/vsIcon.png');
 				//game.load.audio('playMusic', 'assets/playTestMusic.ogg');
 
 		},

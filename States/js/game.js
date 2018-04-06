@@ -12,6 +12,13 @@ var config =
 }
 
 var game = new Phaser.Game(config);
+//Change the screen dimensions to accomidate mobile users (eventually will change other things about mobile experience but not here)
+if(game.device.android || game.device.iOS)
+{
+  game.scale.fullScreenScaleMode = stretchFullScreen;
+  console.log("If this log's something is wrong, this only logs for mobile, and will NEVER log for desktop")
+}
+
 var key1;
 var playSound;
 var playMusic;
