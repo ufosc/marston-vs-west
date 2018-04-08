@@ -74,6 +74,8 @@ var loadState={
 				game.load.audio('deathSound', 'assets/deathSound.wav');
 				game.load.audio('respawnSound', 'assets/respawnSound.wav');
 				game.load.image('vsIcon', 'assets/vsIcon.png');
+				game.load.image('computerIcon', 'assets/aiImage.jpg')
+				game.load.script('filter', 'https://cdn.rawgit.com/photonstorm/phaser-ce/master/filters/Fire.js');
 				//game.load.audio('playMusic', 'assets/playTestMusic.ogg');
 
 		},
