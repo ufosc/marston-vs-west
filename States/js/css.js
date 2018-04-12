@@ -1,5 +1,3 @@
-console.log("winstate reached");
-
 var cssState={
   create: function(){
     //Reset values to default so if player wants to play again, it does not start off "ready" to play
@@ -66,6 +64,53 @@ var cssState={
     player1BodyIcon.scale.setTo(1.5,1.5);
     player2BodyIcon.scale.setTo(1.5,1.5);
 
+//Chose your library: Click on label to set variable to a library, then send info later
+    var player1Label=game.add.text(game.world.width * .5 - 150 ,game.world.height-180,'Choose your Library!',{font: '25px Arial',fill:'#ffffff'});
+    player1Label.inputEnabled = true;
+    player1Label.selected = 0;
+    player1Label.librarySelected = '';
+    player1Label.events.onInputUp.add(function() {
+      switch(player1Label.selected)
+      {
+
+        case 0:
+          player1Label.librarySelected = 'Marston'
+          player1Label.text = `${player1Label.librarySelected}`;
+          player1Label.selected++;
+          break;
+        case 1:
+          player1Label.librarySelected = 'West'
+          player1Label.text = `${player1Label.librarySelected}`;
+          player1Label.selected--;
+          break;
+      }
+    });
+
+
+    var player2Label=game.add.text(game.world.width * .5 + 150 ,game.world.height-180,'Choose your Library!',{font: '25px Arial',fill:'#ffffff'});
+    player2Label.inputEnabled = true;
+    player2Label.selected = 0;
+    player2Label.librarySelected = '';
+    player2Label.events.onInputUp.add(function() {
+      switch(player2Label.selected)
+      {
+
+        case 0:
+          player2Label.librarySelected = 'Marston'
+          player2Label.text = `${player2Label.librarySelected}`;
+          player2Label.selected++;
+          break;
+        case 1:
+          player2Label.librarySelected = 'West'
+          player2Label.text = `${player2Label.librarySelected}`;
+          player2Label.selected--;
+          break;
+      }
+    });
+
+
+
+
 //TODO:Incorperate dragUpdate function event system into current system. I think it's needed to fix bugs/add dynamic features like spawning the character when hovering over while still dragging.
 //TODO:
 //find a way to change text, show sprite and name with alpha applied when hovering but NOT selecting character, SOLUTION: probably above comment
@@ -74,7 +119,7 @@ var cssState={
   start: function(){
     gameReadyText.text = `Game Start!`;
     music.stop();
-    game.state.start('play');
+    game.state.start('sss');
  },
  update: function() {
    player1Text.text = `Character selected 1: ${charName1}`;
@@ -95,7 +140,7 @@ var cssState={
    {
      //Eventually allow the player to start game;
      gameReadyText.text = `Game Start!`;
-     game.state.start('play');
+     game.state.start('sss');
    }
    else if(charSelected1 && charSelected2)
    { //Allow the player to tap game ready to start game
@@ -103,7 +148,7 @@ var cssState={
      gameReadyText.inputEnabled = true;
      gameReadyText.events.onInputUp.addOnce(function() {
        music.stop();
-      game.state.start('play');
+      game.state.start('sss');
      });
 
    }

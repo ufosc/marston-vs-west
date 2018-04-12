@@ -9,7 +9,7 @@ var menuState={
       //  graphics.lineStyle(2, 0x0000FF, 1); THE LINE
         graphics.beginFill(0x00ad14, 0.5); //GREEEN
         var point1 = new Phaser.Point(0,0); //Top left corner
-        var point2 = new Phaser.Point(game.world.width, game.world.height); //Bottom Right Corner
+        var point2 = new Phaser.Point(game.world.width - 300, game.world.height); //Bottom Right Corner
         var point3= new Phaser.Point(0, game.world.height); //Bottom Left Corner
         var point4 = new Phaser.Point(game.world.width, 0); //Top Right Corner
         var pointArray = [point1, point2, point3];
@@ -59,6 +59,12 @@ var menuState={
     quitButton = game.add.button(game.world.width *.75 +50 ,game.world.height *.5 -20, 'quitButton');
     quitButton.onInputUp.add(this.quit,this);
 
+    fullScreenButton = game.add.button(game.world.width *.5,game.world.height *.5 + 100, 'fullScreenButton');
+    fullScreenButton.onInputUp.add(this.fullScreenConfig, this);
+    fullScreenButton.anchor.setTo(.5,.5);
+    fullScreenButton.visible = false;
+
+
     buttonSound = game.add.audio('buttonSound');
 
     if(music.name != 'menuMusic')
@@ -98,5 +104,23 @@ var menuState={
   },
   update: function() {
     filter.update();
+    if(game.device.android || game.device.iOS)
+    {
+      fullScreenButton.visible = true;
+    }
+  },
+
+
+fullScreenConfig: function()
+{
+  console.log("Calling fullscreen function");
+  if(!game.scale.isFullScreen)
+  {
+    game.scale.fullScreenScaleMode = Phaser.ScaleManager.EXACT_FIT;
+    game.scale.startFullScreen();
+
   }
+}
+
+
 };

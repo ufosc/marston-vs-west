@@ -92,7 +92,8 @@ var winState={
     }
     else {
       //If on desktop, open up embedded form.
-      feedbackLabel = new form(this.game, 80,game.world.height-240, "Click here to send feedback! Thanks for playing on Desktop!", "https://goo.gl/forms/wA6NGUAJ4OiKhVC93", {font: '25px Arial',fill:'#ffffff'});
+      //feedbackLabel = new form(this.game, 80,game.world.height-240, "Click here to send feedback! Thanks for playing on Desktop!", "https://goo.gl/forms/wA6NGUAJ4OiKhVC93", {font: '25px Arial',fill:'#ffffff'});
+      feedbackLabel = new Link(this.game, 80,game.world.height-240, "Click here to send feedback! Thanks for playing on Desktop!", "https://goo.gl/forms/wA6NGUAJ4OiKhVC93", {font: '25px Arial',fill:'#ffffff'});
     }
 
     var wkey= game.input.keyboard.addKey(Phaser.Keyboard.W);

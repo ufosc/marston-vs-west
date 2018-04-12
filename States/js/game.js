@@ -14,12 +14,7 @@ var config =
 var game = new Phaser.Game(config);
 //Change the screen dimensions to accomidate mobile users (eventually will change other things about mobile experience but not here)
 //Start mobile users in exact_fit with full screen default
-if(game.device.android || game.device.iOS)
-{
-  game.scale.fullScreenScaleMode = EXACT_FIT;
-  game.scale.startFullScreen();
-  console.log("This only logs for mobile, and will NEVER log for desktop")
-}
+
 var nameText1;
 var nameText2;
 var item1;
@@ -161,6 +156,11 @@ var music;
 var gameMinutes = 1;
 var gameSeconds = 0;
 
+var stage1;
+var stage2;
+var chosenStageName;
+var chosenMap;
+
 game.state.add('boot',bootState);
 game.state.add('options',optionsState);
 game.state.add('credits',creditsState);
@@ -169,5 +169,6 @@ game.state.add('menu',menuState);
 game.state.add('play',playState);
 game.state.add('win',winState);
 game.state.add('css', cssState);
+game.state.add('sss', sssState);
 
 game.state.start('boot');
