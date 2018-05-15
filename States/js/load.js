@@ -51,9 +51,9 @@ var loadState={
 				game.load.image('quitButton', 'assets/quitButton.png');
 				game.load.image('creditsButton', 'assets/creditsButton.png');
 				game.load.image('menuButton', 'assets/menuButton.png');
-				this.game.load.audio('creditsMusic', 'assets/creditsTestMusic.ogg');
-				this.game.load.audio('menuMusic', 'assets/creditsTestMusic.ogg');
-				this.game.load.audio('allstar', 'assets/allstar.ogg');
+				this.game.load.audio('creditsMusic', 'assets/Birdbeat.ogg');
+				this.game.load.audio('menuMusic', 'assets/Birdbeat.ogg');
+				this.game.load.audio('allstar', 'assets/swampysmash.ogg');
 				game.load.image('marstonPic', 'assets/thegreatestlibrary.JPEG');
 				game.load.image('westPic', 'assets/theworstlibrary.JPG');
 				game.load.image('fullScreenButton', 'assets/fullScreenButton.png');
@@ -79,6 +79,8 @@ var loadState={
 				game.load.audio('itemSound', 'assets/itemSound.wav');
 				//game.load.audio('playMusic', 'assets/playTestMusic.ogg');
 				game.load.tilemap('tilemap1', 'assets/Floor.json', null, Phaser.Tilemap.TILED_JSON);
+				game.load.spritesheet('gator', 'assets/gatorBat.png', 32, 32);
+				game.load.spritesheet('helmet', 'assets/helmet.png', 32, 32);
 		},
 	create: function(){
 		music = game.add.audio('menuMusic');
