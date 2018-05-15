@@ -293,6 +293,7 @@ class Fighter {
        this.health = health;//player start health
        this.lives = lives;
 
+       //Allows an animation event to take place
        this.inputLock = false;
 
        //Respawn Animation Activator Switch
@@ -368,6 +369,26 @@ class Fighter {
        this.aniKick = this.character.animations.add('kick', [12, 12, 12, 11, 6], 10, false);
        this.aniKick.onStart.add(this.kickStart, this);
        this.aniKick.onComplete.add(this.kickEnd, this);
+
+       //dash
+       this.aniDash = this.character.animations.add('dash', [5], 10, false);
+       this.aniDash.onStart.add(this.dashStart, this);
+       this.aniDash.onComplete.add(this.dashEnd, this);
+
+       //Tatsumaki (i am weeb)
+       this.aniTatsu = this.character.animations.add('tatsumaki', [12, 15], 10, false);
+       this.aniTatsu.onStart.add(this.tatsuStart, this);
+       this.aniTatsu.onComplete.add(this.tatsuEnd, this);
+
+       //Uppercut (change 16 later for a better uppercut frame)
+       this.aniUppercut = this.character.animations.add('uppercut', [16, 16, 14, 13], 10, false);
+       this.aniUppercut.onStart.add(this.uppercutStart, this);
+       this.aniUppercut.onComplete.add(this.uppercutEnd, this);
+
+       //Slow warlock punch
+       this.aniWarlock = this.character.animations.add('warlock', [13, 13, 13, 13, 11, 12], 3, false);
+       this.aniWarlock.onStart.add(this.warlockStart, this);
+       this.aniWarlock.onComplete.add(this.warlockEnd, this);
 
        //player got hit animation
        this.aniKo = this.character.animations.add('ko', [12], 5, false);
@@ -471,6 +492,65 @@ class Fighter {
      walkEnd() {
        //this.aniIdle.play(10, false);
      }
+     dashStart()
+     {
+      let direction;
+      if (this.controller1.right.isDown)
+      {
+        direction = 1;
+      }
+      else if (this.controller1.left.isDown)
+      {
+        direction = -1;
+      }
+      else
+      {
+        direction = 0;
+      }
+      this.character.body.position.x += direction * 100;
+      this.inputLock = true;
+     }
+     dashEnd()
+     {
+      this.aniIdle.play(10, false);
+      this.inputLock = false;
+     }
+     tatsuStart()
+     {
+      this.weapon1.fire();
+      
+      this.inputLock = true;
+     }
+     tatsuEnd()
+     {
+      this.aniIdle.play(10, false);
+      
+      this.inputLock = false;
+     }
+     uppercutStart()
+     {
+      this.character.body.velocity.x = 50 * this.character.scale.x;
+      this.character.body.velocity.y -= 400;
+      this.weapon1.fire();
+      this.inputLock = true;
+     }
+     uppercutEnd()
+     {
+      this.aniIdle.play(10, false);
+      this.inputLock = false;
+     }
+     warlockStart()
+     {
+      this.inputLock = true;
+     }
+     warlockEnd()
+     {
+      this.inputLock = false;
+      this.character.body.position.x += 200 * this.character.scale.x;
+      this.weapon1.fire();
+      this.aniIdle.play(10, false);
+     }
+
 
           updateInput()
           {
@@ -773,7 +853,7 @@ class Fighter {
                 //Causes Player health to increase
                 //this.health += 1;
             }
-            else if (this.controller1.kick.isDown && !(this.m < 120 && this.m != 0) && this.stunCounter == 0 && !Player1.inputLock)
+            else if (this.controller1.kick.isDown && !(this.m < 120 && this.m != 0) && this.stunCounter == 0 && !this.inputLock)
             {
                 //  Move to the right
 
@@ -807,25 +887,30 @@ class Fighter {
               this.hitSwitchKick = true;
             }
 
-            else if (this.controller1.special.isDown && this.controller1.up.isDown)
+            else if (this.controller1.special.isDown && !this.inputLock && this.controller1.up.isDown && !(this.m < 120 && this.m != 0) && this.stunCounter == 0)
             {
             	console.log("Up Special");
+              this.aniUppercut.play(10, false);
             }
-            else if (this.controller1.special.isDown && this.controller1.right.isDown)
+            else if (this.controller1.special.isDown && !this.inputLock && this.controller1.right.isDown && !(this.m < 120 && this.m != 0) && this.stunCounter == 0)
             {
             	console.log("Right Special");
+              this.aniDash.play(5, false);
             }
-            else if (this.controller1.special.isDown && this.controller1.left.isDown)
+            else if (this.controller1.special.isDown && !this.inputLock && this.controller1.left.isDown && !(this.m < 120 && this.m != 0) && this.stunCounter == 0)
             {
             	console.log("Left Special");
+              this.aniDash.play(5, false);
             }
-            else if (this.controller1.special.isDown && this.controller1.down.isDown)
+            else if (this.controller1.special.isDown && !this.inputLock && this.controller1.down.isDown && !(this.m < 120 && this.m != 0) && this.stunCounter == 0)
             {
             	console.log("Down Special");
+              this.aniTatsu.play(7, false);
             }
-            else if (this.controller1.special.isDown)
+            else if (this.controller1.special.isDown && !this.inputLock && !(this.m < 120 && this.m != 0) && this.stunCounter == 0)
             {
             	console.log("Normal Special")
+              this.aniWarlock.play(3, false);
             }
 
             else if (this.controller1.jump.isDown && this.jumps <= 5 && this.controller1.jump.downDuration(80 + this.attackSpeed) && !(this.m < 120 && this.m != 0) && this.stunCounter == 0 && !this.inputLock)
