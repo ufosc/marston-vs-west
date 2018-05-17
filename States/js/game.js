@@ -108,6 +108,11 @@ var style =
         font: "bold 32px Arial", fill: "#fff", boundsAlignH: "left", boundsAlignV: "top"
     };
 
+var style2 =
+    {
+        font: "bold 32px Skranji", fill: "#ffff00", boundsAlignH: "left", boundsAlignV: "top"
+    };
+
 
 var enemyText;
 var enemy;

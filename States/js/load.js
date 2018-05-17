@@ -81,6 +81,11 @@ var loadState={
 				game.load.tilemap('tilemap1', 'assets/Floor.json', null, Phaser.Tilemap.TILED_JSON);
 				game.load.spritesheet('gator', 'assets/gatorBat.png', 32, 32);
 				game.load.spritesheet('helmet', 'assets/helmet.png', 32, 32);
+
+				game.load.image('blueDamageBox', 'assets/damageBorder1.png');
+				game.load.image('orangeDamageBox', 'assets/damageBorder2.png');
+				game.load.image('orangeStock', 'assets/orangeStock.png');
+				game.load.image('blueStock', 'assets/blueStock.png');
 		},
 	create: function(){
 		music = game.add.audio('menuMusic');

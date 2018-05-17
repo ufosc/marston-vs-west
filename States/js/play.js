@@ -293,8 +293,49 @@ class Fighter {
        this.health = health;//player start health
        this.lives = lives;
 
+       switch(character)
+       {
+        case 'dude':
+          this.fighterStyle = {
+          font: "bold 32px Skranji", fill: '#0076b9', boundsAlignH: "left", boundsAlignV: "top"
+          };
+          this.damageBox = 'blueDamageBox';
+          break;
+        case 'chick':
+          this.fighterStyle = {
+          font: "bold 32px Skranji", fill: "#ff7000", boundsAlignH: "left", boundsAlignV: "top"
+          };
+          this.damageBox = 'orangeDamageBox';
+          break;
+        case 'dude':
+          this.fighterStyle = {
+          font: "bold 32px Skranji", fill: "#0076b9", boundsAlignH: "left", boundsAlignV: "top"
+          };
+          this.damageBox = 'blueDamageBox';
+          break;
+        case 'chick':
+          this.fighterStyle = {
+          font: "bold 32px Skranji", fill: "#ff7000", boundsAlignH: "left", boundsAlignV: "top"
+          };
+          this.damageBox = 'orangeDamageBox';
+          break;
+
+       }
+
+       
+
+      
+
        //Allows an animation event to take place
        this.inputLock = false;
+       //Cooldown for dash movement
+       this.dashCD = false;
+       //Cooldown for warlock kick
+       this.warlockCD = false;
+       //Cooldown for uppercut
+       this.uppercutCD = false;
+       //cooldown for all basic moves
+       this.basicCD = false;
 
        //Respawn Animation Activator Switch
        this.respawnSwitch = false;
@@ -338,7 +379,7 @@ class Fighter {
 
        //  Player physics properties. Give the little guy a slight bounce.
        this.character.body.bounce.y = 0;//0.2;
-       this.character.body.gravity.y = 1000;
+       this.character.body.gravity.y = 650;
        this.character.body.collideWorldBounds = false;
 
 
@@ -359,6 +400,7 @@ class Fighter {
        this.aniJump.onComplete.add(this.jumpEnd, this);
        //shield animation
        this.aniShield = this.character.animations.add('shield', [10], 5, false);
+       this.aniShield.onComplete.add(this.shieldEnd, this);
 
        //punch animations
       this.aniPunch = this.character.animations.add('punch', [8, 7, 6], 10, false);
@@ -400,12 +442,12 @@ class Fighter {
     if(controlnum == 1)
      {
       //controller1 = new Object;
-      this.controller1 = game.input.keyboard.addKeys({ 'jump': Phaser.KeyCode.E, 'up': Phaser.KeyCode.W, 'down': Phaser.KeyCode.S, 'left': Phaser.KeyCode.A, 'right': Phaser.KeyCode.D , 'punch': Phaser.KeyCode.T, 'kick': Phaser.KeyCode.R, 'shield': Phaser.KeyCode.Y, 'special': Phaser.KeyCode.F});
+      this.controller1 = game.input.keyboard.addKeys({ 'jump': Phaser.KeyCode.E, 'up': Phaser.KeyCode.W, 'down': Phaser.KeyCode.S, 'left': Phaser.KeyCode.A, 'right': Phaser.KeyCode.D , 'basic': Phaser.KeyCode.T, 'special': Phaser.KeyCode.R, 'shield': Phaser.KeyCode.Y});
      }
     else if(controlnum == 2)
      {
      //controller1 = new Object;
-     this.controller1 = game.input.keyboard.addKeys({ 'jump': Phaser.KeyCode.I, 'up': Phaser.KeyCode.UP, 'down': Phaser.KeyCode.DOWN, 'left': Phaser.KeyCode.LEFT, 'right': Phaser.KeyCode.RIGHT , 'punch': Phaser.KeyCode.P, 'kick': Phaser.KeyCode.O, 'shield': Phaser.KeyCode.OPEN_BRACKET, 'special': Phaser.KeyCode.J});
+     this.controller1 = game.input.keyboard.addKeys({ 'jump': Phaser.KeyCode.I, 'up': Phaser.KeyCode.UP, 'down': Phaser.KeyCode.DOWN, 'left': Phaser.KeyCode.LEFT, 'right': Phaser.KeyCode.RIGHT , 'basic': Phaser.KeyCode.P, 'special': Phaser.KeyCode.O, 'shield': Phaser.KeyCode.OPEN_BRACKET});
      }
      else if(controlnum == -1)
      {
@@ -423,6 +465,13 @@ class Fighter {
        this.weapon1.fireRate = 100;
        this.weapon1.trackSprite(this.character, 28, 40, true);
 
+       this.weaponKick = game.add.weapon(1, 'slash');
+       this.weaponKick.bulletKillType = Phaser.Weapon.KILL_LIFESPAN;
+       this.weaponKick.bulletLifespan = 50; //50
+       this.weaponKick.bulletSpeed = 0; //0
+       this.weaponKick.fireRate = 100;
+       this.weaponKick.trackSprite(this.character, 28, 40, true);
+
        this.stocks = game.add.group();
 //Stocks will now match up to character selected
        for (var g = 3; g > 0; g--)
@@ -432,12 +481,18 @@ class Fighter {
          {
            if(charName1 == 'dude')
            {
-             var stock = this.stocks.create((game.world.width *.42) + (30 * g) + -300, 100, 'player2cssIcon');
+            //sets up the cell for the damage icon and stocks
+             var damageBox1 = game.add.sprite(0, game.world.game.world.height - 75, this.damageBox);
+             damageBox1.scale.setTo(5.5,2.2);
+             var stock = this.stocks.create((0) + (30 * g), game.world.height - 25, 'blueStock');
              stock.anchor.setTo(.5,.5);
            }
            else if(charName1 == 'chick')
            {
-             var stock = this.stocks.create((game.world.width *.42) + (30 * g) + -300, 100, 'player1cssIcon');
+            //sets up the cell for the damage icon and stocks
+             var damageBox1 = game.add.sprite(0, game.world.game.world.height - 75, this.damageBox);
+             damageBox1.scale.setTo(5.5,2.2);
+             var stock = this.stocks.create((0) + (30 * g), game.world.height - 25, 'orangeStock');
              stock.anchor.setTo(.5,.5);
            }
          }
@@ -449,12 +504,18 @@ class Fighter {
          {
            if(charName2 == 'dude') //dude is blue, chick is orange
            {
-             var stock = this.stocks.create((game.world.width *.85) + (30 * h), 100, 'player2cssIcon');
+            //sets up the cell for the damage icon and stocks
+             var damageBox2 = game.add.sprite(650, game.world.game.world.height - 75, this.damageBox);
+             damageBox2.scale.setTo(5.5,2.2);
+             var stock = this.stocks.create((game.world.width *.85) + (30 * h), game.world.height - 25, 'blueStock');
              stock.anchor.setTo(.5,.5);
            }
            else if(charName2 == 'chick')
            {
-             var stock = this.stocks.create((game.world.width *.85) + (30 * h), 100, 'player1cssIcon');
+            //sets up the cell for the damage icon and stocks
+             var damageBox2 = game.add.sprite(650, game.world.game.world.height - 75, this.damageBox);
+             damageBox2.scale.setTo(5.5,2.2);
+             var stock = this.stocks.create((game.world.width *.85) + (30 * h), game.world.height - 25, 'orangeStock');
              stock.anchor.setTo(.5,.5);
            }
 
@@ -472,6 +533,7 @@ class Fighter {
      punchEnd () {
        console.log("Punch end");
        this.inputLock = false;
+       this.basicCD = 15;
      }
      kickStart() {
        console.log("Kick start");
@@ -481,6 +543,7 @@ class Fighter {
      kickEnd() {
        console.log("kick end");
        this.inputLock = false;
+       this.basicCD = 25;
      }
      jumpEnd() {
        this.aniIdle.play(10, false);
@@ -514,6 +577,7 @@ class Fighter {
      {
       this.aniIdle.play(10, false);
       this.inputLock = false;
+      this.dashCD = 60;
      }
      tatsuStart()
      {
@@ -538,6 +602,7 @@ class Fighter {
      {
       this.aniIdle.play(10, false);
       this.inputLock = false;
+      this.uppercutCD = 60;
      }
      warlockStart()
      {
@@ -549,15 +614,32 @@ class Fighter {
       this.character.body.position.x += 200 * this.character.scale.x;
       this.weapon1.fire();
       this.aniIdle.play(10, false);
+      this.warlockCD = 30;
+     }
+     shieldEnd()
+     {
+      this.aniIdle.play(10, false);
      }
 
 
           updateInput()
           {
-          //Cooldown for attacking
-          if (this.hitCD != 0)
+          //Cooldown for attacks
+          if (this.dashCD != 0)
           {
-            this.hitCD -= 1;
+            this.dashCD -= 1;
+          }
+          if (this.uppercutCD != 0)
+          {
+            this.uppercutCD -= 1;
+          }
+          if (this.warlockCD != 0)
+          {
+            this.warlockCD -= 1;
+          }
+          if (this.basicCD != 0)
+          {
+            this.basicCD -= 1;
           }
           //Cooldown for hit stun
           if (this.stunCounter != 0)
@@ -579,7 +661,8 @@ class Fighter {
           }
 
 
-          //control logic for virtual keys
+          //control logic for virtual keys DO NOT DELETE THIS 
+          /*
           if(this.controlnum == -1 || this.controlnum == -2 ){
 
 
@@ -798,11 +881,12 @@ class Fighter {
               this.hitSwitchKick= false;
             }
               //console.log('end of vpad read');
-          }
+          }*/   //DO NOT DELETE THIS
 
 
           //control logic for real keyboard
-          else if(this.controlnum > 0){
+          //else if(this.controlnum > 0){   <- Change to this when controller above is put back in
+          if(this.controlnum > 0){
           //console.log("inside real key check");
 
             if (this.controller1.shield.isDown && this.character.body.touching.down && this.stunCounter == 0 && this.hitVelocity == 0 && !this.inputLock)
@@ -822,7 +906,7 @@ class Fighter {
                 }
 
             }
-            else if (this.controller1.punch.isDown &&  !(this.m < 120 && this.m != 0) && this.stunCounter == 0 && !this.inputLock)
+            else if (this.controller1.basic.isDown && (this.controller1.right.isDown || this.controller1.left.isDown) && !(this.m < 120 && this.m != 0) && this.stunCounter == 0 && !this.inputLock && this.basicCD == 0)
             {
 
                 //logic to change direction facing
@@ -835,25 +919,13 @@ class Fighter {
                 }
                 this.aniPunch.play(10, false);
 
-                //this.character.animations.play('punch');
-                //this.weapon1.fire();
-                //If really freaking close to item, and if he isnt holding something, use it!
-                if((item1.xDistCheck(this.character) < 50) && (item1.yDistCheck(this.character) < 100) && !(this.character.hasItem) && (item1.user == null))
-                {
-                  item1.user = this.character;
-                  item1.pickedUp = true;
-                  this.character.hasItem = true;
-                  console.log("close to item");
-                }
-
-
                 //this.hitCD = 30;
                 this.shielding = false;
                 this.hitSwitchPunch = true;
                 //Causes Player health to increase
                 //this.health += 1;
             }
-            else if (this.controller1.kick.isDown && !(this.m < 120 && this.m != 0) && this.stunCounter == 0 && !this.inputLock)
+            else if (this.controller1.basic.isDown && this.controller1.down.isDown && !(this.m < 120 && this.m != 0) && this.stunCounter == 0 && !this.inputLock && this.basicCD == 0)
             {
                 //  Move to the right
 
@@ -886,18 +958,48 @@ class Fighter {
               this.shielding = false;
               this.hitSwitchKick = true;
             }
+            else if (this.controller1.basic.isDown && !this.controller1.down.isDown && !this.controller1.right.isDown && !this.controller1.left.isDown && !(this.m < 120 && this.m != 0) && this.stunCounter == 0 && !this.inputLock && this.basicCD == 0)
+            {
+              //logic to change direction facing
+                if (this.character.scale.x < 0 ){
+                  this.character.body.velocity.x = -250 + this.moveSpeed;
+                }
+                else
+                {
+                  this.character.body.velocity.x = 250 + this.moveSpeed;
+                }
+                this.aniPunch.play(10, false);
 
-            else if (this.controller1.special.isDown && !this.inputLock && this.controller1.up.isDown && !(this.m < 120 && this.m != 0) && this.stunCounter == 0)
+                //this.character.animations.play('punch');
+                //this.weapon1.fire();
+                //If really freaking close to item, and if he isnt holding something, use it!
+                if((item1.xDistCheck(this.character) < 50) && (item1.yDistCheck(this.character) < 100) && !(this.character.hasItem) && (item1.user == null))
+                {
+                  item1.user = this.character;
+                  item1.pickedUp = true;
+                  this.character.hasItem = true;
+                  console.log("close to item");
+                }
+
+
+                //this.hitCD = 30;
+                this.shielding = false;
+                this.hitSwitchPunch = true;
+                //Causes Player health to increase
+                //this.health += 1;
+            }
+
+            else if (this.controller1.special.isDown && !this.inputLock && this.controller1.up.isDown && !(this.m < 120 && this.m != 0) && this.stunCounter == 0 && this.uppercutCD == 0)
             {
             	console.log("Up Special");
               this.aniUppercut.play(10, false);
             }
-            else if (this.controller1.special.isDown && !this.inputLock && this.controller1.right.isDown && !(this.m < 120 && this.m != 0) && this.stunCounter == 0)
+            else if (this.controller1.special.isDown && !this.inputLock && this.controller1.right.isDown && !(this.m < 120 && this.m != 0) && this.stunCounter == 0 && this.dashCD == 0)
             {
             	console.log("Right Special");
               this.aniDash.play(5, false);
             }
-            else if (this.controller1.special.isDown && !this.inputLock && this.controller1.left.isDown && !(this.m < 120 && this.m != 0) && this.stunCounter == 0)
+            else if (this.controller1.special.isDown && !this.inputLock && this.controller1.left.isDown && !(this.m < 120 && this.m != 0) && this.stunCounter == 0 && this.dashCD == 0)
             {
             	console.log("Left Special");
               this.aniDash.play(5, false);
@@ -907,7 +1009,7 @@ class Fighter {
             	console.log("Down Special");
               this.aniTatsu.play(7, false);
             }
-            else if (this.controller1.special.isDown && !this.inputLock && !(this.m < 120 && this.m != 0) && this.stunCounter == 0)
+            else if (this.controller1.special.isDown && !this.controller1.left.isDown && !this.controller1.right.isDown && !this.inputLock && !(this.m < 120 && this.m != 0) && this.stunCounter == 0 && this.warlockCD == 0)
             {
             	console.log("Normal Special")
               this.aniWarlock.play(3, false);
@@ -1030,7 +1132,7 @@ class lab extends Fighter {
     constructor(character,health,lives,startx,starty,controlnum) {
 
       super(character,health,lives,startx,starty,controlnum);
-      this.character.body.gravity.y = 1000;
+      this.character.body.gravity.y = 650;
       console.log("we created the lab construtor");
 
         this.jumpSpeed = 25;
@@ -1047,7 +1149,7 @@ class dj extends Fighter {
     constructor(character,health,lives,startx,starty,controlnum) {
 
       super(character,health,lives,startx,starty,controlnum);
-      this.character.body.gravity.y = 1000;
+      this.character.body.gravity.y = 650;
       console.log("we created the dj construtor");
 
         this.jumpSpeed = 75;
@@ -1135,7 +1237,7 @@ respawn: function(Fighter){
       if(Fighter.controlnum == 1 ){
           console.log("controlnum = 1");
           Fighter.character.x = 200;
-          Fighter.character.y = 300;
+          Fighter.character.y = 230;
           Fighter.respawnSwitch = true;
           Fighter.m = 0;
           Fighter.inputLock = false;
@@ -1144,7 +1246,7 @@ respawn: function(Fighter){
       else if(Fighter.controlnum == 2 ){
           console.log("controlnum = 2");
           Fighter.character.x = 600;
-          Fighter.character.y = 300;
+          Fighter.character.y = 230;
           Fighter.respawnSwitch = true;
           Fighter.m = 0;
           Fighter.inputLock = false;
@@ -1154,7 +1256,7 @@ respawn: function(Fighter){
           console.log("controlnum = -1");
           //Fighter.character.body.position.x = 200;
           Fighter.character.x = 200;
-          Fighter.character.y = 300;
+          Fighter.character.y = 230;
           Fighter.respawnSwitch = true;
           Fighter.m = 0;
           Fighter.inputLock = false;
@@ -1163,7 +1265,7 @@ respawn: function(Fighter){
           console.log("controlnum = -2");
           //Fighter.character.body.position.x = 200;
           Fighter.character.x = 600;
-          Fighter.character.y = 300;
+          Fighter.character.y = 230;
           Fighter.respawnSwitch = true;
           Fighter.m = 0;
           Fighter.inputLock = false;
@@ -1187,12 +1289,12 @@ respawn: function(Fighter){
     }
     //Book Crashing down Animation
     else if(Fighter.m >= 60 && Fighter.m < 120){
-      Fighter.character.body.gravity.y = 800;
+      Fighter.character.body.gravity.y = 400;
       Fighter.character.body.velocity.x = 0;
       Fighter.character.visible = true;
     }
     else{
-      Fighter.character.body.gravity.y = 1000;
+      Fighter.character.body.gravity.y = 650;
     }
     //Makes character alpha to signify invulnerability
     if (Fighter.m <= 300){
@@ -1286,6 +1388,7 @@ playerHitStun: function(Fighter)
 
       //Play music
       music = game.add.audio('allstar');
+      music.volume = 0.5;
       music.loopFull();
 
 
@@ -1304,7 +1407,7 @@ playerHitStun: function(Fighter)
       platforms.friction = 100;
 
       // Create the ground.
-      var ground = platforms.create(110, game.world.height - 30, 'ground');
+      var ground = platforms.create(110, game.world.height - 100, 'ground');
 
       //  Scale it to fit the width of the game (the original sprite is ? in size)
       ground.scale.setTo(18, 1);
@@ -1370,8 +1473,6 @@ else {
   //If on desktop, do not use virtual inputs for player 1.
   controlOptionVpad = 1;
 }
-
-
 
 if(charName1 == 'dude')
 {
@@ -1480,14 +1581,20 @@ if(Player1.controlnum == -1){
 
 
       //mob = new crowd(0,0);
+     
 
-      healthtext1 = game.add.text(0,0, `DMG ${Player1.health}`,style);
+      healthtext1 = game.add.text(0, game.world.height - 75, `DMG ${Player1.health}`,Player1.fighterStyle);
+      healthtext1.stroke = '#ffffff';
+      healthtext1.strokeThickness = 4;
 
-      healthtext2 = game.add.text(650,0, `DMG ${Player2.health}`,style);
+      healthtext2 = game.add.text(650, game.world.height - 75, `DMG ${Player2.health}`,Player2.fighterStyle);
+      healthtext2.stroke = '#ffffff';
+      healthtext2.strokeThickness = 4;
 
-      livetext1 = game.add.text(0,30, `Lives ${Player1.lives}`,style);
+      //livetext1 = game.add.text(0, game.world.height - 50, ``,style2);
 
-      livetext2 = game.add.text(650,30, `Lives ${Player2.lives}`,style);
+      //livetext2 = game.add.text(650, game.world.height - 50, `Lives ${Player2.lives}`,style2);
+      //livetext2 = game.add.text(650, game.world.height - 50, ``,style2);
 
       nameText1 = game.add.text(0, 0, "P1", style);
       nameText2 = game.add.text(0, 0, "P2", style);
@@ -1626,8 +1733,8 @@ timerText.anchor.setTo(.5,.5);
     healthtext1.text = `DMG ${Math.ceil(Player1.health)} %`;
     healthtext2.text = `DMG ${Math.ceil(Player2.health)} %`;
 
-    livetext1.text = `Lives ${Player1.lives}`;
-    livetext2.text = `Lives ${Player2.lives}`;
+    //livetext1.text = `Lives ${Player1.lives}`;
+    //livetext2.text = `Lives ${Player2.lives}`;
 
     this.KO(Player1);
     this.KO(Player2);
