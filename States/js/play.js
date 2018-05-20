@@ -13,6 +13,159 @@ class crowd{
   }
 }
 
+
+class cam{
+
+	constructor(toplx, toply, w, h){
+
+		this.toplx = toplx;
+		this.toply = toply;
+		this.w = w;
+		this.h = h;
+
+		game.camera.bounds = null;
+
+
+		//this.minx = 100;
+		//this.miny = 100; 
+
+		//game.camera.follow(Player1);
+    	//game.camera.deadzone = new Phaser.Rectangle(450, 350, 100, 100);
+
+		//game.camera.deadzone = new Phaser.Rectangle(toplx, toply, w, h);
+
+	}
+
+	updatecamera(sprite1,sprite2,xmin, ymin,xmax, ymax){
+
+		//console.log(game.camera.x);
+		//console.log(game.camera.y);
+		//console.log(xdist);
+		//console.log(ydist);
+		
+		//update topleft x coordinate
+
+		//console.log(game.camera.x);
+
+		//average pixel positions of sprite1 and sprite2
+		var xtarget = 0.5*(sprite2.character.body.position.x + sprite1.character.body.position.x);
+		var ytarget = 0.5*(sprite2.character.body.position.y -sprite1.character.body.position.y);
+
+		if(xtarget < 0){
+			xtarget = xtarget*-1;
+		}
+		
+		if(ytarget < 0){
+			ytarget = ytarget*-1;
+		}
+
+		//math for scaling (camera zoom)
+		var xscaletarget = (sprite2.character.body.position.x - sprite1.character.body.position.x);
+		var yscaletarget = (sprite2.character.body.position.y -sprite1.character.body.position.y);
+
+
+		//adjust position to be adjusted for topleft corner of camerabox
+		xtarget -= 300;
+
+		game.camera.x += 0.2*(xtarget-game.camera.x);
+
+		//console.log(game.camera.x);
+		//update topleft y coordinate
+		game.camera.y += 0.2*((-1*ytarget)-game.camera.y);
+
+		w = 0;
+		h = 0;
+		if(xtarget < xmin){
+			w = xmin;	
+		}
+		else if(xtarget > xmax){
+			w = xmax;
+		}
+		else{
+			w = xtarget;
+		}
+
+		//update camera height
+		if(ytarget < ymin){
+			h = ymin;	
+		}
+		else if(ytarget > ymax){
+			h = ymax;
+		}
+		else{
+			h = ytarget;
+		}
+		
+		//game.camera.setSize(w,h);
+
+		/*
+		//zoom in
+		if(xscaletarget < 0){
+			xscaletarget = xscaletarget * -1;
+		}
+		console.log(xscaletarget);
+		if(xscaletarget < 100 && xscaletarget > 50){
+			game.camera.scale.x += 0.001;
+			//game.camera.scale.y += 0.001;
+		}
+		//zoom out
+		if(xscaletarget >= 100  && xscaletarget <70){
+			game.camera.scale.x -= 0.001;
+			game.camera.scale.y -= 0.001;
+		}
+		*/
+
+
+		//not working???
+		/*
+		//update camera width
+		if(xtarget < xmin){
+			game.camera.width = xmin;	
+		}
+		else if(xtarget > xmax){
+			game.camera.width = xmax;
+		}
+		else{
+			game.camera.width = xtarget;
+		}
+
+		//update camera height
+		if(ytarget < ymin){
+			game.camera.height = ymin;	
+		}
+		else if(ytarget > ymax){
+			game.camera.height = ymax;
+		}
+		else{
+			game.camera.height = ytarget;
+		}
+		*/
+
+		//console.log(game.camera.width);
+		//console.log(game.camera.height);
+		
+
+		//update width
+		//game.camera.deadzone.width = ;
+
+		//update height
+		//game.camera.deadzone.height =;
+	}
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
 class Item
 {
   constructor(type, startx, starty, gameRef)
@@ -146,7 +299,7 @@ class Item
         this.user = null;
 
 
-//Depending on the random selection, spawn a random item
+		//Depending on the random selection, spawn a random item
         let itemSelect = Math.floor(Math.random() * 3); // A random number generator of integers from 0 to 1 used to randomly spawn an item
         let itemPosNeg = 0;
         let signChoice = Math.floor(Math.random() * 2);
@@ -374,7 +527,7 @@ class Fighter {
        this.AImode = 1;
        this.reaction = 0;
 
-           //  We need to enable physics on the player
+    	//  We need to enable physics on the player
        game.physics.arcade.enable(this.character);
 
        //  Player physics properties. Give the little guy a slight bounce.
@@ -389,7 +542,7 @@ class Fighter {
 
        //Player animations
 
-	     this.aniRight = this.character.animations.add('right', [ 3,4,5,6,7], 10, true);
+	   this.aniRight = this.character.animations.add('right', [ 3,4,5,6,7], 10, true);
        this.aniRight.onComplete.add(this.walkEnd, this);
 
        //idle animation
@@ -525,6 +678,79 @@ class Fighter {
        console.log("fighter made");
        //return this;
      }
+
+     getleft(){
+     	if(this.controlnum < 0){
+     		return this.controller1.leftpress;
+     	}
+     	else{
+     		return this.controller1.left.isDown;
+     	}
+
+     }
+     getright(){
+     	if(this.controlnum < 0){
+     		return this.controller1.rightpress;
+     	}
+     	else{
+     		return this.controller1.right.isDown;
+     	}
+
+     }
+     getup(){
+     	if(this.controlnum < 0){
+     		return this.controller1.uppress;
+     	}
+     	else{
+     		return this.controller1.up.isDown;
+     	}
+
+     }
+     getdown(){
+     	if(this.controlnum < 0){
+     		return this.controller1.downpress;
+     	}
+     	else{
+     		return this.controller1.down.isDown;
+     	}
+
+     }
+     geta(){
+     	if(this.controlnum < 0){
+     		return this.controller1.apress;
+     	}
+     	else{
+     		return this.controller1.basic.isDown;
+     	}
+
+     }
+     getb(){
+     	if(this.controlnum < 0){
+     		return this.controller1.bpress;
+     	}
+     	else{
+     		return this.controller1.special.isDown;
+     	}
+
+     }
+     getx(){
+     	if(this.controlnum < 0){
+     		return this.controller1.xpress;
+     	}
+     	else{
+     		return this.controller1.shield.isDown;
+     	}
+     }
+     gety(){
+     	if(this.controlnum < 0){
+     		return this.controller1.ypress;
+     	}
+     	else{
+     		return this.controller1.jump.isDown;
+     	}
+
+     }
+
      punchStart () {
        console.log("Punch start");
        this.weapon1.fire();
@@ -622,8 +848,8 @@ class Fighter {
      }
 
 
-          updateInput()
-          {
+        updateInput(){
+
           //Cooldown for attacks
           if (this.dashCD != 0)
           {
@@ -886,10 +1112,11 @@ class Fighter {
 
           //control logic for real keyboard
           //else if(this.controlnum > 0){   <- Change to this when controller above is put back in
-          if(this.controlnum > 0){
+          if(this.controlnum > -20){
+
           //console.log("inside real key check");
 
-            if (this.controller1.shield.isDown && this.character.body.touching.down && this.stunCounter == 0 && this.hitVelocity == 0 && !this.inputLock)
+            if ( this.getx() && this.character.body.touching.down && this.stunCounter == 0 && this.hitVelocity == 0 && !this.inputLock)
             {
                 this.character.body.velocity.x = 0;
                 this.character.animations.play('shield');
@@ -906,7 +1133,8 @@ class Fighter {
                 }
 
             }
-            else if (this.controller1.basic.isDown && (this.controller1.right.isDown || this.controller1.left.isDown) && !(this.m < 120 && this.m != 0) && this.stunCounter == 0 && !this.inputLock && this.basicCD == 0)
+            //else if ( this.geta() && (this.controller1.right.isDown || this.controller1.left.isDown || this.controller1.leftpress || this.controller1.rightpress) && !(this.m < 120 && this.m != 0) && this.stunCounter == 0 && !this.inputLock && this.basicCD == 0)
+            else if ( this.geta() && !(this.m < 120 && this.m != 0) && this.stunCounter == 0 && !this.inputLock && this.basicCD == 0)
             {
 
                 //logic to change direction facing
@@ -925,7 +1153,7 @@ class Fighter {
                 //Causes Player health to increase
                 //this.health += 1;
             }
-            else if (this.controller1.basic.isDown && this.controller1.down.isDown && !(this.m < 120 && this.m != 0) && this.stunCounter == 0 && !this.inputLock && this.basicCD == 0)
+            else if ( this.geta() && this.getdown()  && !(this.m < 120 && this.m != 0) && this.stunCounter == 0 && !this.inputLock && this.basicCD == 0)
             {
                 //  Move to the right
 
@@ -957,9 +1185,9 @@ class Fighter {
                 }
               this.shielding = false;
               this.hitSwitchKick = true;
-            }
-            else if (this.controller1.basic.isDown && !this.controller1.down.isDown && !this.controller1.right.isDown && !this.controller1.left.isDown && !(this.m < 120 && this.m != 0) && this.stunCounter == 0 && !this.inputLock && this.basicCD == 0)
-            {
+            }			
+            else if ( this.geta() && this.getdown() == false && this.getright() == false && this.getleft() == false && !(this.m < 120 && this.m != 0) && this.stunCounter == 0 && !this.inputLock && this.basicCD == 0)
+            {			
               //logic to change direction facing
                 if (this.character.scale.x < 0 ){
                   this.character.body.velocity.x = -250 + this.moveSpeed;
@@ -989,33 +1217,34 @@ class Fighter {
                 //this.health += 1;
             }
 
-            else if (this.controller1.special.isDown && !this.inputLock && this.controller1.up.isDown && !(this.m < 120 && this.m != 0) && this.stunCounter == 0 && this.uppercutCD == 0)
+            else if ( this.getb() && !this.inputLock && this.getup()  && !(this.m < 120 && this.m != 0) && this.stunCounter == 0 && this.uppercutCD == 0)
             {
             	console.log("Up Special");
               this.aniUppercut.play(10, false);
             }
-            else if (this.controller1.special.isDown && !this.inputLock && this.controller1.right.isDown && !(this.m < 120 && this.m != 0) && this.stunCounter == 0 && this.dashCD == 0)
+            else if ( this.getb() && !this.inputLock && this.getright() && !(this.m < 120 && this.m != 0) && this.stunCounter == 0 && this.dashCD == 0)
             {
             	console.log("Right Special");
               this.aniDash.play(5, false);
             }
-            else if (this.controller1.special.isDown && !this.inputLock && this.controller1.left.isDown && !(this.m < 120 && this.m != 0) && this.stunCounter == 0 && this.dashCD == 0)
+            else if ( this.getb() && !this.inputLock && this.getleft() && !(this.m < 120 && this.m != 0) && this.stunCounter == 0 && this.dashCD == 0)
             {
             	console.log("Left Special");
               this.aniDash.play(5, false);
             }
-            else if (this.controller1.special.isDown && !this.inputLock && this.controller1.down.isDown && !(this.m < 120 && this.m != 0) && this.stunCounter == 0)
+            else if ( this.getb() && !this.inputLock && this.getdown() && !(this.m < 120 && this.m != 0) && this.stunCounter == 0)
             {
             	console.log("Down Special");
               this.aniTatsu.play(7, false);
             }
-            else if (this.controller1.special.isDown && !this.controller1.left.isDown && !this.controller1.right.isDown && !this.inputLock && !(this.m < 120 && this.m != 0) && this.stunCounter == 0 && this.warlockCD == 0)
+            else if ( this.getb() && this.getleft == false && this.getright == false  && !this.inputLock && !(this.m < 120 && this.m != 0) && this.stunCounter == 0 && this.warlockCD == 0)
             {
             	console.log("Normal Special")
               this.aniWarlock.play(3, false);
             }
 
-            else if (this.controller1.jump.isDown && this.jumps <= 5 && this.controller1.jump.downDuration(80 + this.attackSpeed) && !(this.m < 120 && this.m != 0) && this.stunCounter == 0 && !this.inputLock)
+            //else if ( ((this.controller1.jump.isDown && this.jumps <= 5 && this.controller1.jump.downDuration(80 + this.attackSpeed) ) || (this.controller1.ypress && this.jumps<= 5) ) && !(this.m < 120 && this.m != 0) && this.stunCounter == 0 && !this.inputLock )
+            else if ( this.gety() && this.jumps<= 5  && !(this.m < 120 && this.m != 0) && this.stunCounter == 0 && !this.inputLock )
             {
                 this.character.body.velocity.y = -350 + this.jumpSpeed;
                 jumpSound.play();
@@ -1023,8 +1252,9 @@ class Fighter {
                 this.shielding = false;
                 this.character.animations.play('jump');
             }
-            else if (this.controller1.left.isDown && !(this.m < 120 && this.m != 0) && this.stunCounter == 0 && !this.inputLock)
+            else if ( this.getleft()  && !(this.m < 120 && this.m != 0) && this.stunCounter == 0 && !this.inputLock )
             {
+            	console.log("moveleft logic is working?");
 
                 if(this.character.body.touching.down)
                 {
@@ -1057,7 +1287,7 @@ class Fighter {
                 this.character.animations.play('right');
                 this.shielding = false;
             }
-            else if (this.controller1.right.isDown && !(this.m < 120 && this.m != 0) && this.stunCounter == 0 && !this.inputLock)
+            else if (this.getright() && !(this.m < 120 && this.m != 0) && this.stunCounter == 0 && !this.inputLock)
             {
                 //  Move to the right
                 if(this.character.body.touching.down)
@@ -1123,7 +1353,7 @@ class Fighter {
 
           }
           //end of update input function
-          }
+         }
 
 
   }
@@ -1171,7 +1401,7 @@ var playState={
 
 	if (Player1.m == 0 && !Player1.shielding){
     hitSound.play();
-    game.time.slowMotion = 4.0;
+    //game.time.slowMotion = 4.0;
 		Player1.health += 5;
 		Player1.hitVelocity = Player2.character.scale.x * Player1.health * 2;
 
@@ -1391,6 +1621,9 @@ playerHitStun: function(Fighter)
       music.volume = 0.5;
       music.loopFull();
 
+      stagecam = new cam(40, 350, 1200, 1000);
+
+
 
       if(chosenStageName == 'marstonPic')
       {
@@ -1580,6 +1813,9 @@ if(Player1.controlnum == -1){
   }
 
 
+
+
+
       //mob = new crowd(0,0);
      
 
@@ -1651,8 +1887,10 @@ if(Player1.controlnum == -1){
       };
 
 
-timerText = game.add.text(game.world.width * .5, 40,`Time: ${timer.duration}`,{font: '40px Arial',fill: '#000000'});
-timerText.anchor.setTo(.5,.5);
+	timerText = game.add.text(game.world.width * .5, 40,`Time: ${timer.duration}`,{font: '40px Arial',fill: '#000000'});
+	timerText.anchor.setTo(.5,.5);
+
+
 
   },
 
@@ -1692,7 +1930,7 @@ timerText.anchor.setTo(.5,.5);
 
 
 
-      game.physics.arcade.overlap(Player2.character, item1.type, item1.itemCollision(Player2), null, this);
+    game.physics.arcade.overlap(Player2.character, item1.type, item1.itemCollision(Player2), null, this);
 
 
     game.physics.arcade.overlap(Player1.weapon1.bullets, Player2.character, this.hitPlayer2);
@@ -1720,16 +1958,16 @@ timerText.anchor.setTo(.5,.5);
 
     if(controlOptionAI == -2)
     {
-
-      this.AIplay(Player1, Player2);
+    	//console.log("AI mode on");
+    	this.AIplay(Player1, Player2);
 
     }
 
-      //console.log("echo");
+    //console.log("echo");
     Player1.updateInput();
     Player2.updateInput();
 
-      //console.log("echo");
+    //console.log("echo");
     healthtext1.text = `DMG ${Math.ceil(Player1.health)} %`;
     healthtext2.text = `DMG ${Math.ceil(Player2.health)} %`;
 
@@ -1751,7 +1989,30 @@ timerText.anchor.setTo(.5,.5);
       game.state.start('win');
     }
 
-  timerText.text = this.formatTime(Math.round((timerEvent.delay - timer.ms) / 1000));
+
+
+	timerText.text = this.formatTime(Math.round((timerEvent.delay - timer.ms) / 1000));
+
+	
+	//playerxdist = Player2.character.body.position.x -Player1.character.body.position.x;
+	//playerydist =  Player2.character.body.position.y -Player1.character.body.position.y;
+	playerxdist = 0.5*(Player2.character.body.position.x + Player1.character.body.position.x);
+	playerydist =  0.5*(Player2.character.body.position.y -Player1.character.body.position.y);
+
+	
+	if(playerxdist < 0){
+		playerxdist = playerxdist*-1;
+	}
+	
+	if(playerydist < 0){
+		playerydist = playerydist*-1;
+	}
+	
+
+	//update camera
+	//stagecam.updatecamera(playerxdist,playerydist,100,100,800,600);
+	//stagecam.updatecamera(Player1,Player2,100,100,800,600);
+
 
   },
 
@@ -1875,7 +2136,6 @@ AIplay: function(Fighter1, Fighter2){
 
 		Fighter2.AImode = Fighter2.AImode * -1;
 	}
-
 	if(react >100){
 		Fighter1.leftpress = false;
   		Fighter1.rightpress = false;
@@ -1925,13 +2185,22 @@ AIplay: function(Fighter1, Fighter2){
 
 	if(AIxdist > 50){
 
-	  	//console.log("AI should be moving left");
-	  	Fighter2.controller1.leftpress = true;
+	  	console.log("AI should be moving left");
+	  	//console.log(Fighter2.controller1.leftpress);
+	  	//console.log( (Fighter2.controller1.left.isDown || Fighter2.controller1.leftpress)  && !(Fighter2.m < 120 && Fighter2.m != 0) && Fighter2.stunCounter == 0 && Fighter2.inputLock == false );
+	  	//console.log(Fighter2.getleft());
+      Fighter2.controller1.leftpress = true;
+	  	//console.log( Fighter2.getleft()  && !(Fighter2.m < 120 && Fighter2.m != 0) && Fighter2.stunCounter == 0 && Fighter2.inputLock == false );
+		  //console.log(Fighter2.controller1.leftpress);
+      //console.log( Fighter2.getleft()  && !(Fighter2.m < 120 && Fighter2.m != 0) && Fighter2.stunCounter == 0 && !Fighter2.inputLock );
+      //console.log(Fighter2.getleft());
+      Fighter2.updateInput();
   		Fighter2.controller1.rightpress = false;
+
   	}
   	else if(AIxdist < -50){
 
-  		//console.log("AI should be moving right");
+  		console.log("AI should be moving right");
   		Fighter2.controller1.leftpress = false;
   		Fighter2.controller1.rightpress = true;
     }

@@ -84,6 +84,8 @@ var scoreText;
 var healthtext1;
 var healthtext2;
 
+var stagecam;
+
 var livetext1;
 var livetext2;
 var charactername;
@@ -102,6 +104,7 @@ var dudeBodyIcon;
 var chickBodyIcon;
 var player1BodyIcon;
 var player2BodyIcon;
+
 
 var style =
     {
