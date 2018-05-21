@@ -3,6 +3,8 @@ var cssState={
     //Reset values to default so if player wants to play again, it does not start off "ready" to play
     charSelected1 = false;
     charSelected2 = false;
+    botSelected = false;
+    controlOptionAI = 0;
     charName1 = "";
     charName2 = "";
 
@@ -66,7 +68,7 @@ var cssState={
     player2BodyIcon.scale.setTo(1.5,1.5);
 
 //Chose your library: Click on label to set variable to a library, then send info later
-    var player1Label=game.add.text(game.world.width * .5 - 150 ,game.world.height-180,'Choose your Library!',{font: '25px Arial',fill:'#ffffff'});
+    var player1Label=game.add.text(150 ,50,'Choose your Library!',{font: '25px Arial',fill:'#ffffff'});
     player1Label.inputEnabled = true;
     player1Label.selected = 0;
     player1Label.librarySelected = '';
@@ -88,7 +90,7 @@ var cssState={
     });
 
 
-    var player2Label=game.add.text(game.world.width * .5 + 150 ,game.world.height-180,'Choose your Library!',{font: '25px Arial',fill:'#ffffff'});
+    var player2Label=game.add.text(game.world.width * .5 + 150 , 50,'Choose your Library!',{font: '25px Arial',fill:'#ffffff'});
     player2Label.inputEnabled = true;
     player2Label.selected = 0;
     player2Label.librarySelected = '';
@@ -119,7 +121,7 @@ var cssState={
   },
   start: function(){
     gameReadyText.text = `Game Start!`;
-    music.stop();
+    //music.stop();
     game.state.start('sss');
  },
  update: function() {
@@ -137,19 +139,19 @@ var cssState={
      player2BodyIcon.animations.play('idle');
    }
 
-   if(charSelected1 && charSelected2 && key1.isDown)
+   if(charSelected1 && (charSelected2 || botSelected) && key1.isDown)
    {
      //Eventually allow the player to start game;
      gameReadyText.text = `Game Start!`;
      game.state.start('sss');
    }
-   else if(charSelected1 && charSelected2)
+   else if(charSelected1 && (botSelected || charSelected2))
    { //Allow the player to tap game ready to start game
      gameReadyText.text = `Game ready:\nClick to start!`;
      gameReadyText.inputEnabled = true;
      gameReadyText.events.onInputUp.addOnce(function() {
-       music.stop();
-      game.state.start('sss');
+       //music.stop();
+     game.state.start('sss');
      });
 
    }
@@ -219,6 +221,7 @@ var cssState={
      charSelected2 = true;
      dudeIcon.tint =  0xffff00;
      player2BodyIcon.kill();
+     controlOptionAI = 2;
 
      player2BodyIcon = game.add.sprite(game.world.width * .75 - 100, game.world.height * .5, 'dude');
      player2BodyIcon.scale.setTo(3.5,3.5);
@@ -246,6 +249,7 @@ var cssState={
      charSelected2 = true;
      chickIcon.tint =  0xffff00;
      player2BodyIcon.kill();
+     controlOptionAI = 2;
 
      player2BodyIcon = game.add.sprite(game.world.width * .75 - 100, game.world.height * .5, 'chick');
      player2BodyIcon.scale.setTo(3.5,3.5);
@@ -266,7 +270,7 @@ var cssState={
    {
      buttonSound.play();
      charName2 = "chick";
-     charSelected2 = true;
+     botSelected = true;
      computerIcon.tint =  0xffff00;
      player2BodyIcon.kill();
      controlOptionAI = -2; //Temporary till we have the AI logic, then replace this with a -2 instead,using vpad to test functionality
@@ -353,9 +357,9 @@ var cssState={
    if(game.physics.arcade.overlap(player2Icon, computerIcon))
    {
      charName2 = "";
-     charSelected2 = false;
+     botSelected = false;
      computerIcon.tint =  0xffffff;
-     controlOptionAI = 2;
+
      console.log("controlOptionAI: " + controlOptionAI);
 
       if(player2BodyIcon.animations)

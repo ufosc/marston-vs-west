@@ -77,7 +77,7 @@ var menuState={
    },
    start: function(){
     buttonSound.play();
-    music.stop();
+    //music.stop();
     game.state.start('css');
 
   },

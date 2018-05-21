@@ -86,6 +86,7 @@ var loadState={
 				game.load.image('orangeDamageBox', 'assets/damageBorder2.png');
 				game.load.image('orangeStock', 'assets/orangeStock.png');
 				game.load.image('blueStock', 'assets/blueStock.png');
+				game.load.image('dust', 'assets/dust.png');
 		},
 	create: function(){
 		music = game.add.audio('menuMusic');

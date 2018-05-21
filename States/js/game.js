@@ -84,8 +84,6 @@ var scoreText;
 var healthtext1;
 var healthtext2;
 
-var stagecam;
-
 var livetext1;
 var livetext2;
 var charactername;
@@ -96,6 +94,7 @@ var charName1 = "";
 var charName2 = "";
 var charSelected1 = false;
 var charSelected2 = false;
+var botSelected = false;
 var charPortrait1;
 var charPortrait2;
 var dudeIcon;
@@ -104,7 +103,6 @@ var dudeBodyIcon;
 var chickBodyIcon;
 var player1BodyIcon;
 var player2BodyIcon;
-
 
 var style =
     {
