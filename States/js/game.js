@@ -104,6 +104,25 @@ var chickBodyIcon;
 var player1BodyIcon;
 var player2BodyIcon;
 
+
+//gamepad stuff
+
+var nesaButton;
+var nesbButton; 
+var nesxButton;
+var nesyButton;
+var nesleftButton;
+var nesrightButton;
+var nesupButton;
+var nesdownButton;
+var indicator;
+var pad1;
+var testconnect1;
+//end of gamepad variables
+
+
+
+
 var style =
     {
         font: "bold 32px Arial", fill: "#fff", boundsAlignH: "left", boundsAlignV: "top"

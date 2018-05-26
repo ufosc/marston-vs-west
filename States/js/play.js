@@ -47,7 +47,13 @@ class cam{
 		//console.log(game.camera.x);
 
 		//average pixel positions of sprite1 and sprite2
-		var xtarget = 0.5*(sprite2.character.body.position.x + sprite1.character.body.position.x);
+
+    //Phaser.Camera.SHAKE_BOTH = 100;
+    //Phaser.Camera.shake(0.05,500);
+		
+    //Phaser.Camera.shake(0.05,500);
+    
+    var xtarget = 0.5*(sprite2.character.body.position.x + sprite1.character.body.position.x);
 		var ytarget = 0.5*(sprite2.character.body.position.y -sprite1.character.body.position.y);
 
 		if(xtarget < 0){
@@ -439,7 +445,6 @@ class Item
 //Virtual pad
 class vpad{
   constructor(controlnum)
-
   {
 
   this.controlnum = controlnum;
@@ -458,6 +463,128 @@ class vpad{
   }
   //end of vpad class
 }
+
+class nespad{
+  constructor(controlnum){
+  //gamepad stuff
+    
+    //this.nescontroller = null;
+    this.nescontroller = game.input.gamepad.pad1;
+
+    this.nesaButton = false;
+    this.nesbButton = false; 
+    this.nesxButton = false;
+    this.nesyButton = false;
+    this.nesleftButton = false;
+    this.nesrightButton = false;
+    this.nesupButton = false;
+    this.nesdownButton = false;
+    this.indicator = false;
+    this.pad1 = false;
+    this.controlnum = controlnum;
+    this.testconnect = false;
+
+    
+  }
+
+    connectgamepad(){
+        if(this.testconnect == false){
+
+        //try to add nes controller support
+        //game.input.gamepad.start();
+
+        /*
+        var nesaButton = null;
+        var nesbButton = null; 
+        var nesxButton = null;
+        var nesyButton = null;
+        var nesleftButton = null;
+        var nesrightButton = null;
+        var nesupButton = null;
+        var nesdownButton = null;
+        */
+
+        this.nescontroller = game.input.gamepad.pad1;
+
+        this.nescontroller.addCallbacks(this, {
+            onConnect: function(){
+              this.testconnect = true;
+              console.log("controller recognized and connected! buttons set!");
+              // you could use a different button here if you want...
+
+              //buttons seem to go from 0 to 10
+              //nesaxes = nescontroller.
+              this.nesaButton = this.nescontroller.getButton(Phaser.Gamepad.BUTTON_1);
+              this.nesbButton = this.nescontroller.getButton(Phaser.Gamepad.BUTTON_2);
+              this.nesxButton = this.nescontroller.getButton(Phaser.Gamepad.BUTTON_0);
+              this.nesyButton = this.nescontroller.getButton(Phaser.Gamepad.BUTTON_3);
+              /*nesrtrigButton = nescontroller.getButton(Phaser.Gamepad.BUTTON_4);
+              nesltrigButton = nescontroller.getButton(Phaser.Gamepad.BUTTON_5);
+
+              nesrightButton = nescontroller.getButton(Phaser.Gamepad.BUTTON_6);
+              nesdownButton   = nescontroller.getButton(Phaser.Gamepad.BUTTON_10);
+              nesleftButton   = nescontroller.getButton(Phaser.Gamepad.BUTTON_10);
+              nesupButton   = nescontroller.getButton(Phaser.Gamepad.BUTTON_7);
+              
+              nesselectButton = nescontroller.getButton(Phaser.Gamepad.BUTTON_8);
+              nesstartButton   = nescontroller.getButton(Phaser.Gamepad.BUTTON_9); */           
+
+            }
+
+        });
+    game.input.gamepad.start();
+        }
+  }
+
+  updategamepad(){
+          //try to add nes controller support
+    //game.input.gamepad.start();
+    
+    /*
+    var nesaButton = null;
+    var nesbButton = null; 
+    var nesxButton = null;
+    var nesyButton = null;
+    var nesleftButton = null;
+    var nesrightButton = null;
+    var nesupButton = null;
+    var nesdownButton = null;
+    */
+
+      nescontroller = game.input.gamepad.pad1;
+ 
+      nescontroller.addCallbacks(this, {
+        onConnect: function(){
+        testconnect1 = true;
+        console.log("controller recognized and connected! buttons set!");
+        // you could use a different button here if you want...
+
+        //buttons seem to go from 0 to 10
+        //nesaxes = nescontroller.
+        nesaButton = nescontroller.getButton(Phaser.Gamepad.BUTTON_1);
+        nesbButton = nescontroller.getButton(Phaser.Gamepad.BUTTON_2);
+        nesxButton = nescontroller.getButton(Phaser.Gamepad.BUTTON_0);
+        nesyButton = nescontroller.getButton(Phaser.Gamepad.BUTTON_3);
+        /*nesrtrigButton = nescontroller.getButton(Phaser.Gamepad.BUTTON_4);
+        nesltrigButton = nescontroller.getButton(Phaser.Gamepad.BUTTON_5);
+
+        nesrightButton = nescontroller.getButton(Phaser.Gamepad.BUTTON_6);
+        nesdownButton   = nescontroller.getButton(Phaser.Gamepad.BUTTON_10);
+        nesleftButton   = nescontroller.getButton(Phaser.Gamepad.BUTTON_10);
+        nesupButton   = nescontroller.getButton(Phaser.Gamepad.BUTTON_7);
+        
+        nesselectButton = nescontroller.getButton(Phaser.Gamepad.BUTTON_8);
+        nesstartButton   = nescontroller.getButton(Phaser.Gamepad.BUTTON_9);*/    
+
+      }
+
+    });
+    game.input.gamepad.start();
+  }
+
+}
+
+
 
 class Fighter {
   constructor(character,health,lives,startx,starty,controlnum) {
@@ -497,32 +624,32 @@ class Fighter {
           this.damageBox = 'orangeDamageBox';
           break;
 
-       }
+      }
 
 
 
 
 
-       //Allows an animation event to take place
-       this.inputLock = false;
-       //Cooldown for dash movement
-       this.dashCD = false;
-       //Cooldown for warlock kick
-       this.warlockCD = false;
-       //Cooldown for uppercut
-       this.uppercutCD = false;
-       //cooldown for all basic moves
-       this.basicCD = false;
+      //Allows an animation event to take place
+      this.inputLock = false;
+      //Cooldown for dash movement
+      this.dashCD = false;
+      //Cooldown for warlock kick
+      this.warlockCD = false;
+      //Cooldown for uppercut
+      this.uppercutCD = false;
+      //cooldown for all basic moves
+      this.basicCD = false;
 
-       //Respawn Animation Activator Switch
-       this.respawnSwitch = false;
-       //m is the respawn animation counter
-       this.m = 0;
+      //Respawn Animation Activator Switch
+      this.respawnSwitch = false;
+      //m is the respawn animation counter
+      this.m = 0;
 
-       this.startx = startx;
-       this.starty = starty;
+      this.startx = startx;
+      this.starty = starty;
 
-       this.character.hasItem = false;
+      this.character.hasItem = false;
 
       //Cooldown for attacks
       this.hitCD = 0;
@@ -616,6 +743,8 @@ class Fighter {
 
        //this.controller1 = game.input.keyboard.addKeys({ 'up': Phaser.KeyCode.W, 'down': Phaser.KeyCode.S, 'left': Phaser.KeyCode.A, 'right': Phaser.KeyCode.D , 'punch': Phaser.KeyCode.T, 'kick': Phaser.KeyCode.R});
 
+    this.nespad = new nespad(controlnum);
+
     if(controlnum == 1)
      {
       //controller1 = new Object;
@@ -666,7 +795,7 @@ class Fighter {
        this.dustTrail.trackSprite(this.character, 0, -50, true);
 
        this.stocks = game.add.group();
-//Stocks will now match up to character selected
+        //Stocks will now match up to character selected
        for (var g = 3; g > 0; g--)
        {
 
@@ -719,8 +848,16 @@ class Fighter {
        //return this;
      }
 
-     getleft(){
-     	if(this.controlnum < 0){
+    getleft(){
+      if(this.testconnect == true){
+        if(nescontroller._axes[1] == -1){
+          return true;
+        }
+        else{
+          return false;
+        }
+      }
+      else if(this.controlnum < 0){
      		return this.controller1.leftpress;
      	}
      	else{
@@ -728,17 +865,33 @@ class Fighter {
      	}
 
      }
-     getright(){
-     	if(this.controlnum < 0){
+    getright(){
+     	if(this.testconnect == true){
+        if(nescontroller._axes[1] == 1){
+          return true;
+        }
+        else{
+          return false;
+        }
+      }
+      else if(this.controlnum < 0){
      		return this.controller1.rightpress;
      	}
      	else{
      		return this.controller1.right.isDown;
      	}
 
-     }
-     getup(){
-     	if(this.controlnum < 0){
+    }
+    getup(){
+     	if(this.testconnect == true){
+        if(nescontroller._axes[5] == -1){
+          return true;
+        }
+        else{
+          return false;
+        }
+      }
+      else if(this.controlnum < 0){
      		return this.controller1.uppress;
      	}
      	else{
@@ -746,52 +899,72 @@ class Fighter {
      	}
 
      }
-     getdown(){
-     	if(this.controlnum < 0){
+    getdown(){
+     	if(this.testconnect == true){
+            if(nescontroller._axes[5] == 1){
+            return true;
+            }
+        else{
+          return false;
+        }
+      }
+      else if(this.controlnum < 0){
      		return this.controller1.downpress;
      	}
      	else{
      		return this.controller1.down.isDown;
      	}
 
-     }
-     geta(){
-     	if(this.controlnum < 0){
+    }
+    geta(){
+     	if(this.testconnect == true){
+        return this.nespad.nessaButton;
+      }
+      else if(this.controlnum < 0){
      		return this.controller1.apress;
      	}
      	else{
      		return this.controller1.basic.isDown;
      	}
 
-     }
-     getb(){
-     	if(this.controlnum < 0){
+    }
+    getb(){
+     	if(this.testconnect == true){
+        return this.nespad.nesbButton;
+      }
+      else if(this.controlnum < 0){
      		return this.controller1.bpress;
      	}
      	else{
      		return this.controller1.special.isDown;
      	}
 
-     }
-     getx(){
-     	if(this.controlnum < 0){
+    }
+    getx(){
+     	if(this.testconnect == true){
+        return this.nespad.nesxButton;
+      }
+      else if(this.controlnum < 0){
      		return this.controller1.xpress;
      	}
      	else{
      		return this.controller1.shield.isDown;
      	}
-     }
-     gety(){
-     	if(this.controlnum < 0){
+    }
+    gety(){
+     	if(this.testconnect == true){
+        return this.nespad.nesyButton;
+      }
+      else if(this.controlnum < 0){
      		return this.controller1.ypress;
      	}
      	else{
      		return this.controller1.jump.isDown;
      	}
 
-     }
+    }
 
-     punchStart () {
+    punchStart () {
        console.log("Punch start");
        if(this.character.scale.x < 0) //If facing left, flip the angle of the hitbox
        {
@@ -804,42 +977,42 @@ class Fighter {
        this.weapon1.fire();
        this.attacking = true;
        this.inputLock = true;
-     }
-     punchEnd () {
+    }
+    punchEnd () {
        console.log("Punch end");
        this.attacking = false;
        this.deltDamage = false;
        this.inputLock = false;
        this.attack = '';
        this.basicCD = 15;
-     }
-     kickStart() {
+    }
+    kickStart() {
        console.log("Kick start");
        this.attacking = true;
        this.attack = 'kick';
        this.weaponKick.fire();
        this.inputLock = true;
-     }
-     kickEnd() {
+    }
+    kickEnd() {
        console.log("kick end");
        this.attacking = false;
        this.deltDamage = false;
        this.inputLock = false;
        this.attack = '';
        this.basicCD = 25;
-     }
-     jumpEnd() {
+    }
+    jumpEnd() {
        this.aniIdle.play(10, false);
-     }
-     koEnd() {
+    }
+    koEnd() {
        this.aniIdle.play(10, false);
        this.inputLock = false;
-     }
-     walkEnd() {
+    }
+    walkEnd() {
        //this.aniIdle.play(10, false);
-     }
-     dashStart()
-     {
+    }
+    dashStart()
+    {
       let direction;
       if (this.controller1.right.isDown)
       {
@@ -855,30 +1028,30 @@ class Fighter {
       }
       this.character.body.position.x += direction * 100;
       this.inputLock = true;
-     }
-     dashEnd()
-     {
+    }
+    dashEnd()
+    {
       this.aniIdle.play(10, false);
       this.inputLock = false;
       this.dashCD = 60;
-     }
-     tatsuStart()
-     {
+    }
+    tatsuStart()
+    {
       this.attacking = true;
       this.attack = 'tatsu';
       this.weaponKick.fire();
       this.inputLock = true;
-     }
-     tatsuEnd()
-     {
+    }
+    tatsuEnd()
+    {
       this.aniIdle.play(10, false);
       this.attacking = false;
       this.deltDamage = false;
       this.inputLock = false;
       this.attack = '';
-     }
-     uppercutStart()
-     {
+    }
+    uppercutStart()
+    {
        if(this.character.scale.x < 0) //If facing left, flip the angle of the hitbox
        {
          this.weaponUppercut.bulletAngleOffset = 40;
@@ -892,24 +1065,24 @@ class Fighter {
       this.attack = 'uppercut';
       this.weaponUppercut.fire();
       this.inputLock = true;
-     }
-     uppercutEnd()
-     {
+    }
+    uppercutEnd()
+    {
       this.aniIdle.play(10, false);
       this.attacking = false;
       this.deltDamage = false;
       this.inputLock = false;
       this.attack = '';
       this.uppercutCD = 60;
-     }
-     warlockStart()
-     {
+    }
+    warlockStart()
+    {
       this.inputLock = true;
       this.attacking = true;
       this.attack = 'warlock';
-     }
-     warlockEnd()
-     {
+    }
+    warlockEnd()
+    {
       this.character.body.position.x += 200 * this.character.scale.x;
       this.weaponKick.fire();
       this.attacking = false;
@@ -918,11 +1091,11 @@ class Fighter {
       this.inputLock = false;
       this.aniIdle.play(10, false);
       this.warlockCD = 30;
-     }
-     shieldEnd()
-     {
+    }
+    shieldEnd()
+    {
       this.aniIdle.play(10, false);
-     }
+    }
 
 
     updateInput()
@@ -1192,6 +1365,8 @@ class Fighter {
     if(this.controlnum > -10){
     //console.log("inside real key check");
 
+
+      //Shield logic
       if (this.getx() && this.character.body.touching.down && this.stunCounter == 0 && this.hitVelocity == 0 && !this.inputLock)
       {
           this.character.body.velocity.x = 0;
@@ -1209,6 +1384,7 @@ class Fighter {
           }
 
       }
+      //punch logic
       else if ( this.geta() && (this.getright() || this.getleft()) && !(this.m < 120 && this.m != 0) && this.stunCounter == 0 && !this.inputLock && this.basicCD == 0)
       {
 
@@ -1228,6 +1404,8 @@ class Fighter {
           //Causes Player health to increase
           //this.health += 1;
       }
+
+      // Kick logic
       else if (this.geta() && this.getdown() && !(this.m < 120 && this.m != 0) && this.stunCounter == 0 && !this.inputLock && this.basicCD == 0)
       {
           //  Move to the right
@@ -1252,6 +1430,8 @@ class Fighter {
         this.shielding = false;
         this.hitSwitchKick = true;
       }
+
+      //Use item logic
       else if (this.geta() && this.getdown() == false && this.getright() == false && this.getleft() == false && !(this.m < 120 && this.m != 0) && this.stunCounter == 0 && !this.inputLock && this.basicCD == 0)
       {
         //logic to change direction facing
@@ -1415,11 +1595,14 @@ class Fighter {
           if (this.stunCounter > 0)
           {
             this.character.animations.play('ko');
-
+            //game.camera.shake(0.01,15);
+            
             //If hit really hard, add a dust trail that depends on hit velocity
             if(this.hitVelocity > 350 || this.hitVelocity < -350)
             {
               this.dustTrail.fire();
+              //game.camera.shake(0.04,50);
+              game.camera.shake(0.04,20);
             }
 
           }
@@ -1967,6 +2150,11 @@ if(Player1.controlnum == -1){
   //end of event listeners
 
 
+  //controller1
+  testconnect1 = false;
+
+
+
   }
 
 
@@ -2079,6 +2267,13 @@ timerText.anchor.setTo(.5,.5);
     //add physics for item (eventually just add items to a group and use collision detection for the group)
     game.physics.arcade.collide(item1.type, platforms, item1.onGround());
 
+
+    //Player1.nespad.connectgamepad();
+    //console.log(Player1.nespad.nescontroller.aButton);
+    
+    //console.log(Player1.nespad.testconnect);
+    //console.log(Player1.nespad.nescontroller.getButton(Phaser.Gamepad.BUTTON_3));
+  
     //using overlap to calculate the knockback when an item is thrown since we dont want the items trajectory to change
     //This is always colliding? even when i replace it with random stuff like player1.weapon1.bullets
 
