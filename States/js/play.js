@@ -1777,6 +1777,11 @@ playerHitStun: function(Fighter)
       music.loopFull();
 
 
+      //Camera tests
+      stagecam = new cam(40, 350, 1200, 1000);
+
+
+
       if(chosenStageName == 'marstonPic')
       {
 
@@ -2174,6 +2179,9 @@ timerText.anchor.setTo(.5,.5);
     }
 
   timerText.text = this.formatTime(Math.round((timerEvent.delay - timer.ms) / 1000));
+
+  stagecam.updatecamera(Player1,Player2,100,100,800,600);
+
 
   },
 
