@@ -18,7 +18,7 @@ when animation plays, trigger other code, in eventcomplete(do other stuff)
 - Roman cancel
 - Gameplay testing, breath system or launch combos, different ways of escaping combos 
 - ### Combat ideas resources
-	- 
+	- https://docs.google.com/spreadsheets/d/1TOB2RF4DBwD6tLpxVVdJT5-Oqn2An-ZIko_QJs17lbM/edit?usp=sharing
 
 # Art
 - We need strong silhouettes for fighters (makes characters easy to see and read
