@@ -1914,16 +1914,22 @@ playerHitStun: function(Fighter)
            live.kill();
          }
 
-
+         if(multimanmode == true){
+            multimenko++;
+         }
       }
       else if(Fighter.character.body.position.y > 700 || Fighter.character.body.position.y < -100){
         Fighter.character.hasItem = false;
          deathSound.play();
          this.respawn(Fighter);
+
          var live = Fighter.stocks.getFirstAlive();
          if(live)
          {
            live.kill();
+         }
+         if(multimanmode == true){
+            multimenko++;
          }
 
       }
@@ -1963,8 +1969,7 @@ playerHitStun: function(Fighter)
       //Camera tests
       stagecam = new cam(40, 350, 1200, 1000);
 
-
-
+    
       if(chosenStageName == 'marstonPic')
       {
 
@@ -2078,6 +2083,16 @@ else
 {
   Player2 =  new lab(charName2,  0, 3, game.world.width*0.75,game.world.height*0.5, controlOptionAI);
   console.log("Player 2 is lab");
+}
+
+
+
+if(multimanmode == true){
+    Player3 =  new lab(charName2,  0, 3, game.world.width*0.5,game.world.height*0.5, controlOptionAI);
+    console.log("Player 3 is lab");
+
+    Player4 =  new lab(charName2,  0, 3, game.world.width*0.62,game.world.height*0.5, controlOptionAI);
+    console.log("Player 4 is lab");
 }
 
 //event listener for player1 touch controls
@@ -2267,6 +2282,13 @@ timerText.anchor.setTo(.5,.5);
     //add physics for item (eventually just add items to a group and use collision detection for the group)
     game.physics.arcade.collide(item1.type, platforms, item1.onGround());
 
+    if(multimanmode == true){
+        game.physics.arcade.collide(Player3.character, platforms);
+        game.physics.arcade.collide(Player4.character, platforms);
+        game.physics.arcade.collide(Player1.character, Player3.character);
+        game.physics.arcade.collide(Player1.character, Player4.character);            
+
+    }
 
     //Player1.nespad.connectgamepad();
     //console.log(Player1.nespad.nescontroller.aButton);
@@ -2316,6 +2338,21 @@ timerText.anchor.setTo(.5,.5);
       game.physics.arcade.overlap(Player2.weaponUppercut.bullets, Player1.character, this.hitPlayer1(Player2.attacking));
     }
 
+    else if(Player3.attacking)
+    {
+      //hitbox collision for player 1, we pass the type of hit into the hit player function
+      game.physics.arcade.overlap(Player3.weapon1.bullets, Player1.character, this.hitPlayer1(Player2.attacking));
+      game.physics.arcade.overlap(Player3.weaponKick.bullets, Player1.character, this.hitPlayer1(Player2.attacking));
+      game.physics.arcade.overlap(Player3.weaponUppercut.bullets, Player1.character, this.hitPlayer1(Player2.attacking));
+    }
+    else if(Player4.attacking)
+    {
+      //hitbox collision for player 1, we pass the type of hit into the hit player function
+      game.physics.arcade.overlap(Player4.weapon1.bullets, Player1.character, this.hitPlayer1(Player2.attacking));
+      game.physics.arcade.overlap(Player4.weaponKick.bullets, Player1.character, this.hitPlayer1(Player2.attacking));
+      game.physics.arcade.overlap(Player4.weaponUppercut.bullets, Player1.character, this.hitPlayer1(Player2.attacking));
+    }
+
     //Name tag align/follow
     nameText1.alignTo(Player1.character, Phaser.TOP, 16);
     nameText2.alignTo(Player2.character,Phaser.TOP, 16);
@@ -2343,6 +2380,12 @@ timerText.anchor.setTo(.5,.5);
     {
 
       this.AIplay(Player1, Player2);
+    
+    //Multiman mode on so AI controls 2 additional fighters
+      if(multimanmode == true){
+            this.AIplay(Player1, Player3);
+            this.AIplay(Player1, Player4);
+      }
 
     }
 
@@ -2360,13 +2403,28 @@ timerText.anchor.setTo(.5,.5);
 
     this.KO(Player1);
     this.KO(Player2);
+    if(multimanmode == true){
+    this.KO(Player3);
+    this.KO(Player4);
+    }
 
     this.respawnEvent(Player1);
     this.respawnEvent(Player2);
+    if(multimanmode == true){
+        this.respawnEvent(Player3);
+        this.respawnEvent(Player4);
+    }
+
+
+
     //If out of lives, end the game
     if(Player1.lives == 0)
     {
       game.state.start('win');
+      if(multimanmode == true){
+            console.log("# of KOs in multiman mode:");
+            console.log(multimenko);
+         }
     }
     if(Player2.lives == 0)
     {
@@ -2375,7 +2433,7 @@ timerText.anchor.setTo(.5,.5);
 
   timerText.text = this.formatTime(Math.round((timerEvent.delay - timer.ms) / 1000));
 
-  stagecam.updatecamera(Player1,Player2,100,100,800,600);
+  //stagecam.updatecamera(Player1,Player2,100,100,800,600);
 
 
   },
