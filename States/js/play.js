@@ -47,13 +47,7 @@ class cam{
 		//console.log(game.camera.x);
 
 		//average pixel positions of sprite1 and sprite2
-
-    //Phaser.Camera.SHAKE_BOTH = 100;
-    //Phaser.Camera.shake(0.05,500);
-		
-    //Phaser.Camera.shake(0.05,500);
-    
-    var xtarget = 0.5*(sprite2.character.body.position.x + sprite1.character.body.position.x);
+		var xtarget = 0.5*(sprite2.character.body.position.x + sprite1.character.body.position.x);
 		var ytarget = 0.5*(sprite2.character.body.position.y -sprite1.character.body.position.y);
 
 		if(xtarget < 0){
@@ -445,6 +439,7 @@ class Item
 //Virtual pad
 class vpad{
   constructor(controlnum)
+
   {
 
   this.controlnum = controlnum;
@@ -459,132 +454,19 @@ class vpad{
   this.bpress = false;//special button
   this.xpress = false;//jump button
   this.ypress = false;//block button
+  /* Trying to add jump button downDuration to fix jump bug
+  this.ypress.duration = 100;
+  this.ypress.downDuration = function (duration)
+      {
+        if (duration === undefined) { duration = 100; }
+        else {duration = 100;}
+        return (this.isDown && this.duration < duration);
+      }
+      */
 
   }
   //end of vpad class
 }
-
-class nespad{
-  constructor(controlnum){
-  //gamepad stuff
-    
-    //this.nescontroller = null;
-    this.nescontroller = game.input.gamepad.pad1;
-
-    this.nesaButton = false;
-    this.nesbButton = false; 
-    this.nesxButton = false;
-    this.nesyButton = false;
-    this.nesleftButton = false;
-    this.nesrightButton = false;
-    this.nesupButton = false;
-    this.nesdownButton = false;
-    this.indicator = false;
-    this.pad1 = false;
-    this.controlnum = controlnum;
-    this.testconnect = false;
-
-    
-  }
-
-    connectgamepad(){
-        if(this.testconnect == false){
-
-        //try to add nes controller support
-        //game.input.gamepad.start();
-
-        /*
-        var nesaButton = null;
-        var nesbButton = null; 
-        var nesxButton = null;
-        var nesyButton = null;
-        var nesleftButton = null;
-        var nesrightButton = null;
-        var nesupButton = null;
-        var nesdownButton = null;
-        */
-
-        this.nescontroller = game.input.gamepad.pad1;
-
-        this.nescontroller.addCallbacks(this, {
-            onConnect: function(){
-              this.testconnect = true;
-              console.log("controller recognized and connected! buttons set!");
-              // you could use a different button here if you want...
-
-              //buttons seem to go from 0 to 10
-              //nesaxes = nescontroller.
-              this.nesaButton = this.nescontroller.getButton(Phaser.Gamepad.BUTTON_1);
-              this.nesbButton = this.nescontroller.getButton(Phaser.Gamepad.BUTTON_2);
-              this.nesxButton = this.nescontroller.getButton(Phaser.Gamepad.BUTTON_0);
-              this.nesyButton = this.nescontroller.getButton(Phaser.Gamepad.BUTTON_3);
-              /*nesrtrigButton = nescontroller.getButton(Phaser.Gamepad.BUTTON_4);
-              nesltrigButton = nescontroller.getButton(Phaser.Gamepad.BUTTON_5);
-
-              nesrightButton = nescontroller.getButton(Phaser.Gamepad.BUTTON_6);
-              nesdownButton   = nescontroller.getButton(Phaser.Gamepad.BUTTON_10);
-              nesleftButton   = nescontroller.getButton(Phaser.Gamepad.BUTTON_10);
-              nesupButton   = nescontroller.getButton(Phaser.Gamepad.BUTTON_7);
-              
-              nesselectButton = nescontroller.getButton(Phaser.Gamepad.BUTTON_8);
-              nesstartButton   = nescontroller.getButton(Phaser.Gamepad.BUTTON_9); */           
-
-            }
-
-        });
-    game.input.gamepad.start();
-        }
-  }
-
-  updategamepad(){
-          //try to add nes controller support
-    //game.input.gamepad.start();
-    
-    /*
-    var nesaButton = null;
-    var nesbButton = null; 
-    var nesxButton = null;
-    var nesyButton = null;
-    var nesleftButton = null;
-    var nesrightButton = null;
-    var nesupButton = null;
-    var nesdownButton = null;
-    */
-
-      nescontroller = game.input.gamepad.pad1;
- 
-      nescontroller.addCallbacks(this, {
-        onConnect: function(){
-        testconnect1 = true;
-        console.log("controller recognized and connected! buttons set!");
-        // you could use a different button here if you want...
-
-        //buttons seem to go from 0 to 10
-        //nesaxes = nescontroller.
-        nesaButton = nescontroller.getButton(Phaser.Gamepad.BUTTON_1);
-        nesbButton = nescontroller.getButton(Phaser.Gamepad.BUTTON_2);
-        nesxButton = nescontroller.getButton(Phaser.Gamepad.BUTTON_0);
-        nesyButton = nescontroller.getButton(Phaser.Gamepad.BUTTON_3);
-        /*nesrtrigButton = nescontroller.getButton(Phaser.Gamepad.BUTTON_4);
-        nesltrigButton = nescontroller.getButton(Phaser.Gamepad.BUTTON_5);
-
-        nesrightButton = nescontroller.getButton(Phaser.Gamepad.BUTTON_6);
-        nesdownButton   = nescontroller.getButton(Phaser.Gamepad.BUTTON_10);
-        nesleftButton   = nescontroller.getButton(Phaser.Gamepad.BUTTON_10);
-        nesupButton   = nescontroller.getButton(Phaser.Gamepad.BUTTON_7);
-        
-        nesselectButton = nescontroller.getButton(Phaser.Gamepad.BUTTON_8);
-        nesstartButton   = nescontroller.getButton(Phaser.Gamepad.BUTTON_9);*/    
-
-      }
-
-    });
-    game.input.gamepad.start();
-  }
-
-}
-
-
 
 class Fighter {
   constructor(character,health,lives,startx,starty,controlnum) {
@@ -596,6 +478,8 @@ class Fighter {
        this.attacking = false; //Controls when to register active hit frames
        this.deltDamage = false;
        this.attack = '';
+
+       this.platformCollid = ''; //Keeps track of name of platform you want to phase through
 
        switch(character)
        {
@@ -624,32 +508,32 @@ class Fighter {
           this.damageBox = 'orangeDamageBox';
           break;
 
-      }
+       }
 
 
 
 
 
-      //Allows an animation event to take place
-      this.inputLock = false;
-      //Cooldown for dash movement
-      this.dashCD = false;
-      //Cooldown for warlock kick
-      this.warlockCD = false;
-      //Cooldown for uppercut
-      this.uppercutCD = false;
-      //cooldown for all basic moves
-      this.basicCD = false;
+       //Allows an animation event to take place
+       this.inputLock = false;
+       //Cooldown for dash movement
+       this.dashCD = false;
+       //Cooldown for warlock kick
+       this.warlockCD = false;
+       //Cooldown for uppercut
+       this.uppercutCD = false;
+       //cooldown for all basic moves
+       this.basicCD = false;
 
-      //Respawn Animation Activator Switch
-      this.respawnSwitch = false;
-      //m is the respawn animation counter
-      this.m = 0;
+       //Respawn Animation Activator Switch
+       this.respawnSwitch = false;
+       //m is the respawn animation counter
+       this.m = 0;
 
-      this.startx = startx;
-      this.starty = starty;
+       this.startx = startx;
+       this.starty = starty;
 
-      this.character.hasItem = false;
+       this.character.hasItem = false;
 
       //Cooldown for attacks
       this.hitCD = 0;
@@ -743,8 +627,6 @@ class Fighter {
 
        //this.controller1 = game.input.keyboard.addKeys({ 'up': Phaser.KeyCode.W, 'down': Phaser.KeyCode.S, 'left': Phaser.KeyCode.A, 'right': Phaser.KeyCode.D , 'punch': Phaser.KeyCode.T, 'kick': Phaser.KeyCode.R});
 
-    this.nespad = new nespad(controlnum);
-
     if(controlnum == 1)
      {
       //controller1 = new Object;
@@ -795,7 +677,7 @@ class Fighter {
        this.dustTrail.trackSprite(this.character, 0, -50, true);
 
        this.stocks = game.add.group();
-        //Stocks will now match up to character selected
+//Stocks will now match up to character selected
        for (var g = 3; g > 0; g--)
        {
 
@@ -848,16 +730,8 @@ class Fighter {
        //return this;
      }
 
-    getleft(){
-      if(this.testconnect == true){
-        if(nescontroller._axes[1] == -1){
-          return true;
-        }
-        else{
-          return false;
-        }
-      }
-      else if(this.controlnum < 0){
+     getleft(){
+     	if(this.controlnum < 0){
      		return this.controller1.leftpress;
      	}
      	else{
@@ -865,33 +739,17 @@ class Fighter {
      	}
 
      }
-    getright(){
-     	if(this.testconnect == true){
-        if(nescontroller._axes[1] == 1){
-          return true;
-        }
-        else{
-          return false;
-        }
-      }
-      else if(this.controlnum < 0){
+     getright(){
+     	if(this.controlnum < 0){
      		return this.controller1.rightpress;
      	}
      	else{
      		return this.controller1.right.isDown;
      	}
 
-    }
-    getup(){
-     	if(this.testconnect == true){
-        if(nescontroller._axes[5] == -1){
-          return true;
-        }
-        else{
-          return false;
-        }
-      }
-      else if(this.controlnum < 0){
+     }
+     getup(){
+     	if(this.controlnum < 0){
      		return this.controller1.uppress;
      	}
      	else{
@@ -899,72 +757,74 @@ class Fighter {
      	}
 
      }
-    getdown(){
-     	if(this.testconnect == true){
-            if(nescontroller._axes[5] == 1){
-            return true;
-            }
-        else{
-          return false;
-        }
-      }
-      else if(this.controlnum < 0){
+     getdown(){
+     	if(this.controlnum < 0){
      		return this.controller1.downpress;
      	}
      	else{
      		return this.controller1.down.isDown;
      	}
 
-    }
-    geta(){
-     	if(this.testconnect == true){
-        return this.nespad.nessaButton;
-      }
-      else if(this.controlnum < 0){
+     }
+     geta(){
+     	if(this.controlnum < 0){
      		return this.controller1.apress;
      	}
      	else{
      		return this.controller1.basic.isDown;
      	}
 
-    }
-    getb(){
-     	if(this.testconnect == true){
-        return this.nespad.nesbButton;
-      }
-      else if(this.controlnum < 0){
+     }
+     getb(){
+     	if(this.controlnum < 0){
      		return this.controller1.bpress;
      	}
      	else{
      		return this.controller1.special.isDown;
      	}
 
-    }
-    getx(){
-     	if(this.testconnect == true){
-        return this.nespad.nesxButton;
-      }
-      else if(this.controlnum < 0){
+     }
+     getx(){
+     	if(this.controlnum < 0){
      		return this.controller1.xpress;
      	}
      	else{
      		return this.controller1.shield.isDown;
      	}
-    }
-    gety(){
-     	if(this.testconnect == true){
-        return this.nespad.nesyButton;
-      }
-      else if(this.controlnum < 0){
+     }
+     gety(){
+     	if(this.controlnum < 0){
      		return this.controller1.ypress;
      	}
      	else{
      		return this.controller1.jump.isDown;
      	}
 
-    }
+     }
 
-    punchStart () {
+     platformCollision(platforms)
+     {
+
+
+       if(this.getdown())
+       {
+         console.log("HIT DOWN WHILE COLLIDING WITH PLATFORM")
+
+         platforms.forEach(function(platform) {
+
+           platforms.getByName('plat1').body.checkCollision.up = false;
+         });
+
+         /*
+         game.time.events.add(Phaser.Timer.SECOND * .1, (platforms) => { platforms.forEach(function(platform) {
+            platform.body.checkCollision.up = true;
+          });}, this);
+        */
+       }
+
+     }
+
+     punchStart () {
        console.log("Punch start");
        if(this.character.scale.x < 0) //If facing left, flip the angle of the hitbox
        {
@@ -977,42 +837,42 @@ class Fighter {
        this.weapon1.fire();
        this.attacking = true;
        this.inputLock = true;
-    }
-    punchEnd () {
+     }
+     punchEnd () {
        console.log("Punch end");
        this.attacking = false;
        this.deltDamage = false;
        this.inputLock = false;
        this.attack = '';
        this.basicCD = 15;
-    }
-    kickStart() {
+     }
+     kickStart() {
        console.log("Kick start");
        this.attacking = true;
        this.attack = 'kick';
        this.weaponKick.fire();
        this.inputLock = true;
-    }
-    kickEnd() {
+     }
+     kickEnd() {
        console.log("kick end");
        this.attacking = false;
        this.deltDamage = false;
        this.inputLock = false;
        this.attack = '';
        this.basicCD = 25;
-    }
-    jumpEnd() {
+     }
+     jumpEnd() {
        this.aniIdle.play(10, false);
-    }
-    koEnd() {
+     }
+     koEnd() {
        this.aniIdle.play(10, false);
        this.inputLock = false;
-    }
-    walkEnd() {
+     }
+     walkEnd() {
        //this.aniIdle.play(10, false);
-    }
-    dashStart()
-    {
+     }
+     dashStart()
+     {
       let direction;
       if (this.controller1.right.isDown)
       {
@@ -1028,30 +888,30 @@ class Fighter {
       }
       this.character.body.position.x += direction * 100;
       this.inputLock = true;
-    }
-    dashEnd()
-    {
+     }
+     dashEnd()
+     {
       this.aniIdle.play(10, false);
       this.inputLock = false;
       this.dashCD = 60;
-    }
-    tatsuStart()
-    {
+     }
+     tatsuStart()
+     {
       this.attacking = true;
       this.attack = 'tatsu';
       this.weaponKick.fire();
       this.inputLock = true;
-    }
-    tatsuEnd()
-    {
+     }
+     tatsuEnd()
+     {
       this.aniIdle.play(10, false);
       this.attacking = false;
       this.deltDamage = false;
       this.inputLock = false;
       this.attack = '';
-    }
-    uppercutStart()
-    {
+     }
+     uppercutStart()
+     {
        if(this.character.scale.x < 0) //If facing left, flip the angle of the hitbox
        {
          this.weaponUppercut.bulletAngleOffset = 40;
@@ -1065,24 +925,24 @@ class Fighter {
       this.attack = 'uppercut';
       this.weaponUppercut.fire();
       this.inputLock = true;
-    }
-    uppercutEnd()
-    {
+     }
+     uppercutEnd()
+     {
       this.aniIdle.play(10, false);
       this.attacking = false;
       this.deltDamage = false;
       this.inputLock = false;
       this.attack = '';
       this.uppercutCD = 60;
-    }
-    warlockStart()
-    {
+     }
+     warlockStart()
+     {
       this.inputLock = true;
       this.attacking = true;
       this.attack = 'warlock';
-    }
-    warlockEnd()
-    {
+     }
+     warlockEnd()
+     {
       this.character.body.position.x += 200 * this.character.scale.x;
       this.weaponKick.fire();
       this.attacking = false;
@@ -1091,11 +951,11 @@ class Fighter {
       this.inputLock = false;
       this.aniIdle.play(10, false);
       this.warlockCD = 30;
-    }
-    shieldEnd()
-    {
+     }
+     shieldEnd()
+     {
       this.aniIdle.play(10, false);
-    }
+     }
 
 
     updateInput()
@@ -1365,8 +1225,6 @@ class Fighter {
     if(this.controlnum > -10){
     //console.log("inside real key check");
 
-
-      //Shield logic
       if (this.getx() && this.character.body.touching.down && this.stunCounter == 0 && this.hitVelocity == 0 && !this.inputLock)
       {
           this.character.body.velocity.x = 0;
@@ -1384,7 +1242,6 @@ class Fighter {
           }
 
       }
-      //punch logic
       else if ( this.geta() && (this.getright() || this.getleft()) && !(this.m < 120 && this.m != 0) && this.stunCounter == 0 && !this.inputLock && this.basicCD == 0)
       {
 
@@ -1404,8 +1261,6 @@ class Fighter {
           //Causes Player health to increase
           //this.health += 1;
       }
-
-      // Kick logic
       else if (this.geta() && this.getdown() && !(this.m < 120 && this.m != 0) && this.stunCounter == 0 && !this.inputLock && this.basicCD == 0)
       {
           //  Move to the right
@@ -1430,8 +1285,6 @@ class Fighter {
         this.shielding = false;
         this.hitSwitchKick = true;
       }
-
-      //Use item logic
       else if (this.geta() && this.getdown() == false && this.getright() == false && this.getleft() == false && !(this.m < 120 && this.m != 0) && this.stunCounter == 0 && !this.inputLock && this.basicCD == 0)
       {
         //logic to change direction facing
@@ -1500,7 +1353,8 @@ class Fighter {
       }
 
       //TODO: downDuration is still here, but in merge conflict it was gone, POSSIBLY REMOVE downDuration
-      else if (this.gety() && this.jumps <= 5  && !(this.m < 120 && this.m != 0) && this.stunCounter == 0 && !this.inputLock)
+      //  else if (this.gety() && this.jumps <= 5 && this.controller1.ypress.downDuration(80) && !(this.m < 120 && this.m != 0) && this.stunCounter == 0 && !this.inputLock)
+      else if (this.gety() && this.jumps <= 5 && !(this.m < 120 && this.m != 0) && this.stunCounter == 0 && !this.inputLock)
       {
           this.character.body.velocity.y = -350 + this.jumpSpeed;
           jumpSound.play();
@@ -1595,14 +1449,11 @@ class Fighter {
           if (this.stunCounter > 0)
           {
             this.character.animations.play('ko');
-            //game.camera.shake(0.01,15);
-            
+
             //If hit really hard, add a dust trail that depends on hit velocity
             if(this.hitVelocity > 350 || this.hitVelocity < -350)
             {
               this.dustTrail.fire();
-              //game.camera.shake(0.04,50);
-              game.camera.shake(0.04,20);
             }
 
           }
@@ -1914,22 +1765,16 @@ playerHitStun: function(Fighter)
            live.kill();
          }
 
-         if(multimanmode == true){
-            multimenko++;
-         }
+
       }
       else if(Fighter.character.body.position.y > 700 || Fighter.character.body.position.y < -100){
         Fighter.character.hasItem = false;
          deathSound.play();
          this.respawn(Fighter);
-
          var live = Fighter.stocks.getFirstAlive();
          if(live)
          {
            live.kill();
-         }
-         if(multimanmode == true){
-            multimenko++;
          }
 
       }
@@ -1966,10 +1811,6 @@ playerHitStun: function(Fighter)
       music.loopFull();
 
 
-      //Camera tests
-      stagecam = new cam(40, 350, 1200, 1000);
-
-    
       if(chosenStageName == 'marstonPic')
       {
 
@@ -1979,13 +1820,16 @@ playerHitStun: function(Fighter)
 
       //  The platforms group contains the ground and the 2 ledges we can jump on
       platforms = game.add.group();
+      grounds = game.add.group()
 
       //  Enable physics for any object that is created in this group
       platforms.enableBody = true;
       platforms.friction = 100;
+      grounds.enableBody = true;
+      grounds.friction = 100;
 
       // Create the ground.
-      var ground = platforms.create(110, game.world.height - 100, 'ground');
+      var ground = grounds.create(110, game.world.height - 100, 'ground');
 
       //  Scale it to fit the width of the game (the original sprite is ? in size)
       ground.scale.setTo(18, 1);
@@ -2002,16 +1846,28 @@ playerHitStun: function(Fighter)
 
       //  The platforms group contains the ground and the 2 ledges we can jump on
       platforms = game.add.group();
+      grounds = game.add.group();
 
       //  Enable physics for any object that is created in this group
       platforms.enableBody = true;
+      grounds.enableBody = true;
 
       // Create the ground.
-      var ground = platforms.create(110, game.world.height - 100, 'ground');
-      var plat1 = platforms.create(110, game.world.height - 250, 'ground');
-      var plat2 = platforms.create(game.world.width - 300, game.world.height - 250, 'ground');
+      var ground = grounds.create(110, game.world.height - 100, 'ground');
+      var plat1 = platforms.create(110, game.world.height - 250, 'platform');
+      var plat2 = platforms.create(game.world.width - 300, game.world.height - 250, 'platform');
       plat1.body.immovable = true;
       plat2.body.immovable = true;
+      plat1.name = 'plat1';
+      plat2.name = 'plat2';
+
+
+     plat1.body.checkCollision.up = true;
+     plat1.body.checkCollision.down = false;
+
+     plat2.body.checkCollision.up = true;
+     plat2.body.checkCollision.down = false;
+
 
 
       plat1.scale.setTo(4,1);
@@ -2085,16 +1941,6 @@ else
   console.log("Player 2 is lab");
 }
 
-
-
-if(multimanmode == true){
-    Player3 =  new lab(charName2,  0, 3, game.world.width*0.5,game.world.height*0.5, controlOptionAI);
-    console.log("Player 3 is lab");
-
-    Player4 =  new lab(charName2,  0, 3, game.world.width*0.62,game.world.height*0.5, controlOptionAI);
-    console.log("Player 4 is lab");
-}
-
 //event listener for player1 touch controls
 //console.log("test print");
 
@@ -2163,11 +2009,6 @@ if(Player1.controlnum == -1){
   Player1.controller1.buttony.events.onInputUp.add(function(){Player1.controller1.ypress = false;});
 
   //end of event listeners
-
-
-  //controller1
-  testconnect1 = false;
-
 
 
   }
@@ -2269,33 +2110,27 @@ timerText.anchor.setTo(.5,.5);
 
 
 
+
   update: function() {
     //console.log('Inside update function');
     //console.log("controlOptionAI: " + controlOptionAI);
     game.physics.arcade.overlap(Player1.character, this.win, this.Win, null, this);
     game.physics.arcade.overlap(Player2.character, this.win, this.Win, null, this);
 
+
     //  Collide the players with the platforms and eachother
-    game.physics.arcade.collide(Player1.character, platforms );
-    game.physics.arcade.collide(Player2.character, platforms);
+    game.physics.arcade.collide(Player1.character, platforms, Player1.platformCollision(platforms));
+    game.physics.arcade.collide(Player2.character, platforms, Player2.platformCollision(platforms));
+    //Collide players with ground
+    game.physics.arcade.collide(Player1.character, grounds);
+    game.physics.arcade.collide(Player2.character, grounds);
+    //Player collision
     game.physics.arcade.collide(Player1.character,Player2.character);
     //add physics for item (eventually just add items to a group and use collision detection for the group)
     game.physics.arcade.collide(item1.type, platforms, item1.onGround());
+    //add physics for item (eventually just add items to a group and use collision detection for the group)
+    game.physics.arcade.collide(item1.type, grounds, item1.onGround());
 
-    if(multimanmode == true){
-        game.physics.arcade.collide(Player3.character, platforms);
-        game.physics.arcade.collide(Player4.character, platforms);
-        game.physics.arcade.collide(Player1.character, Player3.character);
-        game.physics.arcade.collide(Player1.character, Player4.character);            
-
-    }
-
-    //Player1.nespad.connectgamepad();
-    //console.log(Player1.nespad.nescontroller.aButton);
-    
-    //console.log(Player1.nespad.testconnect);
-    //console.log(Player1.nespad.nescontroller.getButton(Phaser.Gamepad.BUTTON_3));
-  
     //using overlap to calculate the knockback when an item is thrown since we dont want the items trajectory to change
     //This is always colliding? even when i replace it with random stuff like player1.weapon1.bullets
 
@@ -2338,21 +2173,6 @@ timerText.anchor.setTo(.5,.5);
       game.physics.arcade.overlap(Player2.weaponUppercut.bullets, Player1.character, this.hitPlayer1(Player2.attacking));
     }
 
-    else if(Player3.attacking)
-    {
-      //hitbox collision for player 1, we pass the type of hit into the hit player function
-      game.physics.arcade.overlap(Player3.weapon1.bullets, Player1.character, this.hitPlayer1(Player2.attacking));
-      game.physics.arcade.overlap(Player3.weaponKick.bullets, Player1.character, this.hitPlayer1(Player2.attacking));
-      game.physics.arcade.overlap(Player3.weaponUppercut.bullets, Player1.character, this.hitPlayer1(Player2.attacking));
-    }
-    else if(Player4.attacking)
-    {
-      //hitbox collision for player 1, we pass the type of hit into the hit player function
-      game.physics.arcade.overlap(Player4.weapon1.bullets, Player1.character, this.hitPlayer1(Player2.attacking));
-      game.physics.arcade.overlap(Player4.weaponKick.bullets, Player1.character, this.hitPlayer1(Player2.attacking));
-      game.physics.arcade.overlap(Player4.weaponUppercut.bullets, Player1.character, this.hitPlayer1(Player2.attacking));
-    }
-
     //Name tag align/follow
     nameText1.alignTo(Player1.character, Phaser.TOP, 16);
     nameText2.alignTo(Player2.character,Phaser.TOP, 16);
@@ -2380,12 +2200,6 @@ timerText.anchor.setTo(.5,.5);
     {
 
       this.AIplay(Player1, Player2);
-    
-    //Multiman mode on so AI controls 2 additional fighters
-      if(multimanmode == true){
-            this.AIplay(Player1, Player3);
-            this.AIplay(Player1, Player4);
-      }
 
     }
 
@@ -2403,28 +2217,13 @@ timerText.anchor.setTo(.5,.5);
 
     this.KO(Player1);
     this.KO(Player2);
-    if(multimanmode == true){
-    this.KO(Player3);
-    this.KO(Player4);
-    }
 
     this.respawnEvent(Player1);
     this.respawnEvent(Player2);
-    if(multimanmode == true){
-        this.respawnEvent(Player3);
-        this.respawnEvent(Player4);
-    }
-
-
-
     //If out of lives, end the game
     if(Player1.lives == 0)
     {
       game.state.start('win');
-      if(multimanmode == true){
-            console.log("# of KOs in multiman mode:");
-            console.log(multimenko);
-         }
     }
     if(Player2.lives == 0)
     {
@@ -2432,9 +2231,6 @@ timerText.anchor.setTo(.5,.5);
     }
 
   timerText.text = this.formatTime(Math.round((timerEvent.delay - timer.ms) / 1000));
-
-  //stagecam.updatecamera(Player1,Player2,100,100,800,600);
-
 
   },
 

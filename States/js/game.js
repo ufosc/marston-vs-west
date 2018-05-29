@@ -15,10 +15,6 @@ var game = new Phaser.Game(config);
 //Change the screen dimensions to accomidate mobile users (eventually will change other things about mobile experience but not here)
 //Start mobile users in exact_fit with full screen default
 
-var multimanmode = true;
-var multimenko = 0;
-
-
 var nameText1;
 var nameText2;
 var item1;
@@ -108,25 +104,6 @@ var chickBodyIcon;
 var player1BodyIcon;
 var player2BodyIcon;
 
-
-//gamepad stuff
-
-var nesaButton;
-var nesbButton; 
-var nesxButton;
-var nesyButton;
-var nesleftButton;
-var nesrightButton;
-var nesupButton;
-var nesdownButton;
-var indicator;
-var pad1;
-var testconnect1;
-//end of gamepad variables
-
-
-
-
 var style =
     {
         font: "bold 32px Arial", fill: "#fff", boundsAlignH: "left", boundsAlignV: "top"
@@ -152,8 +129,6 @@ var prevkey; //currently unused
 
 var Player1;
 var Player2;
-var Player3;
-var Player4;
 
 var controller1;
 var controller2;
