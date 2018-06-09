@@ -729,9 +729,9 @@ class Fighter {
        this.aniDash.onComplete.add(this.dashEnd, this);
 
        //Tatsumaki (i am weeb)
-       this.aniTatsu = this.character.animations.add('tatsumaki', [12, 15], 10, false);
-       this.aniTatsu.onStart.add(this.tatsuStart, this);
-       this.aniTatsu.onComplete.add(this.tatsuEnd, this);
+       this.aniJumpKick = this.character.animations.add('jumpKick', [14, 13, 12, 12 , 12], 15, false);
+       this.aniJumpKick.onStart.add(this.jumpKickStart, this);
+       this.aniJumpKick.onComplete.add(this.jumpKickEnd, this);
 
        //Uppercut (change 16 later for a better uppercut frame)
        this.aniUppercut = this.character.animations.add('uppercut', [16, 16, 14, 13], 10, false);
@@ -791,6 +791,14 @@ class Fighter {
        this.weaponUppercut.bulletSpeed = 0; //0
        this.weaponUppercut.fireRate = 100;
        this.weaponUppercut.trackSprite(this.character, 30, 10, true);
+
+       //Weapon used for jump kick
+       this.jumpKick = game.add.weapon(1, 'slash');
+       this.jumpKick.bulletKillType = Phaser.Weapon.KILL_LIFESPAN;
+       this.jumpKick.bulletLifespan = 300; //50
+       this.jumpKick.bulletSpeed = 150; //0
+       this.jumpKick.fireRate = 100;
+       this.jumpKick.trackSprite(this.character, 50, 50, true);
 
        //used to create the trail effect for knockback
        this.dustTrail = game.add.weapon(20, 'dust');
@@ -1047,19 +1055,31 @@ class Fighter {
       this.xZero = true;
       this.dashCD = 60;
     }
-    tatsuStart()
+    jumpKickTimer()
+    {
+      this.jumpKick.fire();
+      this.character.body.velocity.x = 150 * this.character.scale.x;
+      this.character.body.velocity.y = -100;
+    }
+    jumpKickTimer2()
+    {
+      this.xZero = true;
+    }
+    jumpKickStart()
     {
       this.attacking = true;
-      this.attack = 'tatsu';
-      this.weaponKick.fire();
+      this.attack = 'jumpKick';
       this.inputLock = true;
+      this.xZero = false;
+      game.time.events.add(Phaser.Timer.SECOND * .25, this.jumpKickTimer, this);
     }
-    tatsuEnd()
+    jumpKickEnd()
     {
       this.aniIdle.play(10, false);
       this.attacking = false;
       this.deltDamage = false;
       this.inputLock = false;
+      game.time.events.add(Phaser.Timer.SECOND * .05, this.jumpKickTimer2, this);
       this.attack = '';
     }
     uppercutStart()
@@ -1089,7 +1109,7 @@ class Fighter {
     }
     warlockTimer()
     {
-      this.weaponKick.fire();	
+      this.weaponKick.fire();
     }
     warlockStart()
     {
@@ -1512,7 +1532,7 @@ class Fighter {
       else if ( this.getb() && !this.inputLock && this.getdown() && !(this.m < 120 && this.m != 0) && this.stunCounter == 0)
       {
       	//console.log("Down Special");
-        this.aniTatsu.play(7, false);
+        this.aniJumpKick.play(7, false);
       }
       else if ( this.getb() && this.getleft() == false && this.getright() == false && this.getup() == false  && !this.inputLock && !(this.m < 120 && this.m != 0) && this.stunCounter == 0 && this.warlockCD == 0)
       {
@@ -1693,7 +1713,7 @@ var playState={
     //console.log('inside hitplayer1');
     let hitDmg = 0;
     console.log("attack: " + Player2.attack);
-    if(!Player2.deltDamage && attacking && (game.physics.arcade.overlap(Player1.character, Player2.weapon1.bullets) || game.physics.arcade.overlap(Player1.character, Player2.weaponKick.bullets) || game.physics.arcade.overlap(Player1.character, Player2.weaponUppercut.bullets)))
+    if(!Player2.deltDamage && attacking && (game.physics.arcade.overlap(Player1.character, Player2.weapon1.bullets) || game.physics.arcade.overlap(Player1.character, Player2.weaponKick.bullets) || game.physics.arcade.overlap(Player1.character, Player2.weaponUppercut.bullets) || game.physics.arcade.overlap(Player1.character, Player2.jumpKick.bullets)))
     {
       switch(Player2.attack)
       {
@@ -1710,7 +1730,7 @@ var playState={
           hitDmg = 35;
           attackDistance = 70;
           break;
-        case 'tatsu':
+        case 'jumpKick':
           hitDmg = 10;
           attackDistance = 25;
           break;
@@ -1757,7 +1777,7 @@ hitPlayer2: function(attacking){
   let hitDmg = 0;
   let attackDistance = 0;
   console.log("attack: " + Player1.attack)
-  if(!Player1.deltDamage && attacking && (game.physics.arcade.overlap(Player2.character, Player1.weapon1.bullets) || game.physics.arcade.overlap(Player2.character, Player1.weaponKick.bullets) || game.physics.arcade.overlap(Player2.character, Player1.weaponUppercut.bullets)))
+  if(!Player1.deltDamage && attacking && (game.physics.arcade.overlap(Player2.character, Player1.weapon1.bullets) || game.physics.arcade.overlap(Player2.character, Player1.weaponKick.bullets) || game.physics.arcade.overlap(Player2.character, Player1.weaponUppercut.bullets) || game.physics.arcade.overlap(Player2.character, Player1.jumpKick.bullets)))
   {
     switch(Player1.attack)
     {
@@ -1774,7 +1794,7 @@ hitPlayer2: function(attacking){
         hitDmg = 35;
         attackDistance = 70;
         break;
-      case 'tatsu':
+      case 'jumpKick':
         hitDmg = 10;
         attackDistance = 25;
         break;
@@ -2354,6 +2374,7 @@ timerText.anchor.setTo(.5,.5);
       game.physics.arcade.overlap(Player1.weapon1.bullets, Player2.character, this.hitPlayer2(Player1.attacking));
       game.physics.arcade.overlap(Player1.weaponKick.bullets, Player2.character, this.hitPlayer2(Player1.attacking));
       game.physics.arcade.overlap(Player1.weaponUppercut.bullets, Player2.character, this.hitPlayer2(Player1.attacking));
+      game.physics.arcade.overlap(Player1.jumpKick.bullets, Player2.character, this.hitPlayer2(Player1.attacking));
     }
     else if(Player2.attacking)
     {
@@ -2361,6 +2382,7 @@ timerText.anchor.setTo(.5,.5);
   	  game.physics.arcade.overlap(Player2.weapon1.bullets, Player1.character, this.hitPlayer1(Player2.attacking));
       game.physics.arcade.overlap(Player2.weaponKick.bullets, Player1.character, this.hitPlayer1(Player2.attacking));
       game.physics.arcade.overlap(Player2.weaponUppercut.bullets, Player1.character, this.hitPlayer1(Player2.attacking));
+      game.physics.arcade.overlap(Player2.jumpKick.bullets, Player1.character, this.hitPlayer1(Player2.attacking));
     }
 
     else if(multimanmode)
