@@ -645,6 +645,9 @@ class Fighter {
       //cooldown for all basic moves
       this.basicCD = false;
 
+      //turns on and off the auto reset of zero x velocity when the player is standing
+      this.xZero = true;
+
       //Respawn Animation Activator Switch
       this.respawnSwitch = false;
       //m is the respawn animation counter
@@ -721,7 +724,7 @@ class Fighter {
        this.aniKick.onComplete.add(this.kickEnd, this);
 
        //dash
-       this.aniDash = this.character.animations.add('dash', [5], 10, false);
+       this.aniDash = this.character.animations.add('dash', [5], 15, false);
        this.aniDash.onStart.add(this.dashStart, this);
        this.aniDash.onComplete.add(this.dashEnd, this);
 
@@ -736,7 +739,7 @@ class Fighter {
        this.aniUppercut.onComplete.add(this.uppercutEnd, this);
 
        //Slow warlock punch
-       this.aniWarlock = this.character.animations.add('warlock', [13, 13, 13, 13, 11, 12], 3, false);
+       this.aniWarlock = this.character.animations.add('warlock', [13, 13, 11, 12], 7, false);
        this.aniWarlock.onStart.add(this.warlockStart, this);
        this.aniWarlock.onComplete.add(this.warlockEnd, this);
 
@@ -1017,6 +1020,7 @@ class Fighter {
     }
     dashStart()
     {
+      this.character.alpha = 0.5;
       let direction;
       if (this.controller1.right.isDown)
       {
@@ -1030,13 +1034,17 @@ class Fighter {
       {
         direction = 0;
       }
-      this.character.body.position.x += direction * 100;
+      this.xZero = false;
+      this.character.body.velocity.x = 500 * direction;
+      //this.character.body.position.x += direction * 100;
       this.inputLock = true;
     }
     dashEnd()
     {
       this.aniIdle.play(10, false);
+      this.character.alpha = 1;
       this.inputLock = false;
+      this.xZero = true;
       this.dashCD = 60;
     }
     tatsuStart()
@@ -1079,22 +1087,31 @@ class Fighter {
       this.attack = '';
       this.uppercutCD = 60;
     }
+    warlockTimer()
+    {
+      this.weaponKick.fire();	
+    }
     warlockStart()
     {
+      this.xZero = false;
       this.inputLock = true;
       this.attacking = true;
       this.attack = 'warlock';
+      this.character.body.velocity.x = 5 * this.character.scale.x;
+      game.time.events.add(Phaser.Timer.SECOND * 1.15, this.warlockTimer, this);
     }
+
     warlockEnd()
     {
-      this.character.body.position.x += 200 * this.character.scale.x;
-      this.weaponKick.fire();
+      //this.character.body.position.x += 200 * this.character.scale.x;
+      //this.weaponKick.fire();
+      this.aniIdle.play(10, false);
       this.attacking = false;
       this.deltDamage = false;
       this.attack = '';
       this.inputLock = false;
-      this.aniIdle.play(10, false);
       this.warlockCD = 30;
+      this.xZero = true;
     }
     shieldEnd()
     {
@@ -1594,7 +1611,10 @@ class Fighter {
         }
         else
         {
-          this.character.body.velocity.x = 0;
+        	if (this.xZero)
+        	{
+        		this.character.body.velocity.x = 0;
+        	}
         }
           if (this.stunCounter > 0)
           {
