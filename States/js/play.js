@@ -207,6 +207,10 @@ class Item
           this.type.destroy();
           this.type = null;
           target.health -= 10;
+          if (target.health < 0)
+          {
+          	target.health = 0;
+          }
           game.time.events.add(Phaser.Timer.SECOND * 2, this.spawnItem, this); //After 2 seconds, spawn the item
         }
         else if(this.type.key == 'gator') //Current does the same thing as bottle but does damange to player instead
@@ -1493,7 +1497,7 @@ class Fighter {
       	//console.log("Down Special");
         this.aniTatsu.play(7, false);
       }
-      else if ( this.getb() && this.getleft() == false && this.getright() == false  && !this.inputLock && !(this.m < 120 && this.m != 0) && this.stunCounter == 0 && this.warlockCD == 0)
+      else if ( this.getb() && this.getleft() == false && this.getright() == false && this.getup() == false  && !this.inputLock && !(this.m < 120 && this.m != 0) && this.stunCounter == 0 && this.warlockCD == 0)
       {
       	//console.log("Normal Special")
         this.aniWarlock.play(3, false);
@@ -1798,6 +1802,7 @@ yHitVelocity: function(Fighter)
 
 respawn: function(Fighter){
       game.time.events.add(Phaser.Timer.SECOND, this.playRespawnSound, this);
+      Fighter.aniIdle.play(10, false);
 
       if(Fighter.controlnum == 1 ){
           console.log("controlnum = 1");
