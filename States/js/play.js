@@ -1071,7 +1071,7 @@ class Fighter {
       this.attack = 'jumpKick';
       this.inputLock = true;
       this.xZero = false;
-      game.time.events.add(Phaser.Timer.SECOND * .25, this.jumpKickTimer, this);
+      game.time.events.add(Phaser.Timer.SECOND * .3, this.jumpKickTimer, this);
     }
     jumpKickEnd()
     {
@@ -1562,6 +1562,8 @@ class Fighter {
           this.weapon1.trackSprite(this.character, 30, -20, true);
           this.weaponKick.trackSprite(this.character, 50, -50, true);
           this.weaponUppercut.trackSprite(this.character, 30, -10, true);
+          this.jumpKick.trackSprite(this.character, 50, -50, true);
+          this.jumpKick.bulletSpeed = -150;
           }
           if (this.character.body.touching.down)
           {
@@ -1598,6 +1600,8 @@ class Fighter {
           this.weapon1.trackSprite(this.character, 30, 20, true);
           this.weaponKick.trackSprite(this.character, 50, 50, true);
           this.weaponUppercut.trackSprite(this.character, 30, 10, true);
+          this.jumpKick.trackSprite(this.character, 50, 50, true);
+          this.jumpKick.bulletSpeed = 150;
           }
           if (this.character.body.touching.down)
           {
@@ -1621,7 +1625,6 @@ class Fighter {
           this.character.animations.play('right');
           this.shielding = false;
       }
-
       else
       {
           //Code that assigns the velocity of the player based on the current hitVelocity. Keeps track of jump count and determines the idle animation of the character
@@ -2047,14 +2050,20 @@ playerHitStun: function(Fighter)
 
       //  The platforms group contains the ground and the 2 ledges we can jump on
       platforms = game.add.group();
+      miniPlatforms = game.add.group();
 
       //  Enable physics for any object that is created in this group
       platforms.enableBody = true;
+      miniPlatforms.enableBody = true;
 
       // Create the ground.
       var ground = platforms.create(110, game.world.height - 100, 'ground');
-      var plat1 = platforms.create(110, game.world.height - 250, 'ground');
-      var plat2 = platforms.create(game.world.width - 300, game.world.height - 250, 'ground');
+      var plat1 = miniPlatforms.create(110, game.world.height - 250, 'ground');
+      var plat2 = miniPlatforms.create(game.world.width - 300, game.world.height - 250, 'ground');
+      plat1.body.collideWorldBounds = true;
+      plat2.body.collideWorldBounds = true;
+      plat1.body.checkCollision.down = false;
+      plat2.body.checkCollision.down = false;
       plat1.body.immovable = true;
       plat2.body.immovable = true;
 
@@ -2321,7 +2330,27 @@ timerText.anchor.setTo(.5,.5);
     game.physics.arcade.overlap(Player2.character, this.win, this.Win, null, this);
 
     //  Collide the players with the platforms and eachother
-    game.physics.arcade.collide(Player1.character, platforms );
+    if(chosenStageName == 'westPic')
+    {
+	    if (Player1.getdown())
+	    {
+	    	Player1.character.body.immovable = false;
+	    }
+	    else
+	    {
+	    	game.physics.arcade.collide(Player1.character, miniPlatforms);
+	    }
+	    if (Player2.getdown())
+	    {
+	    	Player2.character.body.immovable = false;
+	    }
+	    else
+	    {
+	    	game.physics.arcade.collide(Player2.character, miniPlatforms);
+	    }
+    }
+    
+    game.physics.arcade.collide(Player1.character, platforms);
     game.physics.arcade.collide(Player2.character, platforms);
     game.physics.arcade.collide(Player1.character,Player2.character);
     //add physics for item (eventually just add items to a group and use collision detection for the group)
