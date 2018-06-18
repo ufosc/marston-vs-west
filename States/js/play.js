@@ -630,10 +630,6 @@ class Fighter {
 
       }
 
-
-
-
-
       //Allows an animation event to take place
       this.inputLock = false;
       //Cooldown for dash movement
@@ -652,6 +648,8 @@ class Fighter {
       this.respawnSwitch = false;
       //m is the respawn animation counter
       this.m = 0;
+      //Invincibility boolean
+      this.invincible = false;
 
       this.startx = startx;
       this.starty = starty;
@@ -696,11 +694,11 @@ class Fighter {
 
 	   this.character.body.setSize(30, 70, 10, 0)
 	   this.character.scale.x = 1.25;
-     this.character.scale.y = 1.25;
+       this.character.scale.y = 1.25;
 
        //Player animations
 
-	     this.aniRight = this.character.animations.add('right', [ 3,4,5,6,7], 10, true);
+	   this.aniRight = this.character.animations.add('right', [ 3,4,5,6,7], 10, true);
        this.aniRight.onComplete.add(this.walkEnd, this);
 
        //idle animation
@@ -714,9 +712,9 @@ class Fighter {
        this.aniShield.onComplete.add(this.shieldEnd, this);
 
        //punch animations
-      this.aniPunch = this.character.animations.add('punch', [8, 7, 6], 10, false);
-      this.aniPunch.onStart.add(this.punchStart, this);
-      this.aniPunch.onComplete.add(this.punchEnd, this);
+       this.aniPunch = this.character.animations.add('punch', [8, 7, 6], 10, false);
+       this.aniPunch.onStart.add(this.punchStart, this);
+       this.aniPunch.onComplete.add(this.punchEnd, this);
 
        //kick
        this.aniKick = this.character.animations.add('kick', [12, 12, 12, 11, 6], 10, false);
@@ -1043,6 +1041,7 @@ class Fighter {
         direction = 0;
       }
       this.xZero = false;
+      this.invincible = true;
       this.character.body.velocity.x = 500 * direction;
       //this.character.body.position.x += direction * 100;
       this.inputLock = true;
@@ -1050,6 +1049,7 @@ class Fighter {
     dashEnd()
     {
       this.aniIdle.play(10, false);
+      this.invincible = false;
       this.character.alpha = 1;
       this.inputLock = false;
       this.xZero = true;
@@ -1109,7 +1109,11 @@ class Fighter {
     }
     warlockTimer()
     {
-      this.weaponKick.fire();
+    	if (this.attacking)
+    	{
+    		this.weaponKick.fire();
+    	}
+      
     }
     warlockStart()
     {
@@ -1716,8 +1720,9 @@ var playState={
     //console.log('inside hitplayer1');
     let hitDmg = 0;
     console.log("attack: " + Player2.attack);
-    if(!Player2.deltDamage && attacking && (game.physics.arcade.overlap(Player1.character, Player2.weapon1.bullets) || game.physics.arcade.overlap(Player1.character, Player2.weaponKick.bullets) || game.physics.arcade.overlap(Player1.character, Player2.weaponUppercut.bullets) || game.physics.arcade.overlap(Player1.character, Player2.jumpKick.bullets)))
+    if(!Player2.deltDamage && !Player1.invincible && attacking && (game.physics.arcade.overlap(Player1.character, Player2.weapon1.bullets) || game.physics.arcade.overlap(Player1.character, Player2.weaponKick.bullets) || game.physics.arcade.overlap(Player1.character, Player2.weaponUppercut.bullets) || game.physics.arcade.overlap(Player1.character, Player2.jumpKick.bullets)))
     {
+    	Player1.attacking = false;
       switch(Player2.attack)
       {
         case 'punch':
@@ -1780,8 +1785,9 @@ hitPlayer2: function(attacking){
   let hitDmg = 0;
   let attackDistance = 0;
   console.log("attack: " + Player1.attack)
-  if(!Player1.deltDamage && attacking && (game.physics.arcade.overlap(Player2.character, Player1.weapon1.bullets) || game.physics.arcade.overlap(Player2.character, Player1.weaponKick.bullets) || game.physics.arcade.overlap(Player2.character, Player1.weaponUppercut.bullets) || game.physics.arcade.overlap(Player2.character, Player1.jumpKick.bullets)))
+  if(!Player1.deltDamage && !Player2.invincible && attacking && (game.physics.arcade.overlap(Player2.character, Player1.weapon1.bullets) || game.physics.arcade.overlap(Player2.character, Player1.weaponKick.bullets) || game.physics.arcade.overlap(Player2.character, Player1.weaponUppercut.bullets) || game.physics.arcade.overlap(Player2.character, Player1.jumpKick.bullets)))
   {
+  	Player2.attacking = false;
     switch(Player1.attack)
     {
       case 'punch':
@@ -1854,6 +1860,8 @@ respawn: function(Fighter){
           Fighter.respawnSwitch = true;
           Fighter.m = 0;
           Fighter.inputLock = false;
+          Fighter.invincible = false;
+          Fighter.xZero = true;
       }
 
       else if(Fighter.controlnum == 2 ){
@@ -1863,6 +1871,8 @@ respawn: function(Fighter){
           Fighter.respawnSwitch = true;
           Fighter.m = 0;
           Fighter.inputLock = false;
+          Fighter.invincible = false;
+          Fighter.xZero = true;
       }
 
       else if(Fighter.controlnum == -1 ){
@@ -1873,6 +1883,8 @@ respawn: function(Fighter){
           Fighter.respawnSwitch = true;
           Fighter.m = 0;
           Fighter.inputLock = false;
+          Fighter.invincible = false;
+          Fighter.xZero = true;
       }
       else if(Fighter.controlnum == -2 ){
           console.log("controlnum = -2");
@@ -1882,6 +1894,8 @@ respawn: function(Fighter){
           Fighter.respawnSwitch = true;
           Fighter.m = 0;
           Fighter.inputLock = false;
+          Fighter.invincible = false;
+          Fighter.xZero = true;
       }
 
       Fighter.health = 0;
