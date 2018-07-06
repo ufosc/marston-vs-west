@@ -47,6 +47,8 @@ var people;
 
 var lives;
 
+var hitpause;
+
 //Display options variables
 var stretchFullScreen;
 var resizeFullScreen;

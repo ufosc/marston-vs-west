@@ -871,6 +871,15 @@ class Fighter {
         }
       }
       else if(this.controlnum < 0){
+		//logic to change tint of button depending on whether it is pressed down or not for mobile version
+        if(this.controller1.leftpress && this.controlnum == -1)
+        {
+			this.controller1.buttonleft.tint = 0;
+		}
+		else if(this.controlnum == -1)
+		{
+			this.controller1.buttonleft.tint = 0xffffff;
+		}
      		return this.controller1.leftpress;
      	}
      	else{
@@ -888,6 +897,15 @@ class Fighter {
         }
       }
       else if(this.controlnum < 0){
+     	//logic to change tint of button depending on whether it is pressed down or not for mobile version
+		if(this.controller1.rightpress && this.controlnum == -1)
+        {
+			this.controller1.buttonright.tint = 0;
+		}
+		else if(this.controlnum == -1)
+		{
+			this.controller1.buttonright.tint = 0xffffff;
+		}
      		return this.controller1.rightpress;
      	}
      	else{
@@ -905,6 +923,15 @@ class Fighter {
         }
       }
       else if(this.controlnum < 0){
+		//logic to change tint of button depending on whether it is pressed down or not for mobile version
+		if(this.controller1.uppress && this.controlnum == -1)
+        {
+			this.controller1.buttonup.tint = 0;
+		}
+		else if(this.controlnum == -1)
+		{
+			this.controller1.buttonup.tint = 0xffffff;
+		}
      		return this.controller1.uppress;
      	}
      	else{
@@ -922,6 +949,15 @@ class Fighter {
         }
       }
       else if(this.controlnum < 0){
+		//logic to change tint of button depending on whether it is pressed down or not for mobile version
+		if(this.controller1.downpress && this.controlnum == -1)
+        {
+			this.controller1.buttondown.tint = 0;
+		}
+		else if(this.controlnum == -1)
+		{
+			this.controller1.buttondown.tint = 0xffffff;
+		}
      		return this.controller1.downpress;
      	}
      	else{
@@ -934,6 +970,15 @@ class Fighter {
         return this.nespad.nessaButton;
       }
       else if(this.controlnum < 0){
+		//logic to change tint of button depending on whether it is pressed down or not for mobile version
+		if(this.controller1.apress && this.controlnum == -1)
+        {
+			this.controller1.buttona.tint = 0;
+		}
+		else if(this.controlnum == -1)
+		{
+			this.controller1.buttona.tint = 0xffffff;
+		}
      		return this.controller1.apress;
      	}
      	else{
@@ -946,6 +991,15 @@ class Fighter {
         return this.nespad.nesbButton;
       }
       else if(this.controlnum < 0){
+		//logic to change tint of button depending on whether it is pressed down or not for mobile version
+		if(this.controller1.bpress && this.controlnum == -1)
+        {
+			this.controller1.buttonb.tint = 0;
+		}
+		else if(this.controlnum == -1)
+		{
+			this.controller1.buttonb.tint = 0xffffff;
+		}
      		return this.controller1.bpress;
      	}
      	else{
@@ -958,6 +1012,15 @@ class Fighter {
         return this.nespad.nesxButton;
       }
       else if(this.controlnum < 0){
+		//logic to change tint of button depending on whether it is pressed down or not for mobile version
+		if(this.controller1.xpress && this.controlnum == -1)
+        {
+			this.controller1.buttonx.tint = 0;
+		}
+		else if(this.controlnum == -1)
+		{
+			this.controller1.buttonx.tint = 0xffffff;
+		}
      		return this.controller1.xpress;
      	}
      	else{
@@ -969,6 +1032,14 @@ class Fighter {
         return this.nespad.nesyButton;
       }
       else if(this.controlnum < 0){
+		if(this.controller1.ypress && this.controlnum == -1)
+        {
+			this.controller1.buttony.tint = 0;
+		}
+		else if(this.controlnum == -1)
+		{
+			this.controller1.buttony.tint = 0xffffff;
+		}
      		return this.controller1.ypress;
      	}
      	else{
@@ -1646,6 +1717,7 @@ class Fighter {
           if (this.stunCounter > 0)
           {
             this.character.animations.play('ko');
+            this.character.tint = Math.random() * 0xffffff;
             //game.camera.shake(0.01,15);
 
             //If hit really hard, add a dust trail that depends on hit velocity
@@ -1658,7 +1730,11 @@ class Fighter {
 
           }
           else
-          {
+          { 
+            //Makes character just a silhouete
+            //this.character.tint = 0;
+
+            this.character.tint = 0xffffff;
             //this.character.animations.play('idle');
           }
           this.shielding = false;
@@ -1754,8 +1830,10 @@ console.log("hitDmg = " + hitDmg);
 
   	if (Player1.m == 0 && !Player1.shielding){
       hitSound.play();
-      //game.time.slowMotion = 4.0;
-  		Player1.health += hitDmg;
+	  
+		hitpause = 2;
+	  
+		Player1.health += hitDmg;
   		Player1.hitVelocity = Player2.character.scale.x * Player1.health * 2 + attackDistance;
 
            Player1.character.body.velocity.y = -(Math.pow(Player1.health, 1.25) + attackDistance);
@@ -1818,6 +1896,8 @@ hitPlayer2: function(attacking){
 console.log("hitDmg = " + hitDmg);
   	if (Player2.m == 0 && !Player2.shielding){
         hitSound.play();
+
+		hitpause = 2;
 
   		Player2.health += hitDmg;
   		Player2.hitVelocity = Player1.character.scale.x * Player2.health * 2 + attackDistance;
@@ -2027,6 +2107,8 @@ playerHitStun: function(Fighter)
       music.volume = 0.5;
       music.loopFull();
 
+	
+	hitpause = 0;
 
       //Camera tests
       stagecam = new cam(40, 350, 1200, 1000);
@@ -2343,6 +2425,17 @@ timerText.anchor.setTo(.5,.5);
     game.physics.arcade.overlap(Player1.character, this.win, this.Win, null, this);
     game.physics.arcade.overlap(Player2.character, this.win, this.Win, null, this);
 
+	if(hitpause > 0){
+	
+		  game.time.slowMotion = 10;
+		
+		hitpause--;
+	}
+	else{
+		game.time.slowMotion = 1;
+	}
+
+
     //  Collide the players with the platforms and eachother
     if(chosenStageName == 'westPic')
     {
@@ -2652,7 +2745,7 @@ AIplay: function(Fighter1, Fighter2){
 
 		Fighter2.AImode = Fighter2.AImode * -1;
 	}
-	if(react >100){
+	if(react > 100){
 		Fighter1.leftpress = false;
   		Fighter1.rightpress = false;
 		Fighter1.uppress = false;
