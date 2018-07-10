@@ -207,6 +207,10 @@ class Item
           this.type.destroy();
           this.type = null;
           target.health -= 10;
+          if (target.health < 0)
+          {
+          	target.health = 0;
+          }
           game.time.events.add(Phaser.Timer.SECOND * 2, this.spawnItem, this); //After 2 seconds, spawn the item
         }
         else if(this.type.key == 'gator') //Current does the same thing as bottle but does damange to player instead
@@ -626,10 +630,6 @@ class Fighter {
 
       }
 
-
-
-
-
       //Allows an animation event to take place
       this.inputLock = false;
       //Cooldown for dash movement
@@ -641,10 +641,15 @@ class Fighter {
       //cooldown for all basic moves
       this.basicCD = false;
 
+      //turns on and off the auto reset of zero x velocity when the player is standing
+      this.xZero = true;
+
       //Respawn Animation Activator Switch
       this.respawnSwitch = false;
       //m is the respawn animation counter
       this.m = 0;
+      //Invincibility boolean
+      this.invincible = false;
 
       this.startx = startx;
       this.starty = starty;
@@ -689,11 +694,11 @@ class Fighter {
 
 	   this.character.body.setSize(30, 70, 10, 0)
 	   this.character.scale.x = 1.25;
-     this.character.scale.y = 1.25;
+       this.character.scale.y = 1.25;
 
        //Player animations
 
-	     this.aniRight = this.character.animations.add('right', [ 3,4,5,6,7], 10, true);
+	   this.aniRight = this.character.animations.add('right', [ 3,4,5,6,7], 10, true);
        this.aniRight.onComplete.add(this.walkEnd, this);
 
        //idle animation
@@ -701,15 +706,16 @@ class Fighter {
 
        //jump animation
        this.aniJump = this.character.animations.add('jump', [13, 14], 5, false); //need to adjust animation speed
+       this.aniJump.onStart.add(this.jumpStart, this);
        this.aniJump.onComplete.add(this.jumpEnd, this);
        //shield animation
        this.aniShield = this.character.animations.add('shield', [10], 5, false);
        this.aniShield.onComplete.add(this.shieldEnd, this);
 
        //punch animations
-      this.aniPunch = this.character.animations.add('punch', [8, 7, 6], 10, false);
-      this.aniPunch.onStart.add(this.punchStart, this);
-      this.aniPunch.onComplete.add(this.punchEnd, this);
+       this.aniPunch = this.character.animations.add('punch', [8, 7, 6], 10, false);
+       this.aniPunch.onStart.add(this.punchStart, this);
+       this.aniPunch.onComplete.add(this.punchEnd, this);
 
        //kick
        this.aniKick = this.character.animations.add('kick', [12, 12, 12, 11, 6], 10, false);
@@ -717,14 +723,14 @@ class Fighter {
        this.aniKick.onComplete.add(this.kickEnd, this);
 
        //dash
-       this.aniDash = this.character.animations.add('dash', [5], 10, false);
+       this.aniDash = this.character.animations.add('dash', [5], 15, false);
        this.aniDash.onStart.add(this.dashStart, this);
        this.aniDash.onComplete.add(this.dashEnd, this);
 
        //Tatsumaki (i am weeb)
-       this.aniTatsu = this.character.animations.add('tatsumaki', [12, 15], 10, false);
-       this.aniTatsu.onStart.add(this.tatsuStart, this);
-       this.aniTatsu.onComplete.add(this.tatsuEnd, this);
+       this.aniJumpKick = this.character.animations.add('jumpKick', [14, 13, 12, 12 , 12], 15, false);
+       this.aniJumpKick.onStart.add(this.jumpKickStart, this);
+       this.aniJumpKick.onComplete.add(this.jumpKickEnd, this);
 
        //Uppercut (change 16 later for a better uppercut frame)
        this.aniUppercut = this.character.animations.add('uppercut', [16, 16, 14, 13], 10, false);
@@ -732,7 +738,7 @@ class Fighter {
        this.aniUppercut.onComplete.add(this.uppercutEnd, this);
 
        //Slow warlock punch
-       this.aniWarlock = this.character.animations.add('warlock', [13, 13, 13, 13, 11, 12], 3, false);
+       this.aniWarlock = this.character.animations.add('warlock', [13, 13, 11, 12], 7, false);
        this.aniWarlock.onStart.add(this.warlockStart, this);
        this.aniWarlock.onComplete.add(this.warlockEnd, this);
 
@@ -784,6 +790,14 @@ class Fighter {
        this.weaponUppercut.bulletSpeed = 0; //0
        this.weaponUppercut.fireRate = 100;
        this.weaponUppercut.trackSprite(this.character, 30, 10, true);
+
+       //Weapon used for jump kick
+       this.jumpKick = game.add.weapon(1, 'slash');
+       this.jumpKick.bulletKillType = Phaser.Weapon.KILL_LIFESPAN;
+       this.jumpKick.bulletLifespan = 300; //50
+       this.jumpKick.bulletSpeed = 150; //0
+       this.jumpKick.fireRate = 100;
+       this.jumpKick.trackSprite(this.character, 50, 50, true);
 
        //used to create the trail effect for knockback
        this.dustTrail = game.add.weapon(20, 'dust');
@@ -858,6 +872,15 @@ class Fighter {
         }
       }
       else if(this.controlnum < 0){
+		//logic to change tint of button depending on whether it is pressed down or not for mobile version
+        if(this.controller1.leftpress && this.controlnum == -1)
+        {
+			this.controller1.buttonleft.tint = 0;
+		}
+		else if(this.controlnum == -1)
+		{
+			this.controller1.buttonleft.tint = 0xffffff;
+		}
      		return this.controller1.leftpress;
      	}
      	else{
@@ -875,6 +898,15 @@ class Fighter {
         }
       }
       else if(this.controlnum < 0){
+     	//logic to change tint of button depending on whether it is pressed down or not for mobile version
+		if(this.controller1.rightpress && this.controlnum == -1)
+        {
+			this.controller1.buttonright.tint = 0;
+		}
+		else if(this.controlnum == -1)
+		{
+			this.controller1.buttonright.tint = 0xffffff;
+		}
      		return this.controller1.rightpress;
      	}
      	else{
@@ -892,6 +924,15 @@ class Fighter {
         }
       }
       else if(this.controlnum < 0){
+		//logic to change tint of button depending on whether it is pressed down or not for mobile version
+		if(this.controller1.uppress && this.controlnum == -1)
+        {
+			this.controller1.buttonup.tint = 0;
+		}
+		else if(this.controlnum == -1)
+		{
+			this.controller1.buttonup.tint = 0xffffff;
+		}
      		return this.controller1.uppress;
      	}
      	else{
@@ -909,6 +950,15 @@ class Fighter {
         }
       }
       else if(this.controlnum < 0){
+		//logic to change tint of button depending on whether it is pressed down or not for mobile version
+		if(this.controller1.downpress && this.controlnum == -1)
+        {
+			this.controller1.buttondown.tint = 0;
+		}
+		else if(this.controlnum == -1)
+		{
+			this.controller1.buttondown.tint = 0xffffff;
+		}
      		return this.controller1.downpress;
      	}
      	else{
@@ -921,6 +971,15 @@ class Fighter {
         return this.nespad.nessaButton;
       }
       else if(this.controlnum < 0){
+		//logic to change tint of button depending on whether it is pressed down or not for mobile version
+		if(this.controller1.apress && this.controlnum == -1)
+        {
+			this.controller1.buttona.tint = 0;
+		}
+		else if(this.controlnum == -1)
+		{
+			this.controller1.buttona.tint = 0xffffff;
+		}
      		return this.controller1.apress;
      	}
      	else{
@@ -933,6 +992,15 @@ class Fighter {
         return this.nespad.nesbButton;
       }
       else if(this.controlnum < 0){
+		//logic to change tint of button depending on whether it is pressed down or not for mobile version
+		if(this.controller1.bpress && this.controlnum == -1)
+        {
+			this.controller1.buttonb.tint = 0;
+		}
+		else if(this.controlnum == -1)
+		{
+			this.controller1.buttonb.tint = 0xffffff;
+		}
      		return this.controller1.bpress;
      	}
      	else{
@@ -945,6 +1013,15 @@ class Fighter {
         return this.nespad.nesxButton;
       }
       else if(this.controlnum < 0){
+		//logic to change tint of button depending on whether it is pressed down or not for mobile version
+		if(this.controller1.xpress && this.controlnum == -1)
+        {
+			this.controller1.buttonx.tint = 0;
+		}
+		else if(this.controlnum == -1)
+		{
+			this.controller1.buttonx.tint = 0xffffff;
+		}
      		return this.controller1.xpress;
      	}
      	else{
@@ -956,6 +1033,14 @@ class Fighter {
         return this.nespad.nesyButton;
       }
       else if(this.controlnum < 0){
+		if(this.controller1.ypress && this.controlnum == -1)
+        {
+			this.controller1.buttony.tint = 0;
+		}
+		else if(this.controlnum == -1)
+		{
+			this.controller1.buttony.tint = 0xffffff;
+		}
      		return this.controller1.ypress;
      	}
      	else{
@@ -1001,7 +1086,19 @@ class Fighter {
        this.attack = '';
        this.basicCD = 25;
     }
-    jumpEnd() {
+    jumpStart()
+    {
+    	console.log("You jumped");
+    	this.character.body.velocity.y = -350 + this.jumpSpeed;
+        jumpSound.play();
+        
+        this.shielding = false;
+        this.character.animations.play('jump');
+    }
+    jumpEnd() 
+    {
+    	this.jumps += 1;
+
        this.aniIdle.play(10, false);
     }
     koEnd() {
@@ -1013,6 +1110,7 @@ class Fighter {
     }
     dashStart()
     {
+      this.character.alpha = 0.5;
       let direction;
       if (this.controller1.right.isDown)
       {
@@ -1026,28 +1124,46 @@ class Fighter {
       {
         direction = 0;
       }
-      this.character.body.position.x += direction * 100;
+      this.xZero = false;
+      this.invincible = true;
+      this.character.body.velocity.x = 500 * direction;
+      //this.character.body.position.x += direction * 100;
       this.inputLock = true;
     }
     dashEnd()
     {
       this.aniIdle.play(10, false);
+      this.invincible = false;
+      this.character.alpha = 1;
       this.inputLock = false;
+      this.xZero = true;
       this.dashCD = 60;
     }
-    tatsuStart()
+    jumpKickTimer()
+    {
+      this.jumpKick.fire();
+      this.character.body.velocity.x = 150 * this.character.scale.x;
+      this.character.body.velocity.y = -100;
+    }
+    jumpKickTimer2()
+    {
+      this.xZero = true;
+    }
+    jumpKickStart()
     {
       this.attacking = true;
-      this.attack = 'tatsu';
-      this.weaponKick.fire();
+      this.attack = 'jumpKick';
       this.inputLock = true;
+      this.xZero = false;
+      game.time.events.add(Phaser.Timer.SECOND * .3, this.jumpKickTimer, this);
     }
-    tatsuEnd()
+    jumpKickEnd()
     {
       this.aniIdle.play(10, false);
       this.attacking = false;
       this.deltDamage = false;
       this.inputLock = false;
+      game.time.events.add(Phaser.Timer.SECOND * .05, this.jumpKickTimer2, this);
       this.attack = '';
     }
     uppercutStart()
@@ -1075,22 +1191,35 @@ class Fighter {
       this.attack = '';
       this.uppercutCD = 60;
     }
+    warlockTimer()
+    {
+    	if (this.attacking)
+    	{
+    		this.weaponKick.fire();
+    	}
+      
+    }
     warlockStart()
     {
+      this.xZero = false;
       this.inputLock = true;
       this.attacking = true;
       this.attack = 'warlock';
+      this.character.body.velocity.x = 5 * this.character.scale.x;
+      game.time.events.add(Phaser.Timer.SECOND * 1.15, this.warlockTimer, this);
     }
+
     warlockEnd()
     {
-      this.character.body.position.x += 200 * this.character.scale.x;
-      this.weaponKick.fire();
+      //this.character.body.position.x += 200 * this.character.scale.x;
+      //this.weaponKick.fire();
+      this.aniIdle.play(10, false);
       this.attacking = false;
       this.deltDamage = false;
       this.attack = '';
       this.inputLock = false;
-      this.aniIdle.play(10, false);
       this.warlockCD = 30;
+      this.xZero = true;
     }
     shieldEnd()
     {
@@ -1122,7 +1251,11 @@ class Fighter {
     {
       this.stunCounter -= 1;
     }
-      //update function to decrease/increase the hit velocity based on the original direction of the punch. The natural slowing down of hit velocity
+    else
+    {
+    	this.character.tint = 0xffffff;
+    }
+    //update function to decrease/increase the hit velocity based on the original direction of the punch. The natural slowing down of hit velocity
     if(this.hitVelocity < 0)
     {
       this.hitVelocity += 1;
@@ -1491,9 +1624,9 @@ class Fighter {
       else if ( this.getb() && !this.inputLock && this.getdown() && !(this.m < 120 && this.m != 0) && this.stunCounter == 0)
       {
       	//console.log("Down Special");
-        this.aniTatsu.play(7, false);
+        this.aniJumpKick.play(7, false);
       }
-      else if ( this.getb() && this.getleft() == false && this.getright() == false  && !this.inputLock && !(this.m < 120 && this.m != 0) && this.stunCounter == 0 && this.warlockCD == 0)
+      else if ( this.getb() && this.getleft() == false && this.getright() == false && this.getup() == false  && !this.inputLock && !(this.m < 120 && this.m != 0) && this.stunCounter == 0 && this.warlockCD == 0)
       {
       	//console.log("Normal Special")
         this.aniWarlock.play(3, false);
@@ -1521,6 +1654,8 @@ class Fighter {
           this.weapon1.trackSprite(this.character, 30, -20, true);
           this.weaponKick.trackSprite(this.character, 50, -50, true);
           this.weaponUppercut.trackSprite(this.character, 30, -10, true);
+          this.jumpKick.trackSprite(this.character, 50, -50, true);
+          this.jumpKick.bulletSpeed = -150;
           }
           if (this.character.body.touching.down)
           {
@@ -1557,6 +1692,8 @@ class Fighter {
           this.weapon1.trackSprite(this.character, 30, 20, true);
           this.weaponKick.trackSprite(this.character, 50, 50, true);
           this.weaponUppercut.trackSprite(this.character, 30, 10, true);
+          this.jumpKick.trackSprite(this.character, 50, 50, true);
+          this.jumpKick.bulletSpeed = 150;
           }
           if (this.character.body.touching.down)
           {
@@ -1580,7 +1717,6 @@ class Fighter {
           this.character.animations.play('right');
           this.shielding = false;
       }
-
       else
       {
           //Code that assigns the velocity of the player based on the current hitVelocity. Keeps track of jump count and determines the idle animation of the character
@@ -1590,11 +1726,15 @@ class Fighter {
         }
         else
         {
-          this.character.body.velocity.x = 0;
+        	if (this.xZero)
+        	{
+        		this.character.body.velocity.x = 0;
+        	}
         }
           if (this.stunCounter > 0)
           {
             this.character.animations.play('ko');
+            this.character.tint = Math.random() * 0xffffff;
             //game.camera.shake(0.01,15);
 
             //If hit really hard, add a dust trail that depends on hit velocity
@@ -1607,7 +1747,11 @@ class Fighter {
 
           }
           else
-          {
+          { 
+            //Makes character just a silhouete
+            //this.character.tint = 0;
+
+            this.character.tint = 0xffffff;
             //this.character.animations.play('idle');
           }
           this.shielding = false;
@@ -1669,8 +1813,9 @@ var playState={
     //console.log('inside hitplayer1');
     let hitDmg = 0;
     console.log("attack: " + Player2.attack);
-    if(!Player2.deltDamage && attacking && (game.physics.arcade.overlap(Player1.character, Player2.weapon1.bullets) || game.physics.arcade.overlap(Player1.character, Player2.weaponKick.bullets) || game.physics.arcade.overlap(Player1.character, Player2.weaponUppercut.bullets)))
+    if(!Player2.deltDamage && !Player1.invincible && attacking && (game.physics.arcade.overlap(Player1.character, Player2.weapon1.bullets) || game.physics.arcade.overlap(Player1.character, Player2.weaponKick.bullets) || game.physics.arcade.overlap(Player1.character, Player2.weaponUppercut.bullets) || game.physics.arcade.overlap(Player1.character, Player2.jumpKick.bullets)))
     {
+    	Player1.attacking = false;
       switch(Player2.attack)
       {
         case 'punch':
@@ -1686,7 +1831,7 @@ var playState={
           hitDmg = 35;
           attackDistance = 70;
           break;
-        case 'tatsu':
+        case 'jumpKick':
           hitDmg = 10;
           attackDistance = 25;
           break;
@@ -1702,8 +1847,10 @@ console.log("hitDmg = " + hitDmg);
 
   	if (Player1.m == 0 && !Player1.shielding){
       hitSound.play();
-      //game.time.slowMotion = 4.0;
-  		Player1.health += hitDmg;
+	  
+		
+	  
+		Player1.health += hitDmg;
   		Player1.hitVelocity = Player2.character.scale.x * Player1.health * 2 + attackDistance;
 
            Player1.character.body.velocity.y = -(Math.pow(Player1.health, 1.25) + attackDistance);
@@ -1714,10 +1861,15 @@ console.log("hitDmg = " + hitDmg);
         	}
         	else if (Player1.health > 75 || Player1.health <= 150)
         	{
-            Player1.stunCounter = 120;
+            	Player1.stunCounter = 120;
+            	if (Player1.health >= 120)
+            	{
+            		hitpause = 5;
+            	}
         	}
         	else if(Player1.health > 150 || Player1.health < 200)
         	{
+        		hitpause = 5;
         		Player1.stunCounter = 300;
         	}
         	else
@@ -1733,8 +1885,9 @@ hitPlayer2: function(attacking){
   let hitDmg = 0;
   let attackDistance = 0;
   console.log("attack: " + Player1.attack)
-  if(!Player1.deltDamage && attacking && (game.physics.arcade.overlap(Player2.character, Player1.weapon1.bullets) || game.physics.arcade.overlap(Player2.character, Player1.weaponKick.bullets) || game.physics.arcade.overlap(Player2.character, Player1.weaponUppercut.bullets)))
+  if(!Player1.deltDamage && !Player2.invincible && attacking && (game.physics.arcade.overlap(Player2.character, Player1.weapon1.bullets) || game.physics.arcade.overlap(Player2.character, Player1.weaponKick.bullets) || game.physics.arcade.overlap(Player2.character, Player1.weaponUppercut.bullets) || game.physics.arcade.overlap(Player2.character, Player1.jumpKick.bullets)))
   {
+  	Player2.attacking = false;
     switch(Player1.attack)
     {
       case 'punch':
@@ -1750,7 +1903,7 @@ hitPlayer2: function(attacking){
         hitDmg = 35;
         attackDistance = 70;
         break;
-      case 'tatsu':
+      case 'jumpKick':
         hitDmg = 10;
         attackDistance = 25;
         break;
@@ -1766,6 +1919,8 @@ console.log("hitDmg = " + hitDmg);
   	if (Player2.m == 0 && !Player2.shielding){
         hitSound.play();
 
+		
+
   		Player2.health += hitDmg;
   		Player2.hitVelocity = Player1.character.scale.x * Player2.health * 2 + attackDistance;
 
@@ -1777,9 +1932,14 @@ console.log("hitDmg = " + hitDmg);
        else if (Player2.health > 75 || Player2.health <= 150)
        {
          Player2.stunCounter = 120;
+         if (Player2.health >= 120)
+            {
+            	hitpause = 5;
+            }
        }
        else if(Player2.health > 150 || Player2.health < 200)
        {
+       	 hitpause = 5;
          Player2.stunCounter = 300;
        }
        else
@@ -1798,6 +1958,7 @@ yHitVelocity: function(Fighter)
 
 respawn: function(Fighter){
       game.time.events.add(Phaser.Timer.SECOND, this.playRespawnSound, this);
+      Fighter.aniIdle.play(10, false);
 
       if(Fighter.controlnum == 1 ){
           console.log("controlnum = 1");
@@ -1806,6 +1967,8 @@ respawn: function(Fighter){
           Fighter.respawnSwitch = true;
           Fighter.m = 0;
           Fighter.inputLock = false;
+          Fighter.invincible = false;
+          Fighter.xZero = true;
       }
 
       else if(Fighter.controlnum == 2 ){
@@ -1815,6 +1978,8 @@ respawn: function(Fighter){
           Fighter.respawnSwitch = true;
           Fighter.m = 0;
           Fighter.inputLock = false;
+          Fighter.invincible = false;
+          Fighter.xZero = true;
       }
 
       else if(Fighter.controlnum == -1 ){
@@ -1825,6 +1990,8 @@ respawn: function(Fighter){
           Fighter.respawnSwitch = true;
           Fighter.m = 0;
           Fighter.inputLock = false;
+          Fighter.invincible = false;
+          Fighter.xZero = true;
       }
       else if(Fighter.controlnum == -2 ){
           console.log("controlnum = -2");
@@ -1834,6 +2001,8 @@ respawn: function(Fighter){
           Fighter.respawnSwitch = true;
           Fighter.m = 0;
           Fighter.inputLock = false;
+          Fighter.invincible = false;
+          Fighter.xZero = true;
       }
 
       Fighter.health = 0;
@@ -1965,6 +2134,8 @@ playerHitStun: function(Fighter)
       music.volume = 0.5;
       music.loopFull();
 
+	
+	hitpause = 0;
 
       //Camera tests
       stagecam = new cam(40, 350, 1200, 1000);
@@ -2002,14 +2173,20 @@ playerHitStun: function(Fighter)
 
       //  The platforms group contains the ground and the 2 ledges we can jump on
       platforms = game.add.group();
+      miniPlatforms = game.add.group();
 
       //  Enable physics for any object that is created in this group
       platforms.enableBody = true;
+      miniPlatforms.enableBody = true;
 
       // Create the ground.
       var ground = platforms.create(110, game.world.height - 100, 'ground');
-      var plat1 = platforms.create(110, game.world.height - 250, 'ground');
-      var plat2 = platforms.create(game.world.width - 300, game.world.height - 250, 'ground');
+      var plat1 = miniPlatforms.create(110, game.world.height - 250, 'ground');
+      var plat2 = miniPlatforms.create(game.world.width - 300, game.world.height - 250, 'ground');
+      plat1.body.collideWorldBounds = true;
+      plat2.body.collideWorldBounds = true;
+      plat1.body.checkCollision.down = false;
+      plat2.body.checkCollision.down = false;
       plat1.body.immovable = true;
       plat2.body.immovable = true;
 
@@ -2275,8 +2452,39 @@ timerText.anchor.setTo(.5,.5);
     game.physics.arcade.overlap(Player1.character, this.win, this.Win, null, this);
     game.physics.arcade.overlap(Player2.character, this.win, this.Win, null, this);
 
+	if(hitpause > 0){
+	
+		  game.time.slowMotion = 10;
+		
+		hitpause--;
+	}
+	else{
+		game.time.slowMotion = 1;
+	}
+
+
     //  Collide the players with the platforms and eachother
-    game.physics.arcade.collide(Player1.character, platforms );
+    if(chosenStageName == 'westPic')
+    {
+	    if (Player1.getdown())
+	    {
+	    	Player1.character.body.immovable = false;
+	    }
+	    else
+	    {
+	    	game.physics.arcade.collide(Player1.character, miniPlatforms);
+	    }
+	    if (Player2.getdown())
+	    {
+	    	Player2.character.body.immovable = false;
+	    }
+	    else
+	    {
+	    	game.physics.arcade.collide(Player2.character, miniPlatforms);
+	    }
+    }
+    
+    game.physics.arcade.collide(Player1.character, platforms);
     game.physics.arcade.collide(Player2.character, platforms);
     game.physics.arcade.collide(Player1.character,Player2.character);
     //add physics for item (eventually just add items to a group and use collision detection for the group)
@@ -2329,13 +2537,15 @@ timerText.anchor.setTo(.5,.5);
       game.physics.arcade.overlap(Player1.weapon1.bullets, Player2.character, this.hitPlayer2(Player1.attacking));
       game.physics.arcade.overlap(Player1.weaponKick.bullets, Player2.character, this.hitPlayer2(Player1.attacking));
       game.physics.arcade.overlap(Player1.weaponUppercut.bullets, Player2.character, this.hitPlayer2(Player1.attacking));
+      game.physics.arcade.overlap(Player1.jumpKick.bullets, Player2.character, this.hitPlayer2(Player1.attacking));
     }
-    else if(Player2.attacking)
+    if(Player2.attacking)
     {
       //hitbox collision for player 1, we pass the type of hit into the hit player function
   	  game.physics.arcade.overlap(Player2.weapon1.bullets, Player1.character, this.hitPlayer1(Player2.attacking));
       game.physics.arcade.overlap(Player2.weaponKick.bullets, Player1.character, this.hitPlayer1(Player2.attacking));
       game.physics.arcade.overlap(Player2.weaponUppercut.bullets, Player1.character, this.hitPlayer1(Player2.attacking));
+      game.physics.arcade.overlap(Player2.jumpKick.bullets, Player1.character, this.hitPlayer1(Player2.attacking));
     }
 
     else if(multimanmode)
@@ -2562,7 +2772,7 @@ AIplay: function(Fighter1, Fighter2){
 
 		Fighter2.AImode = Fighter2.AImode * -1;
 	}
-	if(react >100){
+	if(react > 100){
 		Fighter1.leftpress = false;
   		Fighter1.rightpress = false;
 		Fighter1.uppress = false;
