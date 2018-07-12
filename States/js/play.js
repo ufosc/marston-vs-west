@@ -601,6 +601,9 @@ class Fighter {
        this.deltDamage = false;
        this.attack = '';
 
+       this.combo = 0;
+       this.comboclock = 0;
+
        switch(character)
        {
         case 'dude':
@@ -860,6 +863,16 @@ class Fighter {
        console.log("fighter made");
        //return this;
      }
+    
+    //Method to check whether or not fighter is currently trying to execute a combo
+    combocheck(){
+        if(this.combo > 0 && this.comboclock > 0){
+            this.comboclock--;
+        }
+        else if(this.comboclock == 0){
+            this.combo = 0;
+        }
+    }
 
     getleft(){
       if(this.testconnect == true){
@@ -1480,9 +1493,8 @@ class Fighter {
     //else if(this.controlnum > 0){   <- Change to this when controller above is put back in
     if(this.controlnum > -10){
     //console.log("inside real key check");
-
-
-      //Shield logic
+    console.log(this.comboclock);
+    //Shield logic
       if (this.getx() && this.character.body.touching.down && this.stunCounter == 0 && this.hitVelocity == 0 && !this.inputLock)
       {
           this.character.body.velocity.x = 0;
@@ -1498,12 +1510,18 @@ class Fighter {
             this.character.hasItem = false;
 
           }
-
       }
       //punch logic
       else if ( this.geta() && (this.getright() || this.getleft()) && !(this.m < 120 && this.m != 0) && this.stunCounter == 0 && !this.inputLock && this.basicCD == 0)
       {
+        console.log("test**************************");
+        this.combo++;
+        console.log("Increased comboclock?");
+        console.log(this.combo);
+        console.log(this.comboclock);
+        this.comboclock = 100;
 
+        if (this.combo == 0){
           //logic to change direction facing
           if (this.character.scale.x < 0 ){
             this.character.body.velocity.x = -250 + this.moveSpeed;
@@ -1513,12 +1531,48 @@ class Fighter {
             this.character.body.velocity.x = 250 + this.moveSpeed;
           }
           this.aniPunch.play(10, false);
-
+          
           //this.hitCD = 30;
           this.shielding = false;
           this.hitSwitchPunch = true;
           //Causes Player health to increase
           //this.health += 1;
+        }
+        else if(this.combo == 1){
+            console.log("combo of 2 kick?");
+            //logic to change direction facing
+          if (this.character.scale.x < 0 ){
+            this.character.body.velocity.x = -350 - this.moveSpeed;
+          }
+          else
+          {
+            this.character.body.velocity.x = 350 + this.moveSpeed;
+          }
+          this.aniKick.play(10, false);
+          //this.hitCD = 60;
+          //this.weapon1.fire();
+          this.shielding = false;
+          this.hitSwitchKick = true;
+        }
+        else if (this.combo == 2){
+            //logic to change direction facing
+            if (this.character.scale.x < 0 ){
+              this.character.body.velocity.x = -250 + this.moveSpeed;
+            }
+            else
+            {
+              this.character.body.velocity.x = 250 + this.moveSpeed;
+            }
+            //this.aniPunch.play(10, false);
+            this.aniUppercut.play(10, false);
+            //this.hitCD = 30;
+            this.shielding = false;
+            this.hitSwitchPunch = true;
+            this.combo = 0;
+            //Causes Player health to increase
+            //this.health += 1;
+          }
+
       }
 
       // Kick logic
@@ -1551,7 +1605,8 @@ class Fighter {
       else if (this.geta() && this.getdown() == false && this.getright() == false && this.getleft() == false && !(this.m < 120 && this.m != 0) && this.stunCounter == 0 && !this.inputLock && this.basicCD == 0)
       {
         //logic to change direction facing
-          if (this.character.scale.x < 0 ){
+          if (this.character.scale.x < 0 )
+          {
             this.character.body.velocity.x = -250 + this.moveSpeed;
           }
           else
@@ -1561,13 +1616,10 @@ class Fighter {
           this.aniPunch.play(10, false);
           if(this.character.hasItem) //If he has an item, USE IT!
           {
-
             item1.useItem(this);
-
             item1.user = null;
             item1.pickedUp = false;
             this.character.hasItem = false;
-
           }
           //this.character.animations.play('punch');
           //this.weapon1.fire();
@@ -1618,7 +1670,7 @@ class Fighter {
       //TODO: downDuration is still here, but in merge conflict it was gone, POSSIBLY REMOVE downDuration
       else if (this.gety() && this.jumps <= 5  && !(this.m < 120 && this.m != 0) && this.stunCounter == 0 && !this.inputLock)
       {
-          this.character.body.velocity.y = -350 + this.jumpSpeed;
+          this.character.body.velocity.y = -550 + this.jumpSpeed;
           jumpSound.play();
           this.jumps += 1;
           this.shielding = false;
@@ -1791,7 +1843,6 @@ class dj extends Fighter {
 
 var playState={
 
-
   hitPlayer1: function(attacking){
     //console.log('inside hitplayer1');
     let hitDmg = 0;
@@ -1831,7 +1882,7 @@ console.log("hitDmg = " + hitDmg);
   	if (Player1.m == 0 && !Player1.shielding){
       hitSound.play();
 	  
-		hitpause = 2;
+		hitpause = 1;
 	  
 		Player1.health += hitDmg;
   		Player1.hitVelocity = Player2.character.scale.x * Player1.health * 2 + attackDistance;
@@ -1870,6 +1921,13 @@ hitPlayer2: function(attacking){
     {
       case 'punch':
         console.log("Got to punch");
+        // combo logic
+        // Player1.combo++;
+        // console.log("Increased comboclock?");
+        // console.log(Player1.combo);
+        // console.log(Player1.comboclock);
+        // Player1.comboclock = 100;
+
         hitDmg = 9;
         attackDistance = 2;
         break;
@@ -1897,7 +1955,7 @@ console.log("hitDmg = " + hitDmg);
   	if (Player2.m == 0 && !Player2.shielding){
         hitSound.play();
 
-		hitpause = 2;
+		hitpause = 1;
 
   		Player2.health += hitDmg;
   		Player2.hitVelocity = Player1.character.scale.x * Player2.health * 2 + attackDistance;
@@ -2004,7 +2062,7 @@ respawn: function(Fighter){
       Fighter.character.visible = true;
     }
     else{
-      Fighter.character.body.gravity.y = 650;
+      //Fighter.character.body.gravity.y = 650;
     }
     //Makes character alpha to signify invulnerability
     if (Fighter.m <= 300){
@@ -2116,10 +2174,11 @@ playerHitStun: function(Fighter)
 
       if(chosenStageName == 'marstonPic')
       {
-
-
+      
       //Background for our game
       game.add.sprite(0, 0, 'sky');
+      
+
 
       //  The platforms group contains the ground and the 2 ledges we can jump on
       platforms = game.add.group();
@@ -2425,15 +2484,31 @@ timerText.anchor.setTo(.5,.5);
     game.physics.arcade.overlap(Player1.character, this.win, this.Win, null, this);
     game.physics.arcade.overlap(Player2.character, this.win, this.Win, null, this);
 
+    
+    if(chosenStageName == 'pool'){
+      console.log("gravity set low!");
+      Player1.character.body.gravity.y = 250; //gravity may need to oscillate between positive and negative so that fighter has a floaty feel to it while swimming 
+      Player1.jumps = 0;
+      Player2.character.body.gravity.y = 250;
+      Player2.jumps = 0;      
+    }
+
+    // logic check for hitpause, split second intentional slowdown when players are hit
 	if(hitpause > 0){
 	
-		  game.time.slowMotion = 10;
+		  game.time.slowMotion = 8;
 		
 		hitpause--;
 	}
 	else{
 		game.time.slowMotion = 1;
-	}
+    }
+
+    // Check for combos
+    //console.log(Player1.combo);
+    //console.log(Player1.comboclock);
+    Player1.combocheck();
+    Player2.combocheck();
 
 
     //  Collide the players with the platforms and eachother
