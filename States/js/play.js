@@ -1873,38 +1873,41 @@ var playState={
   hitPlayer1: function(attacking){
     //console.log('inside hitplayer1');
     let hitDmg = 0;
-    console.log("attack: " + Player2.attack);
+    let hitAngle = 0;
+    let attackDistance = 0;
     if(!Player2.deltDamage && !Player1.invincible && attacking && (game.physics.arcade.overlap(Player1.character, Player2.weapon1.bullets) || game.physics.arcade.overlap(Player1.character, Player2.weaponKick.bullets) || game.physics.arcade.overlap(Player1.character, Player2.weaponUppercut.bullets) || game.physics.arcade.overlap(Player1.character, Player2.jumpKick.bullets)))
     {
     	Player1.attacking = false;
       switch(Player2.attack)
       {
         case 'punch':
-          console.log("Got to punch");
           hitDmg = 9;
           attackDistance = 2;
+          hitAngle = 1;
           break;
         case 'kick':
           hitDmg = 15;
           attackDistance = 10;
+          hitAngle = 1;
           break;
         case 'uppercut':
           hitDmg = 35;
           attackDistance = 70;
+          hitAngle = 1.35;
           break;
         case 'jumpKick':
           hitDmg = 10;
           attackDistance = 25;
+          hitAngle = 1;
           break;
         case 'warlock':
-          hitDmg = 300;
+          hitDmg = 65;
           attackDistance = 300;
+          hitAngle = 1.25;
           break;
         default:
           console.log("No attacks went off, you have an error");
       }
-
-console.log("hitDmg = " + hitDmg);
 
   	if (Player1.m == 0 && !Player1.shielding){
       hitSound.play();
@@ -1912,9 +1915,9 @@ console.log("hitDmg = " + hitDmg);
 		
 	  
 		Player1.health += hitDmg;
-  		Player1.hitVelocity = Player2.character.scale.x * Player1.health * 2 + attackDistance;
+  		Player1.hitVelocity = Player2.character.scale.x * Player1.health * 2;
 
-           Player1.character.body.velocity.y = -(Math.pow(Player1.health, 1.25) + attackDistance);
+           Player1.character.body.velocity.y = -(Math.pow(Player1.health, hitAngle));
 
           if (Player1.health >= 0 || Player1.health <= 75)
         	{
@@ -1946,52 +1949,48 @@ console.log("hitDmg = " + hitDmg);
 hitPlayer2: function(attacking){
   let hitDmg = 0;
   let attackDistance = 0;
-  console.log("attack: " + Player1.attack)
+  let hitAngle = 0;
   if(!Player1.deltDamage && !Player2.invincible && attacking && (game.physics.arcade.overlap(Player2.character, Player1.weapon1.bullets) || game.physics.arcade.overlap(Player2.character, Player1.weaponKick.bullets) || game.physics.arcade.overlap(Player2.character, Player1.weaponUppercut.bullets) || game.physics.arcade.overlap(Player2.character, Player1.jumpKick.bullets)))
   {
   	Player2.attacking = false;
     switch(Player1.attack)
     {
       case 'punch':
-        console.log("Got to punch");
-        // combo logic
-        // Player1.combo++;
-        // console.log("Increased comboclock?");
-        // console.log(Player1.combo);
-        // console.log(Player1.comboclock);
-        // Player1.comboclock = 100;
-
         hitDmg = 9;
         attackDistance = 2;
+        hitAngle = 1;
         break;
       case 'kick':
         hitDmg = 15;
         attackDistance = 10;
+        hitAngle = 1;
         break;
       case 'uppercut':
         hitDmg = 35;
         attackDistance = 70;
+        hitAngle = 1.35;
         break;
       case 'jumpKick':
         hitDmg = 10;
         attackDistance = 25;
+        hitAngle = 1;
         break;
       case 'warlock':
-        hitDmg = 300;
+        hitDmg = 65;
         attackDistance = 300;
+        hitAngle = 1.25;
         break;
       default:
         console.log("No attacks went off, you have an error");
     }
 
-console.log("hitDmg = " + hitDmg);
   	if (Player2.m == 0 && !Player2.shielding){
         hitSound.play();
 
   		Player2.health += hitDmg;
-  		Player2.hitVelocity = Player1.character.scale.x * Player2.health * 2 + attackDistance;
+  		Player2.hitVelocity = Player1.character.scale.x * Player2.health * 2;
 
-       Player2.character.body.velocity.y = -(Math.pow(Player2.health, 1.25) + attackDistance);
+       Player2.character.body.velocity.y = -(Math.pow(Player2.health, 1.25));
        if (Player2.health >= 0 || Player2.health <= 75)
        {
          Player2.stunCounter = 60;
@@ -2098,8 +2097,9 @@ respawn: function(Fighter){
       Fighter.hitVelocity = 0;
       Fighter.character.visible = true;
     }
-    else{
-      //Fighter.character.body.gravity.y = 650;
+    else
+    {
+      Fighter.character.body.gravity.y = 650;
     }
     //Makes character alpha to signify invulnerability
     if (Fighter.m <= 300){
