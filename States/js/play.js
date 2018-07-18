@@ -709,6 +709,7 @@ class Fighter {
 
        //jump animation
        this.aniJump = this.character.animations.add('jump', [13, 14], 5, false); //need to adjust animation speed
+       this.aniJump.onStart.add(this.jumpStart, this);
        this.aniJump.onComplete.add(this.jumpEnd, this);
        //shield animation
        this.aniShield = this.character.animations.add('shield', [10], 5, false);
@@ -1098,6 +1099,14 @@ class Fighter {
        this.attack = '';
        this.basicCD = 25;
     }
+    jumpStart()
+    {
+    	this.character.body.velocity.y = -350 + this.jumpSpeed;
+    	jumpSound.play();
+
+    	this.shielding = false;
+    	this.character.animations.play('jump');
+    }
     jumpEnd() {
        this.aniIdle.play(10, false);
     }
@@ -1140,10 +1149,19 @@ class Fighter {
       this.dashCD = 60;
     }
     jumpKickTimer()
-    {
-      this.jumpKick.fire();
-      this.character.body.velocity.x = 150 * this.character.scale.x;
-      this.character.body.velocity.y = -100;
+    { 
+      if (this.attacking)
+    	{
+    		this.jumpKick.fire();
+      		this.character.body.velocity.x = 150 * this.character.scale.x;
+      		this.character.body.velocity.y = -100;
+    	}
+    	else
+    	{
+    		this.xZero = true;
+    		this.aniIdle.play(10, false);
+    	}
+      
     }
     jumpKickTimer2()
     {
@@ -1196,6 +1214,11 @@ class Fighter {
     	if (this.attacking)
     	{
     		this.weaponKick.fire();
+    	}
+    	else
+    	{
+    		this.xZero = true;
+    		this.aniIdle.play(10, false);
     	}
       
     }
@@ -1251,7 +1274,11 @@ class Fighter {
     {
       this.stunCounter -= 1;
     }
-      //update function to decrease/increase the hit velocity based on the original direction of the punch. The natural slowing down of hit velocity
+    else
+    {
+    	this.character.tint = 0xffffff;
+    }
+    //update function to decrease/increase the hit velocity based on the original direction of the punch. The natural slowing down of hit velocity
     if(this.hitVelocity < 0)
     {
       this.hitVelocity += 1;
@@ -1670,7 +1697,7 @@ class Fighter {
       //TODO: downDuration is still here, but in merge conflict it was gone, POSSIBLY REMOVE downDuration
       else if (this.gety() && this.jumps <= 5  && !(this.m < 120 && this.m != 0) && this.stunCounter == 0 && !this.inputLock)
       {
-          this.character.body.velocity.y = -550 + this.jumpSpeed;
+          this.character.body.velocity.y = -350 + this.jumpSpeed;
           jumpSound.play();
           this.jumps += 1;
           this.shielding = false;
@@ -1882,7 +1909,7 @@ console.log("hitDmg = " + hitDmg);
   	if (Player1.m == 0 && !Player1.shielding){
       hitSound.play();
 	  
-		hitpause = 1;
+		
 	  
 		Player1.health += hitDmg;
   		Player1.hitVelocity = Player2.character.scale.x * Player1.health * 2 + attackDistance;
@@ -1895,14 +1922,20 @@ console.log("hitDmg = " + hitDmg);
         	}
         	else if (Player1.health > 75 || Player1.health <= 150)
         	{
-            Player1.stunCounter = 120;
+            	Player1.stunCounter = 120;
+            	if (Player1.health >= 120)
+            	{
+            		hitpause = 5;
+            	}
         	}
         	else if(Player1.health > 150 || Player1.health < 200)
         	{
+        		hitpause = 5;
         		Player1.stunCounter = 300;
         	}
         	else
         	{
+        		hitpause = 5;
         		Player1.stunCounter = 450;
         	}
   	    }
@@ -1955,8 +1988,6 @@ console.log("hitDmg = " + hitDmg);
   	if (Player2.m == 0 && !Player2.shielding){
         hitSound.play();
 
-		hitpause = 1;
-
   		Player2.health += hitDmg;
   		Player2.hitVelocity = Player1.character.scale.x * Player2.health * 2 + attackDistance;
 
@@ -1968,13 +1999,19 @@ console.log("hitDmg = " + hitDmg);
        else if (Player2.health > 75 || Player2.health <= 150)
        {
          Player2.stunCounter = 120;
+         if (Player2.health >= 120)
+         {
+         	hitpause = 5;
+         }
        }
        else if(Player2.health > 150 || Player2.health < 200)
        {
+       	 hitpause = 5;
          Player2.stunCounter = 300;
        }
        else
        {
+       	 hitpause = 5;
          Player2.stunCounter = 450;
        }
   	}
@@ -2580,14 +2617,14 @@ timerText.anchor.setTo(.5,.5);
 
 
     //hitbox collision for player 2, we pass the type of hit into the hit player function
-    if(Player1.attacking)
+    if (Player1.attacking)
     {
       game.physics.arcade.overlap(Player1.weapon1.bullets, Player2.character, this.hitPlayer2(Player1.attacking));
       game.physics.arcade.overlap(Player1.weaponKick.bullets, Player2.character, this.hitPlayer2(Player1.attacking));
       game.physics.arcade.overlap(Player1.weaponUppercut.bullets, Player2.character, this.hitPlayer2(Player1.attacking));
       game.physics.arcade.overlap(Player1.jumpKick.bullets, Player2.character, this.hitPlayer2(Player1.attacking));
     }
-    else if(Player2.attacking)
+    if (Player2.attacking)
     {
       //hitbox collision for player 1, we pass the type of hit into the hit player function
   	  game.physics.arcade.overlap(Player2.weapon1.bullets, Player1.character, this.hitPlayer1(Player2.attacking));
