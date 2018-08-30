@@ -1,0 +1,17 @@
+{ "columns":1,
+ "image":"testHitbox.png",
+ "imageheight":32,
+ "imagewidth":32,
+ "margin":0,
+ "name":"Floor",
+ "spacing":0,
+ "terrains":[
+        {
+         "name":"New Terrain",
+         "tile":0
+        }],
+ "tilecount":1,
+ "tileheight":32,
+ "tilewidth":32,
+ "type":"tileset"
+}

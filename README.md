@@ -1,4 +1,5 @@
 # Marston-VS-West
+## In order to run, use Mongoose or a web server and open up the states folder in this repo, if it does not automatically run, then run index.html :)
 A simple street fighter/ smash bros esque video game project about the ongoing debate for best library
 
 This project is made using javascript and the Phaser framework
