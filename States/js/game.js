@@ -68,6 +68,7 @@ var weapon3y;
 
 var weapon1;
 
+var passtimer1v2 = 0;
 
 var platforms;
 var cursors;

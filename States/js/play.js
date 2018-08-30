@@ -701,7 +701,7 @@ class Fighter {
 
        //Player animations
 
-	   this.aniRight = this.character.animations.add('right', [ 3,4,5,6,7], 10, true);
+	     this.aniRight = this.character.animations.add('right', [ 3,4,5,6,7], 10, true);
        this.aniRight.onComplete.add(this.walkEnd, this);
 
        //idle animation
@@ -748,6 +748,32 @@ class Fighter {
        //player got hit animation
        this.aniKo = this.character.animations.add('ko', [12], 5, false);
        this.aniKo.onComplete.add(this.koEnd, this);
+
+       //Player air swipe forward/neutral
+       this.aniAirF = this.character.animations.add('airforward', [24, 24, 25, 25, 25], 7, false);
+       //this.aniAirF.onStart.add(this.airforwardStart, this);
+       //this.aniAirF.onComplete.add(this.airforwardEnd, this);
+
+       //Player air swipe down
+       this.aniAirD = this.character.animations.add('airdown', [28, 28, 29, 30], 7, false);
+       //this.aniAirD.onStart.add(this.airforwardStart, this);
+       //this.aniAirD.onComplete.add(this.airforwardEnd, this);
+        
+       //Player air swipe neutral
+       this.aniAirN = this.character.animations.add('airneutral', [31, 31, 32, 32], 7, false);
+       //this.aniAirN.onStart.add(this.airforwardStart, this);
+       //this.aniAirN.onComplete.add(this.airforwardEnd, this);
+
+       //Player juggle
+       this.aniJuggle = this.character.animations.add('juggle', [26, 21, 22, 23], 7, false);
+       //this.aniJuggle.onStart.add(this.JuggleStart, this);
+       //this.aniJuggle.onComplete.add(this.JuggleEnd, this);
+
+
+
+
+       //Player air swipe down
+
 
 
        //this.controller1 = game.input.keyboard.addKeys({ 'up': Phaser.KeyCode.W, 'down': Phaser.KeyCode.S, 'left': Phaser.KeyCode.A, 'right': Phaser.KeyCode.D , 'punch': Phaser.KeyCode.T, 'kick': Phaser.KeyCode.R});
@@ -1083,6 +1109,34 @@ class Fighter {
        this.inputLock = false;
        this.attack = '';
        this.basicCD = 15;
+    }
+    airforwardStart () {
+        this.attack = 'punch';
+        this.weapon1.fire();
+        this.attacking = true;
+        this.inputLock = true;
+    }
+    airforwardEnd () {
+       console.log("Punch end");
+       this.attacking = false;
+       this.deltDamage = false;
+       this.inputLock = false;
+       this.attack = '';
+       this.basicCD = 15;
+    }
+    JuggleStart () {
+        this.attack = 'punch';
+        this.weapon1.fire();
+        this.attacking = true;
+        this.inputLock = true;
+    }
+    JuggleEnd () {
+       console.log("Punch end");
+       this.attacking = false;
+       this.deltDamage = false;
+       this.inputLock = false;
+       this.attack = '';
+       this.basicCD = 15; 
     }
     kickStart() {
        console.log("Kick start");
@@ -1538,8 +1592,54 @@ class Fighter {
 
           }
       }
+
+      
+      //air forawrd swipe (air launcher)
+      else if ( this.geta() && this.character.body.touching.down == false && (this.getleft() || this.getright())  && !(this.m < 120 && this.m != 0) && this.stunCounter == 0 && !this.inputLock && this.basicCD == 0)
+      {
+        this.aniAirF.play(10, false);
+          
+        //this.hitCD = 30;
+        this.shielding = false;
+        this.hitSwitchPunch = true;
+      }
+
+      // air down attack, spike kick sweep
+      else if ( this.geta() && this.character.body.touching.down == false && this.getdown() && !(this.m < 120 && this.m != 0) && this.stunCounter == 0 && !this.inputLock && this.basicCD == 0)
+      {
+        this.aniAirD.play(10, false);
+          
+        //this.hitCD = 30;
+        this.shielding = false;
+        this.hitSwitchPunch = true;  
+      }
+
+
+    //juggle move aka up normal attack, can be done in air and on ground
+      else if ( this.geta() && (this.getup()) && !(this.m < 120 && this.m != 0) && this.stunCounter == 0 && !this.inputLock && this.basicCD == 0)
+      {
+        this.aniJuggle.play(10, false);
+          
+        //this.hitCD = 30;
+        this.shielding = false;
+        this.hitSwitchPunch = true;  
+      }
+
+      //air neutral attack logic (air spike)
+      else if ( this.geta() && this.character.body.touching.down == false && !(this.m < 120 && this.m != 0) && this.stunCounter == 0 && !this.inputLock && this.basicCD == 0)
+      {
+        this.aniAirN.play(10, false);
+          
+        //this.hitCD = 30;
+        this.shielding = false;
+        this.hitSwitchPunch = true;  
+      }
+
+
+      
       //punch logic
-      else if ( this.geta() && (this.getright() || this.getleft()) && !(this.m < 120 && this.m != 0) && this.stunCounter == 0 && !this.inputLock && this.basicCD == 0)
+      //else if ( this.geta() && (this.getright() || this.getleft()) && !(this.m < 120 && this.m != 0) && this.stunCounter == 0 && !this.inputLock && this.basicCD == 0)
+      else if ( this.geta() && !(this.m < 120 && this.m != 0) && this.stunCounter == 0 && !this.inputLock && this.basicCD == 0)
       {
         console.log("test**************************");
         this.combo++;
@@ -1548,7 +1648,7 @@ class Fighter {
         console.log(this.comboclock);
         this.comboclock = 100;
 
-        if (this.combo == 0){
+        if (this.combo == 1){
           //logic to change direction facing
           if (this.character.scale.x < 0 ){
             this.character.body.velocity.x = -250 + this.moveSpeed;
@@ -1565,7 +1665,7 @@ class Fighter {
           //Causes Player health to increase
           //this.health += 1;
         }
-        else if(this.combo == 1){
+        else if(this.combo == 2){
             console.log("combo of 2 kick?");
             //logic to change direction facing
           if (this.character.scale.x < 0 ){
@@ -1581,7 +1681,7 @@ class Fighter {
           this.shielding = false;
           this.hitSwitchKick = true;
         }
-        else if (this.combo == 2){
+        else if (this.combo == 3){
             //logic to change direction facing
             if (this.character.scale.x < 0 ){
               this.character.body.velocity.x = -250 + this.moveSpeed;
@@ -1697,7 +1797,7 @@ class Fighter {
       //TODO: downDuration is still here, but in merge conflict it was gone, POSSIBLY REMOVE downDuration
       else if (this.gety() && this.jumps <= 5  && !(this.m < 120 && this.m != 0) && this.stunCounter == 0 && !this.inputLock)
       {
-          this.character.body.velocity.y = -350 + this.jumpSpeed;
+          this.character.body.velocity.y = -550 + this.jumpSpeed;
           jumpSound.play();
           this.jumps += 1;
           this.shielding = false;
@@ -1814,6 +1914,7 @@ class Fighter {
             //this.character.tint = 0;
 
             this.character.tint = 0xffffff;
+
             //this.character.animations.play('idle');
           }
           this.shielding = false;
@@ -1928,17 +2029,17 @@ var playState={
             	Player1.stunCounter = 120;
             	if (Player1.health >= 120)
             	{
-            		hitpause = 5;
+            		hitpause = 10;
             	}
         	}
         	else if(Player1.health > 150 || Player1.health < 200)
         	{
-        		hitpause = 5;
+        		hitpause = 10;
         		Player1.stunCounter = 300;
         	}
         	else
         	{
-        		hitpause = 5;
+        		hitpause = 10;
         		Player1.stunCounter = 450;
         	}
   	    }
@@ -2000,17 +2101,17 @@ hitPlayer2: function(attacking){
          Player2.stunCounter = 120;
          if (Player2.health >= 120)
          {
-         	hitpause = 5;
+         	hitpause = 10;
          }
        }
        else if(Player2.health > 150 || Player2.health < 200)
        {
-       	 hitpause = 5;
+       	 hitpause = 10;
          Player2.stunCounter = 300;
        }
        else
        {
-       	 hitpause = 5;
+       	 hitpause = 10;
          Player2.stunCounter = 450;
        }
   	}
@@ -2155,7 +2256,7 @@ playerHitStun: function(Fighter)
             multimenko++;
          }
       }
-      else if(Fighter.character.body.position.y > 700 || Fighter.character.body.position.y < -100){
+      else if(Fighter.character.body.position.y > 700 || Fighter.character.body.position.y < -200){
         Fighter.character.hasItem = false;
          deathSound.play();
          this.respawn(Fighter);
@@ -2571,7 +2672,49 @@ timerText.anchor.setTo(.5,.5);
     
     game.physics.arcade.collide(Player1.character, platforms);
     game.physics.arcade.collide(Player2.character, platforms);
-    game.physics.arcade.collide(Player1.character,Player2.character);
+
+            //stop goomba stomp logic
+            //console.log("Velocity is Player1.character.body.velocity.y");
+            //console.log(Player1.character.body.velocity.y);
+            //implement a terminal velocity
+            if(Player1.character.body.velocity.y > 450){
+                Player1.character.body.velocity.y = 450;
+            }
+
+            if(Player2.character.body.velocity.y > 450){
+                Player2.character.body.velocity.y = 450;
+            }
+            //end of goomba stomp bug killer
+            //if bug still persists, maybe turn off collisions once velocity > velocity limit?
+
+
+    // logic for player to bump against then pass through other character
+    if(game.physics.arcade.overlap(Player2.character, Player1.character)){
+        passtimer1v2 += 10;
+
+        if(passtimer1v2<100){
+
+            Player1.character.body.velocity.y = 0;
+            Player2.character.body.velocity.y = 0; 
+            Player2.character.body.position.y = Player2.character.body.position.y;
+            Player2.character.body.position.y = Player2.character.body.position.y; 
+        }
+        //game.physics.arcade.overlap(Player2.character, Player1.character);
+        //game.physics.arcade.overlap(Player2.character, item1.type, item1.itemCollision(Player2), null, this);
+    }
+    else{
+        passtimer1v2 = 0;
+    }
+
+    if(passtimer1v2 < 100){
+        game.physics.arcade.collide(Player1.character,Player2.character);
+    }
+    else{
+        passtimer1v2--;
+    }
+    //console.log(passtimer1v2);    
+    // end of logic for player to bump against then pass through other character
+
     //add physics for item (eventually just add items to a group and use collision detection for the group)
     game.physics.arcade.collide(item1.type, platforms, item1.onGround());
 
@@ -2580,7 +2723,6 @@ timerText.anchor.setTo(.5,.5);
         game.physics.arcade.collide(Player4.character, platforms);
         game.physics.arcade.collide(Player1.character, Player3.character);
         game.physics.arcade.collide(Player1.character, Player4.character);
-
     }
 
     //Player1.nespad.connectgamepad();
