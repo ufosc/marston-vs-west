@@ -51,6 +51,7 @@ var sssState={
     stage2 = new Stage(game.world.width * .5 + 200, game.world.height * .25 + 50, 'westPic');
 
     buttonSound = game.add.audio('buttonSound');
+    buttonSound.volume -= .5;
 
     var startLabel=game.add.text(80,game.world.height-40,'Choose a stage!',{font: '25px Arial',fill:'#ffffff'});
 

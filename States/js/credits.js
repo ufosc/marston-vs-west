@@ -7,6 +7,7 @@ var creditsState={
     menuButton = game.add.button(game.world.width *.5 -95,game.world.height *.5 - 100, 'menuButton');
     menuButton.onInputUp.add(this.menu,this);
 
+    //Will eventually have its own music
     music = game.add.audio('creditsMusic');
     music.loopFull();
 

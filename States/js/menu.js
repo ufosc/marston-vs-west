@@ -66,6 +66,7 @@ var menuState={
 
 
     buttonSound = game.add.audio('buttonSound');
+    buttonSound.volume -= .5;
 
     if(music.name != 'menuMusic')
     {
@@ -76,7 +77,7 @@ var menuState={
    },
    start: function(){
     buttonSound.play();
-    music.stop();
+    //music.stop();
     game.state.start('css');
 
   },

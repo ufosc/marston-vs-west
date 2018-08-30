@@ -43,6 +43,7 @@ var optionsState={
     gameSecDecButton = game.add.button(game.world.width *.5  + 50,game.world.height  - 250, 'minusButton');
     gameSecDecButton.onInputUp.add(this.gameSecDec, this);
     buttonSound = game.add.audio('buttonSound');
+    buttonSound.volume -= .5;
 
     //Can add other options as well, music and sfx toggle, anti-alias, and other ideas
   },
