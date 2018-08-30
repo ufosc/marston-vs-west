@@ -4,9 +4,9 @@ This document is meant to be a good first commit for new members to practice the
 ## Project lead: 
 Alejandro Santacoloma
 
-##Programming Leads:
+## Programming Leads:
+* Dylan Alvarez
 * Benjamin Cohen
-*
 
 ## Programmers:
 *
