@@ -5,7 +5,7 @@ This document is meant to be a good first commit for new members to practice the
 Alejandro Santacoloma
 
 ##Programming Leads:
-*
+* Benjamin Cohen
 *
 
 ## Programmers:
