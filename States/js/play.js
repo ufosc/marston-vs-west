@@ -1131,6 +1131,7 @@ class Fighter {
        this.inputLock = false;
        this.attack = '';
        this.basicCD = 15;
+       this.aniIdle.play(10, false);
     }
     airdownStart () {
       console.log('airdown start');
@@ -1146,6 +1147,7 @@ class Fighter {
       this.inputLock = false;
       this.attack = '';
       this.basicCD = 15;
+      this.aniIdle.play(10, false);
    }
    airneutralStart () {
     console.log('airneutral start');
@@ -1161,6 +1163,7 @@ class Fighter {
     this.inputLock = false;
     this.attack = '';
     this.basicCD = 15;
+    this.aniIdle.play(10, false);
  }
     JuggleStart () {
         this.attack = 'juggle';
@@ -1175,6 +1178,7 @@ class Fighter {
        this.inputLock = false;
        this.attack = '';
        this.basicCD = 15; 
+       this.aniIdle.play(10, false);
     }
     kickStart() {
        console.log("Kick start");
@@ -1685,8 +1689,27 @@ class Fighter {
         console.log("Increased comboclock?");
         console.log(this.combo);
         console.log(this.comboclock);
-        this.comboclock = 100;
+        this.comboclock = 55;
 
+        if(this.character.hasItem) //If he has an item, USE IT!
+        {
+          item1.useItem(this);
+          item1.user = null;
+          item1.pickedUp = false;
+          this.character.hasItem = false;
+        }
+
+
+        //If really freaking close to item, and if he isnt holding something, use it!
+        if((item1.xDistCheck(this.character) < 50) && (item1.yDistCheck(this.character) < 100) && !(this.character.hasItem) && (item1.user == null))
+        {
+          item1.user = this;
+          item1.pickedUp = true;
+          this.character.hasItem = true;
+          console.log("close to item");
+        }
+
+        
         if (this.combo == 1){
           //logic to change direction facing
           if (this.character.scale.x < 0 ){
