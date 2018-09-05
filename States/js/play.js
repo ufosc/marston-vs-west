@@ -1285,6 +1285,7 @@ class Fighter {
        else {
           this.weaponUppercut.bulletAngleOffset = -40;
        }
+      this.character.body.velocity.y = 0;
       this.character.body.velocity.x = 50 * this.character.scale.x;
       this.character.body.velocity.y -= 400;
       this.attacking = true;
