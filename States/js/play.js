@@ -751,23 +751,23 @@ class Fighter {
 
        //Player air swipe forward/neutral
        this.aniAirF = this.character.animations.add('airforward', [24, 24, 25, 25, 25], 7, false);
-       //this.aniAirF.onStart.add(this.airforwardStart, this);
-       //this.aniAirF.onComplete.add(this.airforwardEnd, this);
+       this.aniAirF.onStart.add(this.airforwardStart, this);
+       this.aniAirF.onComplete.add(this.airforwardEnd, this);
 
        //Player air swipe down
        this.aniAirD = this.character.animations.add('airdown', [28, 28, 29, 30], 7, false);
-       //this.aniAirD.onStart.add(this.airforwardStart, this);
-       //this.aniAirD.onComplete.add(this.airforwardEnd, this);
+       this.aniAirD.onStart.add(this.airdownStart, this);
+       this.aniAirD.onComplete.add(this.airdownEnd, this);
         
        //Player air swipe neutral
        this.aniAirN = this.character.animations.add('airneutral', [31, 31, 32, 32], 7, false);
-       //this.aniAirN.onStart.add(this.airforwardStart, this);
-       //this.aniAirN.onComplete.add(this.airforwardEnd, this);
+       this.aniAirN.onStart.add(this.airneutralStart, this);
+       this.aniAirN.onComplete.add(this.airneutralEnd, this);
 
        //Player juggle
        this.aniJuggle = this.character.animations.add('juggle', [26, 21, 22, 23], 7, false);
-       //this.aniJuggle.onStart.add(this.JuggleStart, this);
-       //this.aniJuggle.onComplete.add(this.JuggleEnd, this);
+       this.aniJuggle.onStart.add(this.JuggleStart, this);
+       this.aniJuggle.onComplete.add(this.JuggleEnd, this);
 
 
 
@@ -1111,27 +1111,65 @@ class Fighter {
        this.basicCD = 15;
     }
     airforwardStart () {
-        this.attack = 'punch';
+      console.log('air forward start');
+      if(this.character.scale.x < 0) //If facing left, flip the angle of the hitbox
+       {
+         this.weapon1.bulletAngleOffset = 40;
+       }
+       else {
+          this.weapon1.bulletAngleOffset = -40;
+       }
+        this.attack = 'airforward';
         this.weapon1.fire();
         this.attacking = true;
         this.inputLock = true;
     }
     airforwardEnd () {
-       console.log("Punch end");
+       console.log("air forward end");
        this.attacking = false;
        this.deltDamage = false;
        this.inputLock = false;
        this.attack = '';
        this.basicCD = 15;
     }
+    airdownStart () {
+      console.log('airdown start');
+      this.attack = 'airdown';
+      this.weaponUppercut.fire();
+      this.attacking = true;
+      this.inputLock = true;
+    }
+    airdownEnd () {
+      console.log("air forward end");
+      this.attacking = false;
+      this.deltDamage = false;
+      this.inputLock = false;
+      this.attack = '';
+      this.basicCD = 15;
+   }
+   airneutralStart () {
+    console.log('airneutral start');
+    this.attack = 'airneutral';
+    this.weaponUppercut.fire();
+    this.attacking = true;
+    this.inputLock = true;
+  }
+  airneutralEnd () {
+    console.log("air neutral end");
+    this.attacking = false;
+    this.deltDamage = false;
+    this.inputLock = false;
+    this.attack = '';
+    this.basicCD = 15;
+ }
     JuggleStart () {
-        this.attack = 'punch';
-        this.weapon1.fire();
+        this.attack = 'juggle';
+        this.weaponUppercut.fire();
         this.attacking = true;
         this.inputLock = true;
     }
     JuggleEnd () {
-       console.log("Punch end");
+       console.log("Juggle end");
        this.attacking = false;
        this.deltDamage = false;
        this.inputLock = false;
@@ -2006,6 +2044,26 @@ var playState={
           attackDistance = 300;
           hitAngle = 1.25;
           break;
+        case 'airneutral':
+          hitDmg = 65;
+          attackDistance = 300;
+          hitAngle = 1.25;
+          break;
+        case 'airforward':
+          hitDmg = 65;
+          attackDistance = 300;
+          hitAngle = 1.25;
+          break;
+        case 'airdown':
+          hitDmg = 65;
+          attackDistance = 300;
+          hitAngle = 1.25;
+          break;
+        case 'juggle':
+          hitDmg = 65;
+          attackDistance = 300;
+          hitAngle = 1.25;
+          break;
         default:
           console.log("No attacks went off, you have an error");
       }
@@ -2077,6 +2135,26 @@ hitPlayer2: function(attacking){
         hitAngle = 1;
         break;
       case 'warlock':
+        hitDmg = 65;
+        attackDistance = 300;
+        hitAngle = 1.25;
+        break;
+      case 'airneutral':
+        hitDmg = 65;
+        attackDistance = 300;
+        hitAngle = 1.25;
+        break;
+      case 'airforward':
+        hitDmg = 65;
+        attackDistance = 300;
+        hitAngle = 1.25;
+        break;
+      case 'airdown':
+        hitDmg = 65;
+        attackDistance = 300;
+        hitAngle = 1.25;
+        break;
+      case 'juggle':
         hitDmg = 65;
         attackDistance = 300;
         hitAngle = 1.25;
