@@ -9,7 +9,7 @@ Alejandro Santacoloma
 * Benjamin Cohen
 
 ## Programmers:
-*
+*David Li
 *
 
 # Art Lead
