@@ -1311,10 +1311,13 @@ class Fighter {
     	if (this.attacking)
     	{
     		this.weaponKick.fire();
+    		this.character.body.moves = true;
+    		this.character.body.velocity.x = 5 * this.character.scale.x;
     	}
     	else
     	{
     		this.xZero = true;
+    		this.character.body.moves = true;
     		this.aniIdle.play(10, false);
     	}
       
@@ -1324,6 +1327,9 @@ class Fighter {
       this.xZero = false;
       this.inputLock = true;
       this.attacking = true;
+      if (this.character.body.touching.down){
+      	this.character.body.moves = false;
+      }
       this.attack = 'warlock';
       this.character.body.velocity.x = 5 * this.character.scale.x;
       game.time.events.add(Phaser.Timer.SECOND * 1.15, this.warlockTimer, this);
@@ -1335,6 +1341,7 @@ class Fighter {
       //this.weaponKick.fire();
       this.aniIdle.play(10, false);
       this.attacking = false;
+      this.character.body.moves = true;
       this.deltDamage = false;
       this.attack = '';
       this.inputLock = false;
@@ -2750,6 +2757,15 @@ timerText.anchor.setTo(.5,.5);
     Player1.combocheck();
     Player2.combocheck();
 
+    //Applies Super armor and immovabilty to players while attacking
+    if (Player1.attacking){
+    	Player1.character.body.velocity.x = 5 * Player1.character.scale.x;
+    }
+
+    if (Player2.attacking){
+    	Player2.character.body.velocity.x = 5 * Player2.character.scale.x;
+    }
+
 
     //  Collide the players with the platforms and eachother
     if(chosenStageName == 'westPic')
@@ -2798,8 +2814,8 @@ timerText.anchor.setTo(.5,.5);
 
             Player1.character.body.velocity.y = 0;
             Player2.character.body.velocity.y = 0; 
-            Player2.character.body.position.y = Player2.character.body.position.y;
-            Player2.character.body.position.y = Player2.character.body.position.y; 
+            Player1.character.body.position.y = Player2.character.body.position.y;
+            Player2.character.body.position.y = Player1.character.body.position.y; 
         }
         //game.physics.arcade.overlap(Player2.character, Player1.character);
         //game.physics.arcade.overlap(Player2.character, item1.type, item1.itemCollision(Player2), null, this);
@@ -2812,7 +2828,16 @@ timerText.anchor.setTo(.5,.5);
         game.physics.arcade.collide(Player1.character,Player2.character);
     }
     else{
-        passtimer1v2--;
+    	if (Player1.attacking){
+    		game.physics.arcade.collide(Player1.character,Player2.character);
+    	}
+    	else if (Player2.attacking){
+    		game.physics.arcade.collide(Player1.character,Player2.character);
+    	}
+    	else{
+    		passtimer1v2--;
+    	}
+        
     }
     //console.log(passtimer1v2);    
     // end of logic for player to bump against then pass through other character
