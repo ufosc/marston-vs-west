@@ -665,6 +665,75 @@ class Fighter {
         this.aniIdle.play(10, false);
     }
 
+    // sourceFighter is the Fighter that attacked it
+    hit(sourceFighter) {//console.log('inside hitplayer1');
+        let hitDmg = 0;
+        let hitAngle = 0;
+        let attackDistance = 0;
+
+        if (!sourceFighter.deltDamage && !this.invincible && sourceFighter.attacking && (game.physics.arcade.overlap(this.character, sourceFighter.weapon1.bullets) || game.physics.arcade.overlap(this.character, sourceFighter.weaponKick.bullets) || game.physics.arcade.overlap(this.character, sourceFighter.weaponUppercut.bullets) || game.physics.arcade.overlap(this.character, sourceFighter.jumpKick.bullets))) {
+            this.attacking = false;
+            switch (sourceFighter.attack) {
+                case 'punch':
+                    hitDmg = 9;
+                    attackDistance = 2;
+                    hitAngle = 1;
+                    break;
+                case 'kick':
+                    hitDmg = 15;
+                    attackDistance = 10;
+                    hitAngle = 1;
+                    break;
+                case 'uppercut':
+                    hitDmg = 35;
+                    attackDistance = 70;
+                    hitAngle = 1.35;
+                    break;
+                case 'jumpKick':
+                    hitDmg = 10;
+                    attackDistance = 25;
+                    hitAngle = 1;
+                    break;
+                case 'warlock':
+                    hitDmg = 65;
+                    attackDistance = 300;
+                    hitAngle = 1.25;
+                    break;
+                default:
+                    console.log("No attacks went off, you have an error");
+            }
+
+            if (this.m == 0 && !this.shielding) {
+                hitSound.play();
+
+
+
+                this.health += hitDmg;
+                this.hitVelocity = sourceFighter.character.scale.x * this.health * 2;
+
+                this.character.body.velocity.y = -(Math.pow(this.health, hitAngle));
+
+                if (this.health >= 0 || this.health <= 75) {
+                    this.stunCounter = 60;
+                }
+                else if (this.health > 75 || this.health <= 150) {
+                    this.stunCounter = 120;
+                    if (this.health >= 120) {
+                        hitpause = 10;
+                    }
+                }
+                else if (this.health > 150 || this.health < 200) {
+                    hitpause = 10;
+                    this.stunCounter = 300;
+                }
+                else {
+                    hitpause = 10;
+                    this.stunCounter = 450;
+                }
+            }
+            sourceFighter.deltDamage = true;
+        }
+    }
 
     updateInput() {
         //Cooldown for attacks
@@ -947,7 +1016,7 @@ class Fighter {
 
             //air forawrd swipe (air launcher)
             else if (this.geta() && this.character.body.touching.down == false && (this.getleft() || this.getright()) && !(this.m < 120 && this.m != 0) && this.stunCounter == 0 && !this.inputLock && this.basicCD == 0) {
-                this.aniAirF.play(10, false);
+                //this.aniAirF.play(10, false);
 
                 //this.hitCD = 30;
                 this.shielding = false;
@@ -956,7 +1025,7 @@ class Fighter {
 
             // air down attack, spike kick sweep
             else if (this.geta() && this.character.body.touching.down == false && this.getdown() && !(this.m < 120 && this.m != 0) && this.stunCounter == 0 && !this.inputLock && this.basicCD == 0) {
-                this.aniAirD.play(10, false);
+                //this.aniAirD.play(10, false);
 
                 //this.hitCD = 30;
                 this.shielding = false;
@@ -975,7 +1044,7 @@ class Fighter {
 
             //air neutral attack logic (air spike)
             else if (this.geta() && this.character.body.touching.down == false && !(this.m < 120 && this.m != 0) && this.stunCounter == 0 && !this.inputLock && this.basicCD == 0) {
-                this.aniAirN.play(10, false);
+                //this.aniAirN.play(10, false);
 
                 //this.hitCD = 30;
                 this.shielding = false;

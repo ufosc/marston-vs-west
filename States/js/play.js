@@ -14,6 +14,7 @@ class crowd {
 
 var playState = {
 
+  // DEPRECATED. USE FIGHTER.HIT
   hitPlayer1: function (attacking) {
     //console.log('inside hitplayer1');
     let hitDmg = 0;
@@ -83,6 +84,7 @@ var playState = {
     }
   },
 
+  // DEPRECATED. USE FIGHTER.HIT
   hitPlayer2: function (attacking) {
     let hitDmg = 0;
     let attackDistance = 0;
@@ -759,31 +761,31 @@ var playState = {
 
     //hitbox collision for player 2, we pass the type of hit into the hit player function
     if (Player1.attacking) {
-      game.physics.arcade.overlap(Player1.weapon1.bullets, Player2.character, this.hitPlayer2(Player1.attacking));
-      game.physics.arcade.overlap(Player1.weaponKick.bullets, Player2.character, this.hitPlayer2(Player1.attacking));
-      game.physics.arcade.overlap(Player1.weaponUppercut.bullets, Player2.character, this.hitPlayer2(Player1.attacking));
-      game.physics.arcade.overlap(Player1.jumpKick.bullets, Player2.character, this.hitPlayer2(Player1.attacking));
+      game.physics.arcade.overlap(Player1.weapon1.bullets, Player2.character, Player2.hit(Player1));
+      game.physics.arcade.overlap(Player1.weaponKick.bullets, Player2.character, Player2.hit(Player1));
+      game.physics.arcade.overlap(Player1.weaponUppercut.bullets, Player2.character, Player2.hit(Player1));
+      game.physics.arcade.overlap(Player1.jumpKick.bullets, Player2.character, Player2.hit(Player1));
     }
     if (Player2.attacking) {
       //hitbox collision for player 1, we pass the type of hit into the hit player function
-      game.physics.arcade.overlap(Player2.weapon1.bullets, Player1.character, this.hitPlayer1(Player2.attacking));
-      game.physics.arcade.overlap(Player2.weaponKick.bullets, Player1.character, this.hitPlayer1(Player2.attacking));
-      game.physics.arcade.overlap(Player2.weaponUppercut.bullets, Player1.character, this.hitPlayer1(Player2.attacking));
-      game.physics.arcade.overlap(Player2.jumpKick.bullets, Player1.character, this.hitPlayer1(Player2.attacking));
+      game.physics.arcade.overlap(Player2.weapon1.bullets, Player1.character, Player1.hit(Player2));
+      game.physics.arcade.overlap(Player2.weaponKick.bullets, Player1.character, Player1.hit(Player2));
+      game.physics.arcade.overlap(Player2.weaponUppercut.bullets, Player1.character, Player1.hit(Player2));
+      game.physics.arcade.overlap(Player2.jumpKick.bullets, Player1.character, Player1.hit(Player2));
     }
 
     else if (multimanmode) {
       if (Player3.attacking) {
         //hitbox collision for player 1, we pass the type of hit into the hit player function
-        game.physics.arcade.overlap(Player3.weapon1.bullets, Player1.character, this.hitPlayer1(Player2.attacking));
-        game.physics.arcade.overlap(Player3.weaponKick.bullets, Player1.character, this.hitPlayer1(Player2.attacking));
-        game.physics.arcade.overlap(Player3.weaponUppercut.bullets, Player1.character, this.hitPlayer1(Player2.attacking));
+        game.physics.arcade.overlap(Player3.weapon1.bullets, Player1.character, Player1.hit(Player2));
+        game.physics.arcade.overlap(Player3.weaponKick.bullets, Player1.character, Player1.hit(Player2));
+        game.physics.arcade.overlap(Player3.weaponUppercut.bullets, Player1.character, Player1.hit(Player2));
       }
       else if (Player4.attacking) {
         //hitbox collision for player 1, we pass the type of hit into the hit player function
-        game.physics.arcade.overlap(Player4.weapon1.bullets, Player1.character, this.hitPlayer1(Player2.attacking));
-        game.physics.arcade.overlap(Player4.weaponKick.bullets, Player1.character, this.hitPlayer1(Player2.attacking));
-        game.physics.arcade.overlap(Player4.weaponUppercut.bullets, Player1.character, this.hitPlayer1(Player2.attacking));
+        game.physics.arcade.overlap(Player4.weapon1.bullets, Player1.character, Player1.hit(Player2));
+        game.physics.arcade.overlap(Player4.weaponKick.bullets, Player1.character, Player1.hit(Player2));
+        game.physics.arcade.overlap(Player4.weaponUppercut.bullets, Player1.character, Player1.hit(Player2));
       }
     }
 
