@@ -221,10 +221,10 @@ class Item
           target.health += 10;
           game.time.events.add(Phaser.Timer.SECOND * 2, this.spawnItem, this); //After 2 seconds, spawn the item
         }
-        else if(this.type.key == 'helmet') //Current does the same thing as bottle but does damange to player instead
+        else if(this.type.key == 'helmet') //Current respawns player without decrementing lives
         {
           itemSound.play();
-
+          target.lives++; //respawn decrements lives, this increments lives first
           this.gameRef.respawn(target);
           game.time.events.add(Phaser.Timer.SECOND * 2, this.spawnItem, this); //After 2 seconds, spawn the item
           this.type.destroy();
@@ -600,6 +600,7 @@ class Fighter {
        this.attacking = false; //Controls when to register active hit frames
        this.deltDamage = false;
        this.attack = '';
+       this.airTime = 0;
 
        this.combo = 0;
        this.comboclock = 0;
@@ -636,13 +637,15 @@ class Fighter {
       //Allows an animation event to take place
       this.inputLock = false;
       //Cooldown for dash movement
-      this.dashCD = false;
+      this.dashCD = 0;
       //Cooldown for warlock kick
-      this.warlockCD = false;
+      this.warlockCD = 0;
       //Cooldown for uppercut
-      this.uppercutCD = false;
+      this.uppercutCD = 0;
       //cooldown for all basic moves
-      this.basicCD = false;
+      this.basicCD = 0;
+      //cooldown for air dodging
+      this.airDodgeCD = 0;
 
       //turns on and off the auto reset of zero x velocity when the player is standing
       this.xZero = true;
@@ -751,23 +754,28 @@ class Fighter {
 
        //Player air swipe forward/neutral
        this.aniAirF = this.character.animations.add('airforward', [24, 24, 25, 25, 25], 7, false);
-       //this.aniAirF.onStart.add(this.airforwardStart, this);
-       //this.aniAirF.onComplete.add(this.airforwardEnd, this);
+       this.aniAirF.onStart.add(this.airforwardStart, this);
+       this.aniAirF.onComplete.add(this.airforwardEnd, this);
 
        //Player air swipe down
        this.aniAirD = this.character.animations.add('airdown', [28, 28, 29, 30], 7, false);
-       //this.aniAirD.onStart.add(this.airforwardStart, this);
-       //this.aniAirD.onComplete.add(this.airforwardEnd, this);
+       this.aniAirD.onStart.add(this.airdownStart, this);
+       this.aniAirD.onComplete.add(this.airdownEnd, this);
         
        //Player air swipe neutral
        this.aniAirN = this.character.animations.add('airneutral', [31, 31, 32, 32], 7, false);
-       //this.aniAirN.onStart.add(this.airforwardStart, this);
-       //this.aniAirN.onComplete.add(this.airforwardEnd, this);
+       this.aniAirN.onStart.add(this.airneutralStart, this);
+       this.aniAirN.onComplete.add(this.airneutralEnd, this);
 
        //Player juggle
        this.aniJuggle = this.character.animations.add('juggle', [26, 21, 22, 23], 7, false);
-       //this.aniJuggle.onStart.add(this.JuggleStart, this);
-       //this.aniJuggle.onComplete.add(this.JuggleEnd, this);
+       this.aniJuggle.onStart.add(this.JuggleStart, this);
+       this.aniJuggle.onComplete.add(this.JuggleEnd, this);
+
+       //Player Air Dodge
+       this.aniAirDodge = this.character.animations.add('airDodge', [6], 15, false);
+       this.aniAirDodge.onStart.add(this.airDodgeStart, this);
+       this.aniAirDodge.onComplete.add(this.airDodgeEnd, this);
 
 
 
@@ -1111,32 +1119,74 @@ class Fighter {
        this.basicCD = 15;
     }
     airforwardStart () {
-        this.attack = 'punch';
+      console.log('air forward start');
+      if(this.character.scale.x < 0) //If facing left, flip the angle of the hitbox
+       {
+         this.weapon1.bulletAngleOffset = 40;
+       }
+       else {
+          this.weapon1.bulletAngleOffset = -40;
+       }
+        this.attack = 'airforward';
         this.weapon1.fire();
         this.attacking = true;
         this.inputLock = true;
     }
     airforwardEnd () {
-       console.log("Punch end");
+       console.log("air forward end");
        this.attacking = false;
        this.deltDamage = false;
        this.inputLock = false;
        this.attack = '';
        this.basicCD = 15;
+       this.aniIdle.play(10, false);
     }
+    airdownStart () {
+      console.log('airdown start');
+      this.attack = 'airdown';
+      this.weaponUppercut.fire();
+      this.attacking = true;
+      this.inputLock = true;
+    }
+    airdownEnd () {
+      console.log("air forward end");
+      this.attacking = false;
+      this.deltDamage = false;
+      this.inputLock = false;
+      this.attack = '';
+      this.basicCD = 15;
+      this.aniIdle.play(10, false);
+   }
+   airneutralStart () {
+    console.log('airneutral start');
+    this.attack = 'airneutral';
+    this.weaponUppercut.fire();
+    this.attacking = true;
+    this.inputLock = true;
+  }
+  airneutralEnd () {
+    console.log("air neutral end");
+    this.attacking = false;
+    this.deltDamage = false;
+    this.inputLock = false;
+    this.attack = '';
+    this.basicCD = 15;
+    this.aniIdle.play(10, false);
+ }
     JuggleStart () {
-        this.attack = 'punch';
-        this.weapon1.fire();
+        this.attack = 'juggle';
+        this.weaponUppercut.fire();
         this.attacking = true;
         this.inputLock = true;
     }
     JuggleEnd () {
-       console.log("Punch end");
+       console.log("Juggle end");
        this.attacking = false;
        this.deltDamage = false;
        this.inputLock = false;
        this.attack = '';
        this.basicCD = 15; 
+       this.aniIdle.play(10, false);
     }
     kickStart() {
        console.log("Kick start");
@@ -1247,6 +1297,7 @@ class Fighter {
        else {
           this.weaponUppercut.bulletAngleOffset = -40;
        }
+      this.character.body.velocity.y = 0;
       this.character.body.velocity.x = 50 * this.character.scale.x;
       this.character.body.velocity.y -= 400;
       this.attacking = true;
@@ -1265,13 +1316,17 @@ class Fighter {
     }
     warlockTimer()
     {
+    	console.log("hi");
     	if (this.attacking)
     	{
     		this.weaponKick.fire();
+    		this.character.body.moves = true;
+    		this.character.body.velocity.x = 5 * this.character.scale.x;
     	}
     	else
     	{
     		this.xZero = true;
+    		this.character.body.moves = true;
     		this.aniIdle.play(10, false);
     	}
       
@@ -1281,6 +1336,9 @@ class Fighter {
       this.xZero = false;
       this.inputLock = true;
       this.attacking = true;
+      if (this.character.body.touching.down){
+      	this.character.body.moves = false;
+      }
       this.attack = 'warlock';
       this.character.body.velocity.x = 5 * this.character.scale.x;
       game.time.events.add(Phaser.Timer.SECOND * 1.15, this.warlockTimer, this);
@@ -1292,6 +1350,7 @@ class Fighter {
       //this.weaponKick.fire();
       this.aniIdle.play(10, false);
       this.attacking = false;
+      this.character.body.moves = true;
       this.deltDamage = false;
       this.attack = '';
       this.inputLock = false;
@@ -1301,6 +1360,41 @@ class Fighter {
     shieldEnd()
     {
       this.aniIdle.play(10, false);
+    }
+
+    airDodgeTimer() {
+    	//Timer till invicibility wears off for air dodge
+    	this.invincible = false;
+    }
+
+    airDodgeStart() { 
+    	this.character.alpha = 0.5;
+    	this.invincible = true;
+    	this.xZero = false;
+    	if (this.controller1.left.isDown || this.controller1.right.isDown) {
+    		this.character.body.velocity.y = 0;
+      	this.character.body.velocity.x = 200 * this.character.scale.x;
+      	}
+      if (this.controller1.up.isDown) {
+        this.character.body.velocity.y = 0;
+        this.character.body.velocity.y = -250;
+      }
+      else if (this.controller1.down.isDown) {
+        this.character.body.velocity.y = 0;
+        this.character.body.velocity.y = 150;
+      }
+      	this.inputLock = true;
+      	game.time.events.add(Phaser.Timer.SECOND * 1.25, this.airDodgeTimer, this);
+      	
+    }
+
+    airDodgeEnd() {
+    	this.aniIdle.play(10, false);
+    	//this.character.body.velocity.x = (this.character.body.velocity.x) / 1.5;
+    	this.character.alpha = 1;
+    	this.airDodgeCD = 60;
+    	this.xZero = true;
+    	this.inputLock = false;
     }
 
 
@@ -1322,6 +1416,9 @@ class Fighter {
     if (this.basicCD != 0)
     {
       this.basicCD -= 1;
+    }
+    if (this.airDodgeCD != 0) {
+    	this.airDodgeCD -= 1;
     }
     //Cooldown for hit stun
     if (this.stunCounter != 0)
@@ -1574,23 +1671,41 @@ class Fighter {
     //else if(this.controlnum > 0){   <- Change to this when controller above is put back in
     if(this.controlnum > -10){
     //console.log("inside real key check");
-    console.log(this.comboclock);
+    //console.log(this.comboclock);
     //Shield logic
-      if (this.getx() && this.character.body.touching.down && this.stunCounter == 0 && this.hitVelocity == 0 && !this.inputLock)
+        if (this.character.body.touching.down) //prevents jumping when in the air
+        {
+            this.airTime = 0;
+        }
+        else if (this.airTime <= 5)
+        {
+            this.airTime++;
+        }
+
+      if (this.getx() && this.stunCounter == 0 && this.hitVelocity == 0 && !this.inputLock)
       {
-          this.character.body.velocity.x = 0;
-          this.character.animations.play('shield');
-          this.shielding = true;
-          if(this.character.hasItem) //If he has an item, THROW IT!
-          {
+      	//If statement that decides if the character will perform a shield on the ground or else it the air dodge animation will be played
+      	if (this.character.body.touching.down) {
+      		this.character.body.velocity.x = 0;
+          	this.character.animations.play('shield');
+          	this.shielding = true;
+          	if(this.character.hasItem) //If he has an item, THROW IT!
+          	{
+            	item1.throwItem(this);
 
-            item1.throwItem(this);
-
-            item1.user = null;
-            item1.pickedUp = false;
-            this.character.hasItem = false;
-
+            	item1.user = null;
+            	item1.pickedUp = false;
+            	this.character.hasItem = false;
           }
+      	}
+      	else {
+      		if (this.airDodgeCD == 0) {
+      			this.aniAirDodge.play(4, false);
+      			this.shielding = true;
+      		}
+      		
+      	}
+          
       }
 
       
@@ -1641,13 +1756,32 @@ class Fighter {
       //else if ( this.geta() && (this.getright() || this.getleft()) && !(this.m < 120 && this.m != 0) && this.stunCounter == 0 && !this.inputLock && this.basicCD == 0)
       else if ( this.geta() && !(this.m < 120 && this.m != 0) && this.stunCounter == 0 && !this.inputLock && this.basicCD == 0)
       {
-        console.log("test**************************");
+        //console.log("test**************************");
         this.combo++;
-        console.log("Increased comboclock?");
-        console.log(this.combo);
-        console.log(this.comboclock);
-        this.comboclock = 100;
+        //console.log("Increased comboclock?");
+        //console.log(this.combo);
+        //console.log(this.comboclock);
+        this.comboclock = 55;
 
+        if(this.character.hasItem) //If he has an item, USE IT!
+        {
+          item1.useItem(this);
+          item1.user = null;
+          item1.pickedUp = false;
+          this.character.hasItem = false;
+        }
+
+
+        //If really freaking close to item, and if he isnt holding something, use it!
+        if((item1.xDistCheck(this.character) < 50) && (item1.yDistCheck(this.character) < 100) && !(this.character.hasItem) && (item1.user == null))
+        {
+          item1.user = this;
+          item1.pickedUp = true;
+          this.character.hasItem = true;
+          //console.log("close to item");
+        }
+
+        
         if (this.combo == 1){
           //logic to change direction facing
           if (this.character.scale.x < 0 ){
@@ -1666,7 +1800,7 @@ class Fighter {
           //this.health += 1;
         }
         else if(this.combo == 2){
-            console.log("combo of 2 kick?");
+            //console.log("combo of 2 kick?");
             //logic to change direction facing
           if (this.character.scale.x < 0 ){
             this.character.body.velocity.x = -350 - this.moveSpeed;
@@ -1757,7 +1891,7 @@ class Fighter {
             item1.user = this;
             item1.pickedUp = true;
             this.character.hasItem = true;
-            console.log("close to item");
+            //console.log("close to item");
           }
 
 
@@ -1795,7 +1929,7 @@ class Fighter {
       }
 
       //TODO: downDuration is still here, but in merge conflict it was gone, POSSIBLY REMOVE downDuration
-      else if (this.gety() && this.jumps <= 5  && !(this.m < 120 && this.m != 0) && this.stunCounter == 0 && !this.inputLock)
+      else if (this.gety() && this.jumps <= 5 && this.airTime <= 5 && !(this.m < 120 && this.m != 0) && this.stunCounter == 0 && !this.inputLock)
       {
           this.character.body.velocity.y = -550 + this.jumpSpeed;
           jumpSound.play();
@@ -2006,6 +2140,26 @@ var playState={
           attackDistance = 300;
           hitAngle = 1.25;
           break;
+        case 'airneutral':
+          hitDmg = 65;
+          attackDistance = 300;
+          hitAngle = 1.25;
+          break;
+        case 'airforward':
+          hitDmg = 65;
+          attackDistance = 300;
+          hitAngle = 1.25;
+          break;
+        case 'airdown':
+          hitDmg = 65;
+          attackDistance = 300;
+          hitAngle = 1.25;
+          break;
+        case 'juggle':
+          hitDmg = 65;
+          attackDistance = 300;
+          hitAngle = 1.25;
+          break;
         default:
           console.log("No attacks went off, you have an error");
       }
@@ -2081,6 +2235,26 @@ hitPlayer2: function(attacking){
         attackDistance = 300;
         hitAngle = 1.25;
         break;
+      case 'airneutral':
+        hitDmg = 65;
+        attackDistance = 300;
+        hitAngle = 1.25;
+        break;
+      case 'airforward':
+        hitDmg = 65;
+        attackDistance = 300;
+        hitAngle = 1.25;
+        break;
+      case 'airdown':
+        hitDmg = 65;
+        attackDistance = 300;
+        hitAngle = 1.25;
+        break;
+      case 'juggle':
+        hitDmg = 65;
+        attackDistance = 300;
+        hitAngle = 1.25;
+        break;
       default:
         console.log("No attacks went off, you have an error");
     }
@@ -2129,7 +2303,7 @@ respawn: function(Fighter){
       Fighter.aniIdle.play(10, false);
 
       if(Fighter.controlnum == 1 ){
-          console.log("controlnum = 1");
+          //console.log("controlnum = 1");
           Fighter.character.x = 200;
           Fighter.character.y = 230;
           Fighter.respawnSwitch = true;
@@ -2140,7 +2314,7 @@ respawn: function(Fighter){
       }
 
       else if(Fighter.controlnum == 2 ){
-          console.log("controlnum = 2");
+          //console.log("controlnum = 2");
           Fighter.character.x = 600;
           Fighter.character.y = 230;
           Fighter.respawnSwitch = true;
@@ -2151,7 +2325,7 @@ respawn: function(Fighter){
       }
 
       else if(Fighter.controlnum == -1 ){
-          console.log("controlnum = -1");
+          //console.log("controlnum = -1");
           //Fighter.character.body.position.x = 200;
           Fighter.character.x = 200;
           Fighter.character.y = 230;
@@ -2162,7 +2336,7 @@ respawn: function(Fighter){
           Fighter.xZero = true;
       }
       else if(Fighter.controlnum == -2 ){
-          console.log("controlnum = -2");
+          //console.log("controlnum = -2");
           //Fighter.character.body.position.x = 200;
           Fighter.character.x = 600;
           Fighter.character.y = 230;
@@ -2648,6 +2822,15 @@ timerText.anchor.setTo(.5,.5);
     Player1.combocheck();
     Player2.combocheck();
 
+    //Applies Super armor and immovabilty to players while attacking
+    if (Player1.attacking){
+    	Player1.character.body.velocity.x = 5 * Player1.character.scale.x;
+    }
+
+    if (Player2.attacking){
+    	Player2.character.body.velocity.x = 5 * Player2.character.scale.x;
+    }
+
 
     //  Collide the players with the platforms and eachother
     if(chosenStageName == 'westPic')
@@ -2695,9 +2878,7 @@ timerText.anchor.setTo(.5,.5);
         if(passtimer1v2<100){
 
             Player1.character.body.velocity.y = 0;
-            Player2.character.body.velocity.y = 0; 
-            Player2.character.body.position.y = Player2.character.body.position.y;
-            Player2.character.body.position.y = Player2.character.body.position.y; 
+            Player2.character.body.velocity.y = 0;  
         }
         //game.physics.arcade.overlap(Player2.character, Player1.character);
         //game.physics.arcade.overlap(Player2.character, item1.type, item1.itemCollision(Player2), null, this);
@@ -2710,7 +2891,16 @@ timerText.anchor.setTo(.5,.5);
         game.physics.arcade.collide(Player1.character,Player2.character);
     }
     else{
-        passtimer1v2--;
+    	if (Player1.attacking){
+    		game.physics.arcade.collide(Player1.character,Player2.character);
+    	}
+    	else if (Player2.attacking){
+    		game.physics.arcade.collide(Player1.character,Player2.character);
+    	}
+    	else{
+    		passtimer1v2--;
+    	}
+        
     }
     //console.log(passtimer1v2);    
     // end of logic for player to bump against then pass through other character
@@ -2736,9 +2926,9 @@ timerText.anchor.setTo(.5,.5);
 
     if(item1.user)
     {
-      console.log('item1.user.controlnum: '+ item1.user.controlnum);
-      console.log('item1.thrown: ' + item1.thrown);
-      console.log('item1.active: ' + item1.active);
+      //console.log('item1.user.controlnum: '+ item1.user.controlnum);
+      //console.log('item1.thrown: ' + item1.thrown);
+      //console.log('item1.active: ' + item1.active);
 
     }
 
