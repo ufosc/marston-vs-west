@@ -27,6 +27,7 @@ var playState = {
           hitDmg = 9;
           attackDistance = 2;
           hitAngle = 1;
+
           break;
         case 'kick':
           hitDmg = 15;
@@ -54,6 +55,7 @@ var playState = {
 
       if (Player1.m == 0 && !Player1.shielding) {
         hitSound.play();
+
 
 
 
@@ -117,9 +119,30 @@ var playState = {
           attackDistance = 300;
           hitAngle = 1.25;
           break;
+        case 'airneutral':
+          hitDmg = 65;
+          attackDistance = 300;
+          hitAngle = 1.25;
+          break;
+        case 'airforward':
+          hitDmg = 65;
+          attackDistance = 300;
+          hitAngle = 1.25;
+          break;
+        case 'airdown':
+          hitDmg = 65;
+          attackDistance = 300;
+          hitAngle = 1.25;
+          break;
+        case 'juggle':
+          hitDmg = 65;
+          attackDistance = 300;
+          hitAngle = 1.25;
+          break;
         default:
           console.log("No attacks went off, you have an error");
       }
+
 
       if (Player2.m == 0 && !Player2.shielding) {
         hitSound.play();
@@ -145,6 +168,7 @@ var playState = {
           hitpause = 10;
           Player2.stunCounter = 450;
         }
+
       }
       Player1.deltDamage = true;
     }
@@ -656,6 +680,15 @@ var playState = {
     Player1.combocheck();
     Player2.combocheck();
 
+    //Applies Super armor and immovabilty to players while attacking
+    if (Player1.attacking){
+    	Player1.character.body.velocity.x = 5 * Player1.character.scale.x;
+    }
+
+    if (Player2.attacking){
+    	Player2.character.body.velocity.x = 5 * Player2.character.scale.x;
+    }
+
 
     //  Collide the players with the platforms and eachother
     if (chosenStageName == 'westPic') {
@@ -741,7 +774,6 @@ var playState = {
       console.log('item1.user.controlnum: ' + item1.user.controlnum);
       console.log('item1.thrown: ' + item1.thrown);
       console.log('item1.active: ' + item1.active);
-
     }
 
     //Item Collision, makes sure that the item you hold doesnt hit you when you throw it, but only hits the other person
