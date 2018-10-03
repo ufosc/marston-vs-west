@@ -221,10 +221,10 @@ class Item
           target.health += 10;
           game.time.events.add(Phaser.Timer.SECOND * 2, this.spawnItem, this); //After 2 seconds, spawn the item
         }
-        else if(this.type.key == 'helmet') //Current does the same thing as bottle but does damange to player instead
+        else if(this.type.key == 'helmet') //Current respawns player without decrementing lives
         {
           itemSound.play();
-
+          target.lives++; //respawn decrements lives, this increments lives first
           this.gameRef.respawn(target);
           game.time.events.add(Phaser.Timer.SECOND * 2, this.spawnItem, this); //After 2 seconds, spawn the item
           this.type.destroy();
@@ -600,6 +600,7 @@ class Fighter {
        this.attacking = false; //Controls when to register active hit frames
        this.deltDamage = false;
        this.attack = '';
+       this.airTime = 0;
 
        this.combo = 0;
        this.comboclock = 0;
@@ -1672,6 +1673,15 @@ class Fighter {
     //console.log("inside real key check");
     //console.log(this.comboclock);
     //Shield logic
+        if (this.character.body.touching.down) //prevents jumping when in the air
+        {
+            this.airTime = 0;
+        }
+        else if (this.airTime <= 5)
+        {
+            this.airTime++;
+        }
+
       if (this.getx() && this.stunCounter == 0 && this.hitVelocity == 0 && !this.inputLock)
       {
       	//If statement that decides if the character will perform a shield on the ground or else it the air dodge animation will be played
@@ -1919,7 +1929,7 @@ class Fighter {
       }
 
       //TODO: downDuration is still here, but in merge conflict it was gone, POSSIBLY REMOVE downDuration
-      else if (this.gety() && this.jumps <= 5  && !(this.m < 120 && this.m != 0) && this.stunCounter == 0 && !this.inputLock)
+      else if (this.gety() && this.jumps <= 5 && this.airTime <= 5 && !(this.m < 120 && this.m != 0) && this.stunCounter == 0 && !this.inputLock)
       {
           this.character.body.velocity.y = -550 + this.jumpSpeed;
           jumpSound.play();
