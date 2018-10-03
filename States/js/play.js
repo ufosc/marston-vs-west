@@ -1372,17 +1372,17 @@ class Fighter {
     	this.invincible = true;
     	this.xZero = false;
     	if (this.controller1.left.isDown || this.controller1.right.isDown) {
-    		this.character.body.velocity.y = this.character.body.velocity.y / 2;
-      		this.character.body.velocity.x = 50 * this.character.scale.x;
+    		this.character.body.velocity.y = 0;
+      	this.character.body.velocity.x = 200 * this.character.scale.x;
       	}
-      	else if (this.controller1.up.isDown) {
-      		this.character.body.velocity.y = 0;
-      		this.character.body.velocity.y = -250;
-      	}
-      	else if (this.controller1.down.isDown) {
-      		this.character.body.velocity.y = 0;
-      		this.character.body.velocity.y = 150;
-      	}
+      if (this.controller1.up.isDown) {
+        this.character.body.velocity.y = 0;
+        this.character.body.velocity.y = -250;
+      }
+      else if (this.controller1.down.isDown) {
+        this.character.body.velocity.y = 0;
+        this.character.body.velocity.y = 150;
+      }
       	this.inputLock = true;
       	game.time.events.add(Phaser.Timer.SECOND * 1.25, this.airDodgeTimer, this);
       	
