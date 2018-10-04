@@ -131,14 +131,14 @@ var testconnect1;
 
 
 var style =
-    {
-        font: "bold 32px Arial", fill: "#fff", boundsAlignH: "left", boundsAlignV: "top"
-    };
+{
+    font: "bold 32px Arial", fill: "#fff", boundsAlignH: "left", boundsAlignV: "top"
+};
 
 var style2 =
-    {
-        font: "bold 32px Skranji", fill: "#ffff00", boundsAlignH: "left", boundsAlignV: "top"
-    };
+{
+    font: "bold 32px Skranji", fill: "#ffff00", boundsAlignH: "left", boundsAlignV: "top"
+};
 
 
 var enemyText;
@@ -195,13 +195,13 @@ var stage2;
 var chosenStageName;
 var chosenMap;
 
-game.state.add('boot',bootState);
-game.state.add('options',optionsState);
-game.state.add('credits',creditsState);
-game.state.add('load',loadState);
-game.state.add('menu',menuState);
-game.state.add('play',playState);
-game.state.add('win',winState);
+game.state.add('boot', bootState);
+game.state.add('options', optionsState);
+game.state.add('credits', creditsState);
+game.state.add('load', loadState);
+game.state.add('menu', menuState);
+game.state.add('play', playState);
+game.state.add('win', winState);
 game.state.add('css', cssState);
 game.state.add('sss', sssState);
 
