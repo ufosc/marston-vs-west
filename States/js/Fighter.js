@@ -605,10 +605,10 @@ class Fighter {
         this.character.alpha = 0.5;
         let direction;
         //if (this.controller1.right.isDown) {            
-        if (this.getright) {
+        if (this.getright()) {
             direction = 1;
         }
-        else if (this.getleft) {
+        else if (this.getleft()) {
             direction = -1;
         }
         else {
