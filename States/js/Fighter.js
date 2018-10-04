@@ -604,10 +604,11 @@ class Fighter {
     dashStart() {
         this.character.alpha = 0.5;
         let direction;
-        if (this.controller1.right.isDown) {
+        //if (this.controller1.right.isDown) {            
+        if (this.getright) {
             direction = 1;
         }
-        else if (this.controller1.left.isDown) {
+        else if (this.getleft) {
             direction = -1;
         }
         else {

@@ -551,9 +551,6 @@ var playState = {
 
             //controller1
             testconnect1 = false;
-
-
-
         }
 
 
@@ -912,7 +909,6 @@ var playState = {
     //actually is the win function
     start: function () {
         game.state.start('win');
-
     },
 
     //AI Logic and functions
@@ -1005,7 +1001,6 @@ var playState = {
 
             Fighter.controller1.ypress = false;
         }
-
     },
 
     AIplay: function (Fighter1, Fighter2) {
@@ -1016,9 +1011,19 @@ var playState = {
         //if AIxdist is > 0 then fighter2 is on right, fighter 1 on left
         //if AIxdist is < 0 then fighter2 is on left, fighter 1 on right
 
+        //initialize all buttons to false
+        Fighter1.leftpress = false;
+        Fighter1.rightpress = false;
+        Fighter1.uppress = false;
+        Fighter1.downpress = false;
+
+        Fighter1.apress = false;//regular attack button
+        Fighter1.bpress = false;//special button
+        Fighter1.xpress = false;//jump button
+        Fighter1.ypress = false;//block button
+        console.log(AIydist);
         //random number generator between 1 and 1000
         react = Math.floor((Math.random() * 1000) + 1);
-
         if (react < 10) {
             console.log("Behavior switch!");
 
@@ -1040,34 +1045,36 @@ var playState = {
             return;
         }
         //random number to determine if AI should use a jab or normal attack
-        attack = Math.floor((Math.random() * 1000) + 1);
+        attack = Math.floor((Math.random() * 100) + 1);
         //normal attack logic
-        if (AIxdist < 60 && AIxdist > 0) {
-            Fighter2.controller1.apress = true;
+        if(attack>5){
+            if (AIxdist < 60 && AIxdist > 0) {
+                Fighter2.controller1.apress = true;
+            }
+            else if (AIxdist > -60 && AIxdist < 0) {
+                Fighter2.controller1.apress = true;
+            }
+            //Juggle AKA Up swipe attack
+            else if (AIydist < 15 && AIydist > -15 && AIxdist < 10) {
+                Fighter2.controller1.uppress = true;
+                Fighter2.controller1.apress = true;
+            }
+            else {
+                Fighter2.controller1.apress = false;
+            }
         }
-        else if (AIxdist > -60 && AIxdist < 0) {
-            Fighter2.controller1.apress = true;
+        else{
+            //special attack logic
+            if (AIxdist < 60 && AIxdist > 0) {
+                Fighter2.controller1.bpress = true;
+            }
+            else if (AIxdist > -60 && AIxdist < 0) {
+                Fighter2.controller1.bpress = true;
+            }
+            else {
+                Fighter2.controller1.bpress = false;
+            }
         }
-        //Juggle AKA Up swipe attack
-        else if (AIydist < 15 && AIydist > -15 ) {
-            Fighter2.controller1.uppress = true;
-            Fighter2.controller1.apress = true;
-        }
-        else {
-            Fighter2.controller1.apress = false;
-        }
-
-        //special attack logic
-        if (AIxdist < 60 && AIxdist > 0) {
-            Fighter2.controller1.bpress = true;
-        }
-        else if (AIxdist > -60 && AIxdist < 0) {
-            Fighter2.controller1.bpress = true;
-        }
-        else {
-            Fighter2.controller1.bpress = false;
-        }
-
         //jump logic
 		/*
 		if(AIydist > 100 || Fighter2.character.body.position.y < 40){
@@ -1079,7 +1086,6 @@ var playState = {
 		*/
 
         //General movement/walk behavior
-
 
         if (Fighter2.AImode == 1) {
             //aggresive behavior
@@ -1164,7 +1170,6 @@ var playState = {
             //Fighter2.controller1.leftpress = false;
             //Fighter2.controller1.rightpress = false;
         }
-
     },
 
     // function to control the moving mob hazard in marston stage
@@ -1196,5 +1201,4 @@ var playState = {
         }
         mob.people.fire();
     }
-
 };
