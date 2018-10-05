@@ -54,8 +54,8 @@ var loadState = {
         this.game.load.audio('creditsMusic', 'assets/Birdbeat.ogg');
         this.game.load.audio('menuMusic', 'assets/Birdbeat.ogg');
         this.game.load.audio('allstar', 'assets/swampysmash.ogg');
-        game.load.image('marstonPic', 'assets/thegreatestlibrary.png');
-        game.load.image('westPic', 'assets/theworstlibrary.png');
+        game.load.image('marstonPic', 'assets/thegreatestlibrary.jpg');
+        game.load.image('westPic', 'assets/theworstlibrary.jpg');
         game.load.image('fullScreenButton', 'assets/fullScreenButton.png');
         game.load.image('displayButton1', 'assets/displayButton1.png');
         game.load.image('displayButton2', 'assets/displayButton2.png');
