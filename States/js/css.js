@@ -7,9 +7,12 @@ var cssState = {
         controlOptionAI = 0;
         charName1 = "";
         charName2 = "";
+        multimanmode = false;
 
+        
 
         key1 = game.input.keyboard.addKey(Phaser.Keyboard.ONE);
+        
         dudeIcon = game.add.sprite(game.world.width * .5 - 200, game.world.height * .25 + 50, 'dudeIcon');
         dudeIcon.anchor.setTo(.5, .5);
         dudeIcon.scale.setTo(.5, .5);
@@ -112,7 +115,27 @@ var cssState = {
             }
         });
 
+        var MultimanLabel = game.add.text(200, 100, 'Multiman Mode: OFF', { font: '25px Arial', fill: '#ffffff' });
+        MultimanLabel.inputEnabled = true;
+        MultimanLabel.selected = 0;
+        MultimanLabel.librarySelected = '';
+        MultimanLabel.events.onInputUp.add(function () {
+            switch (MultimanLabel.selected) {
 
+                case 0:
+                    MultimanLabel.librarySelected = 'Multiman Mode: OFF'
+                    MultimanLabel.text = `${MultimanLabel.librarySelected}`;
+                    MultimanLabel.selected++;
+                    multimanmode = false;
+                    break;
+                case 1:
+                    MultimanLabel.librarySelected = 'Multiman Mode: ON'
+                    MultimanLabel.text = `${MultimanLabel.librarySelected}`;
+                    MultimanLabel.selected--;
+                    multimanmode = true;
+                    break;
+            }
+        });
 
 
         //TODO:Incorperate dragUpdate function event system into current system. I think it's needed to fix bugs/add dynamic features like spawning the character when hovering over while still dragging.

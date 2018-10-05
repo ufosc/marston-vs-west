@@ -604,19 +604,10 @@ class Fighter {
     dashStart() {
         this.character.alpha = 0.5;
         let direction;
-        //if (this.controller1.right.isDown) {            
-        if (this.getright) {
-            direction = 1;
-        }
-        else if (this.getleft) {
-            direction = -1;
-        }
-        else {
-            direction = 0;
-        }
         this.xZero = false;
         this.invincible = true;
-        this.character.body.velocity.x = 500 * direction;
+        //this.character.body.velocity.x = 500 * direction;
+        this.character.body.velocity.x = 500 * this.character.scale.x;
         //this.character.body.position.x += direction * 100;
         this.inputLock = true;
     }
@@ -1366,12 +1357,7 @@ class Fighter {
                     this.jumps = 0;
                 }
             }
-
-
         }
         //end of update input function
     }
-
-
 }
-

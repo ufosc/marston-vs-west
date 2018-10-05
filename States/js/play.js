@@ -1,11 +1,10 @@
 var playState = {
-
-    hitPlayer1: function (attacking) {
-        //console.log('inside hitplayer1');
+    //hitPlayer12: function (target,attacker)
+    hitPlayer12: function (Player1,Player2) {
         let hitDmg = 0;
         let hitAngle = 0;
         let attackDistance = 0;
-        if (!Player2.deltDamage && !Player1.invincible && attacking && (game.physics.arcade.overlap(Player1.character, Player2.weapon1.bullets) || game.physics.arcade.overlap(Player1.character, Player2.weaponKick.bullets) || game.physics.arcade.overlap(Player1.character, Player2.weaponUppercut.bullets) || game.physics.arcade.overlap(Player1.character, Player2.jumpKick.bullets))) {
+        if (!Player2.deltDamage && !Player1.invincible && Player2.attacking && (game.physics.arcade.overlap(Player1.character, Player2.weapon1.bullets) || game.physics.arcade.overlap(Player1.character, Player2.weaponKick.bullets) || game.physics.arcade.overlap(Player1.character, Player2.weaponUppercut.bullets) || game.physics.arcade.overlap(Player1.character, Player2.jumpKick.bullets))) {
             Player1.attacking = false;
             switch (Player2.attack) {
                 case 'punch':
@@ -86,91 +85,6 @@ var playState = {
                 }
             }
             Player2.deltDamage = true;
-        }
-    },
-
-    hitPlayer2: function (attacking) {
-        let hitDmg = 0;
-        let attackDistance = 0;
-        let hitAngle = 0;
-        if (!Player1.deltDamage && !Player2.invincible && attacking && (game.physics.arcade.overlap(Player2.character, Player1.weapon1.bullets) || game.physics.arcade.overlap(Player2.character, Player1.weaponKick.bullets) || game.physics.arcade.overlap(Player2.character, Player1.weaponUppercut.bullets) || game.physics.arcade.overlap(Player2.character, Player1.jumpKick.bullets))) {
-            Player2.attacking = false;
-            switch (Player1.attack) {
-                case 'punch':
-                    hitDmg = 9;
-                    attackDistance = 2;
-                    hitAngle = 1;
-                    break;
-                case 'kick':
-                    hitDmg = 15;
-                    attackDistance = 10;
-                    hitAngle = 1;
-                    break;
-                case 'uppercut':
-                    hitDmg = 35;
-                    attackDistance = 70;
-                    hitAngle = 1.35;
-                    break;
-                case 'jumpKick':
-                    hitDmg = 10;
-                    attackDistance = 25;
-                    hitAngle = 1;
-                    break;
-                case 'warlock':
-                    hitDmg = 65;
-                    attackDistance = 300;
-                    hitAngle = 1.25;
-                    break;
-                case 'airneutral':
-                    hitDmg = 65;
-                    attackDistance = 300;
-                    hitAngle = 1.25;
-                    break;
-                case 'airforward':
-                    hitDmg = 65;
-                    attackDistance = 300;
-                    hitAngle = 1.25;
-                    break;
-                case 'airdown':
-                    hitDmg = 65;
-                    attackDistance = 300;
-                    hitAngle = 1.25;
-                    break;
-                case 'juggle':
-                    hitDmg = 65;
-                    attackDistance = 300;
-                    hitAngle = 1.25;
-                    break;
-                default:
-                    console.log("No attacks went off, you have an error");
-            }
-
-            if (Player2.m == 0 && !Player2.shielding) {
-                hitSound.play();
-
-                Player2.health += hitDmg;
-                Player2.hitVelocity = Player1.character.scale.x * Player2.health * 2;
-
-                Player2.character.body.velocity.y = -(Math.pow(Player2.health, 1.25));
-                if (Player2.health >= 0 || Player2.health <= 75) {
-                    Player2.stunCounter = 60;
-                }
-                else if (Player2.health > 75 || Player2.health <= 150) {
-                    Player2.stunCounter = 120;
-                    if (Player2.health >= 120) {
-                        hitpause = 10;
-                    }
-                }
-                else if (Player2.health > 150 || Player2.health < 200) {
-                    hitpause = 10;
-                    Player2.stunCounter = 300;
-                }
-                else {
-                    hitpause = 10;
-                    Player2.stunCounter = 450;
-                }
-            }
-            Player1.deltDamage = true;
         }
     },
 
@@ -573,7 +487,8 @@ var playState = {
 
         nameText1 = game.add.text(0, 0, "P1", style);
         nameText2 = game.add.text(0, 0, "P2", style);
-
+        nameText3 = game.add.text(0, 0, "P3", style);
+        nameText4 = game.add.text(0, 0, "P4", style);
 
         //Pause
         pauseLabel = game.add.text(game.world.width * .5, game.world.height * .15, 'Pause', { font: '50px Arial', fill: '#ffffff' });
@@ -758,13 +673,14 @@ var playState = {
         //add physics for item (eventually just add items to a group and use collision detection for the group)
         game.physics.arcade.collide(item1.type, platforms, item1.onGround());
 
-        if (multimanmode == true) {
+        if (multimanmode == true ) {
             game.physics.arcade.collide(Player3.character, platforms);
             game.physics.arcade.collide(Player4.character, platforms);
-            game.physics.arcade.collide(Player1.character, Player3.character);
-            game.physics.arcade.collide(Player1.character, Player4.character);
+            if(passtimer1v2 < 100){
+                game.physics.arcade.collide(Player1.character, Player3.character);
+                game.physics.arcade.collide(Player1.character, Player4.character);
+            }
         }
-
         //Player1.nespad.connectgamepad();
         //console.log(Player1.nespad.nescontroller.aButton);
 
@@ -798,31 +714,55 @@ var playState = {
 
         //hitbox collision for player 2, we pass the type of hit into the hit player function
         if (Player1.attacking) {
-            game.physics.arcade.overlap(Player1.weapon1.bullets, Player2.character, this.hitPlayer2(Player1.attacking));
+            /*game.physics.arcade.overlap(Player1.weapon1.bullets, Player2.character, this.hitPlayer2(Player1.attacking));
             game.physics.arcade.overlap(Player1.weaponKick.bullets, Player2.character, this.hitPlayer2(Player1.attacking));
             game.physics.arcade.overlap(Player1.weaponUppercut.bullets, Player2.character, this.hitPlayer2(Player1.attacking));
-            game.physics.arcade.overlap(Player1.jumpKick.bullets, Player2.character, this.hitPlayer2(Player1.attacking));
+            game.physics.arcade.overlap(Player1.jumpKick.bullets, Player2.character, this.hitPlayer2(Player1.attacking));*/
+            game.physics.arcade.overlap(Player1.weapon1.bullets, Player2.character, this.hitPlayer12(Player2, Player1));
+            game.physics.arcade.overlap(Player1.weaponKick.bullets, Player2.character, this.hitPlayer12(Player2, Player1));
+            game.physics.arcade.overlap(Player1.weaponUppercut.bullets, Player2.character, this.hitPlayer12(Player2, Player1));
+            game.physics.arcade.overlap(Player1.jumpKick.bullets, Player2.character, this.hitPlayer12(Player2, Player1));
+            if(multimanmode == true){
+                game.physics.arcade.overlap(Player1.weapon1.bullets, Player2.character, this.hitPlayer12(Player3, Player1));
+                game.physics.arcade.overlap(Player1.weaponKick.bullets, Player2.character, this.hitPlayer12(Player3, Player1));
+                game.physics.arcade.overlap(Player1.weaponUppercut.bullets, Player2.character, this.hitPlayer12(Player3, Player1));
+                game.physics.arcade.overlap(Player1.jumpKick.bullets, Player2.character, this.hitPlayer12(Player3, Player1));
+
+                game.physics.arcade.overlap(Player1.weapon1.bullets, Player2.character, this.hitPlayer12(Player4, Player1));
+                game.physics.arcade.overlap(Player1.weaponKick.bullets, Player2.character, this.hitPlayer12(Player4, Player1));
+                game.physics.arcade.overlap(Player1.weaponUppercut.bullets, Player2.character, this.hitPlayer12(Player4, Player1));
+                game.physics.arcade.overlap(Player1.jumpKick.bullets, Player2.character, this.hitPlayer12(Player4, Player1));
+            }
         }
         if (Player2.attacking) {
             //hitbox collision for player 1, we pass the type of hit into the hit player function
-            game.physics.arcade.overlap(Player2.weapon1.bullets, Player1.character, this.hitPlayer1(Player2.attacking));
+            /*game.physics.arcade.overlap(Player2.weapon1.bullets, Player1.character, this.hitPlayer1(Player2.attacking));
             game.physics.arcade.overlap(Player2.weaponKick.bullets, Player1.character, this.hitPlayer1(Player2.attacking));
             game.physics.arcade.overlap(Player2.weaponUppercut.bullets, Player1.character, this.hitPlayer1(Player2.attacking));
-            game.physics.arcade.overlap(Player2.jumpKick.bullets, Player1.character, this.hitPlayer1(Player2.attacking));
+            game.physics.arcade.overlap(Player2.jumpKick.bullets, Player1.character, this.hitPlayer1(Player2.attacking));*/
+            game.physics.arcade.overlap(Player2.weapon1.bullets, Player1.character, this.hitPlayer12(Player1, Player2));
+            game.physics.arcade.overlap(Player2.weaponKick.bullets, Player1.character, this.hitPlayer12(Player1, Player2));
+            game.physics.arcade.overlap(Player2.weaponUppercut.bullets, Player1.character, this.hitPlayer12(Player1, Player2));
+            game.physics.arcade.overlap(Player2.jumpKick.bullets, Player1.character, this.hitPlayer12(Player1, Player2));
         }
 
         else if (multimanmode) {
+            
+            
+            
             if (Player3.attacking) {
                 //hitbox collision for player 1, we pass the type of hit into the hit player function
-                game.physics.arcade.overlap(Player3.weapon1.bullets, Player1.character, this.hitPlayer1(Player2.attacking));
-                game.physics.arcade.overlap(Player3.weaponKick.bullets, Player1.character, this.hitPlayer1(Player2.attacking));
-                game.physics.arcade.overlap(Player3.weaponUppercut.bullets, Player1.character, this.hitPlayer1(Player2.attacking));
+                game.physics.arcade.overlap(Player3.weapon1.bullets, Player1.character, this.hitPlayer12(Player1,Player3));
+                game.physics.arcade.overlap(Player3.weaponKick.bullets, Player1.character, this.hitPlayer12(Player1,Player3));
+                game.physics.arcade.overlap(Player3.weaponUppercut.bullets, Player1.character, this.hitPlayer12(Player1,Player3));
+                game.physics.arcade.overlap(Player3.jumpKick.bullets, Player1.character, this.hitPlayer12(Player1,Player3));
             }
-            else if (Player4.attacking) {
+            if (Player4.attacking) {
                 //hitbox collision for player 1, we pass the type of hit into the hit player function
-                game.physics.arcade.overlap(Player4.weapon1.bullets, Player1.character, this.hitPlayer1(Player2.attacking));
-                game.physics.arcade.overlap(Player4.weaponKick.bullets, Player1.character, this.hitPlayer1(Player2.attacking));
-                game.physics.arcade.overlap(Player4.weaponUppercut.bullets, Player1.character, this.hitPlayer1(Player2.attacking));
+                game.physics.arcade.overlap(Player4.weapon1.bullets, Player1.character, this.hitPlayer12(Player1,Player4));
+                game.physics.arcade.overlap(Player4.weaponKick.bullets, Player1.character, this.hitPlayer12(Player1,Player4));
+                game.physics.arcade.overlap(Player4.weaponUppercut.bullets, Player1.character, this.hitPlayer12(Player1,Player4));
+                game.physics.arcade.overlap(Player4.jumpKick.bullets, Player1.character, this.hitPlayer12(Player1,Player4));
             }
         }
 
@@ -853,8 +793,17 @@ var playState = {
 
             //Multiman mode on so AI controls 2 additional fighters
             if (multimanmode == true) {
+
                 this.AIplay(Player1, Player3);
                 this.AIplay(Player1, Player4);
+                Player3.updateInput();
+                Player4.updateInput();
+                this.KO(Player3);
+                this.KO(Player4);
+                this.respawnEvent(Player3);
+                this.respawnEvent(Player4);
+                nameText3.alignTo(Player3.character, Phaser.TOP, 16);
+                nameText4.alignTo(Player4.character, Phaser.TOP, 16);
             }
 
         }
@@ -873,19 +822,9 @@ var playState = {
 
         this.KO(Player1);
         this.KO(Player2);
-        if (multimanmode == true) {
-            this.KO(Player3);
-            this.KO(Player4);
-        }
 
         this.respawnEvent(Player1);
         this.respawnEvent(Player2);
-        if (multimanmode == true) {
-            this.respawnEvent(Player3);
-            this.respawnEvent(Player4);
-        }
-
-
 
         //If out of lives, end the game
         if (Player1.lives == 0) {
@@ -895,14 +834,13 @@ var playState = {
                 console.log(multimenko);
             }
         }
-        if (Player2.lives == 0) {
+        if (Player2.lives == 0 && multimanmode == false) {
             game.state.start('win');
         }
 
         timerText.text = this.formatTime(Math.round((timerEvent.delay - timer.ms) / 1000));
 
         //stagecam.updatecamera(Player1,Player2,100,100,800,600);
-
 
     },
 
@@ -933,7 +871,6 @@ var playState = {
             Fighter2.character.body.velocity.y = -100;
         }
     },
-
 
     attackMode: function (Fighter, AIxdist, AIydist) {
         //aggressive ai behavior mode
