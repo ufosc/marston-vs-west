@@ -96,6 +96,48 @@ var playState = {
         game.time.events.add(Phaser.Timer.SECOND, this.playRespawnSound, this);
         Fighter.aniIdle.play(10, false);
 
+        Fighter.deathBlast.x = Fighter.character.x;
+        Fighter.deathBlast.y = Fighter.character.y;
+        
+        if (Fighter.deathBlast.x < 0)
+        {
+            if (Fighter.deathBlast.y < 0)
+            {
+                Fighter.deathBlast.angle = 45;
+            }
+            else if (Fighter.deathBlast.y > game.world.height)
+            {
+                Fighter.deathBlast.angle = -45;
+            }
+            else
+            {
+                Fighter.deathBlast.angle = 0;
+            }
+        }
+        else if (Fighter.deathBlast.x > game.world.width)
+        {
+            if (Fighter.deathBlast.y < 0)
+            {
+                Fighter.deathBlast.angle = 135;
+            }
+            else if (Fighter.deathBlast.y > game.world.height)
+            {
+                Fighter.deathBlast.angle = -135;
+            }
+            else
+            {
+                Fighter.deathBlast.angle = 180;
+            }
+        }
+        else if (Fighter.deathBlast.y < 0)
+        {
+            Fighter.deathBlast.angle = 90;
+        }
+        else
+        {
+            Fighter.deathBlast.angle = -90;
+        }
+
         if (Fighter.controlnum == 1) {
             //console.log("controlnum = 1");
             Fighter.character.x = 200;
@@ -158,6 +200,7 @@ var playState = {
                 Fighter.character.body.velocity.x = 0;
                 Fighter.hitVelocity = 0;
                 Fighter.character.visible = false;
+                Fighter.deathBlast.visible = true;
             }
             //Book Crashing down Animation
             else if (Fighter.m >= 60 && Fighter.m < 120) {
@@ -165,6 +208,7 @@ var playState = {
                 Fighter.character.body.velocity.x = 0;
                 Fighter.hitVelocity = 0;
                 Fighter.character.visible = true;
+                Fighter.deathBlast.visible = false;
             }
             else {
                 Fighter.character.body.gravity.y = 650;

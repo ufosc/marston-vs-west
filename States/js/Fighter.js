@@ -9,6 +9,8 @@ class Fighter {
         this.deltDamage = false;
         this.attack = '';
         this.airTime = 0;
+        this.deathBlast = game.add.sprite(game.world.width * 0.2, game.world.width * 0.05, "deathBlast");
+        this.deathBlast.visible = false;
 
         this.combo = 0;
         this.comboclock = 0;

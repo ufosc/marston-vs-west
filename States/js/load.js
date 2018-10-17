@@ -30,7 +30,7 @@ var loadState = {
         game.load.spritesheet('bottle', 'assets/bottle.png', 32, 32);
         game.load.spritesheet('book', 'assets/book.png', 32, 32);
         game.load.spritesheet('Sandbag', 'assets/sandbag.png', 32, 32);
-
+        game.load.image('deathBlast', 'assets/DeathBlast.png');
 
         //Virtual controller assets
         game.load.image('leftButton', 'assets/ButtonLeftbig.png');
