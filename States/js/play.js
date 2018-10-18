@@ -96,16 +96,18 @@ var playState = {
         game.time.events.add(Phaser.Timer.SECOND, this.playRespawnSound, this);
         Fighter.aniIdle.play(10, false);
 
-        Fighter.deathBlast.x = Fighter.character.x;
-        Fighter.deathBlast.y = Fighter.character.y;
+        Fighter.deathBlast.x = (Fighter.character.x < 0) ? (0) : (Fighter.character.x);
+        Fighter.deathBlast.y = (Fighter.character.y < 0) ? (0) : (Fighter.character.y);
+        Fighter.deathBlast.x = (Fighter.character.x > game.world.width) ? (game.world.width) : (Fighter.deathBlast.x);
+        Fighter.deathBlast.y = (Fighter.character.y > game.world.height) ? (game.world.height) : (Fighter.deathBlast.y);
         
-        if (Fighter.deathBlast.x < 0)
+        if (Fighter.character.x < 0)
         {
-            if (Fighter.deathBlast.y < 0)
+            if (Fighter.character.y < 0)
             {
                 Fighter.deathBlast.angle = 45;
             }
-            else if (Fighter.deathBlast.y > game.world.height)
+            else if (Fighter.character.y > game.world.height)
             {
                 Fighter.deathBlast.angle = -45;
             }
@@ -114,13 +116,13 @@ var playState = {
                 Fighter.deathBlast.angle = 0;
             }
         }
-        else if (Fighter.deathBlast.x > game.world.width)
+        else if (Fighter.character.x > game.world.width)
         {
-            if (Fighter.deathBlast.y < 0)
+            if (Fighter.character.y < 0)
             {
                 Fighter.deathBlast.angle = 135;
             }
-            else if (Fighter.deathBlast.y > game.world.height)
+            else if (Fighter.character.y > game.world.height)
             {
                 Fighter.deathBlast.angle = -135;
             }
@@ -129,7 +131,7 @@ var playState = {
                 Fighter.deathBlast.angle = 180;
             }
         }
-        else if (Fighter.deathBlast.y < 0)
+        else if (Fighter.character.y < 0)
         {
             Fighter.deathBlast.angle = 90;
         }
