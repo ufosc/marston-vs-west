@@ -531,9 +531,11 @@ var playState = {
 
         nameText1 = game.add.text(0, 0, "P1", style);
         nameText2 = game.add.text(0, 0, "P2", style);
-        nameText3 = game.add.text(0, 0, "P3", style);
-        nameText4 = game.add.text(0, 0, "P4", style);
-
+        
+        if(multimanmode == true) {
+            nameText3 = game.add.text(0, 0, "P3", style);
+            nameText4 = game.add.text(0, 0, "P4", style);
+        }
         //Pause
         pauseLabel = game.add.text(game.world.width * .5, game.world.height * .15, 'Pause', { font: '50px Arial', fill: '#ffffff' });
         pauseLabel.anchor.setTo(.5, .5);
