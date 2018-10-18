@@ -45,7 +45,7 @@ var westPicture;
 var mob;
 var people;
 
-var lives;
+var lives = 3;
 
 var hitpause;
 
@@ -168,6 +168,7 @@ var cooldown2;
 var charactername;
 var minLabel;
 var secLabel;
+var livesLabel;
 var pauseLabel;
 var choiseLabel;
 var pauseMenu;
@@ -182,8 +183,10 @@ var displayButton3;
 var displayButton4;
 var gameMinIncButton;
 var gameSecIncButton;
+var gameLivesIncButton;
 var gameMinDecButton;
 var gameSecDecButton;
+var gameLivesDecButton;
 
 var music;
 

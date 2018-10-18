@@ -403,39 +403,39 @@ var playState = {
         }
 
         if (charName1 == 'dude') {
-            Player1 = new dj(charName1, 0, 3, game.world.width * 0.25, game.world.height * 0.5, controlOptionVpad);
+            Player1 = new dj(charName1, 0, lives, game.world.width * 0.25, game.world.height * 0.5, controlOptionVpad);
             console.log(Player1);
             console.log("Player 1 is dj");
         }
         else if (charName1 == 'chick') {
-            Player1 = new lab(charName1, 0, 3, game.world.width * 0.25, game.world.height * 0.5, controlOptionVpad);
+            Player1 = new lab(charName1, 0, lives, game.world.width * 0.25, game.world.height * 0.5, controlOptionVpad);
             console.log("Player 1 is lab");
         }
         else {
-            Player1 = new lab(charName1, 0, 3, game.world.width * 0.25, game.world.height * 0.5, controlOptionVpad);
+            Player1 = new lab(charName1, 0, lives, game.world.width * 0.25, game.world.height * 0.5, controlOptionVpad);
             console.log("Player 1 is lab");
         }
 
         if (charName2 == 'dude') {
-            Player2 = new dj(charName2, 0, 3, game.world.width * 0.75, game.world.height * 0.5, controlOptionAI);
+            Player2 = new dj(charName2, 0, lives, game.world.width * 0.75, game.world.height * 0.5, controlOptionAI);
             console.log("Player 2 is dj");
         }
         else if (charName2 == 'chick') {
-            Player2 = new lab(charName2, 0, 3, game.world.width * 0.75, game.world.height * 0.5, controlOptionAI);
+            Player2 = new lab(charName2, 0, lives, game.world.width * 0.75, game.world.height * 0.5, controlOptionAI);
             console.log("Player 2 is lab");
         }
         else {
-            Player2 = new lab(charName2, 0, 3, game.world.width * 0.75, game.world.height * 0.5, controlOptionAI);
+            Player2 = new lab(charName2, 0, lives, game.world.width * 0.75, game.world.height * 0.5, controlOptionAI);
             console.log("Player 2 is lab");
         }
 
 
 
         if (multimanmode == true) {
-            Player3 = new lab(charName2, 0, 3, game.world.width * 0.5, game.world.height * 0.5, controlOptionAI);
+            Player3 = new lab(charName2, 0, lives, game.world.width * 0.5, game.world.height * 0.5, controlOptionAI);
             console.log("Player 3 is lab");
 
-            Player4 = new lab(charName2, 0, 3, game.world.width * 0.62, game.world.height * 0.5, controlOptionAI);
+            Player4 = new lab(charName2, 0, lives, game.world.width * 0.62, game.world.height * 0.5, controlOptionAI);
             console.log("Player 4 is lab");
         }
 

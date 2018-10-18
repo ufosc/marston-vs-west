@@ -33,6 +33,7 @@ var optionsState = {
         var decLabel = game.add.text(game.world.width * .5 + 100, game.world.height - 345, '-', { font: '35px Arial', fill: '#ffffff' });
         minLabel = game.add.text(game.world.width * .5 - 375, game.world.height - 305, `Min: ${gameMinutes}`, { font: '35px Arial', fill: '#ffffff' });
         secLabel = game.add.text(game.world.width * .5 - 375, game.world.height - 255, `Sec: ${gameSeconds}`, { font: '35px Arial', fill: '#ffffff' });
+        livesLabel = game.add.text(game.world.width * .5 - 375, game.world.height - 205, `Lives: ${lives}`, { font: '35px Arial', fill: '#ffffff' });
         gameMinIncButton = game.add.button(game.world.width * .5 - 245, game.world.height - 300, 'plusButton');
         gameMinIncButton.onInputUp.add(this.gameMinInc, this);
         gameMinDecButton = game.add.button(game.world.width * .5 + 50, game.world.height - 300, 'minusButton');
@@ -42,6 +43,12 @@ var optionsState = {
         gameSecIncButton.onInputUp.add(this.gameSecInc, this);
         gameSecDecButton = game.add.button(game.world.width * .5 + 50, game.world.height - 250, 'minusButton');
         gameSecDecButton.onInputUp.add(this.gameSecDec, this);
+
+        gameLivesIncButton = game.add.button(game.world.width * .5 - 245, game.world.height - 200, 'plusButton');
+        gameLivesIncButton.onInputUp.add(this.gameLivesInc, this);
+        gameLivesDecButton = game.add.button(game.world.width * .5 + 50, game.world.height - 200, 'minusButton');
+        gameLivesDecButton.onInputUp.add(this.gameLivesDec, this);
+
         buttonSound = game.add.audio('buttonSound');
         buttonSound.volume -= .5;
 
@@ -50,6 +57,7 @@ var optionsState = {
     update: function () {
         minLabel.text = `Min: ${gameMinutes}`;
         secLabel.text = `Sec: ${gameSeconds}`;
+        livesLabel.text = `Lives: ${lives}`;
     },
     gameMinInc: function () {
         gameMinutes++;
@@ -76,6 +84,19 @@ var optionsState = {
             gameSeconds = 0;
         }
         console.log("Seconds: " + gameSeconds);
+    },
+    gameLivesInc: function () {
+        lives++;
+        buttonSound.play();
+        console.log("Lives: " + lives);
+    },
+    gameLivesDec: function () {
+        lives--;
+        if (lives < 1) {
+            lives = 1;
+        }
+        buttonSound.play();
+        console.log("Lives: " + lives);
     },
     onFullScreenChange: function (scale) {
         if (game.scale.isFullScreen) {

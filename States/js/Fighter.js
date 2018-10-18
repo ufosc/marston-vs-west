@@ -252,7 +252,7 @@ class Fighter {
 
         this.stocks = game.add.group();
         //Stocks will now match up to character selected
-        for (var g = 3; g > 0; g--) {
+        for (var g = lives - 1; g > -1; g--) {
 
             if (controlnum == -1 || controlnum == 1) //For the vpad
             {
@@ -260,34 +260,34 @@ class Fighter {
                     //sets up the cell for the damage icon and stocks
                     var damageBox1 = game.add.sprite(0, game.world.game.world.height - 75, this.damageBox);
                     damageBox1.scale.setTo(5.5, 2.2);
-                    var stock = this.stocks.create((0) + (30 * g), game.world.height - 25, 'blueStock');
+                    var stock = this.stocks.create((30) + (90 * g / lives), game.world.height - 25, 'blueStock');
                     stock.anchor.setTo(.5, .5);
                 }
                 else if (charName1 == 'chick') {
                     //sets up the cell for the damage icon and stocks
                     var damageBox1 = game.add.sprite(0, game.world.game.world.height - 75, this.damageBox);
                     damageBox1.scale.setTo(5.5, 2.2);
-                    var stock = this.stocks.create((0) + (30 * g), game.world.height - 25, 'orangeStock');
+                    var stock = this.stocks.create((30) + (90 * g / lives), game.world.height - 25, 'orangeStock');
                     stock.anchor.setTo(.5, .5);
                 }
             }
 
         }
-        for (var h = 0; h < 3; h++) {
+        for (var h = 0; h < lives; h++) {
             if (controlnum == 2 || controlnum == -2) {
                 if (charName2 == 'dude') //dude is blue, chick is orange
                 {
                     //sets up the cell for the damage icon and stocks
                     var damageBox2 = game.add.sprite(650, game.world.game.world.height - 75, this.damageBox);
                     damageBox2.scale.setTo(5.5, 2.2);
-                    var stock = this.stocks.create((game.world.width * .85) + (30 * h), game.world.height - 25, 'blueStock');
+                    var stock = this.stocks.create((game.world.width * .85) + (90 * h / lives), game.world.height - 25, 'blueStock');
                     stock.anchor.setTo(.5, .5);
                 }
                 else if (charName2 == 'chick') {
                     //sets up the cell for the damage icon and stocks
                     var damageBox2 = game.add.sprite(650, game.world.game.world.height - 75, this.damageBox);
                     damageBox2.scale.setTo(5.5, 2.2);
-                    var stock = this.stocks.create((game.world.width * .85) + (30 * h), game.world.height - 25, 'orangeStock');
+                    var stock = this.stocks.create((game.world.width * .85) + (90 * h / lives), game.world.height - 25, 'orangeStock');
                     stock.anchor.setTo(.5, .5);
                 }
 
