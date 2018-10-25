@@ -45,7 +45,7 @@ var westPicture;
 var mob;
 var people;
 
-var lives;
+var lives = 3;
 
 var hitpause;
 
@@ -131,14 +131,14 @@ var testconnect1;
 
 
 var style =
-    {
-        font: "bold 32px Arial", fill: "#fff", boundsAlignH: "left", boundsAlignV: "top"
-    };
+{
+    font: "bold 32px Arial", fill: "#fff", boundsAlignH: "left", boundsAlignV: "top"
+};
 
 var style2 =
-    {
-        font: "bold 32px Skranji", fill: "#ffff00", boundsAlignH: "left", boundsAlignV: "top"
-    };
+{
+    font: "bold 32px Skranji", fill: "#ffff00", boundsAlignH: "left", boundsAlignV: "top"
+};
 
 
 var enemyText;
@@ -168,6 +168,7 @@ var cooldown2;
 var charactername;
 var minLabel;
 var secLabel;
+var livesLabel;
 var pauseLabel;
 var choiseLabel;
 var pauseMenu;
@@ -182,8 +183,10 @@ var displayButton3;
 var displayButton4;
 var gameMinIncButton;
 var gameSecIncButton;
+var gameLivesIncButton;
 var gameMinDecButton;
 var gameSecDecButton;
+var gameLivesDecButton;
 
 var music;
 
@@ -195,13 +198,13 @@ var stage2;
 var chosenStageName;
 var chosenMap;
 
-game.state.add('boot',bootState);
-game.state.add('options',optionsState);
-game.state.add('credits',creditsState);
-game.state.add('load',loadState);
-game.state.add('menu',menuState);
-game.state.add('play',playState);
-game.state.add('win',winState);
+game.state.add('boot', bootState);
+game.state.add('options', optionsState);
+game.state.add('credits', creditsState);
+game.state.add('load', loadState);
+game.state.add('menu', menuState);
+game.state.add('play', playState);
+game.state.add('win', winState);
 game.state.add('css', cssState);
 game.state.add('sss', sssState);
 
