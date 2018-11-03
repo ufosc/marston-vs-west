@@ -768,16 +768,17 @@ var playState = {
             game.physics.arcade.overlap(Player1.weaponKick.bullets, Player2.character, this.hitPlayer12(Player2, Player1));
             game.physics.arcade.overlap(Player1.weaponUppercut.bullets, Player2.character, this.hitPlayer12(Player2, Player1));
             game.physics.arcade.overlap(Player1.jumpKick.bullets, Player2.character, this.hitPlayer12(Player2, Player1));
+            
             if(multimanmode == true){
-                game.physics.arcade.overlap(Player1.weapon1.bullets, Player2.character, this.hitPlayer12(Player3, Player1));
-                game.physics.arcade.overlap(Player1.weaponKick.bullets, Player2.character, this.hitPlayer12(Player3, Player1));
-                game.physics.arcade.overlap(Player1.weaponUppercut.bullets, Player2.character, this.hitPlayer12(Player3, Player1));
-                game.physics.arcade.overlap(Player1.jumpKick.bullets, Player2.character, this.hitPlayer12(Player3, Player1));
+                game.physics.arcade.overlap(Player1.weapon1.bullets, Player3.character, this.hitPlayer12(Player3, Player1));
+                game.physics.arcade.overlap(Player1.weaponKick.bullets, Player3.character, this.hitPlayer12(Player3, Player1));
+                game.physics.arcade.overlap(Player1.weaponUppercut.bullets, Player3.character, this.hitPlayer12(Player3, Player1));
+                game.physics.arcade.overlap(Player1.jumpKick.bullets, Player3.character, this.hitPlayer12(Player3, Player1));
 
-                game.physics.arcade.overlap(Player1.weapon1.bullets, Player2.character, this.hitPlayer12(Player4, Player1));
-                game.physics.arcade.overlap(Player1.weaponKick.bullets, Player2.character, this.hitPlayer12(Player4, Player1));
-                game.physics.arcade.overlap(Player1.weaponUppercut.bullets, Player2.character, this.hitPlayer12(Player4, Player1));
-                game.physics.arcade.overlap(Player1.jumpKick.bullets, Player2.character, this.hitPlayer12(Player4, Player1));
+                game.physics.arcade.overlap(Player1.weapon1.bullets, Player4.character, this.hitPlayer12(Player4, Player1));
+                game.physics.arcade.overlap(Player1.weaponKick.bullets, Player4.character, this.hitPlayer12(Player4, Player1));
+                game.physics.arcade.overlap(Player1.weaponUppercut.bullets, Player4.character, this.hitPlayer12(Player4, Player1));
+                game.physics.arcade.overlap(Player1.jumpKick.bullets, Player4.character, this.hitPlayer12(Player4, Player1));
             }
         }
         if (Player2.attacking) {
@@ -792,9 +793,7 @@ var playState = {
             game.physics.arcade.overlap(Player2.jumpKick.bullets, Player1.character, this.hitPlayer12(Player1, Player2));
         }
 
-        else if (multimanmode) {
-            
-            
+        else if (multimanmode == true) {
             
             if (Player3.attacking) {
                 //hitbox collision for player 1, we pass the type of hit into the hit player function
@@ -829,14 +828,9 @@ var playState = {
         }
 
 
-
-
-
-
         if (controlOptionAI == -2) {
 
             this.AIplay(Player1, Player2);
-
             //Multiman mode on so AI controls 2 additional fighters
             if (multimanmode == true) {
 
@@ -851,9 +845,24 @@ var playState = {
                 nameText3.alignTo(Player3.character, Phaser.TOP, 16);
                 nameText4.alignTo(Player4.character, Phaser.TOP, 16);
             }
-
         }
 
+        /*
+        //Multiman mode on so AI controls 2 additional fighters
+        if (multimanmode == true) {
+            console.log("attack 3 and 4!")
+            this.AIplay(Player1, Player3);
+            this.AIplay(Player1, Player4);
+            Player3.updateInput();
+            Player4.updateInput();
+            this.KO(Player3);
+            this.KO(Player4);
+            this.respawnEvent(Player3);
+            this.respawnEvent(Player4);
+            nameText3.alignTo(Player3.character, Phaser.TOP, 16);
+            nameText4.alignTo(Player4.character, Phaser.TOP, 16);
+        }*/
+        
 
         //console.log("echo");
         Player1.updateInput();
