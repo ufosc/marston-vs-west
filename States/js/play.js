@@ -793,7 +793,7 @@ var playState = {
             game.physics.arcade.overlap(Player2.jumpKick.bullets, Player1.character, this.hitPlayer12(Player1, Player2));
         }
 
-        else if (multimanmode == true) {
+        if (multimanmode == true) {
             
             if (Player3.attacking) {
                 //hitbox collision for player 1, we pass the type of hit into the hit player function
@@ -927,27 +927,7 @@ var playState = {
         }
     },
 
-    attackMode: function (Fighter, AIxdist, AIydist) {
-        //aggressive ai behavior mode
-
-        if (AIxdist > 50) {
-
-            //console.log("AI should be moving left");
-            Fighter.controller1.leftpress = true;
-            Fighter.controller1.rightpress = false;
-        }
-        else if (AIxdist < -50) {
-
-            //console.log("AI should be moving right");
-            Fighter.controller1.leftpress = false;
-            Fighter.controller1.rightpress = true;
-        }
-        else {
-            Fighter.controller1.leftpress = false;
-            Fighter.controller1.rightpress = false;
-        }
-
-    },
+    
 
 
     defendMode: function (Fighter, AIxdist, AIydist) {
@@ -997,6 +977,32 @@ var playState = {
 
     AIplay: function (Fighter1, Fighter2) {
 
+        this.Fighter2 = Fighter2;
+        this.Fighter1 = Fighter1;
+
+        function attackMode(Fighter, AIxdist, AIydist) 
+        {
+            //aggressive ai behavior mode
+
+            if (AIxdist > 50) {
+
+                //console.log("AI should be moving left");
+                Fighter.controller1.leftpress = true;
+                Fighter.controller1.rightpress = false;
+            }
+            else if (AIxdist < -50) {
+
+                //console.log("AI should be moving right");
+                Fighter.controller1.leftpress = false;
+                Fighter.controller1.rightpress = true;
+            }
+            else {
+                Fighter.controller1.leftpress = false;
+                Fighter.controller1.rightpress = false;
+            }
+
+        }
+
         AIxdist = Fighter2.character.body.position.x - Fighter1.character.body.position.x;
         AIydist = Fighter2.character.body.position.y - Fighter1.character.body.position.y;
 
@@ -1039,7 +1045,7 @@ var playState = {
         //random number to determine if AI should use a jab or normal attack
         attack = Math.floor((Math.random() * 100) + 1);
         //normal attack logic
-        if(attack>5){
+        if(attack > 5){
             if (AIxdist < 60 && AIxdist > 0) {
                 Fighter2.controller1.apress = true;
             }
@@ -1047,7 +1053,7 @@ var playState = {
                 Fighter2.controller1.apress = true;
             }
             //Juggle AKA Up swipe attack
-            else if (AIydist < 15 && AIydist > -15 && AIxdist < 10) {
+            else if ((AIydist < 15 && AIydist > 0) && (AIxdist < 20 && AIxdist > -20)) {
                 Fighter2.controller1.uppress = true;
                 Fighter2.controller1.apress = true;
             }
@@ -1080,10 +1086,7 @@ var playState = {
         //General movement/walk behavior
 
         if (Fighter2.AImode == 1) {
-            //aggresive behavior
-
-            //attackMode(Fighter2,AIxdist,AIydist);
-
+            //THE MOVE SCRIPTS
             // if the distance between the AI and the user is greater than 50 pixels, then the AI should move left
             if (AIxdist > 50) {
 
