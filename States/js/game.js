@@ -1,7 +1,8 @@
 var config =
 {
-    width: 800,
-    height: 600,
+    //width: 800,
+    //height: 600,
+
     renderer: Phaser.AUTO,
     parent: 'gameDiv',
     transparent: false,

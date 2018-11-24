@@ -2,7 +2,7 @@ var menuState = {
 
     create: function () {
         //Create the menu triangles
-
+        game.scale.fullScreenScaleMode = Phaser.ScaleManager.EXACT_FIT;
         var bmd = game.add.bitmapData(800, 600);
         bmd.addToWorld();
         var graphics = game.add.graphics(0, 0);
@@ -112,10 +112,18 @@ var menuState = {
 
     fullScreenConfig: function () {
         console.log("Calling fullscreen function");
-        if (!game.scale.isFullScreen) {
+       /* if (!game.scale.isFullScreen) {
             game.scale.fullScreenScaleMode = Phaser.ScaleManager.EXACT_FIT;
-            game.scale.startFullScreen();
-
+            game.scale.startFullScreen(true);
+        }*/
+        //game.scale.fullScreenScaleMode = Phaser.ScaleManager.EXACT_FIT;
+        if (game.scale.isFullScreen)
+        {
+            game.scale.stopFullScreen();
+        }
+        else
+        {
+            game.scale.startFullScreen(false);
         }
     }
 
