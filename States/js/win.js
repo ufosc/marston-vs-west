@@ -78,7 +78,7 @@ var winState = {
         }
         else{
             var winLabel = game.add.text(80, 80, 'Nice Game!', { font: '50px Arial', fill: '#ffffff' });
-            var statsLabel1 = game.add.text(80, 160, `Player 1 stats:` + '\n' + `KO(s): ${multimenko-3}`);
+            var statsLabel1 = game.add.text(80, 160, `Player 1 stats:` + '\n' + `KO(s): ${multimenko}`);
         }
         var startLabel = game.add.text(80, game.world.height - 80, 'Press "W" key or tap this label to go to menu', { font: '25px Arial', fill: '#ffffff' });
         startLabel.inputEnabled = true;

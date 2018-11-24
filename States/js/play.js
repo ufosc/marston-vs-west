@@ -56,7 +56,7 @@ var playState = {
                     console.log("No attacks went off, you have an error");
             }
 
-            if (Player1.m == 0 && !Player1.shielding) {
+            if (Player1.m === 0 && !Player1.shielding) {
                 hitSound.play();
 
 
@@ -138,7 +138,7 @@ var playState = {
             Fighter.deathBlast.angle = -90;
         }
 
-        if (Fighter.controlnum == 1) {
+        if (Fighter.controlnum === 1) {
             //console.log("controlnum = 1");
             Fighter.character.x = 200;
             Fighter.character.y = 230;
@@ -149,7 +149,7 @@ var playState = {
             Fighter.xZero = true;
         }
 
-        else if (Fighter.controlnum == 2) {
+        else if (Fighter.controlnum === 2) {
             //console.log("controlnum = 2");
             Fighter.character.x = 600;
             Fighter.character.y = 230;
@@ -160,7 +160,7 @@ var playState = {
             Fighter.xZero = true;
         }
 
-        else if (Fighter.controlnum == -1) {
+        else if (Fighter.controlnum === -1) {
             //console.log("controlnum = -1");
             //Fighter.character.body.position.x = 200;
             Fighter.character.x = 200;
@@ -171,7 +171,7 @@ var playState = {
             Fighter.invincible = false;
             Fighter.xZero = true;
         }
-        else if (Fighter.controlnum == -2) {
+        else if (Fighter.controlnum === -2) {
             //console.log("controlnum = -2");
             //Fighter.character.body.position.x = 200;
             Fighter.character.x = 600;
@@ -192,7 +192,7 @@ var playState = {
 
     respawnEvent: function (Fighter) {
         //Respawn Switch is activated during the KO function
-        if (Fighter.respawnSwitch == true) {
+        if (Fighter.respawnSwitch === true) {
             Fighter.m += 1;
             //Invisible moment
             if (Fighter.m < 60 && Fighter.m != 0) {
@@ -256,10 +256,10 @@ var playState = {
             if (live) {
                 live.kill();
             }
-
-            if (multimanmode == true) {
+            if (multimanmode === true && Fighter.controlnum < 0) {
                 multimenko++;
             }
+            
         }
         else if (Fighter.character.body.position.y > 700 || Fighter.character.body.position.y < -200) {
             Fighter.character.hasItem = false;
@@ -270,7 +270,7 @@ var playState = {
             if (live) {
                 live.kill();
             }
-            if (multimanmode == true) {
+            if (multimanmode === true && Fighter.controlnum < 0) {
                 multimenko++;
             }
 
@@ -314,7 +314,7 @@ var playState = {
         stagecam = new cam(40, 350, 1200, 1000);
 
 
-        if (chosenStageName == 'marstonPic') {
+        if (chosenStageName === 'marstonPic') {
 
             //Background for our game
             game.add.sprite(0, 0, 'sky');
@@ -400,12 +400,12 @@ var playState = {
             controlOptionVpad = 1;
         }
 
-        if (charName1 == 'dude') {
+        if (charName1 === 'dude') {
             Player1 = new dj(charName1, 0, 3, game.world.width * 0.25, game.world.height * 0.5, controlOptionVpad);
             console.log(Player1);
             console.log("Player 1 is dj");
         }
-        else if (charName1 == 'chick') {
+        else if (charName1 === 'chick') {
             Player1 = new lab(charName1, 0, 3, game.world.width * 0.25, game.world.height * 0.5, controlOptionVpad);
             console.log("Player 1 is lab");
         }
@@ -414,11 +414,11 @@ var playState = {
             console.log("Player 1 is lab");
         }
 
-        if (charName2 == 'dude') {
+        if (charName2 === 'dude') {
             Player2 = new dj(charName2, 0, 3, game.world.width * 0.75, game.world.height * 0.5, controlOptionAI);
             console.log("Player 2 is dj");
         }
-        else if (charName2 == 'chick') {
+        else if (charName2 === 'chick') {
             Player2 = new lab(charName2, 0, 3, game.world.width * 0.75, game.world.height * 0.5, controlOptionAI);
             console.log("Player 2 is lab");
         }
@@ -429,7 +429,7 @@ var playState = {
 
 
 
-        if (multimanmode == true) {
+        if (multimanmode === true) {
             Player3 = new lab(charName2, 0, 3, game.world.width * 0.5, game.world.height * 0.5, controlOptionAI);
             console.log("Player 3 is lab");
 
@@ -446,7 +446,7 @@ var playState = {
         item1 = new Item('bottle', game.world.width * .5, game.world.height * .5, this);
 
 
-        if (Player1.controlnum == -1) {
+        if (Player1.controlnum === -1) {
             //console.log("virtual buttons are made buttons");
             Player1.controller1.buttonleft = game.add.button(5, 472, 'leftButton', null, this, 0, 1, 0, 1);
             Player1.controller1.buttonleft.events.onInputOver.add(function () { Player1.controller1.leftpress = true; });
@@ -532,7 +532,7 @@ var playState = {
         nameText1 = game.add.text(0, 0, "P1", style);
         nameText2 = game.add.text(0, 0, "P2", style);
         
-        if(multimanmode == true) {
+        if(multimanmode === true) {
             nameText3 = game.add.text(0, 0, "P3", style);
             nameText4 = game.add.text(0, 0, "P4", style);
         }
@@ -613,7 +613,7 @@ var playState = {
         game.physics.arcade.overlap(Player2.character, this.win, this.Win, null, this);
 
 
-        if (chosenStageName == 'pool') {
+        if (chosenStageName === 'pool') {
             console.log("gravity set low!");
             Player1.character.body.gravity.y = 250; //gravity may need to oscillate between positive and negative so that fighter has a floaty feel to it while swimming 
             Player1.jumps = 0;
@@ -649,7 +649,7 @@ var playState = {
 
 
         //  Collide the players with the platforms and eachother
-        if (chosenStageName == 'westPic') {
+        if (chosenStageName === 'westPic') {
             if (Player1.getdown()) {
                 Player1.character.body.immovable = false;
             }
@@ -719,7 +719,7 @@ var playState = {
         //add physics for item (eventually just add items to a group and use collision detection for the group)
         game.physics.arcade.collide(item1.type, platforms, item1.onGround());
 
-        if (multimanmode == true ) {
+        if (multimanmode === true ) {
             game.physics.arcade.collide(Player3.character, platforms);
             game.physics.arcade.collide(Player4.character, platforms);
             if(passtimer1v2 < 100){
@@ -747,11 +747,11 @@ var playState = {
         //Item must be active(can only hit you once), and thrown for the collision to go off
         if (item1.thrown && item1.getActive() && item1.getThrown()) {
 
-            if (item1.previousUser.controlnum == Player1.controlnum && !Player2.respawnSwitch) //if the user is the the person colliding with the item(Player1)
+            if (item1.previousUser.controlnum === Player1.controlnum && !Player2.respawnSwitch) //if the user is the the person colliding with the item(Player1)
             {
                 game.physics.arcade.overlap(Player2.character, item1.type, item1.itemCollision(Player2), null, this);
             }
-            else if (item1.previousUser.controlnum == Player2.controlnum && !Player1.respawnSwitch) //if the user is the the person colliding with the item(Player2)
+            else if (item1.previousUser.controlnum === Player2.controlnum && !Player1.respawnSwitch) //if the user is the the person colliding with the item(Player2)
             {
                 game.physics.arcade.overlap(Player1.character, item1.type, item1.itemCollision(Player1), null, this);
             }
@@ -769,7 +769,7 @@ var playState = {
             game.physics.arcade.overlap(Player1.weaponUppercut.bullets, Player2.character, this.hitPlayer12(Player2, Player1));
             game.physics.arcade.overlap(Player1.jumpKick.bullets, Player2.character, this.hitPlayer12(Player2, Player1));
             
-            if(multimanmode == true){
+            if(multimanmode === true){
                 game.physics.arcade.overlap(Player1.weapon1.bullets, Player3.character, this.hitPlayer12(Player3, Player1));
                 game.physics.arcade.overlap(Player1.weaponKick.bullets, Player3.character, this.hitPlayer12(Player3, Player1));
                 game.physics.arcade.overlap(Player1.weaponUppercut.bullets, Player3.character, this.hitPlayer12(Player3, Player1));
@@ -793,7 +793,7 @@ var playState = {
             game.physics.arcade.overlap(Player2.jumpKick.bullets, Player1.character, this.hitPlayer12(Player1, Player2));
         }
 
-        if (multimanmode == true) {
+        if (multimanmode === true) {
             
             if (Player3.attacking) {
                 //hitbox collision for player 1, we pass the type of hit into the hit player function
@@ -828,11 +828,11 @@ var playState = {
         }
 
 
-        if (controlOptionAI == -2) {
+        if (controlOptionAI === -2) {
 
             this.AIplay(Player1, Player2);
             //Multiman mode on so AI controls 2 additional fighters
-            if (multimanmode == true) {
+            if (multimanmode === true) {
 
                 this.AIplay(Player1, Player3);
                 this.AIplay(Player1, Player4);
@@ -849,7 +849,7 @@ var playState = {
 
         /*
         //Multiman mode on so AI controls 2 additional fighters
-        if (multimanmode == true) {
+        if (multimanmode === true) {
             console.log("attack 3 and 4!")
             this.AIplay(Player1, Player3);
             this.AIplay(Player1, Player4);
@@ -882,14 +882,14 @@ var playState = {
         this.respawnEvent(Player2);
 
         //If out of lives, end the game
-        if (Player1.lives == 0) {
+        if (Player1.lives === 0) {
             game.state.start('win');
-            if (multimanmode == true) {
+            if (multimanmode === true) {
                 console.log("# of KOs in multiman mode:");
                 console.log(multimenko);
             }
         }
-        if (Player2.lives == 0 && multimanmode == false) {
+        if (Player2.lives === 0 && multimanmode === false) {
             game.state.start('win');
         }
 
@@ -912,13 +912,13 @@ var playState = {
         AIydist = AIFighter.character.body.position.y - Target.character.body.position.y;
         if (AIxdist > 50) {
             AIFighter.character.body.velocity.x = -150;
-            //controller2.right.isDown == true;
+            //controller2.right.isDown === true;
             //console.log("AI should be moving left");
         }
         else if (AIxdist < -50) {
-            //controller2.left.isDown == true;
+            //controller2.left.isDown === true;
             AIFighter.character.body.velocity.x = 150;
-            //controller2.right.isDown == true;
+            //controller2.right.isDown === true;
             console.log("AI should be moving right");
         }
         if (AIydist > 100) {
@@ -1083,7 +1083,7 @@ var playState = {
 
         //General movement/walk behavior
 
-        if (AIFighter.AImode == 1) {
+        if (AIFighter.AImode === 1) {
             //THE MOVE SCRIPTS
             // if the distance between the AI and the user is greater than 50 pixels, then the AI should move left
             if (AIxdist > 50) {
@@ -1106,7 +1106,7 @@ var playState = {
                 AIFighter.controller1.ypress = false;
             }
         }
-        else if (AIFighter.AImode == -10) {
+        else if (AIFighter.AImode === -10) {
             //defensive behavior1 (AI tries to stay away from User)
             //defendMode(AIFighter, AIxdist, AIydist);
 
@@ -1126,7 +1126,7 @@ var playState = {
                 AIFighter.controller1.ypress = false;
             }
         }
-        else if (AIFighter.AImode == -1) {
+        else if (AIFighter.AImode === -1) {
             //defensive behavior2 (AI tries to stay in center of stage)
             //defendMode(AIFighter, AIxdist, AIydist);
 
