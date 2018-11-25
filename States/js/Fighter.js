@@ -238,6 +238,7 @@ class Fighter {
         //Weapon used for swipe down attacks
         //this.weaponSwipeD = game.add.weapon(1, 'SwipeD');
         this.weaponSwipeD = game.add.weapon(1, 'SwipeH');
+        this.weaponSwipeD.alpha = 0;
         this.weaponSwipeD.bulletKillType = Phaser.Weapon.KILL_LIFESPAN;
         this.weaponSwipeD.bulletLifespan = 50; //50
         this.weaponSwipeD.bulletSpeed = 0; //0
@@ -247,6 +248,7 @@ class Fighter {
         //Weapon used for swipe forward down attacks
         //this.weaponSwipeFD = game.add.weapon(1, 'SwipeFD');
         this.weaponSwipeFD = game.add.weapon(1, 'SwipeV');
+        this.weaponSwipeFD.alpha = 0;
         this.weaponSwipeFD.bulletKillType = Phaser.Weapon.KILL_LIFESPAN;
         this.weaponSwipeFD.bulletLifespan = 50; //50
         this.weaponSwipeFD.bulletSpeed = 0; //0
@@ -256,6 +258,7 @@ class Fighter {
         //Weapon used for swipe forward up attacks
         //this.weaponSwipeFU = game.add.weapon(1, 'SwipeFU');
         this.weaponSwipeFU = game.add.weapon(1, 'SwipeV');
+        this.weaponSwipeFU.alpha = 0;
         this.weaponSwipeFU.bulletKillType = Phaser.Weapon.KILL_LIFESPAN;
         this.weaponSwipeFU.bulletLifespan = 50; //50
         this.weaponSwipeFU.bulletSpeed = 0; //0
@@ -265,6 +268,7 @@ class Fighter {
         //Weapon used for swipe up attacks
         //this.weaponSwipeU = game.add.weapon(1, 'SwipeU');
         this.weaponSwipeU = game.add.weapon(1, 'SwipeH');
+        this.weaponSwipeU.alpha = 0;
         this.weaponSwipeU.bulletKillType = Phaser.Weapon.KILL_LIFESPAN;
         this.weaponSwipeU.bulletLifespan = 50; //50
         this.weaponSwipeU.bulletSpeed = 0; //0
