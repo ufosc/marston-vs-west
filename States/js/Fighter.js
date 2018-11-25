@@ -187,12 +187,6 @@ class Fighter {
         this.aniAirDodge.onComplete.add(this.airDodgeEnd, this);
 
 
-
-
-        //Player air swipe down
-
-
-
         //this.controller1 = game.input.keyboard.addKeys({ 'up': Phaser.KeyCode.W, 'down': Phaser.KeyCode.S, 'left': Phaser.KeyCode.A, 'right': Phaser.KeyCode.D , 'punch': Phaser.KeyCode.T, 'kick': Phaser.KeyCode.R});
 
         this.nespad = new nespad(controlnum);
@@ -240,6 +234,42 @@ class Fighter {
         this.jumpKick.bulletSpeed = 150; //0
         this.jumpKick.fireRate = 100;
         this.jumpKick.trackSprite(this.character, 50, 50, true);
+
+        //Weapon used for swipe down attacks
+        //this.weaponSwipeD = game.add.weapon(1, 'SwipeD');
+        this.weaponSwipeD = game.add.weapon(1, 'SwipeH');
+        this.weaponSwipeD.bulletKillType = Phaser.Weapon.KILL_LIFESPAN;
+        this.weaponSwipeD.bulletLifespan = 50; //50
+        this.weaponSwipeD.bulletSpeed = 0; //0
+        this.weaponSwipeD.fireRate = 100;
+        this.weaponSwipeD.trackSprite(this.character, 0, 80, true);
+
+        //Weapon used for swipe forward down attacks
+        //this.weaponSwipeFD = game.add.weapon(1, 'SwipeFD');
+        this.weaponSwipeFD = game.add.weapon(1, 'SwipeV');
+        this.weaponSwipeFD.bulletKillType = Phaser.Weapon.KILL_LIFESPAN;
+        this.weaponSwipeFD.bulletLifespan = 50; //50
+        this.weaponSwipeFD.bulletSpeed = 0; //0
+        this.weaponSwipeFD.fireRate = 100;
+        this.weaponSwipeFD.trackSprite(this.character, 20, 20, true);
+
+        //Weapon used for swipe forward up attacks
+        //this.weaponSwipeFU = game.add.weapon(1, 'SwipeFU');
+        this.weaponSwipeFU = game.add.weapon(1, 'SwipeV');
+        this.weaponSwipeFU.bulletKillType = Phaser.Weapon.KILL_LIFESPAN;
+        this.weaponSwipeFU.bulletLifespan = 50; //50
+        this.weaponSwipeFU.bulletSpeed = 0; //0
+        this.weaponSwipeFU.fireRate = 100;
+        this.weaponSwipeFU.trackSprite(this.character, 20, 20, true);
+
+        //Weapon used for swipe up attacks
+        //this.weaponSwipeU = game.add.weapon(1, 'SwipeU');
+        this.weaponSwipeU = game.add.weapon(1, 'SwipeH');
+        this.weaponSwipeU.bulletKillType = Phaser.Weapon.KILL_LIFESPAN;
+        this.weaponSwipeU.bulletLifespan = 50; //50
+        this.weaponSwipeU.bulletSpeed = 0; //0
+        this.weaponSwipeU.fireRate = 100;
+        this.weaponSwipeU.trackSprite(this.character, 0, 20, true);
 
         //used to create the trail effect for knockback
         this.dustTrail = game.add.weapon(20, 'dust');
@@ -511,7 +541,8 @@ class Fighter {
             this.weapon1.bulletAngleOffset = -40;
         }
         this.attack = 'airforward';
-        this.weapon1.fire();
+        //this.weapon1.fire();
+        this.weaponSwipeFU.fire();
         this.attacking = true;
         this.inputLock = true;
     }
@@ -527,7 +558,8 @@ class Fighter {
     airdownStart() {
         console.log('airdown start');
         this.attack = 'airdown';
-        this.weaponUppercut.fire();
+        //this.weaponUppercut.fire();
+        this.weaponSwipeD.fire();
         this.attacking = true;
         this.inputLock = true;
     }
@@ -543,7 +575,8 @@ class Fighter {
     airneutralStart() {
         console.log('airneutral start');
         this.attack = 'airneutral';
-        this.weaponUppercut.fire();
+        //this.weaponUppercut.fire();
+        this.weaponSwipeFD.fire();
         this.attacking = true;
         this.inputLock = true;
     }
@@ -558,12 +591,15 @@ class Fighter {
     }
     JuggleStart() {
         this.attack = 'juggle';
-        this.weaponUppercut.fire();
+        //this.weaponUppercut.fire();
+        this.weaponSwipeU.fire();
         this.attacking = true;
         this.inputLock = true;
     }
+
+
     JuggleEnd() {
-        console.log("Juggle end");
+        console.log("juggle end");
         this.attacking = false;
         this.deltDamage = false;
         this.inputLock = false;
@@ -1047,6 +1083,12 @@ class Fighter {
                     this.weaponUppercut.trackSprite(this.character, 30, -10, true);
                     this.jumpKick.trackSprite(this.character, 50, -50, true);
                     this.jumpKick.bulletSpeed = -150;
+
+                    this.weaponSwipeD.trackSprite(this.character, 0, -90, true);                    
+                    this.weaponSwipeFD.trackSprite(this.character, 25, -30, true);
+                    this.weaponSwipeFU.trackSprite(this.character, 25, -20, true);
+                    this.weaponSwipeU.trackSprite(this.character, 0, -10, true);
+
                 }
                 if (this.character.body.touching.down) {
                     this.character.body.velocity.x = -250 + this.hitVelocity;
@@ -1079,6 +1121,12 @@ class Fighter {
                     this.weaponUppercut.trackSprite(this.character, 30, 10, true);
                     this.jumpKick.trackSprite(this.character, 50, 50, true);
                     this.jumpKick.bulletSpeed = 150;
+
+                    this.weaponSwipeD.trackSprite(this.character, 0, 90, true);                    
+                    this.weaponSwipeFD.trackSprite(this.character, 25, 30, true);
+                    this.weaponSwipeFU.trackSprite(this.character, 25, 20, true);
+                    this.weaponSwipeU.trackSprite(this.character, 0, 10, true);
+
                 }
                 if (this.character.body.touching.down) {
                     this.character.body.velocity.x = 250 + this.hitVelocity;

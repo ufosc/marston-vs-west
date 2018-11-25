@@ -4,7 +4,7 @@ var playState = {
         let hitDmg = 0;
         let hitAngle = 0;
         let attackDistance = 0;
-        if (!Player2.deltDamage && !Player1.invincible && Player2.attacking && (game.physics.arcade.overlap(Player1.character, Player2.weapon1.bullets) || game.physics.arcade.overlap(Player1.character, Player2.weaponKick.bullets) || game.physics.arcade.overlap(Player1.character, Player2.weaponUppercut.bullets) || game.physics.arcade.overlap(Player1.character, Player2.jumpKick.bullets))) {
+        if (!Player2.deltDamage && !Player1.invincible && Player2.attacking && (game.physics.arcade.overlap(Player1.character, Player2.weapon1.bullets) || game.physics.arcade.overlap(Player1.character, Player2.weaponKick.bullets) || game.physics.arcade.overlap(Player1.character, Player2.weaponUppercut.bullets) || game.physics.arcade.overlap(Player1.character, Player2.jumpKick.bullets) || game.physics.arcade.overlap(Player1.character, Player2.weaponSwipeD.bullets) || game.physics.arcade.overlap(Player1.character, Player2.weaponSwipeFD.bullets) || game.physics.arcade.overlap(Player1.character, Player2.weaponSwipeFU.bullets) || game.physics.arcade.overlap(Player1.character, Player2.weaponSwipeU.bullets) )) {
             Player1.attacking = false;
             switch (Player2.attack) {
                 case 'punch':
@@ -33,24 +33,24 @@ var playState = {
                     hitAngle = 1.25;
                     break;
                 case 'airneutral':
-                    hitDmg = 65;
+                    hitDmg = 15;
                     attackDistance = 300;
-                    hitAngle = 1.25;
+                    hitAngle = 0.7;
                     break;
                 case 'airforward':
-                    hitDmg = 65;
+                    hitDmg = 15;
                     attackDistance = 300;
                     hitAngle = 1.25;
                     break;
                 case 'airdown':
-                    hitDmg = 65;
+                    hitDmg = 15;
                     attackDistance = 300;
-                    hitAngle = 1.25;
+                    hitAngle = 0.7 //1.25;
                     break;
                 case 'juggle':
-                    hitDmg = 65;
+                    hitDmg = 15;
                     attackDistance = 300;
-                    hitAngle = 1.25;
+                    hitAngle = 1.6;
                     break;
                 default:
                     console.log("No attacks went off, you have an error");
@@ -768,17 +768,33 @@ var playState = {
             game.physics.arcade.overlap(Player1.weaponKick.bullets, Player2.character, this.hitPlayer12(Player2, Player1));
             game.physics.arcade.overlap(Player1.weaponUppercut.bullets, Player2.character, this.hitPlayer12(Player2, Player1));
             game.physics.arcade.overlap(Player1.jumpKick.bullets, Player2.character, this.hitPlayer12(Player2, Player1));
-            
+
+            game.physics.arcade.overlap(Player1.weaponSwipeU, Player2.character, this.hitPlayer12(Player2, Player1));
+            game.physics.arcade.overlap(Player1.weaponSwipeFD, Player2.character, this.hitPlayer12(Player2, Player1));
+            game.physics.arcade.overlap(Player1.weaponSwipeFU, Player2.character, this.hitPlayer12(Player2, Player1));
+            game.physics.arcade.overlap(Player1.weaponSwipeD, Player2.character, this.hitPlayer12(Player2, Player1));
+
             if(multimanmode === true){
                 game.physics.arcade.overlap(Player1.weapon1.bullets, Player3.character, this.hitPlayer12(Player3, Player1));
                 game.physics.arcade.overlap(Player1.weaponKick.bullets, Player3.character, this.hitPlayer12(Player3, Player1));
                 game.physics.arcade.overlap(Player1.weaponUppercut.bullets, Player3.character, this.hitPlayer12(Player3, Player1));
                 game.physics.arcade.overlap(Player1.jumpKick.bullets, Player3.character, this.hitPlayer12(Player3, Player1));
+                
+                game.physics.arcade.overlap(Player1.weaponSwipeU, Player3.character, this.hitPlayer12(Player3, Player1));
+                game.physics.arcade.overlap(Player1.weaponSwipeFD, Player3.character, this.hitPlayer12(Player3, Player1));
+                game.physics.arcade.overlap(Player1.weaponSwipeFU, Player3.character, this.hitPlayer12(Player3, Player1));
+                game.physics.arcade.overlap(Player1.weaponSwipeD, Player3.character, this.hitPlayer12(Player3, Player1));
+
 
                 game.physics.arcade.overlap(Player1.weapon1.bullets, Player4.character, this.hitPlayer12(Player4, Player1));
                 game.physics.arcade.overlap(Player1.weaponKick.bullets, Player4.character, this.hitPlayer12(Player4, Player1));
                 game.physics.arcade.overlap(Player1.weaponUppercut.bullets, Player4.character, this.hitPlayer12(Player4, Player1));
                 game.physics.arcade.overlap(Player1.jumpKick.bullets, Player4.character, this.hitPlayer12(Player4, Player1));
+
+                game.physics.arcade.overlap(Player1.weaponSwipeU, Player4.character, this.hitPlayer12(Player4, Player1));
+                game.physics.arcade.overlap(Player1.weaponSwipeFD, Player4.character, this.hitPlayer12(Player4, Player1));
+                game.physics.arcade.overlap(Player1.weaponSwipeFU, Player4.character, this.hitPlayer12(Player4, Player1));
+                game.physics.arcade.overlap(Player1.weaponSwipeD, Player4.character, this.hitPlayer12(Player4, Player1));
             }
         }
         if (Player2.attacking) {
@@ -791,6 +807,11 @@ var playState = {
             game.physics.arcade.overlap(Player2.weaponKick.bullets, Player1.character, this.hitPlayer12(Player1, Player2));
             game.physics.arcade.overlap(Player2.weaponUppercut.bullets, Player1.character, this.hitPlayer12(Player1, Player2));
             game.physics.arcade.overlap(Player2.jumpKick.bullets, Player1.character, this.hitPlayer12(Player1, Player2));
+
+            game.physics.arcade.overlap(Player2.weaponSwipeU, Player1.character, this.hitPlayer12(Player1, Player2));
+            game.physics.arcade.overlap(Player2.weaponSwipeFD, Player1.character, this.hitPlayer12(Player1, Player2));
+            game.physics.arcade.overlap(Player2.weaponSwipeFU, Player1.character, this.hitPlayer12(Player1, Player2));
+            game.physics.arcade.overlap(Player2.weaponSwipeD, Player1.character, this.hitPlayer12(Player1, Player2));
         }
 
         if (multimanmode === true) {
@@ -801,6 +822,11 @@ var playState = {
                 game.physics.arcade.overlap(Player3.weaponKick.bullets, Player1.character, this.hitPlayer12(Player1,Player3));
                 game.physics.arcade.overlap(Player3.weaponUppercut.bullets, Player1.character, this.hitPlayer12(Player1,Player3));
                 game.physics.arcade.overlap(Player3.jumpKick.bullets, Player1.character, this.hitPlayer12(Player1,Player3));
+               
+                game.physics.arcade.overlap(Player3.weaponSwipeU, Player1.character, this.hitPlayer12(Player1, Player3));
+                game.physics.arcade.overlap(Player3.weaponSwipeFD, Player1.character, this.hitPlayer12(Player1, Player3));
+                game.physics.arcade.overlap(Player3.weaponSwipeFU, Player1.character, this.hitPlayer12(Player1, Player3));
+                game.physics.arcade.overlap(Player3.weaponSwipeD, Player1.character, this.hitPlayer12(Player1, Player3));
             }
             if (Player4.attacking) {
                 //hitbox collision for player 1, we pass the type of hit into the hit player function
@@ -808,6 +834,11 @@ var playState = {
                 game.physics.arcade.overlap(Player4.weaponKick.bullets, Player1.character, this.hitPlayer12(Player1,Player4));
                 game.physics.arcade.overlap(Player4.weaponUppercut.bullets, Player1.character, this.hitPlayer12(Player1,Player4));
                 game.physics.arcade.overlap(Player4.jumpKick.bullets, Player1.character, this.hitPlayer12(Player1,Player4));
+
+                game.physics.arcade.overlap(Player4.weaponSwipeU, Player1.character, this.hitPlayer12(Player1, Player4));
+                game.physics.arcade.overlap(Player4.weaponSwipeFD, Player1.character, this.hitPlayer12(Player1, Player4));
+                game.physics.arcade.overlap(Player4.weaponSwipeFU, Player1.character, this.hitPlayer12(Player1, Player4));
+                game.physics.arcade.overlap(Player4.weaponSwipeD, Player1.character, this.hitPlayer12(Player1, Player4));
             }
         }
 

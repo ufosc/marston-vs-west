@@ -32,6 +32,15 @@ var loadState = {
         game.load.spritesheet('Sandbag', 'assets/sandbag.png', 32, 32);
         game.load.image('deathBlast', 'assets/DeathBlast.png');
 
+        //swipe attack sprites
+        /*game.load.image('SwipeD', 'assets/swipeD.png');
+        game.load.image('SwipeFD', 'assets/swipeFD.png');
+        game.load.image('SwipeFU', 'assets/swipeFU.png');
+        game.load.image('SwipeU', 'assets/swipeU.png');*/
+        
+        game.load.image('SwipeV', 'assets/SwipeBoxV.png');
+        game.load.image('SwipeH', 'assets/SwipeBoxH.png');
+
         //Virtual controller assets
         game.load.image('leftButton', 'assets/ButtonLeftbig.png');
 
