@@ -108,8 +108,8 @@ class Fighter {
 
 
         this.character.body.setSize(30, 70, 10, 0)
-        this.character.scale.x = 1.25;
-        this.character.scale.y = 1.25;
+        this.character.scale.x = 1.75; //1.25
+        this.character.scale.y = 1.75; //1.25
 
         //Player animations
 
@@ -207,6 +207,7 @@ class Fighter {
         }
 
         this.weapon1 = game.add.weapon(1, 'slash');
+        
         this.weapon1.bulletKillType = Phaser.Weapon.KILL_LIFESPAN;
         this.weapon1.bulletLifespan = 50; //50
         this.weapon1.bulletSpeed = 0; //0
@@ -237,13 +238,14 @@ class Fighter {
 
         //Weapon used for swipe down attacks
         //this.weaponSwipeD = game.add.weapon(1, 'SwipeD');
-        this.weaponSwipeD = game.add.weapon(1, 'SwipeH');
+        this.weaponSwipeD = game.add.weapon(3, 'SwipeH');
         this.weaponSwipeD.alpha = 0;
         this.weaponSwipeD.bulletKillType = Phaser.Weapon.KILL_LIFESPAN;
         this.weaponSwipeD.bulletLifespan = 50; //50
         this.weaponSwipeD.bulletSpeed = 0; //0
         this.weaponSwipeD.fireRate = 100;
-        this.weaponSwipeD.trackSprite(this.character, 0, 80, true);
+        this.weaponSwipeD.trackSprite(this.character, 0, 120, true);
+        //this.weaponSwipeD.bulletInheritSpriteSpeed = true;
 
         //Weapon used for swipe forward down attacks
         //this.weaponSwipeFD = game.add.weapon(1, 'SwipeFD');
@@ -312,16 +314,16 @@ class Fighter {
                 if (charName2 == 'dude') //dude is blue, chick is orange
                 {
                     //sets up the cell for the damage icon and stocks
-                    var damageBox2 = game.add.sprite(650, game.world.game.world.height - 75, this.damageBox);
+                    var damageBox2 = game.add.sprite(game.world.width*0.9, game.world.game.world.height - 75, this.damageBox);
                     damageBox2.scale.setTo(5.5, 2.2);
-                    var stock = this.stocks.create((game.world.width * .85) + (30 * h), game.world.height - 25, 'blueStock');
+                    var stock = this.stocks.create((game.world.width * .95) + (30 * h), game.world.height - 25, 'blueStock');
                     stock.anchor.setTo(.5, .5);
                 }
                 else if (charName2 == 'chick') {
                     //sets up the cell for the damage icon and stocks
-                    var damageBox2 = game.add.sprite(650, game.world.game.world.height - 75, this.damageBox);
+                    var damageBox2 = game.add.sprite(game.world.width*0.9, game.world.game.world.height - 75, this.damageBox);
                     damageBox2.scale.setTo(5.5, 2.2);
-                    var stock = this.stocks.create((game.world.width * .85) + (30 * h), game.world.height - 25, 'orangeStock');
+                    var stock = this.stocks.create((game.world.width * .91) + (30 * h), game.world.height - 25, 'orangeStock');
                     stock.anchor.setTo(.5, .5);
                 }
 
@@ -627,7 +629,8 @@ class Fighter {
         this.basicCD = 25;
     }
     jumpStart() {
-        this.character.body.velocity.y = -350 + this.jumpSpeed;
+        //this.character.body.velocity.y = -350 + this.jumpSpeed;
+        this.character.body.velocity.y = game.world.height*-3 + this.jumpSpeed;
         jumpSound.play();
 
         this.shielding = false;
@@ -701,7 +704,7 @@ class Fighter {
         }
         this.character.body.velocity.y = 0;
         this.character.body.velocity.x = 50 * this.character.scale.x;
-        this.character.body.velocity.y -= 400;
+        this.character.body.velocity.y -= 600;
         this.attacking = true;
         this.attack = 'uppercut';
         this.weaponUppercut.fire();

@@ -13,37 +13,39 @@ var cssState = {
 
         key1 = game.input.keyboard.addKey(Phaser.Keyboard.ONE);
         
-        dudeIcon = game.add.sprite(game.world.width * .5 - 200, game.world.height * .25 + 50, 'dudeIcon');
+        dudeIcon = game.add.sprite(game.world.width * 0.5 - 250, game.world.height * .25 + 50, 'dudeIcon');
         dudeIcon.anchor.setTo(.5, .5);
-        dudeIcon.scale.setTo(.5, .5);
+        //dudeIcon.scale.setTo(.5, .5);
         game.physics.arcade.enable(dudeIcon);
         dudeIcon.tint = 0xffffff;
 
-        chickIcon = game.add.sprite(game.world.width * .5 + 200, game.world.height * .25 + 50, 'chickIcon');
+        chickIcon = game.add.sprite(game.world.width * 0.5 + 250, game.world.height * .25 + 50, 'chickIcon');
         chickIcon.anchor.setTo(.5, .5);
-        chickIcon.scale.setTo(.5, .5);
+        //chickIcon.scale.setTo(.5, .5);
         game.physics.arcade.enable(chickIcon);
         chickIcon.tint = 0xffffff;
 
         //TEST:COMPUTER icon
-        computerIcon = game.add.sprite(game.world.width * .5, game.world.height * .5 - 100, 'computerIcon');
+        computerIcon = game.add.sprite(game.world.width * .5, game.world.height * .25 + 50, 'computerIcon');
         computerIcon.anchor.setTo(.5, .5);
-        computerIcon.scale.setTo(.25, .25);
+        computerIcon.scale.setTo( .35, .53);
         game.physics.arcade.enable(computerIcon);
         computerIcon.tint = 0xffffff;
 
-        player1Icon = game.add.sprite(game.world.width * .5 - 50, game.world.height * .5, 'player1cssIcon');
-        player1Icon.scale.setTo(1.5, 1.5);
+        player1Icon = game.add.sprite(game.world.width * .5 - 70, game.world.height * .5, 'player1cssIcon');
+        player1Icon.scale.setTo(3, 3);
+        player1Icon.anchor.setTo(.5, .5);
 
-        player2Icon = game.add.sprite(game.world.width * .5 + 50, game.world.height * .5, 'player2cssIcon');
-        player2Icon.scale.setTo(1.5, 1.5);
+        player2Icon = game.add.sprite(game.world.width * .5 + 70, game.world.height * .5, 'player2cssIcon');
+        player2Icon.scale.setTo(3, 3);
+        player2Icon.anchor.setTo(.5, .5);
 
         player1Icon.inputEnabled = true;
         player2Icon.inputEnabled = true;
 
         player1Icon.input.enableDrag(true);
         player2Icon.input.enableDrag(true);
-
+        
         game.physics.arcade.enable(player1Icon);
         game.physics.arcade.enable(player2Icon);
 
@@ -74,7 +76,7 @@ var cssState = {
         player2BodyIcon.scale.setTo(1.5, 1.5);
 
         //Chose your library: Click on label to set variable to a library, then send info later
-        var player1Label = game.add.text(150, 50, 'Choose your Library!', { font: '25px Arial', fill: '#ffffff' });
+        var player1Label = game.add.text(game.world.width*0.25, 50, 'Choose your Library!', { font: '25px Arial', fill: '#ffffff' });
         player1Label.inputEnabled = true;
         player1Label.selected = 0;
         player1Label.librarySelected = '';
@@ -95,7 +97,7 @@ var cssState = {
         });
 
 
-        var player2Label = game.add.text(game.world.width * .5 + 150, 50, 'Choose your Library!', { font: '25px Arial', fill: '#ffffff' });
+        var player2Label = game.add.text(game.world.width * .65 + 150, 50, 'Choose your Library!', { font: '25px Arial', fill: '#ffffff' });
         player2Label.inputEnabled = true;
         player2Label.selected = 0;
         player2Label.librarySelected = '';

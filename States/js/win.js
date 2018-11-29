@@ -65,29 +65,29 @@ var winState = {
     create: function () {
         if(multimanmode == false){
             if (Player1.lives > Player2.lives) {
-                var winLabel = game.add.text(80, 80, 'Player 1 won!', { font: '50px Arial', fill: '#ffffff' });
+                var winLabel = game.add.text(game.world.width*0.4, 80, 'Player 1 won!', { font: '70px Arial', fill: '#ffffff' });
             }
             else if (Player1.lives == Player2.lives) {
-                var winLabel = game.add.text(80, 80, "It's a tie", { font: '50px Arial', fill: '#ffffff' });
+                var winLabel = game.add.text(game.world.width*0.4, 80, "It's a tie", { font: '70px Arial', fill: '#ffffff' });
             }
             else {
-                var winLabel = game.add.text(80, 80, 'Player 2 won!', { font: '50px Arial', fill: '#ffffff' });
+                var winLabel = game.add.text(game.world.width*0.4, 80, 'Player 2 won!', { font: '70px Arial', fill: '#ffffff' });
             }
-            var statsLabel1 = game.add.text(80, 160, `Player 1 stats:` + '\n' + `Lives: ${Player1.lives}`); 
-            var statsLabel2 = game.add.text(game.world.width - 240, 160, `Player 2 stats:` + '\n' + `Lives: ${Player2.lives}`);
+            var statsLabel1 = game.add.text(80, 160, `Player 1 stats:` + '\n' + `Lives: ${Player1.lives}`, { font: '70px Arial', fill: '#ffffff' }); 
+            var statsLabel2 = game.add.text(game.world.width*0.7, 160, `Player 2 stats:` + '\n' + `Lives: ${Player2.lives}`,{ font: '70px Arial', fill: '#ffffff' });
         }
         else{
-            var winLabel = game.add.text(80, 80, 'Nice Game!', { font: '50px Arial', fill: '#ffffff' });
-            var statsLabel1 = game.add.text(80, 160, `Player 1 stats:` + '\n' + `KO(s): ${multimenko}`);
+            var winLabel = game.add.text(80, 80, 'Nice Game!', { font: '70px Arial', fill: '#ffffff' });
+            var statsLabel1 = game.add.text(80, 160, `Player 1 stats:` + '\n' + `KO(s): ${multimenko}`, { font: '70px Arial', fill: '#ffffff' });
         }
-        var startLabel = game.add.text(80, game.world.height - 80, 'Press "W" key or tap this label to go to menu', { font: '25px Arial', fill: '#ffffff' });
+        var startLabel = game.add.text(80, game.world.height - 80, 'Press "W" key or tap this label to go to menu', { font: '40px Arial', fill: '#ffffff' });
         startLabel.inputEnabled = true;
         startLabel.events.onInputUp.add(function () {
             music.stop();
             game.state.start('menu');
         });
 
-        var restartLabel = game.add.text(80, game.world.height - 180, 'Press this label to restart', { font: '25px Arial', fill: '#ffffff' });
+        var restartLabel = game.add.text(80, game.world.height - 180, 'Press this label to restart', { font: '40px Arial', fill: '#ffffff' });
         restartLabel.inputEnabled = true;
         restartLabel.events.onInputUp.add(function () {
             music.stop();
@@ -98,13 +98,13 @@ var winState = {
 
         if (game.device.android || game.device.iOS) {
             //If on mobile, open a new tab with the survey form
-            feedbackLabel = new Link(this.game, 80, game.world.height - 240, "Click here to send feedback! Thanks for playing on  Mobile!", "https://goo.gl/forms/wA6NGUAJ4OiKhVC93", { font: '25px Arial', fill: '#ffffff' });
+            feedbackLabel = new Link(this.game, 80, game.world.height - 240, "Click here to send feedback! Thanks for playing on  Mobile!", "https://goo.gl/forms/wA6NGUAJ4OiKhVC93", { font: '40px Arial', fill: '#ffffff' });
 
         }
         else {
             //If on desktop, open up embedded form.
             //feedbackLabel = new form(this.game, 80,game.world.height-240, "Click here to send feedback! Thanks for playing on Desktop!", "https://goo.gl/forms/wA6NGUAJ4OiKhVC93", {font: '25px Arial',fill:'#ffffff'});
-            feedbackLabel = new Link(this.game, 80, game.world.height - 240, "Click here to send feedback! Thanks for playing on Desktop!", "https://goo.gl/forms/wA6NGUAJ4OiKhVC93", { font: '25px Arial', fill: '#ffffff' });
+            feedbackLabel = new Link(this.game, 80, game.world.height - 240, "Click here to send feedback! Thanks for playing on Desktop!", "https://goo.gl/forms/wA6NGUAJ4OiKhVC93", { font: '40px Arial', fill: '#ffffff' });
         }
 
         var wkey = game.input.keyboard.addKey(Phaser.Keyboard.W);

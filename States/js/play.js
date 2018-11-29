@@ -140,8 +140,8 @@ var playState = {
 
         if (Fighter.controlnum === 1) {
             //console.log("controlnum = 1");
-            Fighter.character.x = 200;
-            Fighter.character.y = 230;
+            Fighter.character.x = 0.25 * game.width  //200;
+            Fighter.character.y = 0.25 * game.height //230;
             Fighter.respawnSwitch = true;
             Fighter.m = 0;
             Fighter.inputLock = false;
@@ -151,8 +151,8 @@ var playState = {
 
         else if (Fighter.controlnum === 2) {
             //console.log("controlnum = 2");
-            Fighter.character.x = 600;
-            Fighter.character.y = 230;
+            Fighter.character.x = 0.75 * game.width;
+            Fighter.character.y = 0.25 * game.height;
             Fighter.respawnSwitch = true;
             Fighter.m = 0;
             Fighter.inputLock = false;
@@ -163,8 +163,8 @@ var playState = {
         else if (Fighter.controlnum === -1) {
             //console.log("controlnum = -1");
             //Fighter.character.body.position.x = 200;
-            Fighter.character.x = 200;
-            Fighter.character.y = 230;
+            Fighter.character.x = 0.25 * game.width  //200;
+            Fighter.character.y = 0.25 * game.height //230;
             Fighter.respawnSwitch = true;
             Fighter.m = 0;
             Fighter.inputLock = false;
@@ -174,8 +174,10 @@ var playState = {
         else if (Fighter.controlnum === -2) {
             //console.log("controlnum = -2");
             //Fighter.character.body.position.x = 200;
-            Fighter.character.x = 600;
-            Fighter.character.y = 230;
+            //Fighter.character.x = 600;
+            //Fighter.character.y = 230;
+            Fighter.character.x = 0.75 * game.width;
+            Fighter.character.y = 0.25 * game.height;
             Fighter.respawnSwitch = true;
             Fighter.m = 0;
             Fighter.inputLock = false;
@@ -248,7 +250,8 @@ var playState = {
     },
 
     KO: function (Fighter) {
-        if (Fighter.character.body.position.x < -50 || Fighter.character.body.position.x > 900) {
+        //if (Fighter.character.body.position.x < -50 || Fighter.character.body.position.x > 900) {
+        if (Fighter.character.body.position.x < -50 || Fighter.character.body.position.x > game.world.width + 50) {
             Fighter.character.hasItem = false;
             deathSound.play();
             this.respawn(Fighter);
@@ -261,7 +264,8 @@ var playState = {
             }
             
         }
-        else if (Fighter.character.body.position.y > 700 || Fighter.character.body.position.y < -200) {
+        //else if (Fighter.character.body.position.y > 700 || Fighter.character.body.position.y < -200) {
+        else if (Fighter.character.body.position.y > game.world.height + 100 || Fighter.character.body.position.y < -200) {
             Fighter.character.hasItem = false;
             deathSound.play();
             this.respawn(Fighter);
@@ -290,8 +294,8 @@ var playState = {
     create: function () {
 
         //  We're going to be using physics, so enable the Arcade Physics system
-        w = 800;
-        h = 600;
+        //w = 800;
+        //h = 600;
         game.time.advancedTiming = true;
 
         //create a timer for the game
@@ -301,6 +305,7 @@ var playState = {
 
         var esckey = game.input.keyboard.addKey(Phaser.Keyboard.ESC);
         esckey.onDown.addOnce(this.timeOutGame);
+
 
         //Play music
         music = game.add.audio('allstar');
@@ -314,25 +319,26 @@ var playState = {
         stagecam = new cam(40, 350, 1200, 1000);
 
 
-        if (chosenStageName === 'marstonPic') {
+        if(chosenStageName === 'marstonPic') {
 
             //Background for our game
-            game.add.sprite(0, 0, 'sky');
+            back = game.add.sprite(0, 0, 'sky');
+
+            back.scale.setTo(1.5,1.5);
 
 
-
-            //  The platforms group contains the ground and the 2 ledges we can jump on
+            //The platforms group contains the ground and the 2 ledges we can jump on
             platforms = game.add.group();
 
-            //  Enable physics for any object that is created in this group
+            //Enable physics for any object that is created in this group
             platforms.enableBody = true;
             platforms.friction = 100;
 
             // Create the ground.
-            var ground = platforms.create(110, game.world.height - 100, 'ground');
-
+            var ground = platforms.create(game.world.width * 0.5, game.world.height - 100, 'ground');
+            ground.anchor.setTo(0.5,1);
             //  Scale it to fit the width of the game (the original sprite is ? in size)
-            ground.scale.setTo(18, 1);
+            ground.scale.setTo(40, 2);
 
             //  This stops it from falling away when you jump on it
             ground.body.immovable = true;
@@ -341,7 +347,9 @@ var playState = {
         else {
 
             //Background for our game
-            game.add.sprite(0, 0, 'sky');
+            back = game.add.sprite(0, 0, 'sky');
+            
+            back.scale.setTo(1.5,1.5);
 
             //  The platforms group contains the ground and the 2 ledges we can jump on
             platforms = game.add.group();
@@ -352,9 +360,14 @@ var playState = {
             miniPlatforms.enableBody = true;
 
             // Create the ground.
-            var ground = platforms.create(110, game.world.height - 100, 'ground');
-            var plat1 = miniPlatforms.create(110, game.world.height - 250, 'ground');
-            var plat2 = miniPlatforms.create(game.world.width - 300, game.world.height - 250, 'ground');
+            var ground = platforms.create(game.world.width*0.5, game.world.height - 100, 'ground');
+            ground.anchor.setTo(0.5,1);
+            var plat1 = miniPlatforms.create(game.world.width*0.33, game.world.height*0.7, 'ground');
+            var plat2 = miniPlatforms.create(game.world.width*0.66, game.world.height*0.7, 'ground');
+            
+            plat1.anchor.setTo(0.5,1);
+            plat2.anchor.setTo(0.5,1);
+
             plat1.body.collideWorldBounds = true;
             plat2.body.collideWorldBounds = true;
             plat1.body.checkCollision.down = false;
@@ -363,11 +376,12 @@ var playState = {
             plat2.body.immovable = true;
 
 
-            plat1.scale.setTo(4, 1);
-            plat2.scale.setTo(4, 1);
+            plat1.scale.setTo(10, 1);
+            plat2.scale.setTo(10, 1);
 
             //  Scale it to fit the width of the game (the original sprite is ? in size)
-            ground.scale.setTo(16, 1);
+            //ground.scale.setTo(16, 1);
+            ground.scale.setTo(40, 2);
 
             //  This stops it from falling away when you jump on it
             ground.body.immovable = true;
@@ -520,7 +534,7 @@ var playState = {
         healthtext1.stroke = '#ffffff';
         healthtext1.strokeThickness = 4;
 
-        healthtext2 = game.add.text(650, game.world.height - 75, `DMG ${Player2.health}`, Player2.fighterStyle);
+        healthtext2 = game.add.text(game.world.width*0.9, game.world.height - 75, `DMG ${Player2.health}`, Player2.fighterStyle);
         healthtext2.stroke = '#ffffff';
         healthtext2.strokeThickness = 4;
 
@@ -537,7 +551,7 @@ var playState = {
             nameText4 = game.add.text(0, 0, "P4", style);
         }
         //Pause
-        pauseLabel = game.add.text(game.world.width * .5, game.world.height * .15, 'Pause', { font: '50px Arial', fill: '#ffffff' });
+        pauseLabel = game.add.text(game.world.width * .5, game.world.height * .15, 'Pause', { font: '70px Arial', fill: '#ffffff' });
         pauseLabel.anchor.setTo(.5, .5);
         pauseLabel.inputEnabled = true;
         pauseLabel.events.onInputUp.add(function () {
@@ -546,7 +560,7 @@ var playState = {
             pauseMenu = game.add.sprite(game.world.width * .5, game.world.height * .5, 'menuButton');
             pauseMenu.anchor.setTo(.5, .5);
 
-            choiseLabel = game.add.text(w / 2, h - 150, 'Click outside menu to continue, click center to quit', { font: '30px Arial', fill: '#fff' });
+            choiseLabel = game.add.text(game.world.width / 2, game.world.height - 150, 'Click outside menu to continue, click center to quit', { font: '30px Arial', fill: '#fff' });
             choiseLabel.anchor.setTo(0.5, 0.5);
         });
         game.input.onDown.add(unpause, self);
@@ -584,7 +598,7 @@ var playState = {
         };
 
 
-        timerText = game.add.text(game.world.width * .5, 40, `Time: ${timer.duration}`, { font: '40px Arial', fill: '#000000' });
+        timerText = game.add.text(game.world.width * .5, game.world.height* 0.1, `Time: ${timer.duration}`, { font: '80px Arial', fill: '#000000' });
         timerText.anchor.setTo(.5, .5);
 
     },
@@ -624,7 +638,7 @@ var playState = {
         // logic check for hitpause, split second intentional slowdown when players are hit
         if (hitpause > 0) {
 
-            game.time.slowMotion = 8;
+            game.time.slowMotion = 18;
 
             hitpause--;
         }
