@@ -28,6 +28,9 @@ var feedbackLabel;
 var background;
 var filter;
 var key1;
+
+//sound related variables
+var musicvol = 0.5;
 var playSound;
 var playMusic;
 var hitSound;

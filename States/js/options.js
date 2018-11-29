@@ -52,6 +52,14 @@ var optionsState = {
         buttonSound = game.add.audio('buttonSound');
         buttonSound.volume -= .5;
 
+        //the sliding bar part
+        game.load.image('Kim', 'assets/Kim.jpg');
+        var volumeIcon = game.add.sprite(640, 360, 'Kim');//modify this icon
+        volumeIcon.inputEnabled = true;
+        volumeIcon.input.enableDrag(true);
+        volumeIcon.events.onDragUpdate.add(dragUpdate);
+        //end of the sliding bar function
+
         //Can add other options as well, music and sfx toggle, anti-alias, and other ideas
     },
     update: function () {
@@ -152,3 +160,28 @@ var optionsState = {
     }
 
 };
+function dragUpdate (sprite){
+    //455: the upper bound set for this sliding bar
+    //260: the lower bound set for this sliding bar
+    //720: the length of the background
+    //195: the range that the sliding bar can move
+
+    var yPos = 720 - sprite.centerY;
+
+    if (yPos > 455){//upper bound
+        yPos = 455;
+        sprite.centerY = 265;
+    }
+    else if (yPos < 260) {//lower bound
+        yPos = 260;
+        sprite.centerY = 460;
+    }
+
+    musicvol = (yPos-260) /195;
+    //console.log(musicvol);
+    music.volume = musicvol;
+
+    if(sprite.x != 640){
+        sprite.x = 640;
+    }
+}

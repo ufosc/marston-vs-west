@@ -107,6 +107,8 @@ var menuState = {
         if (game.device.android || game.device.iOS) {
             fullScreenButton.visible = true;
         }
+        music.volume = musicvol;
+
     },
 
 

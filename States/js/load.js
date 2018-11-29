@@ -92,6 +92,9 @@ var loadState = {
         music = game.add.audio('menuMusic');
         music.loopFull();
         game.state.start('menu');
+    },
+    update: function(){
+        music.volume = musicvol;
 
     }
 };
