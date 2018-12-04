@@ -53,7 +53,7 @@ var optionsState = {
         buttonSound.volume -= .5;
 
         //the sliding bar part
-        game.load.image('Kim', 'assets/Kim.jpg');
+        game.load.image('Kim', 'assets/bottle.png');
         var volumeIcon = game.add.sprite(360, 500, 'Kim');//modify this icon
         volumeIcon.inputEnabled = true;
         volumeIcon.input.enableDrag(true);

@@ -110,8 +110,8 @@ var menuState = {
         }
         music.volume = musicvol;
         buttonSound.volume = musicvol;
-        console.log("buttonSound: ", buttonSound.volume);
-        console.log("musicVolume: ", music.volume);
+        //console.log("buttonSound: ", buttonSound.volume);
+        //console.log("musicVolume: ", music.volume);
         //this is where music volume should handled by updating
         //but this is never triggered
 
