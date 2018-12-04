@@ -184,7 +184,7 @@ function dragUpdate (sprite){
     if(sprite.x != 640){
         sprite.x = 640;
     }*/
-    
+
     //the following code is for x-axis sliding bar
     //music volume adjustment not activated before dragged
     //455: the upper bound set for this sliding bar
@@ -194,7 +194,7 @@ function dragUpdate (sprite){
 
     //var xPos = 720 - sprite.centerX;
     xPos = sprite.centerX;
-    console.log(xPos);
+    //console.log(xPos);
 
     if (xPos > 455){//upper bound
         xPos = 455;
@@ -208,7 +208,7 @@ function dragUpdate (sprite){
     }
 
     musicvol = (xPos-260) /195;
-    console.log(musicvol);
+    //console.log(musicvol);
     music.volume = musicvol;
 
     if(sprite.y != 500){
