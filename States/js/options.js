@@ -54,7 +54,7 @@ var optionsState = {
 
         //the sliding bar part
         game.load.image('Kim', 'assets/Kim.jpg');
-        var volumeIcon = game.add.sprite(640, 360, 'Kim');//modify this icon
+        var volumeIcon = game.add.sprite(360, 500, 'Kim');//modify this icon
         volumeIcon.inputEnabled = true;
         volumeIcon.input.enableDrag(true);
         volumeIcon.events.onDragUpdate.add(dragUpdate);
@@ -161,7 +161,7 @@ var optionsState = {
 
 };
 function dragUpdate (sprite){
-    //455: the upper bound set for this sliding bar
+    /*//455: the upper bound set for this sliding bar
     //260: the lower bound set for this sliding bar
     //720: the length of the background
     //195: the range that the sliding bar can move
@@ -183,5 +183,35 @@ function dragUpdate (sprite){
 
     if(sprite.x != 640){
         sprite.x = 640;
+    }*/
+    
+    //the following code is for x-axis sliding bar
+    //music volume adjustment not activated before dragged
+    //455: the upper bound set for this sliding bar
+    //260: the lower bound set for this sliding bar
+    //720: the length of the background
+    //195: the range that the sliding bar can move
+
+    //var xPos = 720 - sprite.centerX;
+    xPos = sprite.centerX;
+    console.log(xPos);
+
+    if (xPos > 455){//upper bound
+        xPos = 455;
+        //sprite.centerX = 265;
+        sprite.centerX = 455;
+    }
+    else if (xPos < 260) {//lower bound
+        xPos = 260;
+        //sprite.centerX = 460;
+        sprite.centerX = 260;
+    }
+
+    musicvol = (xPos-260) /195;
+    console.log(musicvol);
+    music.volume = musicvol;
+
+    if(sprite.y != 500){
+        sprite.y = 500;
     }
 }
