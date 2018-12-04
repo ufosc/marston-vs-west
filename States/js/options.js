@@ -210,6 +210,7 @@ function dragUpdate (sprite){
     musicvol = (xPos-260) /195;
     //console.log(musicvol);
     music.volume = musicvol;
+    buttonSound.volume = musicvol;
 
     if(sprite.y != 500){
         sprite.y = 500;
