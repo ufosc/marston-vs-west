@@ -87,11 +87,15 @@ var loadState = {
         game.load.image('orangeStock', 'assets/orangeStock.png');
         game.load.image('blueStock', 'assets/blueStock.png');
         game.load.image('dust', 'assets/dust.png');
+        game.load.image('Kim', 'assets/bottle.png');//for sliding bar
     },
     create: function () {
         music = game.add.audio('menuMusic');
         music.loopFull();
         game.state.start('menu');
+    },
+    update: function(){
+        music.volume = musicvol;
 
     }
 };

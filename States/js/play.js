@@ -306,7 +306,7 @@ var playState = {
 
         //Play music
         music = game.add.audio('allstar');
-        music.volume = 0.5;
+        //music.volume = musicvol;
         music.loopFull();
 
 
@@ -613,6 +613,10 @@ var playState = {
         //console.log("controlOptionAI: " + controlOptionAI);
         game.physics.arcade.overlap(Player1.character, this.win, this.Win, null, this);
         game.physics.arcade.overlap(Player2.character, this.win, this.Win, null, this);
+
+        //updates the music volume for 'allstar'
+        music.volume = musicvol;
+
 
 
         if (chosenStageName == 'pool') {

@@ -68,6 +68,7 @@ var menuState = {
         buttonSound = game.add.audio('buttonSound');
         buttonSound.volume -= .5;
 
+
         if (music.name != 'menuMusic') {
             music = game.add.audio('menuMusic');
             music.loopFull();
@@ -107,6 +108,13 @@ var menuState = {
         if (game.device.android || game.device.iOS) {
             fullScreenButton.visible = true;
         }
+        music.volume = musicvol;
+        buttonSound.volume = musicvol;
+        //console.log("buttonSound: ", buttonSound.volume);
+        //console.log("musicVolume: ", music.volume);
+        //this is where music volume should handled by updating
+        //but this is never triggered
+
     },
 
 
