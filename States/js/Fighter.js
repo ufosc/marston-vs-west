@@ -128,11 +128,19 @@ class Fighter {
         this.aniShield.onComplete.add(this.shieldEnd, this);
 
         //punch animations
+        this.aniPunchWindUp= this.character.animations.add('punchwindup', [0,1,0], 5, false);
+        this.aniPunchWindUp.onStart.add(this.PunchWindUpStart, this);
+        this.aniPunchWindUp.onComplete.add(this.PunchWindUpEnd, this);
+
         this.aniPunch = this.character.animations.add('punch', [8, 7, 6], 10, false);
         this.aniPunch.onStart.add(this.punchStart, this);
         this.aniPunch.onComplete.add(this.punchEnd, this);
 
         //kick
+        this.aniKickWindUp= this.character.animations.add('kickwindup', [11,11,11], 10, false);
+        this.aniKickWindUp.onStart.add(this.KickWindUpStart, this);
+        this.aniKickWindUp.onComplete.add(this.KickWindUpEnd, this);
+
         this.aniKick = this.character.animations.add('kick', [12, 12, 12, 11, 6], 10, false);
         this.aniKick.onStart.add(this.kickStart, this);
         this.aniKick.onComplete.add(this.kickEnd, this);
@@ -143,16 +151,28 @@ class Fighter {
         this.aniDash.onComplete.add(this.dashEnd, this);
 
         //Tatsumaki (i am weeb)
+        this.aniJumpKickWindUp= this.character.animations.add('JumpKickwindup', [14,14], 5, false);
+        this.aniJumpKickWindUp.onStart.add(this.JumpKickWindUpStart, this);
+        this.aniJumpKickWindUp.onComplete.add(this.JumpKickWindUpEnd, this);
+
         this.aniJumpKick = this.character.animations.add('jumpKick', [14, 13, 12, 12, 12], 15, false);
         this.aniJumpKick.onStart.add(this.jumpKickStart, this);
         this.aniJumpKick.onComplete.add(this.jumpKickEnd, this);
 
         //Uppercut (change 16 later for a better uppercut frame)
+        this.aniUppercutWindUp= this.character.animations.add('Uppercutwindup', [13,14,14], 5, false);
+        this.aniUppercutWindUp.onStart.add(this.UppercutWindUpStart, this);
+        this.aniUppercutWindUp.onComplete.add(this.UppercutWindUpEnd, this);
+        
         this.aniUppercut = this.character.animations.add('uppercut', [16, 16, 14, 13], 10, false);
         this.aniUppercut.onStart.add(this.uppercutStart, this);
         this.aniUppercut.onComplete.add(this.uppercutEnd, this);
 
         //Slow warlock punch
+        this.aniWarlockWindUp= this.character.animations.add('Warlockwindup', [13,13], 5, false);
+        this.aniWarlockWindUp.onStart.add(this.WarlockWindUpStart, this);
+        this.aniWarlockWindUp.onComplete.add(this.WarlockWindUpEnd, this);
+        
         this.aniWarlock = this.character.animations.add('warlock', [13, 13, 11, 12], 7, false);
         this.aniWarlock.onStart.add(this.warlockStart, this);
         this.aniWarlock.onComplete.add(this.warlockEnd, this);
@@ -162,21 +182,37 @@ class Fighter {
         this.aniKo.onComplete.add(this.koEnd, this);
 
         //Player air swipe forward/neutral
+        this.aniAirFWindUp= this.character.animations.add('AirFwindup', [24,24], 5, false);
+        this.aniAirFWindUp.onStart.add(this.AirFWindUpStart, this);
+        this.aniAirFWindUp.onComplete.add(this.AirFWindUpEnd, this);
+        
         this.aniAirF = this.character.animations.add('airforward', [24, 24, 25, 25, 25], 7, false);
         this.aniAirF.onStart.add(this.airforwardStart, this);
         this.aniAirF.onComplete.add(this.airforwardEnd, this);
 
         //Player air swipe down
+        this.aniAirDWindUp= this.character.animations.add('AirDwindup', [28,28], 5, false);
+        this.aniAirDWindUp.onStart.add(this.AirDWindUpStart, this);
+        this.aniAirDWindUp.onComplete.add(this.AirDWindUpEnd, this);
+
         this.aniAirD = this.character.animations.add('airdown', [28, 28, 29, 30], 7, false);
         this.aniAirD.onStart.add(this.airdownStart, this);
         this.aniAirD.onComplete.add(this.airdownEnd, this);
 
         //Player air swipe neutral
+        this.aniAirNWindUp= this.character.animations.add('airNwindup', [31,31], 5, false);
+        this.aniAirNWindUp.onStart.add(this.AirNWindUpStart, this);
+        this.aniAirNWindUp.onComplete.add(this.AirNWindUpEnd, this);
+
         this.aniAirN = this.character.animations.add('airneutral', [31, 31, 32, 32], 7, false);
         this.aniAirN.onStart.add(this.airneutralStart, this);
         this.aniAirN.onComplete.add(this.airneutralEnd, this);
 
         //Player juggle
+        this.aniJuggleWindUp= this.character.animations.add('Jugglewindup', [26,26], 5, false);
+        this.aniJuggleWindUp.onStart.add(this.JuggleWindUpStart, this);
+        this.aniJuggleWindUp.onComplete.add(this.JuggleWindUpEnd, this);
+
         this.aniJuggle = this.character.animations.add('juggle', [26, 21, 22, 23], 7, false);
         this.aniJuggle.onStart.add(this.JuggleStart, this);
         this.aniJuggle.onComplete.add(this.JuggleEnd, this);
@@ -515,8 +551,99 @@ class Fighter {
 
     }
 
+    //animation events
+
+    PunchWindUpStart() {
+        this.character.tint = 0; //0xffffff * 0.5;
+        this.inputLock = true;
+    }
+    PunchWindUpEnd() {
+        this.character.tint = 0xffffff;
+        this.aniPunch.play(10, false);
+    }
+
+    KickWindUpStart() {
+        this.character.tint = 0; //0xffffff * 0.5;
+        this.inputLock = true;
+    }
+    KickWindUpEnd() {
+        this.character.tint = 0xffffff;
+        this.aniKick.play(10, false);
+    }
+
+    AirFWindUpStart() {
+        this.character.tint = 0; //0xffffff * 0.5;
+        this.inputLock = true;
+    }
+    AirFWindUpEnd() {
+        this.character.tint = 0xffffff;
+        this.aniAirF.play(10, false);
+    }
+
+    AirDWindUpStart() {
+        this.character.tint = 0; //0xffffff * 0.5;
+        this.inputLock = true;
+    }
+    AirDWindUpEnd() {
+        this.character.tint = 0xffffff;
+        this.aniAirD.play(10, false);
+    }
+
+    AirNWindUpStart() {
+        this.character.tint = 0; //0xffffff * 0.5;
+        this.inputLock = true;
+    }
+    AirNWindUpEnd() {
+        this.character.tint = 0xffffff;
+        this.aniAirN.play(10, false);
+    }
+
+    
+    UppercutWindUpStart() {
+        this.character.tint = 0; //0xffffff * 0.5;
+        this.inputLock = true;
+    }
+    UppercutWindUpEnd() {
+        this.character.tint = 0xffffff;
+        this.aniUppercut.play(10, false);
+    }
+
+    
+    WarlockWindUpStart() {
+        this.character.tint = 0; //0xffffff * 0.5;
+        this.inputLock = true;
+    }
+    WarlockWindUpEnd() {
+        this.character.tint = 0xffffff;
+        this.aniWarlock.play(10, false);
+    }
+
+
+    JumpKickWindUpStart() {
+        this.character.tint = 0; //0xffffff * 0.5;
+        this.inputLock = true;
+    }
+    JumpKickWindUpEnd() {
+        this.character.tint = 0xffffff;
+        this.aniJumpKick.play(10, false);
+    }
+
+    
+    JuggleWindUpStart() {
+        this.character.tint = 0; //0xffffff * 0.5;
+        this.inputLock = true;
+    }
+    JuggleWindUpEnd() {
+        this.character.tint = 0xffffff;
+        this.aniJuggle.play(10, false);
+    }
+
+
+
+
     punchStart() {
         console.log("Punch start");
+        this.character.tint = 0;
         if (this.character.scale.x < 0) //If facing left, flip the angle of the hitbox
         {
             this.weapon1.bulletAngleOffset = 40;
@@ -536,6 +663,7 @@ class Fighter {
         this.inputLock = false;
         this.attack = '';
         this.basicCD = 15;
+        //this.character.tint = 0xffffff;
     }
     airforwardStart() {
         console.log('air forward start');
@@ -919,7 +1047,7 @@ class Fighter {
                 //console.log(this.combo);
                 //console.log(this.comboclock);
                 this.comboclock = 55;
-
+                
                 if (this.character.hasItem) //If he has an item, USE IT!
                 {
                     item1.useItem(this);
@@ -946,8 +1074,10 @@ class Fighter {
                     else {
                         this.character.body.velocity.x = 250 + this.moveSpeed;
                     }
-                    this.aniPunch.play(10, false);
-
+                    this.aniPunchWindUp.play(10, false);
+                    console.log("punchwhindup");
+                    //this.aniPunch.play(10, false);
+                    
                     //this.hitCD = 30;
                     this.shielding = false;
                     this.hitSwitchPunch = true;
@@ -963,7 +1093,8 @@ class Fighter {
                     else {
                         this.character.body.velocity.x = 350 + this.moveSpeed;
                     }
-                    this.aniKick.play(10, false);
+                    this.aniKickWindUp.play(10, false);
+                    //this.aniKick.play(10, false);
                     //this.hitCD = 60;
                     //this.weapon1.fire();
                     this.shielding = false;
@@ -977,8 +1108,9 @@ class Fighter {
                     else {
                         this.character.body.velocity.x = 250 + this.moveSpeed;
                     }
-                    //this.aniPunch.play(10, false);
-                    this.aniUppercut.play(10, false);
+        
+                    this.aniUppercutWindUp.play(10, false);
+                    //this.aniUppercut.play(10, false);
                     //this.hitCD = 30;
                     this.shielding = false;
                     this.hitSwitchPunch = true;
@@ -1000,7 +1132,8 @@ class Fighter {
                 else {
                     this.character.body.velocity.x = 350 + this.moveSpeed;
                 }
-                this.aniKick.play(10, false);
+                this.aniKickWindup.play(10, false);
+                //this.aniKick.play(10, false);
                 //this.hitCD = 60;
                 //this.weapon1.fire();
 
@@ -1021,7 +1154,8 @@ class Fighter {
                 else {
                     this.character.body.velocity.x = 250 + this.moveSpeed;
                 }
-                this.aniPunch.play(10, false);
+                this.aniPunchWindUp.play(10, false);
+                //this.aniPunch.play(10, false);
                 if (this.character.hasItem) //If he has an item, USE IT!
                 {
                     item1.useItem(this);
@@ -1050,7 +1184,8 @@ class Fighter {
 
             else if (this.getb() && !this.inputLock && this.getup() && !(this.m < 120 && this.m != 0) && this.stunCounter == 0 && this.uppercutCD == 0) {
                 //console.log("Up Special");
-                this.aniUppercut.play(10, false);
+                //this.aniUppercut.play(10, false);
+                this.aniUppercutWindUp.play(10, false);
             }
             else if (this.getb() && !this.inputLock && this.getright() && !(this.m < 120 && this.m != 0) && this.stunCounter == 0 && this.dashCD == 0) {
                 //console.log("Right Special");
@@ -1062,11 +1197,13 @@ class Fighter {
             }
             else if (this.getb() && !this.inputLock && this.getdown() && !(this.m < 120 && this.m != 0) && this.stunCounter == 0) {
                 //console.log("Down Special");
-                this.aniJumpKick.play(7, false);
+                this.aniJumpKickWindUp.play(10, false);
+                //this.aniJumpKick.play(7, false);
             }
             else if (this.getb() && this.getleft() == false && this.getright() == false && this.getup() == false && !this.inputLock && !(this.m < 120 && this.m != 0) && this.stunCounter == 0 && this.warlockCD == 0) {
                 //console.log("Normal Special")
-                this.aniWarlock.play(3, false);
+                //this.aniWarlock.play(3, false);
+                this.aniWarlockWindUp.play(10, false);
             }
 
             //TODO: downDuration is still here, but in merge conflict it was gone, POSSIBLY REMOVE downDuration
@@ -1165,6 +1302,8 @@ class Fighter {
                 }
                 if (this.stunCounter > 0) {
                     this.character.animations.play('ko');
+
+                    //make player flash different colors when taking damage
                     this.character.tint = Math.random() * 0xffffff;
                     //game.camera.shake(0.01,15);
 
