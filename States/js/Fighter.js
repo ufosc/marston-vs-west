@@ -615,7 +615,7 @@ class Fighter {
     }
     WarlockWindUpEnd() {
         this.character.tint = 0xffffff;
-        this.aniWarlock.play(10, false);
+        this.aniWarlock.play(3, false);
     }
 
 
@@ -625,7 +625,7 @@ class Fighter {
     }
     JumpKickWindUpEnd() {
         this.character.tint = 0xffffff;
-        this.aniJumpKick.play(10, false);
+        this.aniJumpKick.play(7, false);
     }
 
     
