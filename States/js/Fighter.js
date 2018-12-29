@@ -15,6 +15,8 @@ class Fighter {
         this.combo = 0;
         this.comboclock = 0;
 
+        this.hanging = false;
+
         switch (character) {
             case 'dude':
                 this.fighterStyle = {
@@ -112,6 +114,9 @@ class Fighter {
         this.character.scale.y = 1.75; //1.25
 
         //Player animations
+
+        //idle animation
+        this.aniHang = this.character.animations.add('hang', [6], 5, true);
 
         this.aniRight = this.character.animations.add('right', [3, 4, 5, 6, 7], 10, true);
         this.aniRight.onComplete.add(this.walkEnd, this);
@@ -923,6 +928,27 @@ class Fighter {
         this.inputLock = false;
     }
 
+    //method to verify if fighter is touching a side of a platform, if true, fighter grabs ledge 
+    checkLedge() {
+        //console.log("ledge check");
+        //console.log(this.character.body.touching.left);
+        if(this.character.body.touching.left == true || this.character.body.touching.right == true){ //&& game.physics.arcade.overlap(this, platform) ) { 
+            //|| this.character.body.touching.right == true ) {
+            console.log("hanging?");
+            this.hanging = true;
+            this.velocity = 0;
+            this.character.animations.play('hang');
+            
+        }
+    }
+
+    //method to allow fighter to pull theirself up ledge when a up command is pushed
+    //could make ledge recover variations in future, ledge drop if press down, 
+    //ledge roll forward if forward press
+    //ledge drop if down press, ledge push off if press back button
+    //ledgeRecover() {
+
+    //}
 
     updateInput() {
         //Cooldown for attacks

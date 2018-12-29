@@ -652,6 +652,10 @@ var playState = {
         Player1.combocheck();
         Player2.combocheck();
 
+        //check for ledge grab/hangs
+        Player1.checkLedge();
+
+
         //Applies Super armor and immovabilty to players while attacking
         if (Player1.attacking) {
             Player1.character.body.velocity.x = 5 * Player1.character.scale.x;
