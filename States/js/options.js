@@ -52,13 +52,19 @@ var optionsState = {
         buttonSound = game.add.audio('buttonSound');
         buttonSound.volume -= .5;
 
-        //the sliding bar part
+        //the sliding bars part
 
         var volumeIcon = game.add.sprite(360, 500, 'Kim');//modify this icon
         volumeIcon.inputEnabled = true;
         volumeIcon.input.enableDrag(true);
         volumeIcon.events.onDragUpdate.add(dragUpdate);
         //end of the sliding bar function
+
+        var colorAdjustmentIcon = game.add.sprite(360, 450, 'Chi');//modify this icon
+        colorAdjustmentIcon.inputEnabled = true;
+        colorAdjustmentIcon.input.enableDrag(true);
+        colorAdjustmentIcon.events.onDragUpdate.add(dragUpdate2);
+        //end of the sliding bar function for color adjustment
 
         //Can add other options as well, music and sfx toggle, anti-alias, and other ideas
     },
@@ -214,5 +220,52 @@ function dragUpdate (sprite){
 
     if(sprite.y != 500){
         sprite.y = 500;
+    }
+}
+
+function dragUpdate2 (sprite){
+    //455: the upper bound set for this sliding bar
+    //260: the lower bound set for this sliding bar
+    //720: the length of the background
+    //195: the range that the sliding bar can move
+
+
+    xPos2 = sprite.centerX;
+    //console.log(xPos);
+
+    /*if (xPos2 > 455){//upper bound
+        xPos2 = 455;
+        //sprite.centerX = 265;
+        sprite.centerX = 455;
+    }
+    else if (xPos2 < 260) {//lower bound
+        xPos2 = 260;
+        //sprite.centerX = 460;
+        sprite.centerX = 260;
+    }*/
+    if (xPos2 > 800){//upper bound
+        xPos2 = 800;
+        //sprite.centerX = 265;
+        sprite.centerX = 800;
+    }
+    else if (xPos2 < 0) {//lower bound
+        xPos2 = 0;
+        //sprite.centerX = 460;
+        sprite.centerX = 0;
+    }
+
+
+    //sprite.tint = (xPos2 - 260) /195 * 16777215;
+    sprite.tint = (xPos2) /195 * 16777215;
+    hexString = sprite.tint.toString(16);
+    if (hexString.length % 2) {
+        hexString = '0' + hexString;
+    }
+    console.log(hexString);
+
+    //FIXME: this is where the color adjusting function goes
+
+    if(sprite.y != 450){
+        sprite.y = 450;
     }
 }
