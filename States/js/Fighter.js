@@ -1232,8 +1232,9 @@ class Fighter {
                 this.aniWarlockWindUp.play(10, false);
             }
 
-            //TODO: downDuration is still here, but in merge conflict it was gone, POSSIBLY REMOVE downDuration
-            else if (this.gety() && this.jumps <= 5 && this.airTime <= 5 && !(this.m < 120 && this.m != 0) && this.stunCounter == 0 && !this.inputLock) {
+            //check to see if air time is truly necessary, cant seem to jump in air if you run off platform
+            //else if (this.gety() && this.jumps <= 5 && this.airTime <= 5 && !(this.m < 120 && this.m != 0) && this.stunCounter == 0 && !this.inputLock) {
+            else if (this.gety() && this.jumps <= 5 && !(this.m < 120 && this.m != 0) && this.stunCounter == 0 && !this.inputLock) {
                 this.character.body.velocity.y = -550 + this.jumpSpeed;
                 jumpSound.play();
                 this.jumps += 1;
