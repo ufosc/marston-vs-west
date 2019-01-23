@@ -1,7 +1,6 @@
 class Fighter {
     constructor(character, health, lives, startx, starty, controlnum) {
 
-
         this.character = game.add.sprite(startx, starty, character);//player character variable to access sprite from phaser and all its properties character variable is name of spritesheet to use
         this.health = health;//player start health
         this.lives = lives;
@@ -107,7 +106,6 @@ class Fighter {
         this.character.body.bounce.y = 0;//0.2;
         this.character.body.gravity.y = 650;
         this.character.body.collideWorldBounds = false;
-
 
         this.character.body.setSize(30, 70, 10, 0)
         this.character.scale.x = 1.75; //1.25

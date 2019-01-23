@@ -26,6 +26,9 @@ var gameheight = 1080;
 var multimanmode = false;
 var multimenko = 0;
 
+var ground;
+
+var land;
 
 var nameText1;
 var nameText2;

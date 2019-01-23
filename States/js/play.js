@@ -336,7 +336,9 @@ var playState = {
 
             // Create the ground.
             // var ground = platforms.create(game.world.width * 0.5, game.world.height - 100, 'ground');
-            platforms.create(new platform(game.world.width * 0.5, game.world.height - 100, true, 'ground'));
+            land = new platform(game.world.width * 0.5, game.world.height - 100, false, 'ground',40, 2)
+            
+            ground = platforms.create(land.plat);
             
             //ground.anchor.setTo(0.5,1);
             //  Scale it to fit the width of the game (the original sprite is ? in size)
@@ -684,7 +686,7 @@ var playState = {
             }
         }
 
-        //game.physics.arcade.collide(Player1.character, ground);
+        game.physics.arcade.collide(Player1.character, ground);
 
         game.physics.arcade.collide(Player1.character, platforms);
         game.physics.arcade.collide(Player2.character, platforms);
