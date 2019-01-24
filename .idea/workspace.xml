@@ -3,7 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="bd3fe372-7533-4001-a5ab-e1cee4911c0d" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/States/js/load.js" beforeDir="false" afterPath="$PROJECT_DIR$/States/js/load.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/States/js/options.js" beforeDir="false" afterPath="$PROJECT_DIR$/States/js/options.js" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
@@ -20,8 +19,17 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/States/js/options.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="343">
-              <caret line="258" column="24" selection-start-line="258" selection-start-column="24" selection-end-line="258" selection-end-column="24" />
+            <state relative-caret-position="227">
+              <caret line="344" column="26" lean-forward="true" selection-start-line="344" selection-start-column="26" selection-end-line="344" selection-end-column="26" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/States/js/menu.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="411">
+              <caret line="35" column="37" selection-start-line="35" selection-start-column="37" selection-end-line="35" selection-end-column="37" />
             </state>
           </provider>
         </entry>
@@ -29,8 +37,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="544">
-              <caret line="32" column="33" selection-start-line="32" selection-start-column="33" selection-end-line="32" selection-end-column="33" />
+            <state>
+              <caret column="8" lean-forward="true" selection-start-column="8" selection-end-column="8" />
             </state>
           </provider>
         </entry>
@@ -38,8 +46,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/States/js/load.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1530">
-              <caret line="90" column="55" selection-start-line="90" selection-start-column="55" selection-end-line="90" selection-end-column="55" />
+            <state relative-caret-position="255">
+              <caret line="15" column="67" lean-forward="true" selection-start-line="15" selection-start-column="67" selection-end-line="15" selection-end-column="67" />
             </state>
           </provider>
         </entry>
@@ -47,8 +55,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/States/js/game.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="544">
-              <caret line="32" column="19" selection-start-line="32" selection-start-column="19" selection-end-line="32" selection-end-column="19" />
+            <state relative-caret-position="68">
+              <caret line="4" column="24" lean-forward="true" selection-start-line="4" selection-start-column="24" selection-end-line="4" selection-end-column="24" />
             </state>
           </provider>
         </entry>
@@ -80,7 +88,7 @@
     <option name="x" value="40" />
     <option name="y" value="40" />
     <option name="width" value="1400" />
-    <option name="height" value="782" />
+    <option name="height" value="785" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
@@ -101,12 +109,6 @@
               <item name="marston-vs-west" type="462c0819:PsiDirectoryNode" />
               <item name="States" type="462c0819:PsiDirectoryNode" />
             </path>
-            <path>
-              <item name="marston-vs-west" type="b2602c69:ProjectViewProjectNode" />
-              <item name="marston-vs-west" type="462c0819:PsiDirectoryNode" />
-              <item name="States" type="462c0819:PsiDirectoryNode" />
-              <item name="js" type="462c0819:PsiDirectoryNode" />
-            </path>
           </expand>
           <select />
         </subPane>
@@ -115,7 +117,7 @@
   </component>
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../bootcamp-2-angular-js-rrrrr4788" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
   </component>
@@ -147,15 +149,20 @@
       <workItem from="1543552608754" duration="184000" />
       <workItem from="1543891011360" duration="1772000" />
       <workItem from="1543903790931" duration="702000" />
-      <workItem from="1547769809193" duration="1458000" />
+      <workItem from="1547769809193" duration="1659000" />
+      <workItem from="1547877115627" duration="10000" />
+      <workItem from="1547877461502" duration="999000" />
+      <workItem from="1548196326215" duration="45000" />
+      <workItem from="1548359969962" duration="601000" />
+      <workItem from="1548369012184" duration="1447000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="11371000" />
+    <option name="totallyTimeSpent" value="14674000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="32" y="32" width="1120" height="625" extended-state="1" />
+    <frame x="32" y="32" width="1120" height="628" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.24930748" />
@@ -208,38 +215,38 @@
         <state relative-caret-position="-19725" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/States/js/menu.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="68">
-          <caret line="73" column="29" lean-forward="true" selection-start-line="73" selection-start-column="29" selection-end-line="73" selection-end-column="29" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/States/js/options.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="343">
-          <caret line="258" column="24" selection-start-line="258" selection-start-column="24" selection-end-line="258" selection-end-column="24" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="544">
-          <caret line="32" column="33" selection-start-line="32" selection-start-column="33" selection-end-line="32" selection-end-column="33" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/States/js/load.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1530">
-          <caret line="90" column="55" selection-start-line="90" selection-start-column="55" selection-end-line="90" selection-end-column="55" />
+        <state relative-caret-position="255">
+          <caret line="15" column="67" lean-forward="true" selection-start-line="15" selection-start-column="67" selection-end-line="15" selection-end-column="67" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/States/js/game.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="544">
-          <caret line="32" column="19" selection-start-line="32" selection-start-column="19" selection-end-line="32" selection-end-column="19" />
+        <state relative-caret-position="68">
+          <caret line="4" column="24" lean-forward="true" selection-start-line="4" selection-start-column="24" selection-end-line="4" selection-end-column="24" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="8" lean-forward="true" selection-start-column="8" selection-end-column="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/States/js/menu.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="411">
+          <caret line="35" column="37" selection-start-line="35" selection-start-column="37" selection-end-line="35" selection-end-column="37" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/States/js/options.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="227">
+          <caret line="344" column="26" lean-forward="true" selection-start-line="344" selection-start-column="26" selection-end-line="344" selection-end-column="26" />
         </state>
       </provider>
     </entry>

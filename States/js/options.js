@@ -64,6 +64,17 @@ var optionsState = {
         colorAdjustmentIcon.inputEnabled = true;
         colorAdjustmentIcon.input.enableDrag(true);
         colorAdjustmentIcon.events.onDragUpdate.add(dragUpdate2);
+
+        var colorAdjustmentIcon2 = game.add.sprite(360, 300, 'Chi');//modify this icon
+        colorAdjustmentIcon2.inputEnabled = true;
+        colorAdjustmentIcon2.input.enableDrag(true);
+        colorAdjustmentIcon2.events.onDragUpdate.add(dragUpdate3);
+        //end of the sliding bar function for color adjustment
+
+        var colorAdjustmentIcon3 = game.add.sprite(360, 100, 'Chi');//modify this icon
+        colorAdjustmentIcon3.inputEnabled = true;
+        colorAdjustmentIcon3.input.enableDrag(true);
+        colorAdjustmentIcon3.events.onDragUpdate.add(dragUpdate4);
         //end of the sliding bar function for color adjustment
 
         //Can add other options as well, music and sfx toggle, anti-alias, and other ideas
@@ -229,34 +240,26 @@ function dragUpdate2 (sprite){
     //720: the length of the background
     //195: the range that the sliding bar can move
 
+    const left = 455;
+    const right = 260;
+    const range = 195;
+    const yValue = 450;
 
     xPos2 = sprite.centerX;
-    //console.log(xPos);
-
-    /*if (xPos2 > 455){//upper bound
-        xPos2 = 455;
-        //sprite.centerX = 265;
-        sprite.centerX = 455;
+    if (xPos2 > left){//upper bound
+        xPos2 = left;
+        sprite.centerX = left;
     }
-    else if (xPos2 < 260) {//lower bound
-        xPos2 = 260;
-        //sprite.centerX = 460;
-        sprite.centerX = 260;
-    }*/
-    if (xPos2 > 800){//upper bound
-        xPos2 = 800;
-        //sprite.centerX = 265;
-        sprite.centerX = 800;
-    }
-    else if (xPos2 < 0) {//lower bound
-        xPos2 = 0;
-        //sprite.centerX = 460;
-        sprite.centerX = 0;
+    else if (xPos2 < right) {//lower bound
+        xPos2 = right;
+        sprite.centerX = right;
     }
 
 
-    //sprite.tint = (xPos2 - 260) /195 * 16777215;
-    sprite.tint = (xPos2) /195 * 16777215;
+    //255 is the max value of the first two digits under hex
+    sprite.tint = (xPos2 - right) /range * 255;
+
+    //printing the hex val
     hexString = sprite.tint.toString(16);
     if (hexString.length % 2) {
         hexString = '0' + hexString;
@@ -265,7 +268,88 @@ function dragUpdate2 (sprite){
 
     //FIXME: this is where the color adjusting function goes
 
-    if(sprite.y != 450){
-        sprite.y = 450;
+    if(sprite.y != yValue){
+        sprite.y = yValue;
+    }
+}
+
+function dragUpdate3 (sprite){
+    //455: the upper bound set for this sliding bar
+    //260: the lower bound set for this sliding bar
+    //720: the length of the background
+    //195: the range that the sliding bar can move
+
+    const left = 455;
+    const right = 260;
+    const range = 195;
+    const yValue = 300;
+
+    xPos2 = sprite.centerX;
+    if (xPos2 > left){//upper bound
+        xPos2 = left;
+        sprite.centerX = left;
+    }
+    else if (xPos2 < right) {//lower bound
+        xPos2 = right;
+        sprite.centerX = right;
+    }
+
+    //255 is the max value of the first two digits under hex
+    var valColor = (xPos2 - right) /range * 255;
+    valColor *= 256;//We wanna modify the middle two digits now
+    sprite.tint = valColor;
+
+    //printing the hex val
+    hexString = sprite.tint.toString(16);
+    if (hexString.length % 2) {
+        hexString = '0' + hexString;
+    }
+    console.log(hexString);
+
+    //FIXME: this is where the color adjusting function goes
+
+    if(sprite.y != yValue){
+        sprite.y = yValue;
+    }
+}
+function dragUpdate4 (sprite){
+    //455: the upper bound set for this sliding bar
+    //260: the lower bound set for this sliding bar
+    //720: the length of the background
+    //195: the range that the sliding bar can move
+
+    const left = 455;
+    const right = 260;
+    const range = 195;
+    const yValue = 100;
+
+    xPos2 = sprite.centerX;
+    if (xPos2 > left){//upper bound
+        xPos2 = left;
+        sprite.centerX = left;
+    }
+    else if (xPos2 < right) {//lower bound
+        xPos2 = right;
+        sprite.centerX = right;
+    }
+
+
+    //255 is the max value of the first two digits under hex
+    var valColor = (xPos2 - right) /range * 255;
+    valColor *= 65536;//We wanna modify the last two digits now
+    sprite.tint = valColor;
+
+
+    //printing the hex val
+    hexString = sprite.tint.toString(16);
+    if (hexString.length % 2) {
+        hexString = '0' + hexString;
+    }
+    console.log(hexString);
+
+    //FIXME: this is where the color adjusting function goes
+
+    if(sprite.y != yValue){
+        sprite.y = yValue;
     }
 }
