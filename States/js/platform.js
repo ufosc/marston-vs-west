@@ -16,11 +16,15 @@ class platform {
         //game.add.sprite(startx, starty, character);
         
         //create ledge grab hitboxes
-        this.leftledge = game.add.sprite(x, y,'SwipeV'); // left recovery hitbox
-        //this.rightledge = game.add.sprite(x, y,'SwipeV'); // left recovery hitbox
+
+        this.leftledge = game.add.sprite((this.plat.x + (this.plat.x * 0.6) + this.plat.width), (y * 0.95),'SwipeV'); // left recovery hitbox
+        this.rightledge = game.add.sprite((this.plat.x - (this.plat.x * 0.6) - (3*this.plat.width)), (y * 0.95),'SwipeV'); // right recovery hitbox
+        console.log(this.plat.width);
+        console.log(this.plat.x);
+        //this.rightledge = game.add.sprite(x, y,'SwipeV'); // right recovery hitbox
         //plat.create(x, y,'SwipeV'); //right recovery hitbox
         
-        game.physics.arcade.enable(this.plat)
+        game.physics.arcade.enable(this.plat);
 
         //this.sprite.enableBody = true;
 
@@ -33,7 +37,7 @@ class platform {
         this.plat.scale.setTo(scaleX, scaleY);
 
         //This stops it from falling away when you jump on it
-        this.plat.immovable = true;
+        this.plat.body.immovable = true;
 
     }
 

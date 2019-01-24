@@ -326,19 +326,18 @@ var playState = {
 
             back.scale.setTo(1.5,1.5);
 
-
             // The platforms group contains the ground and the 2 ledges we can jump on
             platforms = game.add.group();
 
             // Enable physics for any object that is created in this group
-            platforms.enableBody = true;
-            platforms.friction = 100;
+            //platforms.enableBody = true;
+            //platforms.friction = 100;
 
             // Create the ground.
             // var ground = platforms.create(game.world.width * 0.5, game.world.height - 100, 'ground');
             land = new platform(game.world.width * 0.5, game.world.height - 100, false, 'ground',40, 2)
             
-            ground = platforms.create(land.plat);
+            ground = platforms.add(land.plat);
             
             //ground.anchor.setTo(0.5,1);
             //  Scale it to fit the width of the game (the original sprite is ? in size)
@@ -384,8 +383,8 @@ var playState = {
             plat2.scale.setTo(10, 1);
 
             //  Scale it to fit the width of the game (the original sprite is ? in size)
-            //ground.scale.setTo(16, 1);
-            ground.scale.setTo(40, 2);
+            ground.scale.setTo(16, 1);
+            //ground.scale.setTo(40, 2);
 
             //  This stops it from falling away when you jump on it
             ground.body.immovable = true;
