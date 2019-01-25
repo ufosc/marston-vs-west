@@ -130,7 +130,10 @@ var pad1;
 var testconnect1;
 //end of gamepad variables
 
-
+//color variables
+var valColor1, valColor2, valColor3;
+var colorOverlap;//display the final effect
+//end of color variables
 
 
 var style =

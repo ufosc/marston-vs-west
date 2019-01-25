@@ -60,6 +60,12 @@ var optionsState = {
         volumeIcon.events.onDragUpdate.add(dragUpdate);
         //end of the sliding bar function
 
+        //color bars
+
+        valColor1 = 0;
+        valColor2 = 0;
+        valColor3 = 0;
+
         var colorAdjustmentIcon = game.add.sprite(360, 450, 'Chi');//modify this icon
         colorAdjustmentIcon.inputEnabled = true;
         colorAdjustmentIcon.input.enableDrag(true);
@@ -69,12 +75,14 @@ var optionsState = {
         colorAdjustmentIcon2.inputEnabled = true;
         colorAdjustmentIcon2.input.enableDrag(true);
         colorAdjustmentIcon2.events.onDragUpdate.add(dragUpdate3);
-        //end of the sliding bar function for color adjustment
 
         var colorAdjustmentIcon3 = game.add.sprite(360, 100, 'Chi');//modify this icon
         colorAdjustmentIcon3.inputEnabled = true;
         colorAdjustmentIcon3.input.enableDrag(true);
         colorAdjustmentIcon3.events.onDragUpdate.add(dragUpdate4);
+
+        colorOverlap = game.add.sprite (500, 100, 'Chi');//display the final effect
+        //colorOverlap.events.update.add(colorChange);
         //end of the sliding bar function for color adjustment
 
         //Can add other options as well, music and sfx toggle, anti-alias, and other ideas
@@ -178,30 +186,6 @@ var optionsState = {
 
 };
 function dragUpdate (sprite){
-    /*//455: the upper bound set for this sliding bar
-    //260: the lower bound set for this sliding bar
-    //720: the length of the background
-    //195: the range that the sliding bar can move
-
-    var yPos = 720 - sprite.centerY;
-
-    if (yPos > 455){//upper bound
-        yPos = 455;
-        sprite.centerY = 265;
-    }
-    else if (yPos < 260) {//lower bound
-        yPos = 260;
-        sprite.centerY = 460;
-    }
-
-    musicvol = (yPos-260) /195;
-    //console.log(musicvol);
-    music.volume = musicvol;
-
-    if(sprite.x != 640){
-        sprite.x = 640;
-    }*/
-
     //the following code is for x-axis sliding bar
     //music volume adjustment not activated before dragged
     //455: the upper bound set for this sliding bar
@@ -257,7 +241,9 @@ function dragUpdate2 (sprite){
 
 
     //255 is the max value of the first two digits under hex
-    sprite.tint = (xPos2 - right) /range * 255;
+    valColor1 = (xPos2 - right) /range * 255;
+    valColor1 = parseInt(valColor1);
+    sprite.tint = valColor1;
 
     //printing the hex val
     hexString = sprite.tint.toString(16);
@@ -267,6 +253,8 @@ function dragUpdate2 (sprite){
     console.log(hexString);
 
     //FIXME: this is where the color adjusting function goes
+
+    colorChange(colorOverlap);
 
     if(sprite.y != yValue){
         sprite.y = yValue;
@@ -295,9 +283,10 @@ function dragUpdate3 (sprite){
     }
 
     //255 is the max value of the first two digits under hex
-    var valColor = (xPos2 - right) /range * 255;
-    valColor *= 256;//We wanna modify the middle two digits now
-    sprite.tint = valColor;
+    valColor2 = (xPos2 - right) /range * 255;
+    valColor2 = parseInt(valColor2);
+    valColor2 *= 256;//We wanna modify the middle two digits now
+    sprite.tint = valColor2;
 
     //printing the hex val
     hexString = sprite.tint.toString(16);
@@ -307,7 +296,7 @@ function dragUpdate3 (sprite){
     console.log(hexString);
 
     //FIXME: this is where the color adjusting function goes
-
+    colorChange(colorOverlap);
     if(sprite.y != yValue){
         sprite.y = yValue;
     }
@@ -333,11 +322,11 @@ function dragUpdate4 (sprite){
         sprite.centerX = right;
     }
 
-
     //255 is the max value of the first two digits under hex
-    var valColor = (xPos2 - right) /range * 255;
-    valColor *= 65536;//We wanna modify the last two digits now
-    sprite.tint = valColor;
+    valColor3 = (xPos2 - right) /range * 255;
+    valColor3 = parseInt(valColor3);
+    valColor3 *= 65536;//We wanna modify the last two digits now
+    sprite.tint = valColor3;
 
 
     //printing the hex val
@@ -348,8 +337,17 @@ function dragUpdate4 (sprite){
     console.log(hexString);
 
     //FIXME: this is where the color adjusting function goes
-
+    colorChange(colorOverlap);
     if(sprite.y != yValue){
         sprite.y = yValue;
     }
+}
+function colorChange(sprite){
+    var finalColor = valColor1 + valColor2 + valColor3;
+    sprite.tint = finalColor;
+    hexString = sprite.tint.toString(16);
+    if (hexString.length % 2) {
+        hexString = '0' + hexString;
+    }
+    console.log(hexString);
 }
