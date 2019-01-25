@@ -188,33 +188,34 @@ var optionsState = {
 function dragUpdate (sprite){
     //the following code is for x-axis sliding bar
     //music volume adjustment not activated before dragged
+
     //455: the upper bound set for this sliding bar
     //260: the lower bound set for this sliding bar
     //720: the length of the background
     //195: the range that the sliding bar can move
 
-    //var xPos = 720 - sprite.centerX;
+    const left = 455;
+    const right = 260;
+    const range = 195;
+    const yValue = 500;
+
     xPos = sprite.centerX;
-    //console.log(xPos);
 
-    if (xPos > 455){//upper bound
-        xPos = 455;
-        //sprite.centerX = 265;
-        sprite.centerX = 455;
+    if (xPos > left){//upper bound
+        xPos = left;
+        sprite.centerX = left;
     }
-    else if (xPos < 260) {//lower bound
-        xPos = 260;
-        //sprite.centerX = 460;
-        sprite.centerX = 260;
+    else if (xPos < right) {//lower bound
+        xPos = right;
+        sprite.centerX = right;
     }
 
-    musicvol = (xPos-260) /195;
-    //console.log(musicvol);
+    musicvol = (xPos-right) / range;
     music.volume = musicvol;
     buttonSound.volume = musicvol;
 
-    if(sprite.y != 500){
-        sprite.y = 500;
+    if(sprite.y != yValue){
+        sprite.y = yValue;
     }
 }
 
@@ -251,8 +252,6 @@ function dragUpdate2 (sprite){
         hexString = '0' + hexString;
     }
     console.log(hexString);
-
-    //FIXME: this is where the color adjusting function goes
 
     colorChange(colorOverlap);
 
@@ -295,8 +294,8 @@ function dragUpdate3 (sprite){
     }
     console.log(hexString);
 
-    //FIXME: this is where the color adjusting function goes
     colorChange(colorOverlap);
+
     if(sprite.y != yValue){
         sprite.y = yValue;
     }
@@ -328,7 +327,6 @@ function dragUpdate4 (sprite){
     valColor3 *= 65536;//We wanna modify the last two digits now
     sprite.tint = valColor3;
 
-
     //printing the hex val
     hexString = sprite.tint.toString(16);
     if (hexString.length % 2) {
@@ -336,8 +334,8 @@ function dragUpdate4 (sprite){
     }
     console.log(hexString);
 
-    //FIXME: this is where the color adjusting function goes
     colorChange(colorOverlap);
+    
     if(sprite.y != yValue){
         sprite.y = yValue;
     }
