@@ -14,7 +14,8 @@ class Fighter {
         this.combo = 0;
         this.comboclock = 0;
 
-        this.hanging = false;
+        this.hanging = "no";
+        this.hangingtimer = 0;
 
         switch (character) {
             case 'dude':
@@ -927,26 +928,105 @@ class Fighter {
     }
 
     //method to verify if fighter is touching a side of a platform, if true, fighter grabs ledge 
-    checkLedge() {
+    checkLedge(leftedge, rightedge) {
         //console.log("ledge check");
         //console.log(this.character.body.touching.left);
-        if(this.character.body.touching.left == true || this.character.body.touching.right == true){ //&& game.physics.arcade.overlap(this, platform) ) { 
+        //if(this.character.body.touching.left == true || this.character.body.touching.right == true){ //&& game.physics.arcade.overlap(this, platform) ) { 
             //|| this.character.body.touching.right == true ) {
-            console.log("hanging?");
-            this.hanging = true;
+        //console.log("test ledge?");
+        if(game.physics.arcade.overlap(this.character, leftedge) && this.character.scale.x > 0 && this.hanging != "letgo" ){
+            //console.log("hanging???");
             this.velocity = 0;
-            this.character.animations.play('hang');
+            this.character.x = leftedge.x;
+            this.character.y = leftedge.y;
+            
+            if(this.hanging == "no"){
+                this.character.animations.play('hang', true);
+                this.hanging = "yes";
+            }
+        }
+
+        if(game.physics.arcade.overlap(this.character, rightedge) && this.character.scale.x < 0 && this.hanging != "letgo") {
+            //console.log("hanging???");
+            this.velocity = 0;
+            this.character.x = (rightedge.x);
+            this.character.y = (rightedge.y);
+            
+            if(this.hanging == "no"){
+                this.character.animations.play('hang', true);
+                this.hanging = "yes";
+            }
             
         }
+
+        this.ledgeRecover(leftedge, rightedge);
+        ///if(this.character.hanging == true){
+        this.updateHangingTimer();
+        //}
     }
 
     //method to allow fighter to pull theirself up ledge when a up command is pushed
     //could make ledge recover variations in future, ledge drop if press down, 
     //ledge roll forward if forward press
     //ledge drop if down press, ledge push off if press back button
-    //ledgeRecover() {
+    ledgeRecover(leftedge, rightedge) {
+        if(this.hanging == "yes") {
+            if(this.getup() == true) {
+                this.character.body.velocity.y = -500;
+                this.hanging = "letgo";
+                //console.log("going up!");
+                this.hangingtimer = 100;
+            }
+            else if(this.getdown() == true) {
+                this.character.body.velocity.y = 200;
+                //console.log("going down!");
+                this.hanging = "letgo";
+                this.hangingtimer = 100;
+            }
+            else if(this.geta() == true) {
+                //if facing right
+                if(this.character.scale.x > 0) {
+                    this.character.body.position.y -= 170;
+                    this.character.body.position.x += 100;
+                }
+                else {
+                    this.character.body.position.y -= 170;
+                    this.character.body.position.x -= 100;
+                }
+                this.hanging = "letgo";
+                //console.log("rolling!");
+                this.hangingtimer = 100;
+            }
+            else if(this.getx() == true) {
+                //if facing right
+                if(this.character.scale.x > 0) {
+                    this.character.body.position.y -= 170;
+                    this.character.body.position.x += 100;
+                }
+                else {
+                    this.character.body.position.y -= 170;
+                    this.character.body.position.x -= 100;
+                }
 
-    //}
+                this.hanging = "letgo";
+                console.log("rolling!");
+                this.hangingtimer = 100;
+            }
+
+        }
+    }
+
+    //method to reset timer to ensure when fighter lets go of a ledge, they do not instantly  grab onto same ledge again accidentally
+    updateHangingTimer(){
+        if(this.hangingtimer > 0) {
+            this.hangingtimer--;
+        }
+        else {
+            console.log("ready to grab again");
+            this.hanging = "no";
+        }
+
+    }
 
     updateInput() {
         //Cooldown for attacks

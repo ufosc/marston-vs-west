@@ -27,6 +27,11 @@ var multimanmode = false;
 var multimenko = 0;
 
 var ground;
+var groundedge;
+var platformsELeft;
+var platformsERight;
+var leftledge;
+var rightledge;
 
 var land;
 

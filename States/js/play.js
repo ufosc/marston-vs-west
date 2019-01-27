@@ -328,6 +328,8 @@ var playState = {
 
             // The platforms group contains the ground and the 2 ledges we can jump on
             platforms = game.add.group();
+            platformsELeft = game.add.group();
+            platformsERight = game.add.group();
 
             // Enable physics for any object that is created in this group
             //platforms.enableBody = true;
@@ -338,6 +340,8 @@ var playState = {
             land = new platform(game.world.width * 0.5, game.world.height - 100, false, 'ground',40, 2)
             
             ground = platforms.add(land.plat);
+            leftledge = platformsELeft.add(land.leftledge);
+            rightledge = platformsERight.add(land.rightledge);
             
             //ground.anchor.setTo(0.5,1);
             //  Scale it to fit the width of the game (the original sprite is ? in size)
@@ -656,8 +660,8 @@ var playState = {
         Player2.combocheck();
 
         //check for ledge grab/hangs
-        Player1.checkLedge();
-
+        Player1.checkLedge(leftledge, rightledge);
+        Player2.checkLedge(leftledge, rightledge);
 
         //Applies Super armor and immovabilty to players while attacking
         if (Player1.attacking) {
