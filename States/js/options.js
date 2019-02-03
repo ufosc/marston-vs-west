@@ -54,35 +54,38 @@ var optionsState = {
 
         //the sliding bars part
 
-        var volumeIcon = game.add.sprite(360, 500, 'Kim');//modify this icon
+        var volumeIcon = game.add.sprite(xPos, initMulY, 'Kim');//modify this icon
         volumeIcon.inputEnabled = true;
         volumeIcon.input.enableDrag(true);
         volumeIcon.events.onDragUpdate.add(dragUpdate);
         //end of the sliding bar function
 
         //color bars
-
         valColor1 = 0;
         valColor2 = 0;
         valColor3 = 0;
 
-        var colorAdjustmentIcon = game.add.sprite(360, 450, 'Chi');//modify this icon
+        var colorAdjustmentIcon = game.add.sprite(xPos2, initY1, 'Chi');//modify this icon
+        var colorAdjustmentIcon2 = game.add.sprite(xPos3, initY2, 'Chi');//modify this icon
+        var colorAdjustmentIcon3 = game.add.sprite(xPos4, initY3, 'Chi');//modify this icon
+        colorOverlap = game.add.sprite (500, 100, 'Chi');//display the final effect and also modify this icon
+
+        colorInit(colorAdjustmentIcon, colorAdjustmentIcon2, colorAdjustmentIcon3);//initializes the icon colors
+
         colorAdjustmentIcon.inputEnabled = true;
         colorAdjustmentIcon.input.enableDrag(true);
         colorAdjustmentIcon.events.onDragUpdate.add(dragUpdate2);
 
-        var colorAdjustmentIcon2 = game.add.sprite(360, 300, 'Chi');//modify this icon
+
         colorAdjustmentIcon2.inputEnabled = true;
         colorAdjustmentIcon2.input.enableDrag(true);
         colorAdjustmentIcon2.events.onDragUpdate.add(dragUpdate3);
 
-        var colorAdjustmentIcon3 = game.add.sprite(360, 100, 'Chi');//modify this icon
+
         colorAdjustmentIcon3.inputEnabled = true;
         colorAdjustmentIcon3.input.enableDrag(true);
         colorAdjustmentIcon3.events.onDragUpdate.add(dragUpdate4);
 
-        colorOverlap = game.add.sprite (500, 100, 'Chi');//display the final effect
-        //colorOverlap.events.update.add(colorChange);
         //end of the sliding bar function for color adjustment
 
         //Can add other options as well, music and sfx toggle, anti-alias, and other ideas
@@ -91,6 +94,7 @@ var optionsState = {
         minLabel.text = `Min: ${gameMinutes}`;
         secLabel.text = `Sec: ${gameSeconds}`;
         livesLabel.text = `Lives: ${lives}`;
+        colorChange(colorOverlap);
     },
     gameMinInc: function () {
         gameMinutes++;
@@ -182,9 +186,30 @@ var optionsState = {
         }
 
 
-    }
+    },
 
 };
+
+function colorInit (sprite1, sprite2, sprite3) {
+    var xPosition1 = sprite1.centerX;
+    var xPosition2 = sprite2.centerX;
+    var xPosition3 = sprite3.centerX;
+
+    valColor1 = (xPosition1 - right) /range * 255;
+    valColor1 = parseInt(valColor1);
+    sprite1.tint = valColor1;
+
+    valColor2 = (xPosition2 - right) /range * 255;
+    valColor2 = parseInt(valColor2);
+    valColor2 *= 256;//We wanna modify the middle two digits now
+    sprite2.tint = valColor2;
+
+    valColor3 = (xPosition3 - right) /range * 255;
+    valColor3 = parseInt(valColor3);
+    valColor3 *= 65536;//We wanna modify the last two digits now
+    sprite3.tint = valColor3;
+}
+
 function dragUpdate (sprite){
     //the following code is for x-axis sliding bar
     //music volume adjustment not activated before dragged
@@ -194,19 +219,20 @@ function dragUpdate (sprite){
     //720: the length of the background
     //195: the range that the sliding bar can move
 
-    const left = 455;
-    const right = 260;
-    const range = 195;
+
     const yValue = 500;
 
     xPos = sprite.centerX;
+    //initMulX = sprite.centerX;
 
     if (xPos > left){//upper bound
         xPos = left;
+        //initMulX = left;
         sprite.centerX = left;
     }
     else if (xPos < right) {//lower bound
         xPos = right;
+        //initMulX = right;
         sprite.centerX = right;
     }
 
@@ -220,23 +246,23 @@ function dragUpdate (sprite){
 }
 
 function dragUpdate2 (sprite){
-    //455: the upper bound set for this sliding bar
-    //260: the lower bound set for this sliding bar
-    //720: the length of the background
-    //195: the range that the sliding bar can move
 
-    const left = 455;
-    const right = 260;
-    const range = 195;
     const yValue = 450;
 
     xPos2 = sprite.centerX;
+    //console.log(sprite.centerX);
+
+    //console.log(xPos2);
+    //initX1 = sprite.centerX;
+
     if (xPos2 > left){//upper bound
         xPos2 = left;
+        //initX1 = left;
         sprite.centerX = left;
     }
     else if (xPos2 < right) {//lower bound
         xPos2 = right;
+        //initX1 = right;
         sprite.centerX = right;
     }
 
@@ -251,7 +277,7 @@ function dragUpdate2 (sprite){
     if (hexString.length % 2) {
         hexString = '0' + hexString;
     }
-    console.log(hexString);
+    //console.log(hexString);
 
     colorChange(colorOverlap);
 
@@ -261,28 +287,25 @@ function dragUpdate2 (sprite){
 }
 
 function dragUpdate3 (sprite){
-    //455: the upper bound set for this sliding bar
-    //260: the lower bound set for this sliding bar
-    //720: the length of the background
-    //195: the range that the sliding bar can move
 
-    const left = 455;
-    const right = 260;
-    const range = 195;
     const yValue = 300;
 
-    xPos2 = sprite.centerX;
-    if (xPos2 > left){//upper bound
-        xPos2 = left;
+    xPos3 = sprite.centerX;
+    //initX2 = sprite.centerX;
+    if (xPos3 > left){//upper bound
+        xPos3 = left;
+        //initX2 = left;
         sprite.centerX = left;
     }
-    else if (xPos2 < right) {//lower bound
-        xPos2 = right;
+    else if (xPos3 < right) {//lower bound
+        xPos3 = right;
+        //initX2 = right;
         sprite.centerX = right;
     }
 
+
     //255 is the max value of the first two digits under hex
-    valColor2 = (xPos2 - right) /range * 255;
+    valColor2 = (xPos3 - right) /range * 255;
     valColor2 = parseInt(valColor2);
     valColor2 *= 256;//We wanna modify the middle two digits now
     sprite.tint = valColor2;
@@ -292,7 +315,7 @@ function dragUpdate3 (sprite){
     if (hexString.length % 2) {
         hexString = '0' + hexString;
     }
-    console.log(hexString);
+    //console.log(hexString);
 
     colorChange(colorOverlap);
 
@@ -301,28 +324,25 @@ function dragUpdate3 (sprite){
     }
 }
 function dragUpdate4 (sprite){
-    //455: the upper bound set for this sliding bar
-    //260: the lower bound set for this sliding bar
-    //720: the length of the background
-    //195: the range that the sliding bar can move
 
-    const left = 455;
-    const right = 260;
-    const range = 195;
     const yValue = 100;
 
-    xPos2 = sprite.centerX;
-    if (xPos2 > left){//upper bound
-        xPos2 = left;
+    xPos4 = sprite.centerX;
+    //initX3 = sprite.centerX;
+
+    if (xPos4 > left){//upper bound
+        xPos4 = left;
+        //initX3 = left;
         sprite.centerX = left;
     }
-    else if (xPos2 < right) {//lower bound
-        xPos2 = right;
+    else if (xPos4 < right) {//lower bound
+        xPos4 = right;
+        //initX3 = right;
         sprite.centerX = right;
     }
 
     //255 is the max value of the first two digits under hex
-    valColor3 = (xPos2 - right) /range * 255;
+    valColor3 = (xPos4 - right) /range * 255;
     valColor3 = parseInt(valColor3);
     valColor3 *= 65536;//We wanna modify the last two digits now
     sprite.tint = valColor3;
@@ -332,10 +352,10 @@ function dragUpdate4 (sprite){
     if (hexString.length % 2) {
         hexString = '0' + hexString;
     }
-    console.log(hexString);
+    //console.log(hexString);
 
     colorChange(colorOverlap);
-    
+
     if(sprite.y != yValue){
         sprite.y = yValue;
     }
@@ -347,5 +367,5 @@ function colorChange(sprite){
     if (hexString.length % 2) {
         hexString = '0' + hexString;
     }
-    console.log(hexString);
+    //console.log(hexString);
 }
