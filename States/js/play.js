@@ -57,9 +57,24 @@ var playState = {
             }
 
             if (Player1.m === 0 && !Player1.shielding) {
-                hitSound.play();
-
-
+                
+                RandHit = Math.floor((Math.random() * 4));
+                
+                if(RandHit === 0){
+                    hitSound.play();
+                }
+                else if(RandHit === 1){
+                    hitSound1.play();
+                }
+                else if(RandHit === 2){
+                    hitSound2.play();
+                }
+                else if(RandHit === 3){
+                    hitSound3.play();
+                }
+                else {
+                    hitSound.play();
+                }
 
                 Player1.health += hitDmg;
                 Player1.hitVelocity = Player2.character.scale.x * Player1.health * 2;
@@ -423,6 +438,10 @@ var playState = {
         }
 
         hitSound = game.add.audio('hitSound');
+        hitSound1 = game.add.audio('hitSound1');
+        hitSound2 = game.add.audio('hitSound2');
+        hitSound3 = game.add.audio('hitSound3');
+
         respawnSound = game.add.audio('respawnSound');
         deathSound = game.add.audio('deathSound');
         jumpSound = game.add.audio('jumpSound');

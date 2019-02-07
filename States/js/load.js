@@ -77,7 +77,16 @@ var loadState = {
         game.load.image('dudeIcon', 'assets/dudeIcon.png');
         game.load.image('chickIcon', 'assets/chickIcon.png');
         game.load.spritesheet('crowd', 'assets/dude.png', 32, 48);
-        game.load.audio('hitSound', 'assets/hitSound.wav');
+        
+        
+        //Audio
+        game.load.audio('hitSound', 'assets/audio/jab.wav');
+        game.load.audio('hitSound2', 'assets/audio/RightCross.wav');
+        game.load.audio('hitSound3', 'assets/audio/Upper.wav');
+        game.load.audio('hitSound4', 'assets/audio/LeftHook.wav');
+        game.load.audio('hitSound5', 'assets/audio/RightHook.wav');
+
+        //game.load.audio('hitSound', 'assets/hitSound.wav');
         game.load.audio('jumpSound', 'assets/jumpSound.wav');
         game.load.audio('buttonSound', 'assets/buttonSound.wav');
         game.load.audio('deathSound', 'assets/deathSound.wav');
