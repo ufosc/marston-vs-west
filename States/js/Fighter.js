@@ -1150,7 +1150,7 @@ class Fighter {
                 //console.log("Increased comboclock?");
                 //console.log(this.combo);
                 //console.log(this.comboclock);
-                this.comboclock = 55;
+                this.comboclock = 60;
                 
                 if (this.character.hasItem) //If he has an item, USE IT!
                 {

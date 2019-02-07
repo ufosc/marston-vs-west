@@ -386,6 +386,7 @@ var playState = {
             plat1.anchor.setTo(0.5,1);
             plat2.anchor.setTo(0.5,1);
 
+            //make small platforms grabbable
             /*leftledge = platformsELeft.add(miniland1.leftledge);
             rightledge = platformsERight.add(miniland1.rightledge);
 
