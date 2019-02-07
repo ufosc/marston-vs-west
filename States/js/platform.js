@@ -2,6 +2,7 @@ class platform {
     
     constructor(x, y, phasable, sprite, scaleX, scaleY) {
         //create basic platform
+        //this.grabbable = grabbable;
         this.x = x;
         this.y = y;
         this.sprite = sprite;
@@ -15,29 +16,30 @@ class platform {
         //this.plat.create(x, y, sprite);
         //game.add.sprite(startx, starty, character);
         
-        //create ledge grab hitboxes
-        this.rightledge = game.add.sprite((this.plat.x + (this.plat.x * 0.6) + (2*this.plat.width)), (y* 0.95),'SwipeV'); // left recovery hitbox
-        this.leftledge = game.add.sprite((this.plat.x - (this.plat.x * 0.6) - (2*this.plat.width)), (y * 0.95),'SwipeV'); // right recovery hitbox
-        
-        this.rightledge.visible = false;
-        this.leftledge.visible = false;
+        //if (this.grabbable == true) {
+            //create ledge grab hitboxes
+            this.rightledge = game.add.sprite((this.plat.x + (this.plat.x * 0.6) + (2*this.plat.width)), (y* 0.95),'SwipeV'); // left recovery hitbox
+            this.leftledge = game.add.sprite((this.plat.x - (this.plat.x * 0.6) - (2*this.plat.width)), (y * 0.95),'SwipeV'); // right recovery hitbox
+            
+            this.rightledge.visible = false;
+            this.leftledge.visible = false;
 
-        this.rightledge.scale.setTo(1, 0.4);
-        this.leftledge.scale.setTo(1, 0.4);
+            this.rightledge.scale.setTo(1, 0.4);
+            this.leftledge.scale.setTo(1, 0.4);
 
-        //console.log(this.plat.width);
-        //console.log(this.plat.x);
-        //this.rightledge = game.add.sprite(x, y,'SwipeV'); // right recovery hitbox
-        //plat.create(x, y,'SwipeV'); //right recovery hitbox
-        
-        game.physics.arcade.enable(this.leftledge);
-        this.leftledge.enableBody = true;
-        this.leftledge.anchor.setTo(0.5,0);
+            //console.log(this.plat.width);
+            //console.log(this.plat.x);
+            //this.rightledge = game.add.sprite(x, y,'SwipeV'); // right recovery hitbox
+            //plat.create(x, y,'SwipeV'); //right recovery hitbox
+            
+            game.physics.arcade.enable(this.leftledge);
+            this.leftledge.enableBody = true;
+            this.leftledge.anchor.setTo(0.5,0);
 
-        game.physics.arcade.enable(this.rightledge);
-        this.rightledge.enableBody = true;
-        this.rightledge.anchor.setTo(0.5,0);
-
+            game.physics.arcade.enable(this.rightledge);
+            this.rightledge.enableBody = true;
+            this.rightledge.anchor.setTo(0.5,0);
+        //}
         game.physics.arcade.enable(this.plat);
 
         //this.sprite.enableBody = true;

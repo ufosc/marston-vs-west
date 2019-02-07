@@ -971,7 +971,7 @@ class Fighter {
     //ledge drop if down press, ledge push off if press back button
     ledgeRecover(leftedge, rightedge) {
         if(this.hanging == "yes") {
-            if(this.getup() == true) {
+            if(this.getup() == true || this.gety() == true) {
                 this.character.body.velocity.y = -500;
                 this.hanging = "letgo";
                 //console.log("going up!");
@@ -983,7 +983,7 @@ class Fighter {
                 this.hanging = "letgo";
                 this.hangingtimer = 100;
             }
-            else if(this.geta() == true) {
+            else if(this.geta() || this.getb() == true) {
                 //if facing right
                 if(this.character.scale.x > 0) {
                     this.character.body.position.y -= 170;

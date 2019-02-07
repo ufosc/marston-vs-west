@@ -331,12 +331,7 @@ var playState = {
             platformsELeft = game.add.group();
             platformsERight = game.add.group();
 
-            // Enable physics for any object that is created in this group
-            //platforms.enableBody = true;
-            //platforms.friction = 100;
-
             // Create the ground.
-            // var ground = platforms.create(game.world.width * 0.5, game.world.height - 100, 'ground');
             land = new platform(game.world.width * 0.5, game.world.height - 100, false, 'ground',40, 2)
             
             ground = platforms.add(land.plat);
@@ -352,28 +347,50 @@ var playState = {
 
         }
         else {
-
+            //west
             //Background for our game
             back = game.add.sprite(0, 0, 'sky');
             
             back.scale.setTo(1.5,1.5);
 
             //  The platforms group contains the ground and the 2 ledges we can jump on
-            platforms = game.add.group();
             miniPlatforms = game.add.group();
 
-            //  Enable physics for any object that is created in this group
-            platforms.enableBody = true;
-            miniPlatforms.enableBody = true;
+            // The platforms group contains the ground and the 2 ledges we can jump on
+            platforms = game.add.group();
+            platformsELeft = game.add.group();
+            platformsERight = game.add.group();
 
             // Create the ground.
-            var ground = platforms.create(game.world.width*0.5, game.world.height - 100, 'ground');
-            ground.anchor.setTo(0.5,1);
-            var plat1 = miniPlatforms.create(game.world.width*0.33, game.world.height*0.7, 'ground');
-            var plat2 = miniPlatforms.create(game.world.width*0.66, game.world.height*0.7, 'ground');
+            land = new platform(game.world.width * 0.5, game.world.height - 100, false, 'ground',40, 2)
             
+            ground = platforms.add(land.plat);
+            leftledge = platformsELeft.add(land.leftledge);
+            rightledge = platformsERight.add(land.rightledge);
+
+            //  Enable physics for any object that is created in this group
+            //platforms.enableBody = true;
+            //miniPlatforms.enableBody = true;
+
+            // Create the ground.
+            //var ground = platforms.create(game.world.width*0.5, game.world.height - 100, 'ground');
+            //ground.anchor.setTo(0.5,1);
+            //var plat1 = miniPlatforms.create(game.world.width*0.33, game.world.height*0.7, 'ground');
+            //var plat2 = miniPlatforms.create(game.world.width*0.66, game.world.height*0.7, 'ground');
+            miniland1 = new platform(game.world.width*0.33, game.world.height*0.7, false, 'ground',1,1);
+            miniland2 = new platform(game.world.width*0.66, game.world.height*0.7, false, 'ground', 1,1);
+
+            var plat1 = miniPlatforms.add(miniland1.plat);
+            var plat2 = miniPlatforms.add(miniland2.plat);
+
             plat1.anchor.setTo(0.5,1);
             plat2.anchor.setTo(0.5,1);
+
+            /*leftledge = platformsELeft.add(miniland1.leftledge);
+            rightledge = platformsERight.add(miniland1.rightledge);
+
+            leftledge = platformsELeft.add(miniland2.leftledge);
+            rightledge = platformsERight.add(miniland2.rightledge);*/
 
             plat1.body.collideWorldBounds = true;
             plat2.body.collideWorldBounds = true;
@@ -387,7 +404,7 @@ var playState = {
             plat2.scale.setTo(10, 1);
 
             //  Scale it to fit the width of the game (the original sprite is ? in size)
-            ground.scale.setTo(16, 1);
+            //ground.scale.setTo(16, 1);
             //ground.scale.setTo(40, 2);
 
             //  This stops it from falling away when you jump on it
