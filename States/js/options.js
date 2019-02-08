@@ -95,13 +95,6 @@ var optionsState = {
         secLabel.text = `Sec: ${gameSeconds}`;
         livesLabel.text = `Lives: ${lives}`;
         colorChange(colorOverlap);
-
-
-        hexString = colorAdjustmentIcon.tint.toString(16);
-        if (hexString.length % 2) {
-            hexString = '0' + hexString;
-        }
-        console.log(hexString);//delete this later
     },
     gameMinInc: function () {
         gameMinutes++;
