@@ -130,7 +130,13 @@ var pad1;
 var testconnect1;
 //end of gamepad variables
 
-//color variables
+//color and volume variables
+
+var volumeIcon;
+var colorAdjustmentIcon;
+var colorAdjustmentIcon2;
+var colorAdjustmentIcon3;
+
 const range = 195;
 const right = 260;
 const left = 455;

@@ -54,7 +54,7 @@ var optionsState = {
 
         //the sliding bars part
 
-        var volumeIcon = game.add.sprite(xPos, initMulY, 'Kim');//modify this icon
+        volumeIcon = game.add.sprite(xPos, initMulY, 'Kim');//modify this icon
         volumeIcon.inputEnabled = true;
         volumeIcon.input.enableDrag(true);
         volumeIcon.events.onDragUpdate.add(dragUpdate);
@@ -65,10 +65,10 @@ var optionsState = {
         valColor2 = 0;
         valColor3 = 0;
 
-        var colorAdjustmentIcon = game.add.sprite(xPos2, initY1, 'Chi');//modify this icon
-        var colorAdjustmentIcon2 = game.add.sprite(xPos3, initY2, 'Chi');//modify this icon
-        var colorAdjustmentIcon3 = game.add.sprite(xPos4, initY3, 'Chi');//modify this icon
-        colorOverlap = game.add.sprite (500, 100, 'Chi');//display the final effect and also modify this icon
+        colorAdjustmentIcon = game.add.sprite(xPos2, initY1, 'Chi');//modify this icon and note that 50 is the radius of the icon?
+        colorAdjustmentIcon2 = game.add.sprite(xPos3, initY2, 'Chi');//modify this icon
+        colorAdjustmentIcon3 = game.add.sprite(xPos4, initY3, 'Chi');//modify this icon
+        colorOverlap = game.add.sprite (0, 0, 'Chi');//display the final effect and also modify this icon
 
         colorInit(colorAdjustmentIcon, colorAdjustmentIcon2, colorAdjustmentIcon3);//initializes the icon colors
 
@@ -95,6 +95,13 @@ var optionsState = {
         secLabel.text = `Sec: ${gameSeconds}`;
         livesLabel.text = `Lives: ${lives}`;
         colorChange(colorOverlap);
+
+
+        hexString = colorAdjustmentIcon.tint.toString(16);
+        if (hexString.length % 2) {
+            hexString = '0' + hexString;
+        }
+        console.log(hexString);//delete this later
     },
     gameMinInc: function () {
         gameMinutes++;
@@ -191,9 +198,9 @@ var optionsState = {
 };
 
 function colorInit (sprite1, sprite2, sprite3) {
-    var xPosition1 = sprite1.centerX;
-    var xPosition2 = sprite2.centerX;
-    var xPosition3 = sprite3.centerX;
+    var xPosition1 = sprite1.x;
+    var xPosition2 = sprite2.x;
+    var xPosition3 = sprite3.x;
 
     valColor1 = (xPosition1 - right) /range * 255;
     valColor1 = parseInt(valColor1);
@@ -222,18 +229,16 @@ function dragUpdate (sprite){
 
     const yValue = 500;
 
-    xPos = sprite.centerX;
-    //initMulX = sprite.centerX;
+    xPos = sprite.x;
+
 
     if (xPos > left){//upper bound
         xPos = left;
-        //initMulX = left;
-        sprite.centerX = left;
+        sprite.x = left;
     }
     else if (xPos < right) {//lower bound
         xPos = right;
-        //initMulX = right;
-        sprite.centerX = right;
+        sprite.x = right;
     }
 
     musicvol = (xPos-right) / range;
@@ -248,22 +253,15 @@ function dragUpdate (sprite){
 function dragUpdate2 (sprite){
 
     const yValue = 450;
-
-    xPos2 = sprite.centerX;
-    //console.log(sprite.centerX);
-
-    //console.log(xPos2);
-    //initX1 = sprite.centerX;
+    xPos2 = sprite.x;
 
     if (xPos2 > left){//upper bound
         xPos2 = left;
-        //initX1 = left;
-        sprite.centerX = left;
+        sprite.x = left;
     }
     else if (xPos2 < right) {//lower bound
         xPos2 = right;
-        //initX1 = right;
-        sprite.centerX = right;
+        sprite.x = right;
     }
 
 
@@ -273,11 +271,11 @@ function dragUpdate2 (sprite){
     sprite.tint = valColor1;
 
     //printing the hex val
-    hexString = sprite.tint.toString(16);
+    /*hexString = sprite.tint.toString(16);
     if (hexString.length % 2) {
         hexString = '0' + hexString;
     }
-    //console.log(hexString);
+    console.log(hexString);*/
 
     colorChange(colorOverlap);
 
@@ -290,17 +288,14 @@ function dragUpdate3 (sprite){
 
     const yValue = 300;
 
-    xPos3 = sprite.centerX;
-    //initX2 = sprite.centerX;
+    xPos3 = sprite.x;
     if (xPos3 > left){//upper bound
         xPos3 = left;
-        //initX2 = left;
-        sprite.centerX = left;
+        sprite.x = left;
     }
     else if (xPos3 < right) {//lower bound
         xPos3 = right;
-        //initX2 = right;
-        sprite.centerX = right;
+        sprite.x = right;
     }
 
 
@@ -311,11 +306,11 @@ function dragUpdate3 (sprite){
     sprite.tint = valColor2;
 
     //printing the hex val
-    hexString = sprite.tint.toString(16);
+    /*hexString = sprite.tint.toString(16);
     if (hexString.length % 2) {
         hexString = '0' + hexString;
     }
-    //console.log(hexString);
+    console.log(hexString);*/
 
     colorChange(colorOverlap);
 
@@ -327,18 +322,15 @@ function dragUpdate4 (sprite){
 
     const yValue = 100;
 
-    xPos4 = sprite.centerX;
-    //initX3 = sprite.centerX;
+    xPos4 = sprite.x;
 
     if (xPos4 > left){//upper bound
         xPos4 = left;
-        //initX3 = left;
-        sprite.centerX = left;
+        sprite.x = left;
     }
     else if (xPos4 < right) {//lower bound
         xPos4 = right;
-        //initX3 = right;
-        sprite.centerX = right;
+        sprite.x = right;
     }
 
     //255 is the max value of the first two digits under hex
@@ -348,11 +340,11 @@ function dragUpdate4 (sprite){
     sprite.tint = valColor3;
 
     //printing the hex val
-    hexString = sprite.tint.toString(16);
+    /*hexString = sprite.tint.toString(16);
     if (hexString.length % 2) {
         hexString = '0' + hexString;
     }
-    //console.log(hexString);
+    console.log(hexString);*/
 
     colorChange(colorOverlap);
 
@@ -363,9 +355,9 @@ function dragUpdate4 (sprite){
 function colorChange(sprite){
     var finalColor = valColor1 + valColor2 + valColor3;
     sprite.tint = finalColor;
-    hexString = sprite.tint.toString(16);
+    /*hexString = sprite.tint.toString(16);
     if (hexString.length % 2) {
         hexString = '0' + hexString;
     }
-    //console.log(hexString);
+    console.log(hexString);*/
 }
