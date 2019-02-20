@@ -81,10 +81,9 @@ var loadState = {
         
         //Audio
         game.load.audio('hitSound', 'assets/audio/jab.wav');
-        game.load.audio('hitSound2', 'assets/audio/RightCross.wav');
-        game.load.audio('hitSound3', 'assets/audio/Upper.wav');
-        game.load.audio('hitSound4', 'assets/audio/LeftHook.wav');
-        game.load.audio('hitSound5', 'assets/audio/RightHook.wav');
+        game.load.audio('hitSound1', 'assets/audio/RightCross.wav');
+        game.load.audio('hitSound2', 'assets/audio/LeftHook.wav');
+        game.load.audio('hitSound3', 'assets/audio/RightHook.wav');
 
         //game.load.audio('hitSound', 'assets/hitSound.wav');
         game.load.audio('jumpSound', 'assets/jumpSound.wav');
