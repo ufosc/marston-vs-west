@@ -2,7 +2,7 @@ var menuState = {
 
     create: function () {
         //Create the menu triangles
-
+        game.scale.fullScreenScaleMode = Phaser.ScaleManager.EXACT_FIT;
         var bmd = game.add.bitmapData(800, 600);
         bmd.addToWorld();
         var graphics = game.add.graphics(0, 0);
@@ -26,47 +26,52 @@ var menuState = {
         background.width = 800;
         background.height = 600;
 
-        filter = game.add.filter('Fire', 800, 600);
-        filter.alpha = 0.0;
+        //filter = game.add.filter('Fire', 1900, 1000);
+        //filter.alpha = 0.0;
 
-        background.filters = [filter];
+        //background.filters = [filter];
         var nameLabel = game.add.text(game.world.height - 250, 80, 'Marston vs. West', { font: '50px Arial', fill: '#ffffff' });
         var subNameLabel = game.add.text(game.world.height - 275, 140, 'The fate of two libraries: Arcade Edition', { font: '25px Arial', fill: '#ffffff' });
         var textLabel = game.add.text(50, game.world.height - 150, 'Press "W" key to start' + '\n' + 'Press "G" key to select characters \n Debug build', { font: '25px Arial', fill: '#ffffff' });
         var marstonPicture = game.add.image(game.world.width * .25 - 50, game.world.height * .25 - 50, 'marstonPic');
         var westPicture = game.add.image(game.world.width * .75 + 50, game.world.height * .75 + 50, 'westPic');
         var vsIcon = game.add.image(game.world.width * .5, game.world.height * .5, 'vsIcon');
-        vsIcon.scale.setTo(.45, .45);
+        //vsIcon.scale.setTo(.45, .45);
         vsIcon.anchor.setTo(.5, .5);
         marstonPicture.anchor.setTo(.5, .5);
-        marstonPicture.scale.setTo(.51, .56);
+        //marstonPicture.scale.setTo(, .56);
         westPicture.anchor.setTo(.5, .5);
-        westPicture.scale.setTo(.5, .5);
+        //westPicture.scale.setTo(.5, .5);
         var wkey = game.input.keyboard.addKey(Phaser.Keyboard.W);
         wkey.onDown.addOnce(this.start, this); //Keep for debugging purposes, makes launching the game quicker
         var gkey = game.input.keyboard.addKey(Phaser.Keyboard.G);
         gkey.onDown.addOnce(this.characterSelect, this); //Keep for debugging purposes, makes launching the game quicker
 
-        startButton = game.add.button(game.world.width * .25 - 150, game.world.height * .5 - 20, 'startButton');
+        startButton = game.add.button(game.world.width * .25 - 170, game.world.height * .5 - 20, 'startButton');
         startButton.onInputUp.add(this.start, this);
+        startButton.scale.setTo(1.5,1.5);
 
         optionsButton = game.add.button(game.world.width * .25, game.world.height * .5 - 20, 'optionsButton');
         optionsButton.onInputUp.add(this.options, this);
+        optionsButton.scale.setTo(1.5,1.5);
 
         creditsButton = game.add.button(game.world.width * .75 - 100, game.world.height * .5 - 20, 'creditsButton');
         creditsButton.onInputUp.add(this.credits, this);
+        creditsButton.scale.setTo(1.5,1.5);
 
-        quitButton = game.add.button(game.world.width * .75 + 50, game.world.height * .5 - 20, 'quitButton');
+        quitButton = game.add.button(game.world.width * .75 + 60, game.world.height * .5 - 20, 'quitButton');
         quitButton.onInputUp.add(this.quit, this);
+        quitButton.scale.setTo(1.5,1.5);
 
         fullScreenButton = game.add.button(game.world.width * .5, game.world.height * .5 + 100, 'fullScreenButton');
         fullScreenButton.onInputUp.add(this.fullScreenConfig, this);
         fullScreenButton.anchor.setTo(.5, .5);
         fullScreenButton.visible = false;
+        fullScreenButton.scale.setTo(1.5,1.5);
 
 
         buttonSound = game.add.audio('buttonSound');
-        buttonSound.volume -= .5;
+        buttonSound.volume -= .3;
 
 
         if (music.name != 'menuMusic') {
@@ -104,7 +109,7 @@ var menuState = {
         game.state.start('credits');
     },
     update: function () {
-        filter.update();
+        //filter.update();
         if (game.device.android || game.device.iOS) {
             fullScreenButton.visible = true;
         }
@@ -120,10 +125,18 @@ var menuState = {
 
     fullScreenConfig: function () {
         console.log("Calling fullscreen function");
-        if (!game.scale.isFullScreen) {
+       /* if (!game.scale.isFullScreen) {
             game.scale.fullScreenScaleMode = Phaser.ScaleManager.EXACT_FIT;
-            game.scale.startFullScreen();
-
+            game.scale.startFullScreen(true);
+        }*/
+        //game.scale.fullScreenScaleMode = Phaser.ScaleManager.EXACT_FIT;
+        if (game.scale.isFullScreen)
+        {
+            game.scale.stopFullScreen();
+        }
+        else
+        {
+            game.scale.startFullScreen(false);
         }
     }
 

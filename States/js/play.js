@@ -4,7 +4,7 @@ var playState = {
         let hitDmg = 0;
         let hitAngle = 0;
         let attackDistance = 0;
-        if (!Player2.deltDamage && !Player1.invincible && Player2.attacking && (game.physics.arcade.overlap(Player1.character, Player2.weapon1.bullets) || game.physics.arcade.overlap(Player1.character, Player2.weaponKick.bullets) || game.physics.arcade.overlap(Player1.character, Player2.weaponUppercut.bullets) || game.physics.arcade.overlap(Player1.character, Player2.jumpKick.bullets))) {
+        if (!Player2.deltDamage && !Player1.invincible && Player2.attacking && (game.physics.arcade.overlap(Player1.character, Player2.weapon1.bullets) || game.physics.arcade.overlap(Player1.character, Player2.weaponKick.bullets) || game.physics.arcade.overlap(Player1.character, Player2.weaponUppercut.bullets) || game.physics.arcade.overlap(Player1.character, Player2.jumpKick.bullets) || game.physics.arcade.overlap(Player1.character, Player2.weaponSwipeD.bullets) || game.physics.arcade.overlap(Player1.character, Player2.weaponSwipeFD.bullets) || game.physics.arcade.overlap(Player1.character, Player2.weaponSwipeFU.bullets) || game.physics.arcade.overlap(Player1.character, Player2.weaponSwipeU.bullets) )) {
             Player1.attacking = false;
             switch (Player2.attack) {
                 case 'punch':
@@ -33,30 +33,30 @@ var playState = {
                     hitAngle = 1.25;
                     break;
                 case 'airneutral':
-                    hitDmg = 65;
+                    hitDmg = 15;
                     attackDistance = 300;
-                    hitAngle = 1.25;
+                    hitAngle = 0.7;
                     break;
                 case 'airforward':
-                    hitDmg = 65;
+                    hitDmg = 15;
                     attackDistance = 300;
                     hitAngle = 1.25;
                     break;
                 case 'airdown':
-                    hitDmg = 65;
+                    hitDmg = 15;
                     attackDistance = 300;
-                    hitAngle = 1.25;
+                    hitAngle = 0.7 //1.25;
                     break;
                 case 'juggle':
-                    hitDmg = 65;
+                    hitDmg = 15;
                     attackDistance = 300;
-                    hitAngle = 1.25;
+                    hitAngle = 1.6;
                     break;
                 default:
                     console.log("No attacks went off, you have an error");
             }
 
-            if (Player1.m == 0 && !Player1.shielding) {
+            if (Player1.m === 0 && !Player1.shielding) {
                 hitSound.play();
 
 
@@ -140,10 +140,10 @@ var playState = {
             Fighter.deathBlast.angle = -90;
         }
 
-        if (Fighter.controlnum == 1) {
+        if (Fighter.controlnum === 1) {
             //console.log("controlnum = 1");
-            Fighter.character.x = 200;
-            Fighter.character.y = 230;
+            Fighter.character.x = 0.25 * game.width  //200;
+            Fighter.character.y = 0.25 * game.height //230;
             Fighter.respawnSwitch = true;
             Fighter.m = 0;
             Fighter.inputLock = false;
@@ -151,10 +151,10 @@ var playState = {
             Fighter.xZero = true;
         }
 
-        else if (Fighter.controlnum == 2) {
+        else if (Fighter.controlnum === 2) {
             //console.log("controlnum = 2");
-            Fighter.character.x = 600;
-            Fighter.character.y = 230;
+            Fighter.character.x = 0.75 * game.width;
+            Fighter.character.y = 0.25 * game.height;
             Fighter.respawnSwitch = true;
             Fighter.m = 0;
             Fighter.inputLock = false;
@@ -162,22 +162,24 @@ var playState = {
             Fighter.xZero = true;
         }
 
-        else if (Fighter.controlnum == -1) {
+        else if (Fighter.controlnum === -1) {
             //console.log("controlnum = -1");
             //Fighter.character.body.position.x = 200;
-            Fighter.character.x = 200;
-            Fighter.character.y = 230;
+            Fighter.character.x = 0.25 * game.width  //200;
+            Fighter.character.y = 0.25 * game.height //230;
             Fighter.respawnSwitch = true;
             Fighter.m = 0;
             Fighter.inputLock = false;
             Fighter.invincible = false;
             Fighter.xZero = true;
         }
-        else if (Fighter.controlnum == -2) {
+        else if (Fighter.controlnum === -2) {
             //console.log("controlnum = -2");
             //Fighter.character.body.position.x = 200;
-            Fighter.character.x = 600;
-            Fighter.character.y = 230;
+            //Fighter.character.x = 600;
+            //Fighter.character.y = 230;
+            Fighter.character.x = 0.75 * game.width;
+            Fighter.character.y = 0.25 * game.height;
             Fighter.respawnSwitch = true;
             Fighter.m = 0;
             Fighter.inputLock = false;
@@ -194,7 +196,7 @@ var playState = {
 
     respawnEvent: function (Fighter) {
         //Respawn Switch is activated during the KO function
-        if (Fighter.respawnSwitch == true) {
+        if (Fighter.respawnSwitch === true) {
             Fighter.m += 1;
             //Invisible moment
             if (Fighter.m < 60 && Fighter.m != 0) {
@@ -250,7 +252,8 @@ var playState = {
     },
 
     KO: function (Fighter) {
-        if (Fighter.character.body.position.x < -50 || Fighter.character.body.position.x > 900) {
+        //if (Fighter.character.body.position.x < -50 || Fighter.character.body.position.x > 900) {
+        if (Fighter.character.body.position.x < -50 || Fighter.character.body.position.x > game.world.width + 50) {
             Fighter.character.hasItem = false;
             deathSound.play();
             this.respawn(Fighter);
@@ -258,12 +261,13 @@ var playState = {
             if (live) {
                 live.kill();
             }
-
-            if (multimanmode == true) {
+            if (multimanmode === true && Fighter.controlnum < 0) {
                 multimenko++;
             }
+            
         }
-        else if (Fighter.character.body.position.y > 700 || Fighter.character.body.position.y < -200) {
+        //else if (Fighter.character.body.position.y > 700 || Fighter.character.body.position.y < -200) {
+        else if (Fighter.character.body.position.y > game.world.height + 100 || Fighter.character.body.position.y < -200) {
             Fighter.character.hasItem = false;
             deathSound.play();
             this.respawn(Fighter);
@@ -272,7 +276,7 @@ var playState = {
             if (live) {
                 live.kill();
             }
-            if (multimanmode == true) {
+            if (multimanmode === true && Fighter.controlnum < 0) {
                 multimenko++;
             }
 
@@ -292,8 +296,8 @@ var playState = {
     create: function () {
 
         //  We're going to be using physics, so enable the Arcade Physics system
-        w = 800;
-        h = 600;
+        //w = 800;
+        //h = 600;
         game.time.advancedTiming = true;
 
         //create a timer for the game
@@ -303,6 +307,7 @@ var playState = {
 
         var esckey = game.input.keyboard.addKey(Phaser.Keyboard.ESC);
         esckey.onDown.addOnce(this.timeOutGame);
+
 
         //Play music
         music = game.add.audio('allstar');
@@ -316,47 +321,80 @@ var playState = {
         stagecam = new cam(40, 350, 1200, 1000);
 
 
-        if (chosenStageName == 'marstonPic') {
+        if(chosenStageName === 'marstonPic') {
 
             //Background for our game
-            game.add.sprite(0, 0, 'sky');
+            back = game.add.sprite(0, 0, 'sky');
 
+            back.scale.setTo(1.5,1.5);
 
-
-            //  The platforms group contains the ground and the 2 ledges we can jump on
+            // The platforms group contains the ground and the 2 ledges we can jump on
             platforms = game.add.group();
-
-            //  Enable physics for any object that is created in this group
-            platforms.enableBody = true;
-            platforms.friction = 100;
+            platformsELeft = game.add.group();
+            platformsERight = game.add.group();
 
             // Create the ground.
-            var ground = platforms.create(110, game.world.height - 100, 'ground');
-
+            land = new platform(game.world.width * 0.5, game.world.height - 100, false, 'ground',40, 2)
+            
+            ground = platforms.add(land.plat);
+            leftledge = platformsELeft.add(land.leftledge);
+            rightledge = platformsERight.add(land.rightledge);
+            
+            //ground.anchor.setTo(0.5,1);
             //  Scale it to fit the width of the game (the original sprite is ? in size)
-            ground.scale.setTo(18, 1);
+            //ground.scale.setTo(40, 2);
 
             //  This stops it from falling away when you jump on it
-            ground.body.immovable = true;
+            //ground.body.immovable = true;
 
         }
         else {
-
+            //west
             //Background for our game
-            game.add.sprite(0, 0, 'sky');
+            back = game.add.sprite(0, 0, 'sky');
+            
+            back.scale.setTo(1.5,1.5);
 
             //  The platforms group contains the ground and the 2 ledges we can jump on
-            platforms = game.add.group();
             miniPlatforms = game.add.group();
 
-            //  Enable physics for any object that is created in this group
-            platforms.enableBody = true;
-            miniPlatforms.enableBody = true;
+            // The platforms group contains the ground and the 2 ledges we can jump on
+            platforms = game.add.group();
+            platformsELeft = game.add.group();
+            platformsERight = game.add.group();
 
             // Create the ground.
-            var ground = platforms.create(110, game.world.height - 100, 'ground');
-            var plat1 = miniPlatforms.create(110, game.world.height - 250, 'ground');
-            var plat2 = miniPlatforms.create(game.world.width - 300, game.world.height - 250, 'ground');
+            land = new platform(game.world.width * 0.5, game.world.height - 100, false, 'ground',40, 2)
+            
+            ground = platforms.add(land.plat);
+            leftledge = platformsELeft.add(land.leftledge);
+            rightledge = platformsERight.add(land.rightledge);
+
+            //  Enable physics for any object that is created in this group
+            //platforms.enableBody = true;
+            //miniPlatforms.enableBody = true;
+
+            // Create the ground.
+            //var ground = platforms.create(game.world.width*0.5, game.world.height - 100, 'ground');
+            //ground.anchor.setTo(0.5,1);
+            //var plat1 = miniPlatforms.create(game.world.width*0.33, game.world.height*0.7, 'ground');
+            //var plat2 = miniPlatforms.create(game.world.width*0.66, game.world.height*0.7, 'ground');
+            miniland1 = new platform(game.world.width*0.33, game.world.height*0.7, false, 'ground',1,1);
+            miniland2 = new platform(game.world.width*0.66, game.world.height*0.7, false, 'ground', 1,1);
+
+            var plat1 = miniPlatforms.add(miniland1.plat);
+            var plat2 = miniPlatforms.add(miniland2.plat);
+
+            plat1.anchor.setTo(0.5,1);
+            plat2.anchor.setTo(0.5,1);
+
+            //make small platforms grabbable
+            /*leftledge = platformsELeft.add(miniland1.leftledge);
+            rightledge = platformsERight.add(miniland1.rightledge);
+
+            leftledge = platformsELeft.add(miniland2.leftledge);
+            rightledge = platformsERight.add(miniland2.rightledge);*/
+
             plat1.body.collideWorldBounds = true;
             plat2.body.collideWorldBounds = true;
             plat1.body.checkCollision.down = false;
@@ -365,11 +403,12 @@ var playState = {
             plat2.body.immovable = true;
 
 
-            plat1.scale.setTo(4, 1);
-            plat2.scale.setTo(4, 1);
+            plat1.scale.setTo(10, 1);
+            plat2.scale.setTo(10, 1);
 
             //  Scale it to fit the width of the game (the original sprite is ? in size)
-            ground.scale.setTo(16, 1);
+            //ground.scale.setTo(16, 1);
+            //ground.scale.setTo(40, 2);
 
             //  This stops it from falling away when you jump on it
             ground.body.immovable = true;
@@ -402,13 +441,15 @@ var playState = {
             controlOptionVpad = 1;
         }
 
-        if (charName1 == 'dude') {
-            Player1 = new dj(charName1, 0, lives, game.world.width * 0.25, game.world.height * 0.5, controlOptionVpad);
+
+        if (charName1 === 'dude') {
+            Player1 = new dj(charName1, 0, 3, game.world.width * 0.25, game.world.height * 0.5, controlOptionVpad);
             console.log(Player1);
             console.log("Player 1 is dj");
         }
-        else if (charName1 == 'chick') {
-            Player1 = new lab(charName1, 0, lives, game.world.width * 0.25, game.world.height * 0.5, controlOptionVpad);
+        else if (charName1 === 'chick') {
+            Player1 = new lab(charName1, 0, 3, game.world.width * 0.25, game.world.height * 0.5, controlOptionVpad);
+
             console.log("Player 1 is lab");
         }
         else {
@@ -416,12 +457,14 @@ var playState = {
             console.log("Player 1 is lab");
         }
 
-        if (charName2 == 'dude') {
-            Player2 = new dj(charName2, 0, lives, game.world.width * 0.75, game.world.height * 0.5, controlOptionAI);
+
+        if (charName2 === 'dude') {
+            Player2 = new dj(charName2, 0, 3, game.world.width * 0.75, game.world.height * 0.5, controlOptionAI);
             console.log("Player 2 is dj");
         }
-        else if (charName2 == 'chick') {
-            Player2 = new lab(charName2, 0, lives, game.world.width * 0.75, game.world.height * 0.5, controlOptionAI);
+        else if (charName2 === 'chick') {
+            Player2 = new lab(charName2, 0, 3, game.world.width * 0.75, game.world.height * 0.5, controlOptionAI);
+
             console.log("Player 2 is lab");
         }
         else {
@@ -431,8 +474,10 @@ var playState = {
 
 
 
-        if (multimanmode == true) {
-            Player3 = new lab(charName2, 0, lives, game.world.width * 0.5, game.world.height * 0.5, controlOptionAI);
+
+        if (multimanmode === true) {
+            Player3 = new lab(charName2, 0, 3, game.world.width * 0.5, game.world.height * 0.5, controlOptionAI);
+
             console.log("Player 3 is lab");
 
             Player4 = new lab(charName2, 0, lives, game.world.width * 0.62, game.world.height * 0.5, controlOptionAI);
@@ -448,7 +493,7 @@ var playState = {
         item1 = new Item('bottle', game.world.width * .5, game.world.height * .5, this);
 
 
-        if (Player1.controlnum == -1) {
+        if (Player1.controlnum === -1) {
             //console.log("virtual buttons are made buttons");
             Player1.controller1.buttonleft = game.add.button(5, 472, 'leftButton', null, this, 0, 1, 0, 1);
             Player1.controller1.buttonleft.events.onInputOver.add(function () { Player1.controller1.leftpress = true; });
@@ -522,7 +567,7 @@ var playState = {
         healthtext1.stroke = '#ffffff';
         healthtext1.strokeThickness = 4;
 
-        healthtext2 = game.add.text(650, game.world.height - 75, `DMG ${Player2.health}`, Player2.fighterStyle);
+        healthtext2 = game.add.text(game.world.width*0.9, game.world.height - 75, `DMG ${Player2.health}`, Player2.fighterStyle);
         healthtext2.stroke = '#ffffff';
         healthtext2.strokeThickness = 4;
 
@@ -534,12 +579,12 @@ var playState = {
         nameText1 = game.add.text(0, 0, "P1", style);
         nameText2 = game.add.text(0, 0, "P2", style);
         
-        if(multimanmode == true) {
+        if(multimanmode === true) {
             nameText3 = game.add.text(0, 0, "P3", style);
             nameText4 = game.add.text(0, 0, "P4", style);
         }
         //Pause
-        pauseLabel = game.add.text(game.world.width * .5, game.world.height * .15, 'Pause', { font: '50px Arial', fill: '#ffffff' });
+        pauseLabel = game.add.text(game.world.width * .5, game.world.height * .15, 'Pause', { font: '70px Arial', fill: '#ffffff' });
         pauseLabel.anchor.setTo(.5, .5);
         pauseLabel.inputEnabled = true;
         pauseLabel.events.onInputUp.add(function () {
@@ -548,7 +593,7 @@ var playState = {
             pauseMenu = game.add.sprite(game.world.width * .5, game.world.height * .5, 'menuButton');
             pauseMenu.anchor.setTo(.5, .5);
 
-            choiseLabel = game.add.text(w / 2, h - 150, 'Click outside menu to continue, click center to quit', { font: '30px Arial', fill: '#fff' });
+            choiseLabel = game.add.text(game.world.width / 2, game.world.height - 150, 'Click outside menu to continue, click center to quit', { font: '30px Arial', fill: '#fff' });
             choiseLabel.anchor.setTo(0.5, 0.5);
         });
         game.input.onDown.add(unpause, self);
@@ -586,7 +631,7 @@ var playState = {
         };
 
 
-        timerText = game.add.text(game.world.width * .5, 40, `Time: ${timer.duration}`, { font: '40px Arial', fill: '#000000' });
+        timerText = game.add.text(game.world.width * .5, game.world.height* 0.1, `Time: ${timer.duration}`, { font: '80px Arial', fill: '#000000' });
         timerText.anchor.setTo(.5, .5);
 
     },
@@ -619,7 +664,7 @@ var playState = {
 
 
 
-        if (chosenStageName == 'pool') {
+        if (chosenStageName === 'pool') {
             console.log("gravity set low!");
             Player1.character.body.gravity.y = 250; //gravity may need to oscillate between positive and negative so that fighter has a floaty feel to it while swimming 
             Player1.jumps = 0;
@@ -630,7 +675,7 @@ var playState = {
         // logic check for hitpause, split second intentional slowdown when players are hit
         if (hitpause > 0) {
 
-            game.time.slowMotion = 8;
+            game.time.slowMotion = 18;
 
             hitpause--;
         }
@@ -644,6 +689,10 @@ var playState = {
         Player1.combocheck();
         Player2.combocheck();
 
+        //check for ledge grab/hangs
+        Player1.checkLedge(leftledge, rightledge);
+        Player2.checkLedge(leftledge, rightledge);
+
         //Applies Super armor and immovabilty to players while attacking
         if (Player1.attacking) {
             Player1.character.body.velocity.x = 5 * Player1.character.scale.x;
@@ -655,7 +704,7 @@ var playState = {
 
 
         //  Collide the players with the platforms and eachother
-        if (chosenStageName == 'westPic') {
+        if (chosenStageName === 'westPic') {
             if (Player1.getdown()) {
                 Player1.character.body.immovable = false;
             }
@@ -669,6 +718,8 @@ var playState = {
                 game.physics.arcade.collide(Player2.character, miniPlatforms);
             }
         }
+
+        game.physics.arcade.collide(Player1.character, ground);
 
         game.physics.arcade.collide(Player1.character, platforms);
         game.physics.arcade.collide(Player2.character, platforms);
@@ -725,7 +776,7 @@ var playState = {
         //add physics for item (eventually just add items to a group and use collision detection for the group)
         game.physics.arcade.collide(item1.type, platforms, item1.onGround());
 
-        if (multimanmode == true ) {
+        if (multimanmode === true ) {
             game.physics.arcade.collide(Player3.character, platforms);
             game.physics.arcade.collide(Player4.character, platforms);
             if(passtimer1v2 < 100){
@@ -753,11 +804,11 @@ var playState = {
         //Item must be active(can only hit you once), and thrown for the collision to go off
         if (item1.thrown && item1.getActive() && item1.getThrown()) {
 
-            if (item1.previousUser.controlnum == Player1.controlnum && !Player2.respawnSwitch) //if the user is the the person colliding with the item(Player1)
+            if (item1.previousUser.controlnum === Player1.controlnum && !Player2.respawnSwitch) //if the user is the the person colliding with the item(Player1)
             {
                 game.physics.arcade.overlap(Player2.character, item1.type, item1.itemCollision(Player2), null, this);
             }
-            else if (item1.previousUser.controlnum == Player2.controlnum && !Player1.respawnSwitch) //if the user is the the person colliding with the item(Player2)
+            else if (item1.previousUser.controlnum === Player2.controlnum && !Player1.respawnSwitch) //if the user is the the person colliding with the item(Player2)
             {
                 game.physics.arcade.overlap(Player1.character, item1.type, item1.itemCollision(Player1), null, this);
             }
@@ -774,16 +825,33 @@ var playState = {
             game.physics.arcade.overlap(Player1.weaponKick.bullets, Player2.character, this.hitPlayer12(Player2, Player1));
             game.physics.arcade.overlap(Player1.weaponUppercut.bullets, Player2.character, this.hitPlayer12(Player2, Player1));
             game.physics.arcade.overlap(Player1.jumpKick.bullets, Player2.character, this.hitPlayer12(Player2, Player1));
-            if(multimanmode == true){
-                game.physics.arcade.overlap(Player1.weapon1.bullets, Player2.character, this.hitPlayer12(Player3, Player1));
-                game.physics.arcade.overlap(Player1.weaponKick.bullets, Player2.character, this.hitPlayer12(Player3, Player1));
-                game.physics.arcade.overlap(Player1.weaponUppercut.bullets, Player2.character, this.hitPlayer12(Player3, Player1));
-                game.physics.arcade.overlap(Player1.jumpKick.bullets, Player2.character, this.hitPlayer12(Player3, Player1));
 
-                game.physics.arcade.overlap(Player1.weapon1.bullets, Player2.character, this.hitPlayer12(Player4, Player1));
-                game.physics.arcade.overlap(Player1.weaponKick.bullets, Player2.character, this.hitPlayer12(Player4, Player1));
-                game.physics.arcade.overlap(Player1.weaponUppercut.bullets, Player2.character, this.hitPlayer12(Player4, Player1));
-                game.physics.arcade.overlap(Player1.jumpKick.bullets, Player2.character, this.hitPlayer12(Player4, Player1));
+            game.physics.arcade.overlap(Player1.weaponSwipeU, Player2.character, this.hitPlayer12(Player2, Player1));
+            game.physics.arcade.overlap(Player1.weaponSwipeFD, Player2.character, this.hitPlayer12(Player2, Player1));
+            game.physics.arcade.overlap(Player1.weaponSwipeFU, Player2.character, this.hitPlayer12(Player2, Player1));
+            game.physics.arcade.overlap(Player1.weaponSwipeD, Player2.character, this.hitPlayer12(Player2, Player1));
+
+            if(multimanmode === true){
+                game.physics.arcade.overlap(Player1.weapon1.bullets, Player3.character, this.hitPlayer12(Player3, Player1));
+                game.physics.arcade.overlap(Player1.weaponKick.bullets, Player3.character, this.hitPlayer12(Player3, Player1));
+                game.physics.arcade.overlap(Player1.weaponUppercut.bullets, Player3.character, this.hitPlayer12(Player3, Player1));
+                game.physics.arcade.overlap(Player1.jumpKick.bullets, Player3.character, this.hitPlayer12(Player3, Player1));
+                
+                game.physics.arcade.overlap(Player1.weaponSwipeU, Player3.character, this.hitPlayer12(Player3, Player1));
+                game.physics.arcade.overlap(Player1.weaponSwipeFD, Player3.character, this.hitPlayer12(Player3, Player1));
+                game.physics.arcade.overlap(Player1.weaponSwipeFU, Player3.character, this.hitPlayer12(Player3, Player1));
+                game.physics.arcade.overlap(Player1.weaponSwipeD, Player3.character, this.hitPlayer12(Player3, Player1));
+
+
+                game.physics.arcade.overlap(Player1.weapon1.bullets, Player4.character, this.hitPlayer12(Player4, Player1));
+                game.physics.arcade.overlap(Player1.weaponKick.bullets, Player4.character, this.hitPlayer12(Player4, Player1));
+                game.physics.arcade.overlap(Player1.weaponUppercut.bullets, Player4.character, this.hitPlayer12(Player4, Player1));
+                game.physics.arcade.overlap(Player1.jumpKick.bullets, Player4.character, this.hitPlayer12(Player4, Player1));
+
+                game.physics.arcade.overlap(Player1.weaponSwipeU, Player4.character, this.hitPlayer12(Player4, Player1));
+                game.physics.arcade.overlap(Player1.weaponSwipeFD, Player4.character, this.hitPlayer12(Player4, Player1));
+                game.physics.arcade.overlap(Player1.weaponSwipeFU, Player4.character, this.hitPlayer12(Player4, Player1));
+                game.physics.arcade.overlap(Player1.weaponSwipeD, Player4.character, this.hitPlayer12(Player4, Player1));
             }
         }
         if (Player2.attacking) {
@@ -796,11 +864,14 @@ var playState = {
             game.physics.arcade.overlap(Player2.weaponKick.bullets, Player1.character, this.hitPlayer12(Player1, Player2));
             game.physics.arcade.overlap(Player2.weaponUppercut.bullets, Player1.character, this.hitPlayer12(Player1, Player2));
             game.physics.arcade.overlap(Player2.jumpKick.bullets, Player1.character, this.hitPlayer12(Player1, Player2));
+
+            game.physics.arcade.overlap(Player2.weaponSwipeU, Player1.character, this.hitPlayer12(Player1, Player2));
+            game.physics.arcade.overlap(Player2.weaponSwipeFD, Player1.character, this.hitPlayer12(Player1, Player2));
+            game.physics.arcade.overlap(Player2.weaponSwipeFU, Player1.character, this.hitPlayer12(Player1, Player2));
+            game.physics.arcade.overlap(Player2.weaponSwipeD, Player1.character, this.hitPlayer12(Player1, Player2));
         }
 
-        else if (multimanmode) {
-            
-            
+        if (multimanmode === true) {
             
             if (Player3.attacking) {
                 //hitbox collision for player 1, we pass the type of hit into the hit player function
@@ -808,6 +879,11 @@ var playState = {
                 game.physics.arcade.overlap(Player3.weaponKick.bullets, Player1.character, this.hitPlayer12(Player1,Player3));
                 game.physics.arcade.overlap(Player3.weaponUppercut.bullets, Player1.character, this.hitPlayer12(Player1,Player3));
                 game.physics.arcade.overlap(Player3.jumpKick.bullets, Player1.character, this.hitPlayer12(Player1,Player3));
+               
+                game.physics.arcade.overlap(Player3.weaponSwipeU, Player1.character, this.hitPlayer12(Player1, Player3));
+                game.physics.arcade.overlap(Player3.weaponSwipeFD, Player1.character, this.hitPlayer12(Player1, Player3));
+                game.physics.arcade.overlap(Player3.weaponSwipeFU, Player1.character, this.hitPlayer12(Player1, Player3));
+                game.physics.arcade.overlap(Player3.weaponSwipeD, Player1.character, this.hitPlayer12(Player1, Player3));
             }
             if (Player4.attacking) {
                 //hitbox collision for player 1, we pass the type of hit into the hit player function
@@ -815,6 +891,11 @@ var playState = {
                 game.physics.arcade.overlap(Player4.weaponKick.bullets, Player1.character, this.hitPlayer12(Player1,Player4));
                 game.physics.arcade.overlap(Player4.weaponUppercut.bullets, Player1.character, this.hitPlayer12(Player1,Player4));
                 game.physics.arcade.overlap(Player4.jumpKick.bullets, Player1.character, this.hitPlayer12(Player1,Player4));
+
+                game.physics.arcade.overlap(Player4.weaponSwipeU, Player1.character, this.hitPlayer12(Player1, Player4));
+                game.physics.arcade.overlap(Player4.weaponSwipeFD, Player1.character, this.hitPlayer12(Player1, Player4));
+                game.physics.arcade.overlap(Player4.weaponSwipeFU, Player1.character, this.hitPlayer12(Player1, Player4));
+                game.physics.arcade.overlap(Player4.weaponSwipeD, Player1.character, this.hitPlayer12(Player1, Player4));
             }
         }
 
@@ -835,16 +916,11 @@ var playState = {
         }
 
 
-
-
-
-
-        if (controlOptionAI == -2) {
+        if (controlOptionAI === -2) {
 
             this.AIplay(Player1, Player2);
-
             //Multiman mode on so AI controls 2 additional fighters
-            if (multimanmode == true) {
+            if (multimanmode === true) {
 
                 this.AIplay(Player1, Player3);
                 this.AIplay(Player1, Player4);
@@ -857,9 +933,24 @@ var playState = {
                 nameText3.alignTo(Player3.character, Phaser.TOP, 16);
                 nameText4.alignTo(Player4.character, Phaser.TOP, 16);
             }
-
         }
 
+        /*
+        //Multiman mode on so AI controls 2 additional fighters
+        if (multimanmode === true) {
+            console.log("attack 3 and 4!")
+            this.AIplay(Player1, Player3);
+            this.AIplay(Player1, Player4);
+            Player3.updateInput();
+            Player4.updateInput();
+            this.KO(Player3);
+            this.KO(Player4);
+            this.respawnEvent(Player3);
+            this.respawnEvent(Player4);
+            nameText3.alignTo(Player3.character, Phaser.TOP, 16);
+            nameText4.alignTo(Player4.character, Phaser.TOP, 16);
+        }*/
+        
 
         //console.log("echo");
         Player1.updateInput();
@@ -879,14 +970,14 @@ var playState = {
         this.respawnEvent(Player2);
 
         //If out of lives, end the game
-        if (Player1.lives == 0) {
+        if (Player1.lives === 0) {
             game.state.start('win');
-            if (multimanmode == true) {
+            if (multimanmode === true) {
                 console.log("# of KOs in multiman mode:");
                 console.log(multimenko);
             }
         }
-        if (Player2.lives == 0 && multimanmode == false) {
+        if (Player2.lives === 0 && multimanmode === false) {
             game.state.start('win');
         }
 
@@ -902,262 +993,263 @@ var playState = {
     },
 
     //AI Logic and functions
-    AIdistcheck: function (Fighter1, Fighter2) {
+    AIdistcheck: function (Target, AIFighter) {
         //Fighter.character.body.position.x < -50
 
-        AIxdist = Fighter2.character.body.position.x - Fighter1.character.body.position.x;
-        AIydist = Fighter2.character.body.position.y - Fighter1.character.body.position.y;
+        AIxdist = AIFighter.character.body.position.x - Target.character.body.position.x;
+        AIydist = AIFighter.character.body.position.y - Target.character.body.position.y;
         if (AIxdist > 50) {
-            Fighter2.character.body.velocity.x = -150;
-            //controller2.right.isDown == true;
+            AIFighter.character.body.velocity.x = -150;
+            //controller2.right.isDown === true;
             //console.log("AI should be moving left");
         }
         else if (AIxdist < -50) {
-            //controller2.left.isDown == true;
-            Fighter2.character.body.velocity.x = 150;
-            //controller2.right.isDown == true;
+            //controller2.left.isDown === true;
+            AIFighter.character.body.velocity.x = 150;
+            //controller2.right.isDown === true;
             console.log("AI should be moving right");
         }
         if (AIydist > 100) {
             console.log("jump?");
-            Fighter2.character.body.velocity.y = -100;
+            AIFighter.character.body.velocity.y = -100;
         }
     },
 
-    attackMode: function (Fighter, AIxdist, AIydist) {
-        //aggressive ai behavior mode
-
-        if (AIxdist > 50) {
-
-            //console.log("AI should be moving left");
-            Fighter.controller1.leftpress = true;
-            Fighter.controller1.rightpress = false;
-        }
-        else if (AIxdist < -50) {
-
-            //console.log("AI should be moving right");
-            Fighter.controller1.leftpress = false;
-            Fighter.controller1.rightpress = true;
-        }
-        else {
-            Fighter.controller1.leftpress = false;
-            Fighter.controller1.rightpress = false;
-        }
-
-    },
+    
 
 
-    defendMode: function (Fighter, AIxdist, AIydist) {
+    defendMode: function (AIFighter, AIxdist, AIydist) {
         //defensive behavior mode
         if (AIxdist < 150 && AIxdist > 0 || AIxdist < -250) {
 
             //console.log("AI should be keeping right");
-            Fighter.controller1.leftpress = false;
-            Fighter.controller1.rightpress = true;
+            AIFighter.controller1.leftpress = false;
+            AIFighter.controller1.rightpress = true;
         }
         else if (AIxdist > -150 && AIxdist < 0 || AIxdist > 250) {
 
             //console.log("AI should be keeping left");
-            Fighter.controller1.leftpress = true;
-            Fighter.controller1.rightpress = false;
+            AIFighter.controller1.leftpress = true;
+            AIFighter.controller1.rightpress = false;
         }
         else {
-            Fighter.controller1.leftpress = false;
-            Fighter.controller1.rightpress = false;
+            AIFighter.controller1.leftpress = false;
+            AIFighter.controller1.rightpress = false;
 
-            Fighter.controller1.ypress = false;
+            AIFighter.controller1.ypress = false;
         }
-
     },
 
-    defendMode2: function (Fighter, AIxdist, AIydist) {
+    defendMode2: function (AIFighter, AIxdist, AIydist) {
         //defensive behavior mode2, try to stay close to center of stage
-        if (Fighter.character.body.position.x < 200) {
+        if (AIFighter.character.body.position.x < 200) {
 
             //console.log("AI should be keeping right");
-            Fighter.controller1.leftpress = false;
-            Fighter.controller1.rightpress = true;
+            AIFighter.controller1.leftpress = false;
+            AIFighter.controller1.rightpress = true;
         }
-        else if (Fighter.character.body.position.x > 400) {
+        else if (AIFighter.character.body.position.x > 400) {
 
             //console.log("AI should be keeping left");
-            Fighter.controller1.leftpress = true;
-            Fighter.controller1.rightpress = false;
+            AIFighter.controller1.leftpress = true;
+            AIFighter.controller1.rightpress = false;
         }
         else {
-            Fighter.controller1.leftpress = false;
-            Fighter.controller1.rightpress = false;
+            AIFighter.controller1.leftpress = false;
+            AIFighter.controller1.rightpress = false;
 
-            Fighter.controller1.ypress = false;
+            AIFighter.controller1.ypress = false;
         }
     },
 
-    AIplay: function (Fighter1, Fighter2) {
+    AIplay: function (Target, AIFighter) {
 
-        AIxdist = Fighter2.character.body.position.x - Fighter1.character.body.position.x;
-        AIydist = Fighter2.character.body.position.y - Fighter1.character.body.position.y;
+        this.AIFighter = AIFighter;
+        this.Target = Target;
 
-        //if AIxdist is > 0 then fighter2 is on right, fighter 1 on left
-        //if AIxdist is < 0 then fighter2 is on left, fighter 1 on right
+        function attackMode(Fighter, AIxdist, AIydist) 
+        {
+            //aggressive ai behavior mode
+
+            if (AIxdist > 50) {
+
+                //console.log("AI should be moving left");
+                Fighter.controller1.leftpress = true;
+                Fighter.controller1.rightpress = false;
+            }
+            else if (AIxdist < -50) {
+
+                //console.log("AI should be moving right");
+                Fighter.controller1.leftpress = false;
+                Fighter.controller1.rightpress = true;
+            }
+            else {
+                Fighter.controller1.leftpress = false;
+                Fighter.controller1.rightpress = false;
+            }
+        }
+
+        AIxdist = AIFighter.character.body.position.x - Target.character.body.position.x;
+        AIydist = AIFighter.character.body.position.y - Target.character.body.position.y;
+
+        //if AIxdist is > 0 then AIFighter is on right, fighter 1 on left
+        //if AIxdist is < 0 then AIFighter is on left, fighter 1 on right
 
         //initialize all buttons to false
-        Fighter1.leftpress = false;
-        Fighter1.rightpress = false;
-        Fighter1.uppress = false;
-        Fighter1.downpress = false;
+        AIFighter.leftpress = false;
+        AIFighter.rightpress = false;
+        AIFighter.uppress = false;
+        AIFighter.downpress = false;
 
-        Fighter1.apress = false;//regular attack button
-        Fighter1.bpress = false;//special button
-        Fighter1.xpress = false;//jump button
-        Fighter1.ypress = false;//block button
+        AIFighter.apress = false;//regular attack button
+        AIFighter.bpress = false;//special button
+        AIFighter.xpress = false;//jump button
+        AIFighter.ypress = false;//block button
         console.log(AIydist);
         //random number generator between 1 and 1000
         react = Math.floor((Math.random() * 1000) + 1);
         if (react < 10) {
             console.log("Behavior switch!");
 
-            //console.log(Fighter2.AImode);
+            //console.log(AIFighter.AImode);
 
-            Fighter2.AImode = Fighter2.AImode * -1;
+            AIFighter.AImode = AIFighter.AImode * -1;
         }
         if (react > 100) {
-            Fighter1.leftpress = false;
-            Fighter1.rightpress = false;
-            Fighter1.uppress = false;
-            Fighter1.downpress = false;
+            AIFighter.leftpress = false;
+            AIFighter.rightpress = false;
+            AIFighter.uppress = false;
+            AIFighter.downpress = false;
 
-            Fighter1.apress = false;//regular attack button
-            Fighter1.bpress = false;//special button
-            Fighter1.xpress = false;//jump button
-            Fighter1.ypress = false;//block button
+            AIFighter.apress = false;//regular attack button
+            AIFighter.bpress = false;//special button
+            AIFighter.xpress = false;//jump button
+            AIFighter.ypress = false;//block button
             console.log("reacting to nothing");
             return;
         }
         //random number to determine if AI should use a jab or normal attack
         attack = Math.floor((Math.random() * 100) + 1);
         //normal attack logic
-        if(attack>5){
+        if(attack > 5){
             if (AIxdist < 60 && AIxdist > 0) {
-                Fighter2.controller1.apress = true;
+                AIFighter.controller1.apress = true;
             }
             else if (AIxdist > -60 && AIxdist < 0) {
-                Fighter2.controller1.apress = true;
+                AIFighter.controller1.apress = true;
             }
             //Juggle AKA Up swipe attack
-            else if (AIydist < 15 && AIydist > -15 && AIxdist < 10) {
-                Fighter2.controller1.uppress = true;
-                Fighter2.controller1.apress = true;
+            else if ((AIydist < 15 && AIydist > 0) && (AIxdist < 20 && AIxdist > -20)) {
+                AIFighter.controller1.uppress = true;
+                AIFighter.controller1.apress = true;
             }
             else {
-                Fighter2.controller1.apress = false;
+                AIFighter.controller1.apress = false;
             }
         }
         else{
             //special attack logic
             if (AIxdist < 60 && AIxdist > 0) {
-                Fighter2.controller1.bpress = true;
+                AIFighter.controller1.bpress = true;
             }
             else if (AIxdist > -60 && AIxdist < 0) {
-                Fighter2.controller1.bpress = true;
+                AIFighter.controller1.bpress = true;
             }
             else {
-                Fighter2.controller1.bpress = false;
+                AIFighter.controller1.bpress = false;
             }
         }
         //jump logic
 		/*
-		if(AIydist > 100 || Fighter2.character.body.position.y < 40){
-				//Fighter2.controller1.ypress = true;
+		if(AIydist > 100 || AIFighter.character.body.position.y < 40){
+				//AIFighter.controller1.ypress = true;
 		}
 		else{
-				Fighter2.controller1.ypress = false;
+				AIFighter.controller1.ypress = false;
 		}
 		*/
 
         //General movement/walk behavior
 
-        if (Fighter2.AImode == 1) {
-            //aggresive behavior
-
-            //attackMode(Fighter2,AIxdist,AIydist);
-
+        if (AIFighter.AImode === 1) {
+            //THE MOVE SCRIPTS
             // if the distance between the AI and the user is greater than 50 pixels, then the AI should move left
             if (AIxdist > 50) {
 
                 //console.log("AI should be moving left");
-                Fighter2.controller1.leftpress = true;
-                Fighter2.controller1.rightpress = false;
+                AIFighter.controller1.leftpress = true;
+                AIFighter.controller1.rightpress = false;
 
             }
             // if the distance between the AI and the user is less than -50 pixels, then the AI should move right
             else if (AIxdist < -50) {
 
                 //console.log("AI should be moving right");
-                Fighter2.controller1.leftpress = false;
-                Fighter2.controller1.rightpress = true;
+                AIFighter.controller1.leftpress = false;
+                AIFighter.controller1.rightpress = true;
             }
             else {
-                Fighter2.controller1.leftpress = false;
-                Fighter2.controller1.rightpress = false;
-                Fighter2.controller1.ypress = false;
+                AIFighter.controller1.leftpress = false;
+                AIFighter.controller1.rightpress = false;
+                AIFighter.controller1.ypress = false;
             }
         }
-        else if (Fighter2.AImode == -10) {
+        else if (AIFighter.AImode === -10) {
             //defensive behavior1 (AI tries to stay away from User)
-            //defendMode(Fighter2, AIxdist, AIydist);
+            //defendMode(AIFighter, AIxdist, AIydist);
 
             if (AIxdist < 150 && AIxdist > 0 || AIxdist < -250) {
                 //console.log("AI should be keeping right");
-                Fighter2.controller1.leftpress = false;
-                Fighter2.controller1.rightpress = true;
+                AIFighter.controller1.leftpress = false;
+                AIFighter.controller1.rightpress = true;
             }
             else if (AIxdist > -150 && AIxdist < 0 || AIxdist > 250) {
                 //console.log("AI should be keeping left");
-                Fighter2.controller1.leftpress = true;
-                Fighter2.controller1.rightpress = false;
+                AIFighter.controller1.leftpress = true;
+                AIFighter.controller1.rightpress = false;
             }
             else {
-                Fighter2.controller1.leftpress = false;
-                Fighter2.controller1.rightpress = false;
-                Fighter2.controller1.ypress = false;
+                AIFighter.controller1.leftpress = false;
+                AIFighter.controller1.rightpress = false;
+                AIFighter.controller1.ypress = false;
             }
         }
-        else if (Fighter2.AImode == -1) {
+        else if (AIFighter.AImode === -1) {
             //defensive behavior2 (AI tries to stay in center of stage)
-            //defendMode(Fighter2, AIxdist, AIydist);
+            //defendMode(AIFighter, AIxdist, AIydist);
 
-            if (Fighter2.character.body.position.x < 300) {
+            if (AIFighter.character.body.position.x < 300) {
                 //console.log("AI should be keeping right");
-                Fighter2.controller1.leftpress = false;
-                Fighter2.controller1.rightpress = true;
+                AIFighter.controller1.leftpress = false;
+                AIFighter.controller1.rightpress = true;
             }
-            else if (Fighter2.character.body.position.x > 400) {
+            else if (AIFighter.character.body.position.x > 400) {
                 //console.log("AI should be keeping left");
-                Fighter2.controller1.leftpress = true;
-                Fighter2.controller1.rightpress = false;
+                AIFighter.controller1.leftpress = true;
+                AIFighter.controller1.rightpress = false;
             }
             else {
-                Fighter2.controller1.leftpress = false;
-                Fighter2.controller1.rightpress = false;
-                Fighter2.controller1.ypress = false;
+                AIFighter.controller1.leftpress = false;
+                AIFighter.controller1.rightpress = false;
+                AIFighter.controller1.ypress = false;
             }
         }
 
         //avoid going out of bounds, this logic is always checked 
-        if (Fighter2.character.body.position.x < 250) {
+        if (AIFighter.character.body.position.x < 250) {
             //Avoid left bound
-            Fighter2.controller1.rightpress = true;
-            Fighter2.controller1.ypress = true;
+            AIFighter.controller1.rightpress = true;
+            AIFighter.controller1.ypress = true;
         }
-        else if (Fighter2.character.body.position.x > 650) {
+        else if (AIFighter.character.body.position.x > 650) {
             //Avoid right bound
-            Fighter2.controller1.leftpress = true;
-            Fighter2.controller1.ypress = true;
+            AIFighter.controller1.leftpress = true;
+            AIFighter.controller1.ypress = true;
         }
         else {
             //temporary fix need to remove later
-            //Fighter2.controller1.leftpress = false;
-            //Fighter2.controller1.rightpress = false;
+            //AIFighter.controller1.leftpress = false;
+            //AIFighter.controller1.rightpress = false;
         }
     },
 

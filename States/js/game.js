@@ -1,7 +1,12 @@
 var config =
 {
-    width: 800,
-    height: 600,
+    //width: 800,
+    //height: 600,
+
+    width: 1920,
+    height: 1080,
+
+
     renderer: Phaser.AUTO,
     parent: 'gameDiv',
     transparent: false,
@@ -15,9 +20,20 @@ var game = new Phaser.Game(config);
 //Change the screen dimensions to accomidate mobile users (eventually will change other things about mobile experience but not here)
 //Start mobile users in exact_fit with full screen default
 
+var gamewidth = 1920;
+var gameheight = 1080;
+
 var multimanmode = false;
 var multimenko = 0;
 
+var ground;
+var groundedge;
+var platformsELeft;
+var platformsERight;
+var leftledge;
+var rightledge;
+
+var land;
 
 var nameText1;
 var nameText2;

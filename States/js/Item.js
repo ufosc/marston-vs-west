@@ -2,10 +2,11 @@ class Item {
     constructor(type, startx, starty, gameRef) {
         this.gameRef = gameRef;
         this.type = game.add.sprite(startx, starty, type);
+        this.type.scale.setTo(1.75,1.75);
         game.physics.arcade.enable(this.type);
         this.type.anchor.setTo(.5, .5);
         this.type.body.bounce.y = 0.2;//0.2;
-        this.type.body.bounce.x = .2
+        this.type.body.bounce.x = .2;
         this.type.body.gravity.y = 400;
         this.type.body.angularDrag = 100;
         this.type.body.friction = 100;
@@ -89,7 +90,7 @@ class Item {
             itemSound.play();
             //console.log("facing left");
 
-            this.type.body.velocity.x -= 300;
+            this.type.body.velocity.x -= 700;
             this.type.body.velocity.y -= 200;
             holder.hasItem = false;
             this.thrown = true;
@@ -102,7 +103,7 @@ class Item {
             itemSound.play();
             //console.log("facing right");
 
-            this.type.body.velocity.x += 300;
+            this.type.body.velocity.x += 700;
             this.type.body.velocity.y -= 200;
             this.pickedUp = false;
             holder.hasItem = false;
@@ -171,6 +172,8 @@ class Item {
                 break;
         }
 
+        this.type.scale.setTo(1.75,1.75);
+
         game.physics.arcade.enable(this.type);
         this.type.anchor.setTo(.5, .5);
         this.type.body.bounce.y = .2;//0.2;
@@ -234,6 +237,7 @@ class Item {
             this.type.body.position.x = this.user.character.body.position.x;
             this.type.body.position.y = this.user.character.body.position.y;
             //Can't follow user, check if it falls off the map
+
             if (this.type.body.position.x < -50 || this.type.body.position.x > 900) {
                 //this.type.destroy();
                 //this.spawnItem();
