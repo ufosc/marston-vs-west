@@ -55,10 +55,7 @@ var loadState = {
 
 
         //Menu Assets
-        game.load.image('startButton', 'assets/startButton.png');
-        game.load.image('optionsButton', 'assets/optionsButton.png');
-        game.load.image('quitButton', 'assets/quitButton.png');
-        game.load.image('creditsButton', 'assets/creditsButton.png');
+        
         game.load.image('menuButton', 'assets/menuButton.png');
         this.game.load.audio('creditsMusic', 'assets/Birdbeat.ogg');
         this.game.load.audio('menuMusic', 'assets/Birdbeat.ogg');
@@ -96,6 +93,16 @@ var loadState = {
         game.load.image('orangeStock', 'assets/orangeStock.png');
         game.load.image('blueStock', 'assets/blueStock.png');
         game.load.image('dust', 'assets/dust.png');
+
+        //Menu Images
+        game.load.image('menuBackground', 'assets/MvW Menus/MainMenu_Sprites/Sprites/Brick Wall_Background.png');
+        game.load.image('logo', 'assets/MvW Menus/MainMenu_Sprites/Sprites/Main_Menu_Logo_Sprite.png');
+        game.load.image('startButton', 'assets/MvW Menus/MainMenu_Sprites/Buttons/Start_Button.png');
+        game.load.image('optionButton', 'assets/MvW Menus/MainMenu_Sprites/Buttons/Options_Button.png');
+        game.load.image('creditButton', 'assets/MvW Menus/MainMenu_Sprites/Buttons/Exit_Button.png');
+
+        
+
     },
     create: function () {
         music = game.add.audio('menuMusic');
