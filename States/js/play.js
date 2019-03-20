@@ -57,9 +57,24 @@ var playState = {
             }
 
             if (Player1.m === 0 && !Player1.shielding) {
-                hitSound.play();
-
-
+                
+                RandHit = Math.floor((Math.random() * 4));
+                
+                if(RandHit === 0){
+                    hitSound.play();
+                }
+                else if(RandHit === 1){
+                    hitSound1.play();
+                }
+                else if(RandHit === 2){
+                    hitSound2.play();
+                }
+                else if(RandHit === 3){
+                    hitSound3.play();
+                }
+                else {
+                    hitSound.play();
+                }
 
                 Player1.health += hitDmg;
                 Player1.hitVelocity = Player2.character.scale.x * Player1.health * 2;
@@ -96,16 +111,18 @@ var playState = {
         game.time.events.add(Phaser.Timer.SECOND, this.playRespawnSound, this);
         Fighter.aniIdle.play(10, false);
 
-        Fighter.deathBlast.x = Fighter.character.x;
-        Fighter.deathBlast.y = Fighter.character.y;
+        Fighter.deathBlast.x = (Fighter.character.x < 0) ? (0) : (Fighter.character.x);
+        Fighter.deathBlast.y = (Fighter.character.y < 0) ? (0) : (Fighter.character.y);
+        Fighter.deathBlast.x = (Fighter.character.x > game.world.width) ? (game.world.width) : (Fighter.deathBlast.x);
+        Fighter.deathBlast.y = (Fighter.character.y > game.world.height) ? (game.world.height) : (Fighter.deathBlast.y);
         
-        if (Fighter.deathBlast.x < 0)
+        if (Fighter.character.x < 0)
         {
-            if (Fighter.deathBlast.y < 0)
+            if (Fighter.character.y < 0)
             {
                 Fighter.deathBlast.angle = 45;
             }
-            else if (Fighter.deathBlast.y > game.world.height)
+            else if (Fighter.character.y > game.world.height)
             {
                 Fighter.deathBlast.angle = -45;
             }
@@ -114,13 +131,13 @@ var playState = {
                 Fighter.deathBlast.angle = 0;
             }
         }
-        else if (Fighter.deathBlast.x > game.world.width)
+        else if (Fighter.character.x > game.world.width)
         {
-            if (Fighter.deathBlast.y < 0)
+            if (Fighter.character.y < 0)
             {
                 Fighter.deathBlast.angle = 135;
             }
-            else if (Fighter.deathBlast.y > game.world.height)
+            else if (Fighter.character.y > game.world.height)
             {
                 Fighter.deathBlast.angle = -135;
             }
@@ -129,7 +146,7 @@ var playState = {
                 Fighter.deathBlast.angle = 180;
             }
         }
-        else if (Fighter.deathBlast.y < 0)
+        else if (Fighter.character.y < 0)
         {
             Fighter.deathBlast.angle = 90;
         }
@@ -309,7 +326,7 @@ var playState = {
 
         //Play music
         music = game.add.audio('allstar');
-        music.volume = 0.5;
+        //music.volume = musicvol;
         music.loopFull();
 
 
@@ -326,47 +343,72 @@ var playState = {
 
             back.scale.setTo(1.5,1.5);
 
-
-            //The platforms group contains the ground and the 2 ledges we can jump on
+            // The platforms group contains the ground and the 2 ledges we can jump on
             platforms = game.add.group();
-
-            //Enable physics for any object that is created in this group
-            platforms.enableBody = true;
-            platforms.friction = 100;
+            platformsELeft = game.add.group();
+            platformsERight = game.add.group();
 
             // Create the ground.
-            var ground = platforms.create(game.world.width * 0.5, game.world.height - 100, 'ground');
-            ground.anchor.setTo(0.5,1);
+            land = new platform(game.world.width * 0.5, game.world.height - 100, false, 'ground',40, 2)
+            
+            ground = platforms.add(land.plat);
+            leftledge = platformsELeft.add(land.leftledge);
+            rightledge = platformsERight.add(land.rightledge);
+            
+            //ground.anchor.setTo(0.5,1);
             //  Scale it to fit the width of the game (the original sprite is ? in size)
-            ground.scale.setTo(40, 2);
+            //ground.scale.setTo(40, 2);
 
             //  This stops it from falling away when you jump on it
-            ground.body.immovable = true;
+            //ground.body.immovable = true;
 
         }
         else {
-
+            //west
             //Background for our game
             back = game.add.sprite(0, 0, 'sky');
             
             back.scale.setTo(1.5,1.5);
 
             //  The platforms group contains the ground and the 2 ledges we can jump on
-            platforms = game.add.group();
             miniPlatforms = game.add.group();
 
-            //  Enable physics for any object that is created in this group
-            platforms.enableBody = true;
-            miniPlatforms.enableBody = true;
+            // The platforms group contains the ground and the 2 ledges we can jump on
+            platforms = game.add.group();
+            platformsELeft = game.add.group();
+            platformsERight = game.add.group();
 
             // Create the ground.
-            var ground = platforms.create(game.world.width*0.5, game.world.height - 100, 'ground');
-            ground.anchor.setTo(0.5,1);
-            var plat1 = miniPlatforms.create(game.world.width*0.33, game.world.height*0.7, 'ground');
-            var plat2 = miniPlatforms.create(game.world.width*0.66, game.world.height*0.7, 'ground');
+            land = new platform(game.world.width * 0.5, game.world.height - 100, false, 'ground',40, 2)
             
+            ground = platforms.add(land.plat);
+            leftledge = platformsELeft.add(land.leftledge);
+            rightledge = platformsERight.add(land.rightledge);
+
+            //  Enable physics for any object that is created in this group
+            //platforms.enableBody = true;
+            //miniPlatforms.enableBody = true;
+
+            // Create the ground.
+            //var ground = platforms.create(game.world.width*0.5, game.world.height - 100, 'ground');
+            //ground.anchor.setTo(0.5,1);
+            //var plat1 = miniPlatforms.create(game.world.width*0.33, game.world.height*0.7, 'ground');
+            //var plat2 = miniPlatforms.create(game.world.width*0.66, game.world.height*0.7, 'ground');
+            miniland1 = new platform(game.world.width*0.33, game.world.height*0.7, false, 'ground',1,1);
+            miniland2 = new platform(game.world.width*0.66, game.world.height*0.7, false, 'ground', 1,1);
+
+            var plat1 = miniPlatforms.add(miniland1.plat);
+            var plat2 = miniPlatforms.add(miniland2.plat);
+
             plat1.anchor.setTo(0.5,1);
             plat2.anchor.setTo(0.5,1);
+
+            //make small platforms grabbable
+            /*leftledge = platformsELeft.add(miniland1.leftledge);
+            rightledge = platformsERight.add(miniland1.rightledge);
+
+            leftledge = platformsELeft.add(miniland2.leftledge);
+            rightledge = platformsERight.add(miniland2.rightledge);*/
 
             plat1.body.collideWorldBounds = true;
             plat2.body.collideWorldBounds = true;
@@ -381,7 +423,7 @@ var playState = {
 
             //  Scale it to fit the width of the game (the original sprite is ? in size)
             //ground.scale.setTo(16, 1);
-            ground.scale.setTo(40, 2);
+            //ground.scale.setTo(40, 2);
 
             //  This stops it from falling away when you jump on it
             ground.body.immovable = true;
@@ -398,6 +440,10 @@ var playState = {
         }
 
         hitSound = game.add.audio('hitSound');
+        hitSound1 = game.add.audio('hitSound1');
+        hitSound2 = game.add.audio('hitSound2');
+        hitSound3 = game.add.audio('hitSound3');
+
         respawnSound = game.add.audio('respawnSound');
         deathSound = game.add.audio('deathSound');
         jumpSound = game.add.audio('jumpSound');
@@ -414,6 +460,7 @@ var playState = {
             controlOptionVpad = 1;
         }
 
+
         if (charName1 === 'dude') {
             Player1 = new dj(charName1, 0, 3, game.world.width * 0.25, game.world.height * 0.5, controlOptionVpad);
             console.log(Player1);
@@ -421,12 +468,14 @@ var playState = {
         }
         else if (charName1 === 'chick') {
             Player1 = new lab(charName1, 0, 3, game.world.width * 0.25, game.world.height * 0.5, controlOptionVpad);
+
             console.log("Player 1 is lab");
         }
         else {
-            Player1 = new lab(charName1, 0, 3, game.world.width * 0.25, game.world.height * 0.5, controlOptionVpad);
+            Player1 = new lab(charName1, 0, lives, game.world.width * 0.25, game.world.height * 0.5, controlOptionVpad);
             console.log("Player 1 is lab");
         }
+
 
         if (charName2 === 'dude') {
             Player2 = new dj(charName2, 0, 3, game.world.width * 0.75, game.world.height * 0.5, controlOptionAI);
@@ -434,20 +483,23 @@ var playState = {
         }
         else if (charName2 === 'chick') {
             Player2 = new lab(charName2, 0, 3, game.world.width * 0.75, game.world.height * 0.5, controlOptionAI);
+
             console.log("Player 2 is lab");
         }
         else {
-            Player2 = new lab(charName2, 0, 3, game.world.width * 0.75, game.world.height * 0.5, controlOptionAI);
+            Player2 = new lab(charName2, 0, lives, game.world.width * 0.75, game.world.height * 0.5, controlOptionAI);
             console.log("Player 2 is lab");
         }
+
 
 
 
         if (multimanmode === true) {
             Player3 = new lab(charName2, 0, 3, game.world.width * 0.5, game.world.height * 0.5, controlOptionAI);
+
             console.log("Player 3 is lab");
 
-            Player4 = new lab(charName2, 0, 3, game.world.width * 0.62, game.world.height * 0.5, controlOptionAI);
+            Player4 = new lab(charName2, 0, lives, game.world.width * 0.62, game.world.height * 0.5, controlOptionAI);
             console.log("Player 4 is lab");
         }
 
@@ -626,6 +678,10 @@ var playState = {
         game.physics.arcade.overlap(Player1.character, this.win, this.Win, null, this);
         game.physics.arcade.overlap(Player2.character, this.win, this.Win, null, this);
 
+        //updates the music volume for 'allstar'
+        music.volume = musicvol;
+
+
 
         if (chosenStageName === 'pool') {
             console.log("gravity set low!");
@@ -652,6 +708,10 @@ var playState = {
         Player1.combocheck();
         Player2.combocheck();
 
+        //check for ledge grab/hangs
+        Player1.checkLedge(leftledge, rightledge);
+        Player2.checkLedge(leftledge, rightledge);
+
         //Applies Super armor and immovabilty to players while attacking
         if (Player1.attacking) {
             Player1.character.body.velocity.x = 5 * Player1.character.scale.x;
@@ -677,6 +737,8 @@ var playState = {
                 game.physics.arcade.collide(Player2.character, miniPlatforms);
             }
         }
+
+        game.physics.arcade.collide(Player1.character, ground);
 
         game.physics.arcade.collide(Player1.character, platforms);
         game.physics.arcade.collide(Player2.character, platforms);

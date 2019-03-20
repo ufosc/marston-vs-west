@@ -74,7 +74,15 @@ var loadState = {
         game.load.image('dudeIcon', 'assets/dudeIcon.png');
         game.load.image('chickIcon', 'assets/chickIcon.png');
         game.load.spritesheet('crowd', 'assets/dude.png', 32, 48);
-        game.load.audio('hitSound', 'assets/hitSound.wav');
+        
+        
+        //Audio
+        game.load.audio('hitSound', 'assets/audio/jab.wav');
+        game.load.audio('hitSound1', 'assets/audio/RightCross.wav');
+        game.load.audio('hitSound2', 'assets/audio/LeftHook.wav');
+        game.load.audio('hitSound3', 'assets/audio/RightHook.wav');
+
+        //game.load.audio('hitSound', 'assets/hitSound.wav');
         game.load.audio('jumpSound', 'assets/jumpSound.wav');
         game.load.audio('buttonSound', 'assets/buttonSound.wav');
         game.load.audio('deathSound', 'assets/deathSound.wav');
@@ -94,6 +102,7 @@ var loadState = {
         game.load.image('blueStock', 'assets/blueStock.png');
         game.load.image('dust', 'assets/dust.png');
 
+
         //Menu Images
         game.load.image('menuBackground', 'assets/MvW Menus/MainMenu_Sprites/Sprites/Brick Wall_Background.png');
         game.load.image('logo', 'assets/MvW Menus/MainMenu_Sprites/Sprites/Main_Menu_Logo_Sprite.png');
@@ -103,11 +112,18 @@ var loadState = {
 
         
 
+
+        game.load.image('Kim', 'assets/bottle.png');//for sliding bar and needs to be modified (?)
+        game.load.image('Chi', 'assets/uselessWhiteBall.png');//for sliding bar and needs to be modified (?)
+
     },
     create: function () {
         music = game.add.audio('menuMusic');
         music.loopFull();
         game.state.start('menu');
+    },
+    update: function(){
+        music.volume = musicvol;
 
     }
 };

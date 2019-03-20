@@ -1,7 +1,6 @@
 class Fighter {
     constructor(character, health, lives, startx, starty, controlnum) {
 
-
         this.character = game.add.sprite(startx, starty, character);//player character variable to access sprite from phaser and all its properties character variable is name of spritesheet to use
         this.health = health;//player start health
         this.lives = lives;
@@ -14,6 +13,9 @@ class Fighter {
 
         this.combo = 0;
         this.comboclock = 0;
+
+        this.hanging = "no";
+        this.hangingtimer = 0;
 
         switch (character) {
             case 'dude':
@@ -106,12 +108,14 @@ class Fighter {
         this.character.body.gravity.y = 650;
         this.character.body.collideWorldBounds = false;
 
-
         this.character.body.setSize(30, 70, 10, 0)
         this.character.scale.x = 1.75; //1.25
         this.character.scale.y = 1.75; //1.25
 
         //Player animations
+
+        //idle animation
+        this.aniHang = this.character.animations.add('hang', [6], 5, true);
 
         this.aniRight = this.character.animations.add('right', [3, 4, 5, 6, 7], 10, true);
         this.aniRight.onComplete.add(this.walkEnd, this);
@@ -324,7 +328,7 @@ class Fighter {
 
         this.stocks = game.add.group();
         //Stocks will now match up to character selected
-        for (var g = 3; g > 0; g--) {
+        for (var g = lives - 1; g > -1; g--) {
 
             if (controlnum == -1 || controlnum == 1) //For the vpad
             {
@@ -332,34 +336,39 @@ class Fighter {
                     //sets up the cell for the damage icon and stocks
                     var damageBox1 = game.add.sprite(0, game.world.game.world.height - 75, this.damageBox);
                     damageBox1.scale.setTo(5.5, 2.2);
-                    var stock = this.stocks.create((0) + (30 * g), game.world.height - 25, 'blueStock');
+                    var stock = this.stocks.create((30) + (90 * g / lives), game.world.height - 25, 'blueStock');
                     stock.anchor.setTo(.5, .5);
                 }
                 else if (charName1 == 'chick') {
                     //sets up the cell for the damage icon and stocks
                     var damageBox1 = game.add.sprite(0, game.world.game.world.height - 75, this.damageBox);
                     damageBox1.scale.setTo(5.5, 2.2);
-                    var stock = this.stocks.create((0) + (30 * g), game.world.height - 25, 'orangeStock');
+                    var stock = this.stocks.create((30) + (90 * g / lives), game.world.height - 25, 'orangeStock');
                     stock.anchor.setTo(.5, .5);
                 }
             }
 
         }
-        for (var h = 0; h < 3; h++) {
+        for (var h = 0; h < lives; h++) {
             if (controlnum == 2 || controlnum == -2) {
                 if (charName2 == 'dude') //dude is blue, chick is orange
                 {
                     //sets up the cell for the damage icon and stocks
                     var damageBox2 = game.add.sprite(game.world.width*0.9, game.world.game.world.height - 75, this.damageBox);
                     damageBox2.scale.setTo(5.5, 2.2);
+
                     var stock = this.stocks.create((game.world.width * .95) + (30 * h), game.world.height - 25, 'blueStock');
+
+
                     stock.anchor.setTo(.5, .5);
                 }
                 else if (charName2 == 'chick') {
                     //sets up the cell for the damage icon and stocks
                     var damageBox2 = game.add.sprite(game.world.width*0.9, game.world.game.world.height - 75, this.damageBox);
                     damageBox2.scale.setTo(5.5, 2.2);
+
                     var stock = this.stocks.create((game.world.width * .91) + (30 * h), game.world.height - 25, 'orangeStock');
+
                     stock.anchor.setTo(.5, .5);
                 }
 
@@ -923,6 +932,106 @@ class Fighter {
         this.inputLock = false;
     }
 
+    //method to verify if fighter is touching a side of a platform, if true, fighter grabs ledge 
+    checkLedge(leftedge, rightedge) {
+        //console.log("ledge check");
+        //console.log(this.character.body.touching.left);
+        //if(this.character.body.touching.left == true || this.character.body.touching.right == true){ //&& game.physics.arcade.overlap(this, platform) ) { 
+            //|| this.character.body.touching.right == true ) {
+        //console.log("test ledge?");
+        if(game.physics.arcade.overlap(this.character, leftedge) && this.character.scale.x > 0 && this.hanging != "letgo" ){
+            //console.log("hanging???");
+            this.velocity = 0;
+            this.character.x = leftedge.x;
+            this.character.y = leftedge.y;
+            
+            if(this.hanging == "no"){
+                this.character.animations.play('hang', true);
+                this.hanging = "yes";
+            }
+        }
+
+        if(game.physics.arcade.overlap(this.character, rightedge) && this.character.scale.x < 0 && this.hanging != "letgo") {
+            //console.log("hanging???");
+            this.velocity = 0;
+            this.character.x = (rightedge.x);
+            this.character.y = (rightedge.y);
+            
+            if(this.hanging == "no"){
+                this.character.animations.play('hang', true);
+                this.hanging = "yes";
+            }
+            
+        }
+
+        this.ledgeRecover(leftedge, rightedge);
+        ///if(this.character.hanging == true){
+        this.updateHangingTimer();
+        //}
+    }
+
+    //method to allow fighter to pull theirself up ledge when a up command is pushed
+    //could make ledge recover variations in future, ledge drop if press down, 
+    //ledge roll forward if forward press
+    //ledge drop if down press, ledge push off if press back button
+    ledgeRecover(leftedge, rightedge) {
+        if(this.hanging == "yes") {
+            if(this.getup() == true || this.gety() == true) {
+                this.character.body.velocity.y = -500;
+                this.hanging = "letgo";
+                //console.log("going up!");
+                this.hangingtimer = 100;
+            }
+            else if(this.getdown() == true) {
+                this.character.body.velocity.y = 200;
+                //console.log("going down!");
+                this.hanging = "letgo";
+                this.hangingtimer = 100;
+            }
+            else if(this.geta() || this.getb() == true) {
+                //if facing right
+                if(this.character.scale.x > 0) {
+                    this.character.body.position.y -= 170;
+                    this.character.body.position.x += 100;
+                }
+                else {
+                    this.character.body.position.y -= 170;
+                    this.character.body.position.x -= 100;
+                }
+                this.hanging = "letgo";
+                //console.log("rolling!");
+                this.hangingtimer = 100;
+            }
+            else if(this.getx() == true) {
+                //if facing right
+                if(this.character.scale.x > 0) {
+                    this.character.body.position.y -= 170;
+                    this.character.body.position.x += 100;
+                }
+                else {
+                    this.character.body.position.y -= 170;
+                    this.character.body.position.x -= 100;
+                }
+
+                this.hanging = "letgo";
+                console.log("rolling!");
+                this.hangingtimer = 100;
+            }
+
+        }
+    }
+
+    //method to reset timer to ensure when fighter lets go of a ledge, they do not instantly  grab onto same ledge again accidentally
+    updateHangingTimer(){
+        if(this.hangingtimer > 0) {
+            this.hangingtimer--;
+        }
+        else {
+            console.log("ready to grab again");
+            this.hanging = "no";
+        }
+
+    }
 
     updateInput() {
         //Cooldown for attacks
@@ -1046,7 +1155,7 @@ class Fighter {
                 //console.log("Increased comboclock?");
                 //console.log(this.combo);
                 //console.log(this.comboclock);
-                this.comboclock = 55;
+                this.comboclock = 60;
                 
                 if (this.character.hasItem) //If he has an item, USE IT!
                 {
@@ -1206,8 +1315,9 @@ class Fighter {
                 this.aniWarlockWindUp.play(10, false);
             }
 
-            //TODO: downDuration is still here, but in merge conflict it was gone, POSSIBLY REMOVE downDuration
-            else if (this.gety() && this.jumps <= 5 && this.airTime <= 5 && !(this.m < 120 && this.m != 0) && this.stunCounter == 0 && !this.inputLock) {
+            //check to see if air time is truly necessary, cant seem to jump in air if you run off platform
+            //else if (this.gety() && this.jumps <= 5 && this.airTime <= 5 && !(this.m < 120 && this.m != 0) && this.stunCounter == 0 && !this.inputLock) {
+            else if (this.gety() && this.jumps <= 5 && !(this.m < 120 && this.m != 0) && this.stunCounter == 0 && !this.inputLock) {
                 this.character.body.velocity.y = -550 + this.jumpSpeed;
                 jumpSound.play();
                 this.jumps += 1;
