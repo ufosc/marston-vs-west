@@ -44,6 +44,9 @@ var feedbackLabel;
 var background;
 var filter;
 var key1;
+
+//sound related variables
+var musicvol = 0.5;
 var playSound;
 var playMusic;
 var hitSound;
@@ -61,7 +64,7 @@ var westPicture;
 var mob;
 var people;
 
-var lives;
+var lives = 3;
 
 var hitpause;
 
@@ -143,7 +146,29 @@ var pad1;
 var testconnect1;
 //end of gamepad variables
 
+//color and volume variables
 
+var volumeIcon;
+var colorAdjustmentIcon;
+var colorAdjustmentIcon2;
+var colorAdjustmentIcon3;
+
+const range = 195;
+const right = 260;
+const left = 455;
+
+var valColor1, valColor2, valColor3;
+var colorOverlap;//displays the final effect
+
+var xPos2 = 360;//the initial x pos of the blue bar
+var initY1 = 450;//the initial y pos of the blue bar
+var xPos3 = 360;//the initial x pos of the green bar
+var initY2 = 300;//the initial y pos of the green bar
+var xPos4 = 360;//the initial x pos of the red bar
+var initY3 = 100;//the initial y pos of the red bar
+var xPos = 360;//the initial x pos of the music bar
+var initMulY = 500;//the initial y pos of the music bar
+//end of color variables
 
 
 var style =
@@ -184,6 +209,7 @@ var cooldown2;
 var charactername;
 var minLabel;
 var secLabel;
+var livesLabel;
 var pauseLabel;
 var choiseLabel;
 var pauseMenu;
@@ -198,8 +224,10 @@ var displayButton3;
 var displayButton4;
 var gameMinIncButton;
 var gameSecIncButton;
+var gameLivesIncButton;
 var gameMinDecButton;
 var gameSecDecButton;
+var gameLivesDecButton;
 
 var music;
 

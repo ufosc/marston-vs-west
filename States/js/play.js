@@ -96,16 +96,18 @@ var playState = {
         game.time.events.add(Phaser.Timer.SECOND, this.playRespawnSound, this);
         Fighter.aniIdle.play(10, false);
 
-        Fighter.deathBlast.x = Fighter.character.x;
-        Fighter.deathBlast.y = Fighter.character.y;
+        Fighter.deathBlast.x = (Fighter.character.x < 0) ? (0) : (Fighter.character.x);
+        Fighter.deathBlast.y = (Fighter.character.y < 0) ? (0) : (Fighter.character.y);
+        Fighter.deathBlast.x = (Fighter.character.x > game.world.width) ? (game.world.width) : (Fighter.deathBlast.x);
+        Fighter.deathBlast.y = (Fighter.character.y > game.world.height) ? (game.world.height) : (Fighter.deathBlast.y);
         
-        if (Fighter.deathBlast.x < 0)
+        if (Fighter.character.x < 0)
         {
-            if (Fighter.deathBlast.y < 0)
+            if (Fighter.character.y < 0)
             {
                 Fighter.deathBlast.angle = 45;
             }
-            else if (Fighter.deathBlast.y > game.world.height)
+            else if (Fighter.character.y > game.world.height)
             {
                 Fighter.deathBlast.angle = -45;
             }
@@ -114,13 +116,13 @@ var playState = {
                 Fighter.deathBlast.angle = 0;
             }
         }
-        else if (Fighter.deathBlast.x > game.world.width)
+        else if (Fighter.character.x > game.world.width)
         {
-            if (Fighter.deathBlast.y < 0)
+            if (Fighter.character.y < 0)
             {
                 Fighter.deathBlast.angle = 135;
             }
-            else if (Fighter.deathBlast.y > game.world.height)
+            else if (Fighter.character.y > game.world.height)
             {
                 Fighter.deathBlast.angle = -135;
             }
@@ -129,7 +131,7 @@ var playState = {
                 Fighter.deathBlast.angle = 180;
             }
         }
-        else if (Fighter.deathBlast.y < 0)
+        else if (Fighter.character.y < 0)
         {
             Fighter.deathBlast.angle = 90;
         }
@@ -309,7 +311,7 @@ var playState = {
 
         //Play music
         music = game.add.audio('allstar');
-        music.volume = 0.5;
+        //music.volume = musicvol;
         music.loopFull();
 
 
@@ -439,6 +441,7 @@ var playState = {
             controlOptionVpad = 1;
         }
 
+
         if (charName1 === 'dude') {
             Player1 = new dj(charName1, 0, 3, game.world.width * 0.25, game.world.height * 0.5, controlOptionVpad);
             console.log(Player1);
@@ -446,12 +449,14 @@ var playState = {
         }
         else if (charName1 === 'chick') {
             Player1 = new lab(charName1, 0, 3, game.world.width * 0.25, game.world.height * 0.5, controlOptionVpad);
+
             console.log("Player 1 is lab");
         }
         else {
-            Player1 = new lab(charName1, 0, 3, game.world.width * 0.25, game.world.height * 0.5, controlOptionVpad);
+            Player1 = new lab(charName1, 0, lives, game.world.width * 0.25, game.world.height * 0.5, controlOptionVpad);
             console.log("Player 1 is lab");
         }
+
 
         if (charName2 === 'dude') {
             Player2 = new dj(charName2, 0, 3, game.world.width * 0.75, game.world.height * 0.5, controlOptionAI);
@@ -459,20 +464,23 @@ var playState = {
         }
         else if (charName2 === 'chick') {
             Player2 = new lab(charName2, 0, 3, game.world.width * 0.75, game.world.height * 0.5, controlOptionAI);
+
             console.log("Player 2 is lab");
         }
         else {
-            Player2 = new lab(charName2, 0, 3, game.world.width * 0.75, game.world.height * 0.5, controlOptionAI);
+            Player2 = new lab(charName2, 0, lives, game.world.width * 0.75, game.world.height * 0.5, controlOptionAI);
             console.log("Player 2 is lab");
         }
+
 
 
 
         if (multimanmode === true) {
             Player3 = new lab(charName2, 0, 3, game.world.width * 0.5, game.world.height * 0.5, controlOptionAI);
+
             console.log("Player 3 is lab");
 
-            Player4 = new lab(charName2, 0, 3, game.world.width * 0.62, game.world.height * 0.5, controlOptionAI);
+            Player4 = new lab(charName2, 0, lives, game.world.width * 0.62, game.world.height * 0.5, controlOptionAI);
             console.log("Player 4 is lab");
         }
 
@@ -650,6 +658,10 @@ var playState = {
         //console.log("controlOptionAI: " + controlOptionAI);
         game.physics.arcade.overlap(Player1.character, this.win, this.Win, null, this);
         game.physics.arcade.overlap(Player2.character, this.win, this.Win, null, this);
+
+        //updates the music volume for 'allstar'
+        music.volume = musicvol;
+
 
 
         if (chosenStageName === 'pool') {
