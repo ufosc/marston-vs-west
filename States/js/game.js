@@ -1,7 +1,12 @@
 var config =
 {
-    width: 800,
-    height: 600,
+    //width: 800,
+    //height: 600,
+
+    width: 1920,
+    height: 1080,
+
+
     renderer: Phaser.AUTO,
     parent: 'gameDiv',
     transparent: false,
@@ -15,9 +20,20 @@ var game = new Phaser.Game(config);
 //Change the screen dimensions to accomidate mobile users (eventually will change other things about mobile experience but not here)
 //Start mobile users in exact_fit with full screen default
 
+var gamewidth = 1920;
+var gameheight = 1080;
+
 var multimanmode = false;
 var multimenko = 0;
 
+var ground;
+var groundedge;
+var platformsELeft;
+var platformsERight;
+var leftledge;
+var rightledge;
+
+var land;
 
 var nameText1;
 var nameText2;
@@ -130,7 +146,29 @@ var pad1;
 var testconnect1;
 //end of gamepad variables
 
+//color and volume variables
 
+var volumeIcon;
+var colorAdjustmentIcon;
+var colorAdjustmentIcon2;
+var colorAdjustmentIcon3;
+
+const range = 195;
+const right = 260;
+const left = 455;
+
+var valColor1, valColor2, valColor3;
+var colorOverlap;//displays the final effect
+
+var xPos2 = 360;//the initial x pos of the blue bar
+var initY1 = 450;//the initial y pos of the blue bar
+var xPos3 = 360;//the initial x pos of the green bar
+var initY2 = 300;//the initial y pos of the green bar
+var xPos4 = 360;//the initial x pos of the red bar
+var initY3 = 100;//the initial y pos of the red bar
+var xPos = 360;//the initial x pos of the music bar
+var initMulY = 500;//the initial y pos of the music bar
+//end of color variables
 
 
 var style =

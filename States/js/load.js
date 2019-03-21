@@ -32,6 +32,15 @@ var loadState = {
         game.load.spritesheet('Sandbag', 'assets/sandbag.png', 32, 32);
         game.load.image('deathBlast', 'assets/DeathBlast.png');
 
+        //swipe attack sprites
+        /*game.load.image('SwipeD', 'assets/swipeD.png');
+        game.load.image('SwipeFD', 'assets/swipeFD.png');
+        game.load.image('SwipeFU', 'assets/swipeFU.png');
+        game.load.image('SwipeU', 'assets/swipeU.png');*/
+        
+        game.load.image('SwipeV', 'assets/SwipeBoxV.png');
+        game.load.image('SwipeH', 'assets/SwipeBoxH.png');
+
         //Virtual controller assets
         game.load.image('leftButton', 'assets/ButtonLeftbig.png');
 
@@ -46,10 +55,7 @@ var loadState = {
 
 
         //Menu Assets
-        game.load.image('startButton', 'assets/startButton.png');
-        game.load.image('optionsButton', 'assets/optionsButton.png');
-        game.load.image('quitButton', 'assets/quitButton.png');
-        game.load.image('creditsButton', 'assets/creditsButton.png');
+        
         game.load.image('menuButton', 'assets/menuButton.png');
         this.game.load.audio('creditsMusic', 'assets/Birdbeat.ogg');
         this.game.load.audio('menuMusic', 'assets/Birdbeat.ogg');
@@ -68,7 +74,15 @@ var loadState = {
         game.load.image('dudeIcon', 'assets/dudeIcon.png');
         game.load.image('chickIcon', 'assets/chickIcon.png');
         game.load.spritesheet('crowd', 'assets/dude.png', 32, 48);
-        game.load.audio('hitSound', 'assets/hitSound.wav');
+        
+        
+        //Audio
+        game.load.audio('hitSound', 'assets/audio/jab.wav');
+        game.load.audio('hitSound1', 'assets/audio/RightCross.wav');
+        game.load.audio('hitSound2', 'assets/audio/LeftHook.wav');
+        game.load.audio('hitSound3', 'assets/audio/RightHook.wav');
+
+        //game.load.audio('hitSound', 'assets/hitSound.wav');
         game.load.audio('jumpSound', 'assets/jumpSound.wav');
         game.load.audio('buttonSound', 'assets/buttonSound.wav');
         game.load.audio('deathSound', 'assets/deathSound.wav');
@@ -87,7 +101,21 @@ var loadState = {
         game.load.image('orangeStock', 'assets/orangeStock.png');
         game.load.image('blueStock', 'assets/blueStock.png');
         game.load.image('dust', 'assets/dust.png');
-        game.load.image('Kim', 'assets/bottle.png');//for sliding bar
+
+
+        //Menu Images
+        game.load.image('menuBackground', 'assets/MvW Menus/MainMenu_Sprites/Sprites/Brick Wall_Background.png');
+        game.load.image('logo', 'assets/MvW Menus/MainMenu_Sprites/Sprites/Main_Menu_Logo_Sprite.png');
+        game.load.image('startButton', 'assets/MvW Menus/MainMenu_Sprites/Buttons/Start_Button.png');
+        game.load.image('optionButton', 'assets/MvW Menus/MainMenu_Sprites/Buttons/Options_Button.png');
+        game.load.image('creditButton', 'assets/MvW Menus/MainMenu_Sprites/Buttons/Exit_Button.png');
+
+        
+
+
+        game.load.image('Kim', 'assets/bottle.png');//for sliding bar and needs to be modified (?)
+        game.load.image('Chi', 'assets/uselessWhiteBall.png');//for sliding bar and needs to be modified (?)
+
     },
     create: function () {
         music = game.add.audio('menuMusic');

@@ -1,5 +1,5 @@
 /*
-This code also servers as a test implementation of how to optimize css
+This code also serves as a test implementation of how to optimize css
 */
 
 class Stage {
@@ -16,10 +16,9 @@ class Stage {
         this.icon.events.onInputOver.add(this.onOver, this);
         this.icon.events.onInputOut.add(this.onOut, this);
         this.icon.events.onInputDown.add(this.onClick, this);
-        this.icon.scale.setTo(.25);
     }
     onOver() { //Called when hovering over
-        this.icon.scale.setTo(.45, .45); //Enlarge the selected icon
+        this.icon.scale.setTo(1, 1); //Enlarge the selected icon
         gameReadyText.text = `${this.icon.key} Selected!`;
         //chosenStageSelected = true;
     }
