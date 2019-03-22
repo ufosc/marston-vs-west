@@ -32,7 +32,8 @@ class Stage {
         chosenStageName = this.icon.key;
         console.log("You chose: " + this.icon.key);
         music.stop();
-        game.state.start('play');
+        game.state.start('tcs');
+        //game.state.start('play');
     }
 }
 
@@ -61,7 +62,8 @@ var sssState = {
     start: function () {
         gameReadyText.text = `Game Start!`;
         music.stop();
-        game.state.start('play');
+        //game.state.start('play');
+        game.state.start('tcs');
     },
     update: function () {
 
