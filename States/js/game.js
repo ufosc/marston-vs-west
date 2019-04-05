@@ -175,6 +175,11 @@ var initMulY = 500;//the initial y pos of the music bar
 var player1ico;
 var player2ico;
 var musicToPlay;
+var checkPoint = false;
+var numX = 20;
+var numY = 20;
+var vs;
+
 
 var style =
 {
