@@ -171,6 +171,16 @@ var initMulY = 500;//the initial y pos of the music bar
 //end of color variables
 
 
+//temp
+var player1ico;
+var player2ico;
+var musicToPlay;
+var checkPoint = false;
+var numX = 20;
+var numY = 20;
+var vs;
+
+
 var style =
 {
     font: "bold 32px Arial", fill: "#fff", boundsAlignH: "left", boundsAlignV: "top"
@@ -248,5 +258,6 @@ game.state.add('play', playState);
 game.state.add('win', winState);
 game.state.add('css', cssState);
 game.state.add('sss', sssState);
+game.state.add('tcs', tcsState);
 
 game.state.start('boot');
