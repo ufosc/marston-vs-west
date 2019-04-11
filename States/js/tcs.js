@@ -7,8 +7,6 @@ var tcsState = {
         numX = 20;
         numY = 20;
 
-        var backgroundPic = game.add.sprite(game.world.width * 0.5, game.world.height * .5, 'sungou');
-        backgroundPic.anchor.setTo(0.5, 0.5);
 
         player1ico = game.add.sprite(game.world.width * .05 - 100, game.world.height * .7, 'dude');
         musicToPlay = game.add.audio('titleCardSound');
@@ -64,9 +62,7 @@ var tcsState = {
     player2ico.body.velocity.x = -100;
 
     game.time.events.add(Phaser.Timer.SECOND * 4.7, this.rushStop, this);
-    //vs = game.add.sprite(game.world.width * 0.5, game.world.height * 0.5, 'vsIcon');
-    //game.time.events.add(Phaser.Timer.SECOND * 1, this.loop, this);
-},
+   },
     rushStop:function(){
     player1ico.body.velocity.x = 0;
     player2ico.body.velocity.x = 0;
@@ -77,27 +73,7 @@ var tcsState = {
     vs.anchor.setTo(0.5, 0.5);
     vs.scale.setTo(20,20);
     game.add.tween(vs.scale).to({x: 1, y: 1}, 1000, Phaser.Easing.Sinusoidal.InOut, true, 0, 0, false);
-   /* vs.scale.setTo(numX, numY);
-        for(var i = 0; i < 1900; i++){
-            console.log(numX);
-            numX -= 0.01;
-            numY -= 0.01;
-            if(i % 300 == 0)
-                vs.scale.setTo(numX, numY);
-            //game.time.events.add(Phaser.Timer.SECOND * 1, this.loop, this);//Fixme
-        } */
-    /*while(!checkPoint){
-        console.log('oy');
-        if(numX !== true) {
-            numY -= 0.001;
-            numX -= 0.001;
-            vs.scale.setTo(numX, numY);
-        }
-        else
-            checkPoint = true;
-    }*/
-    //while(!checkPoint){
-    //  game.time.events.add(Phaser.Timer.SECOND * 1, loop, this);
+   
     game.time.events.add(Phaser.Timer.SECOND * 3, this.start, this);
 },
     start:function(){
@@ -106,24 +82,7 @@ var tcsState = {
     game.state.start('play');
 }
 
-    /*loop:function(){
-    for(var i = 0; i < 1900; i++){
-        console.log(numX);
-        numX -= 1;
-        numY -= 1;
-        vs.scale.setTo(numX, numY);
-        //game.time.events.add(Phaser.Timer.SECOND * 1, loop, this);//Fixme
-    }
-
-    if(numX !== 1){
-        numX -= 0.01;
-        numY -= 0.01;
-    }
-    else{
-        console.log('1');
-        checkPoint = true;
-    }
-}*/
+    
 };
 
 
