@@ -111,6 +111,7 @@ var loadState = {
         game.load.image('optionButton', 'assets/MvW Menus/MainMenu_Sprites/Buttons/Options_Button.png');
         game.load.image('creditButton', 'assets/MvW Menus/MainMenu_Sprites/Buttons/Exit_Button.png');
 
+        game.load.image('chooseStage', 'assets/MvW Menus/MapMenu_Sprites/Sprites/ChooseYourStage_Sprite.png');
         
 
 
