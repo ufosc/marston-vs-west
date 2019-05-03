@@ -9,34 +9,38 @@ var cssState = {
         charName2 = "";
         multimanmode = false;
 
-        
+        var backgroundSprite = game.add.image(0, 0, 'menuBackground');
+        backgroundSprite.anchor.setTo(0,0);
+        var logo = game.add.image(game.world.width * .5, game.world.height * .5, 'logo');
+        logo.anchor.setTo(.5,.5);
+        logo.scale.setTo(.8,.8);
 
-        key1 = game.input.keyboard.addKey(Phaser.Keyboard.ONE);
+        key1 = game.input.keyboard.addKey(Phaser.Keyboard.ENTER);
         
-        dudeIcon = game.add.sprite(game.world.width * 0.5 - 250, game.world.height * .25 + 50, 'dudeIcon');
+        dudeIcon = game.add.sprite(game.world.width * 0.5 - 250, game.world.height * .5 + 150, 'dudeIcon');
         dudeIcon.anchor.setTo(.5, .5);
         //dudeIcon.scale.setTo(.5, .5);
         game.physics.arcade.enable(dudeIcon);
         dudeIcon.tint = 0xffffff;
 
-        chickIcon = game.add.sprite(game.world.width * 0.5 + 250, game.world.height * .25 + 50, 'chickIcon');
+        chickIcon = game.add.sprite(game.world.width * 0.5 + 250, game.world.height * .5 + 150, 'chickIcon');
         chickIcon.anchor.setTo(.5, .5);
         //chickIcon.scale.setTo(.5, .5);
         game.physics.arcade.enable(chickIcon);
         chickIcon.tint = 0xffffff;
 
         //TEST:COMPUTER icon
-        computerIcon = game.add.sprite(game.world.width * .5, game.world.height * .25 + 50, 'computerIcon');
+        computerIcon = game.add.sprite(game.world.width * .5, game.world.height * .5 + 150, 'computerIcon');
         computerIcon.anchor.setTo(.5, .5);
         computerIcon.scale.setTo( .35, .53);
         game.physics.arcade.enable(computerIcon);
         computerIcon.tint = 0xffffff;
 
-        player1Icon = game.add.sprite(game.world.width * .5 - 70, game.world.height * .5, 'player1cssIcon');
+        player1Icon = game.add.sprite(game.world.width * .5 - 200, game.world.height * .5 + 400, 'player1cssIcon');
         player1Icon.scale.setTo(3, 3);
         player1Icon.anchor.setTo(.5, .5);
 
-        player2Icon = game.add.sprite(game.world.width * .5 + 70, game.world.height * .5, 'player2cssIcon');
+        player2Icon = game.add.sprite(game.world.width * .5 + 200, game.world.height * .5 + 400, 'player2cssIcon');
         player2Icon.scale.setTo(3, 3);
         player2Icon.anchor.setTo(.5, .5);
 
@@ -63,15 +67,20 @@ var cssState = {
         buttonSound = game.add.audio('buttonSound');
         buttonSound.volume -= .5;
 
-        var startLabel = game.add.text(80, game.world.height - 40, 'Press "1" key to play game after selecting characters!', { font: '25px Arial', fill: '#ffffff' });
-        gameReadyText = game.add.text(game.world.width * .5, game.world.height - 300, '', { font: '50px Arial', fill: '#ffffff' });
+        //var startLabel = game.add.text(80, game.world.height - 40, 'Press "1" key to play game after selecting characters!', { font: '25px Arial', fill: '#ffffff' });
+        gameReadyText = game.add.text(game.world.width * .5, game.world.height - 75, '', { font: '75px Arial', fill: '#ffffff' });
         gameReadyText.anchor.setTo(.5, .5);
 
-        player1Text = game.add.text(80, game.world.height - 60, 'Character 1 selected: ', { font: '25px Arial', fill: '#ffffff' });
-        player2Text = game.add.text(80, game.world.height - 80, 'Character 2 selected: ', { font: '25px Arial', fill: '#ffffff' });
+        player1Text = game.add.text(game.world.width * .25 - 85, game.world.height * .5 + 275, '', { font: '25px Arial', fill: '#ffffff' });
+        player2Text = game.add.text(game.world.width * .75 + 215, game.world.height * .5 + 275, '', { font: '25px Arial', fill: '#ffffff' });
+        player1Text.anchor.setTo(.5,.5);
+        player2Text.anchor.setTo(.5,.5);
 
-        player1BodyIcon = game.add.sprite(game.world.width * .25, game.world.height * .75, '');
-        player2BodyIcon = game.add.sprite(game.world.width * .75, game.world.height * .75, '');
+
+        player1BodyIcon = game.add.sprite(game.world.width * .25 - 150, game.world.height * .5 + 150, '');
+        player2BodyIcon = game.add.sprite(game.world.width * .75 + 150, game.world.height * .5 + 150, '');
+        player1BodyIcon.anchor.setTo(.5,.5);
+        player2BodyIcon.anchor.setTo(.5,.5);
         player1BodyIcon.scale.setTo(1.5, 1.5);
         player2BodyIcon.scale.setTo(1.5, 1.5);
 
@@ -117,7 +126,12 @@ var cssState = {
             }
         });
 
-        var MultimanLabel = game.add.text(200, 100, 'Multiman Mode: OFF', { font: '25px Arial', fill: '#ffffff' });
+        //Hide labels used in debugging
+        player1Label.visible = false;
+        player2Label.visible = false;
+
+        var MultimanLabel = game.add.text(game.world.width * .5, game.world.height * .5 + 20, 'Multiman Mode: OFF', { font: '25px Arial', fill: '#ffffff' });
+        MultimanLabel.anchor.setTo(.5,.5);
         MultimanLabel.inputEnabled = true;
         MultimanLabel.selected = 0;
         MultimanLabel.librarySelected = '';
@@ -139,6 +153,12 @@ var cssState = {
             }
         });
 
+        var backbutton = game.add.text(50, 200, 'Click to go back', { font: '25px Arial', fill: '#ffffff' });
+        backbutton.inputEnabled = true;
+        backbutton.events.onInputUp.add(function () {
+            game.state.start('menu');
+        });
+
 
         //TODO:Incorperate dragUpdate function event system into current system. I think it's needed to fix bugs/add dynamic features like spawning the character when hovering over while still dragging.
         //TODO:
@@ -151,8 +171,8 @@ var cssState = {
         game.state.start('sss');
     },
     update: function () {
-        player1Text.text = `Character selected 1: ${charName1}`;
-        player2Text.text = `Character selected 2: ${charName2}`;
+        player1Text.text = `${charName1}`;
+        player2Text.text = `${charName2}`;
         //If the character is selected, play the selected animation
         game.physics.arcade.collide(player1Icon, player2Icon);
         if (player1BodyIcon.animations) {
@@ -169,7 +189,7 @@ var cssState = {
             game.state.start('sss');
         }
         else if (charSelected1 && (botSelected || charSelected2)) { //Allow the player to tap game ready to start game
-            gameReadyText.text = `Game ready:\nClick to start!`;
+            gameReadyText.text = `Click here or Press 'ENTER' to start!`;
             gameReadyText.inputEnabled = true;
             gameReadyText.events.onInputUp.addOnce(function () {
                 //music.stop();
@@ -198,7 +218,7 @@ var cssState = {
             //destroys the old sprite so when you create a new one only one exists
             player1BodyIcon.kill();
 
-            player1BodyIcon = game.add.sprite(game.world.width * .25 - 100, game.world.height * .5, 'dude');
+            player1BodyIcon = game.add.sprite(game.world.width * .25 - 150, game.world.height * .5 - 50, 'dude');
 
             player1BodyIcon.scale.setTo(3.5, 3.5);
             player1BodyIcon.animations.add('idle', [1, 2], 5, true);
@@ -219,7 +239,7 @@ var cssState = {
             chickIcon.tint = 0xffff00;
             player1BodyIcon.kill();
 
-            player1BodyIcon = game.add.sprite(game.world.width * .25 - 100, game.world.height * .5, 'chick');
+            player1BodyIcon = game.add.sprite(game.world.width * .25 - 150, game.world.height * .5 - 50, 'chick');
 
             player1BodyIcon.scale.setTo(3.5, 3.5);
             player1BodyIcon.animations.add('idle', [1, 2], 5, true);
@@ -239,7 +259,7 @@ var cssState = {
             player2BodyIcon.kill();
             controlOptionAI = 2;
 
-            player2BodyIcon = game.add.sprite(game.world.width * .75 - 100, game.world.height * .5, 'dude');
+            player2BodyIcon = game.add.sprite(game.world.width * .75 + 150, game.world.height * .5 - 50, 'dude');
             player2BodyIcon.scale.setTo(3.5, 3.5);
             player2BodyIcon.animations.add('idle', [1, 2], 5, true);
             player2BodyIcon.animations.add('kick', [6], 5, true);
@@ -264,7 +284,7 @@ var cssState = {
             player2BodyIcon.kill();
             controlOptionAI = 2;
 
-            player2BodyIcon = game.add.sprite(game.world.width * .75 - 100, game.world.height * .5, 'chick');
+            player2BodyIcon = game.add.sprite(game.world.width * .75 + 150, game.world.height * .5 - 50, 'chick');
             player2BodyIcon.scale.setTo(3.5, 3.5);
             player2BodyIcon.animations.add('idle', [1, 2], 5, true);
             player2BodyIcon.animations.add('kick', [6], 5, true);
@@ -285,7 +305,7 @@ var cssState = {
             player2BodyIcon.kill();
             controlOptionAI = -2; //Temporary till we have the AI logic, then replace this with a -2 instead,using vpad to test functionality
             console.log("controlOptionAI: " + controlOptionAI);
-            player2BodyIcon = game.add.sprite(game.world.width * .75 - 100, game.world.height * .5, 'chick');
+            player2BodyIcon = game.add.sprite(game.world.width * .75 + 150, game.world.height * .5 - 50, 'chick');
             player2BodyIcon.scale.setTo(3.5, 3.5);
             player2BodyIcon.animations.add('idle', [1, 2], 5, true);
             player2BodyIcon.animations.add('kick', [6], 5, true);

@@ -64,6 +64,11 @@ var sssState = {
         gameReadyText = game.add.text(game.world.width * .5, game.world.height * .5 + 475, '', { font: '50px Arial', fill: '#ffffff' });
         gameReadyText.anchor.setTo(.5, .5);
 
+        var backbutton = game.add.text(50, 200, 'Click to go back', { font: '25px Arial', fill: '#ffffff' });
+        backbutton.inputEnabled = true;
+        backbutton.events.onInputUp.add(function () {
+            game.state.start('css');
+        });
 
     },
     start: function () {

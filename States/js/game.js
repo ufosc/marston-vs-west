@@ -20,6 +20,7 @@ var game = new Phaser.Game(config);
 //Change the screen dimensions to accomidate mobile users (eventually will change other things about mobile experience but not here)
 //Start mobile users in exact_fit with full screen default
 
+
 var gamewidth = 1920;
 var gameheight = 1080;
 

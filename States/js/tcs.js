@@ -7,6 +7,9 @@ var tcsState = {
         numX = 20;
         numY = 20;
 
+        key1 = game.input.keyboard.addKey(Phaser.Keyboard.ENTER);
+        var skipLabel = game.add.text(game.world.width * .5 , game.world.height - 25, "Press 'Enter' to skip", { font: '25px Arial', fill: '#ffffff' });
+        skipLabel.anchor.setTo(.5,.5);
 
         player1ico = game.add.sprite(game.world.width * .05 - 100, game.world.height * .7, 'dude');
         musicToPlay = game.add.audio('titleCardSound');
@@ -80,7 +83,13 @@ var tcsState = {
     musicToPlay.stop();
     gameReadyText.text = `Game Start!`;
     game.state.start('play');
-}
+},
+
+    update: function() {
+        if(key1.isDown) {
+            game.state.start('play');
+        }
+    }
 
     
 };
