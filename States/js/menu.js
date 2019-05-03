@@ -32,7 +32,7 @@ var menuState = {
 
         creditsButton = game.add.button(game.world.width * .5, game.world.height * .9, 'creditButton');
         creditsButton.anchor.setTo(.5,.5);
-        creditsButton.onInputUp.add(this.credits, this);
+        creditsButton.onInputUp.add(this.quit, this);
 
 
         fullScreenButton = game.add.button(game.world.width * .5, game.world.height, 'fullScreenButton');
@@ -73,7 +73,7 @@ var menuState = {
         console.log("quit state");
         buttonSound.play();
         music.stop();
-        game.state.start('boot'); //Placeholder until we change it to something else
+        game.destroy();
     },
     credits: function () {
         buttonSound.play();

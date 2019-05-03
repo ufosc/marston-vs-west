@@ -607,43 +607,56 @@ var playState = {
         pauseLabel.anchor.setTo(.5, .5);
         pauseLabel.inputEnabled = true;
         pauseLabel.events.onInputUp.add(function () {
-            game.paused = true;
             //Pause menu
-            pauseMenu = game.add.sprite(game.world.width * .5, game.world.height * .5, 'menuButton');
-            pauseMenu.anchor.setTo(.5, .5);
+            if(game.paused == false) {
+                pauseMenu = game.add.sprite(game.world.width * .5, game.world.height * .5, 'Pause Menu');
+                pauseMenu.anchor.setTo(.5, .5);
+            }
+            game.paused = true;
+            
+            
+                
 
-            choiseLabel = game.add.text(game.world.width / 2, game.world.height - 150, 'Click outside menu to continue, click center to quit', { font: '30px Arial', fill: '#fff' });
-            choiseLabel.anchor.setTo(0.5, 0.5);
+            //choiseLabel = game.add.text(game.world.width / 2, game.world.height - 150, 'Click outside menu to continue, click center to quit', { font: '30px Arial', fill: '#fff' });
+            //choiseLabel.anchor.setTo(0.5, 0.5);
         });
         game.input.onDown.add(unpause, self);
         function unpause(event) {
             //only act if isPaused
             if (game.paused) {
+                
                 //Calculate corners of menu button
-                var x1 = game.world.width * .5 - 50;
-                var x2 = game.world.width * .5 + 50;
+                var x1 = game.world.width * .5 - 170;
+                var x2 = game.world.width * .5 + 200;
                 var y1 = game.world.height * .5 - 30;
                 var y2 = game.world.height * .5 + 30;
 
-                // Check if the click was inside the menu
-                if (event.x > x1 && event.x < x2 && event.y > y1 && event.y < y2) {
+                // Check if the click was menu text
+                if (event.x > x1 && event.x < x2 && event.y > y1+65 && event.y < y2+65) {
+                    console.log("go to menu!!!");
                     music.stop();
                     buttonSound.play();
                     game.state.start('menu');
                     pauseMenu.destroy();
-                    choiseLabel.destroy();
+                    //choiseLabel.destroy();
 
                     // Unpause the game, required to actually jump to the menu
                     game.paused = false;
                     console.log('inside menu');
                 }
-                else {
+                //if resume is clicked
+                else if (event.x > x1 && event.x < x2 && event.y > y1-50 && event.y < y2-30) {
+                    console.log("resume game!!!");
                     // Remove the menu and the label
                     pauseMenu.destroy();
-                    choiseLabel.destroy();
+                    //choiseLabel.destroy();
 
                     // Unpause the game
                     game.paused = false;
+                }
+                else if (event.x > x1+80 && event.x < x2-100 && event.y > y1+160 && event.y < y2+160){
+                    console.log("Exit game!!!");
+                    game.destroy();
                 }
             }
 

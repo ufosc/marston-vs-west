@@ -110,7 +110,6 @@ var loadState = {
         game.load.image('startButton', 'assets/MvW Menus/MainMenu_Sprites/Buttons/Start_Button.png');
         game.load.image('optionButton', 'assets/MvW Menus/MainMenu_Sprites/Buttons/Options_Button.png');
         game.load.image('creditButton', 'assets/MvW Menus/MainMenu_Sprites/Buttons/Exit_Button.png');
-
         game.load.image('chooseStage', 'assets/MvW Menus/MapMenu_Sprites/Sprites/ChooseYourStage_Sprite.png');
         game.load.image('plus', 'assets/MvW Menus/OptionMenu_Sprites/Buttons/Add_Button.png');
         game.load.image('minus', 'assets/MvW Menus/OptionMenu_Sprites/Buttons/Minus_Button.png');
@@ -118,8 +117,7 @@ var loadState = {
         game.load.image('minutes', 'assets/MvW Menus/OptionMenu_Sprites/Sprites/Minutes_Sprite.png');
         game.load.image('seconds', 'assets/MvW Menus/OptionMenu_Sprites/Sprites/Seconds_Sprite.png');
         game.load.image('settings', 'assets/MvW Menus/OptionMenu_Sprites/Sprites/Settings_Sprite.png');
-
-
+        game.load.image('Pause Menu', 'assets/MvW Menus/Pause_Screen.png');
         game.load.image('Kim', 'assets/bottle.png');//for sliding bar and needs to be modified (?)
         game.load.image('Chi', 'assets/uselessWhiteBall.png');//for sliding bar and needs to be modified (?)
 
