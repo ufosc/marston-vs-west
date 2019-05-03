@@ -4,7 +4,6 @@ var loadState = {
     preload: function () {
         var loadingLabel = game.add.text(80, 150, 'Loading...', { font: '30px Courier', fill: '#ffffff' });
 
-
         //Fighting assets
 
         //game.load.image('sky', 'assets/sky.png');
@@ -102,6 +101,7 @@ var loadState = {
         game.load.image('orangeStock', 'assets/orangeStock.png');
         game.load.image('blueStock', 'assets/blueStock.png');
         game.load.image('dust', 'assets/dust.png');
+        game.load.image('music_icon', 'assets/music_sprite.png');
 
 
         //Menu Images
@@ -112,7 +112,12 @@ var loadState = {
         game.load.image('creditButton', 'assets/MvW Menus/MainMenu_Sprites/Buttons/Exit_Button.png');
 
         game.load.image('chooseStage', 'assets/MvW Menus/MapMenu_Sprites/Sprites/ChooseYourStage_Sprite.png');
-        
+        game.load.image('plus', 'assets/MvW Menus/OptionMenu_Sprites/Buttons/Add_Button.png');
+        game.load.image('minus', 'assets/MvW Menus/OptionMenu_Sprites/Buttons/Minus_Button.png');
+        game.load.image('fullscreen', 'assets/MvW Menus/OptionMenu_Sprites/Buttons/Fullscreen_Button.png');
+        game.load.image('minutes', 'assets/MvW Menus/OptionMenu_Sprites/Sprites/Minutes_Sprite.png');
+        game.load.image('seconds', 'assets/MvW Menus/OptionMenu_Sprites/Sprites/Seconds_Sprite.png');
+        game.load.image('settings', 'assets/MvW Menus/OptionMenu_Sprites/Sprites/Settings_Sprite.png');
 
 
         game.load.image('Kim', 'assets/bottle.png');//for sliding bar and needs to be modified (?)
