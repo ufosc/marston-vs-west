@@ -129,7 +129,10 @@ class Item {
                 target.hitVelocity -= 200;
                 target.character.body.velocity.y -= 250;
                 target.health += 10;
+                
             }
+            //Change direction and slow on impact
+            this.type.body.velocity.x *= -.25;
             this.active = false;
 
         }
