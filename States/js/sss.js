@@ -18,17 +18,20 @@ class Stage {
         this.icon.events.onInputDown.add(this.onClick, this);
     }
     onOver() { //Called when hovering over
-        this.icon.scale.setTo(1, 1); //Enlarge the selected icon
-        gameReadyText.text = `${this.icon.key} Selected!`;
-        //chosenStageSelected = true;
+        this.icon.scale.setTo(.6, .6); //Enlarge the selected icon
+        if(this.icon.key == 'marstonPic')
+            gameReadyText.text = "Marston Science Library";
+        else if(this.icon.key == 'westPic')
+            gameReadyText.text = "Library West";
+        
     }
     onOut() { //Called after you stop hovering over
-        this.icon.scale.setTo(.25, .25);
-        gameReadyText.text = `Please select a stage!`;
-        //chosenStageSelected = false;
+        this.icon.scale.setTo(.5, .5);
+        gameReadyText.text = "";
+        
     }
     onClick() {
-        gameReadyText.text = `GOOOOOO!`;
+        //gameReadyText.text = `GOOOOOO!`;
         chosenStageName = this.icon.key;
         console.log("You chose: " + this.icon.key);
         music.stop();
@@ -42,19 +45,23 @@ var sssState = {
         //Reset values to default so if player wants to play again, it does not start off "ready" to play
         chosenStageName = '';
 
-
+        var backgroundSprite = game.add.image(0, 0, 'menuBackground');
+        backgroundSprite.anchor.setTo(0,0);
+        var logo = game.add.image(game.world.width * .5, game.world.height * .5, 'logo');
+        logo.anchor.setTo(.5,.5);
+        logo.scale.setTo(.8,.8);
+        var text = game.add.image(game.world.width * .5, game.world.height * .5 + 100, 'chooseStage');
+        text.anchor.setTo(.5,.5);
+       
         key1 = game.input.keyboard.addKey(Phaser.Keyboard.ONE);
 
-        stage1 = new Stage(game.world.width * .5 - 200, game.world.height * .25 + 50, 'marstonPic');
-
-        stage2 = new Stage(game.world.width * .5 + 200, game.world.height * .25 + 50, 'westPic');
-
+        stage1 = new Stage(game.world.width * .5 - 250, game.world.height * .5 + 300, 'marstonPic');
+        stage2 = new Stage(game.world.width * .5 + 250, game.world.height * .5 + 300, 'westPic');
+       
         buttonSound = game.add.audio('buttonSound');
         buttonSound.volume -= .5;
 
-        var startLabel = game.add.text(80, game.world.height - 40, 'Choose a stage!', { font: '25px Arial', fill: '#ffffff' });
-
-        gameReadyText = game.add.text(game.world.width * .5, game.world.height - 200, '', { font: '50px Arial', fill: '#ffffff' });
+        gameReadyText = game.add.text(game.world.width * .5, game.world.height * .5 + 475, '', { font: '50px Arial', fill: '#ffffff' });
         gameReadyText.anchor.setTo(.5, .5);
 
 
