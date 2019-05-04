@@ -86,6 +86,7 @@ var menuState = {
             fullScreenButton.visible = true;
         }
         music.volume = musicvol;
+        music.mute = muteState;
         //buttonSound.volume = musicvol;
         //console.log("buttonSound: ", buttonSound.volume);
         //console.log("musicVolume: ", music.volume);

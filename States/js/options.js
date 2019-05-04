@@ -85,6 +85,10 @@ var optionsState = {
         volumeIcon.inputEnabled = true;
         volumeIcon.input.enableDrag(true);
         volumeIcon.events.onDragUpdate.add(dragUpdate);
+
+        muteIcon = game.add.sprite(1300, initMulY, 'mute');
+        muteIcon.inputEnabled = true;
+        muteIcon.events.onInputDown.add(muteFunction);
         //end of the sliding bar function
 
         //color bars
@@ -95,9 +99,18 @@ var optionsState = {
         colorAdjustmentIcon = game.add.sprite(xPos2, initY1, 'Chi');//modify this icon and note that 50 is the radius of the icon?
         colorAdjustmentIcon2 = game.add.sprite(xPos3, initY2, 'Chi');//modify this icon
         colorAdjustmentIcon3 = game.add.sprite(xPos4, initY3, 'Chi');//modify this icon
-        colorOverlap = game.add.sprite (1500, 580, 'Chi');//display the final effect and also modify this icon
+        colorOverlap = game.add.sprite (1700, 580, 'Chi');//display the final effect and also modify this icon
+
+        colorAdjustmentIcon4 = game.add.sprite(xPos5, initY1, 'Chi');//modify this icon and note that 50 is the radius of the icon?
+        colorAdjustmentIcon5 = game.add.sprite(xPos6, initY2, 'Chi');//modify this icon
+        colorAdjustmentIcon6 = game.add.sprite(xPos7, initY3, 'Chi');//modify this icon
+        colorOverlap2 = game.add.sprite (1500, 580, 'Chi');//display the final effect and also modify this icon
 
         colorInit(colorAdjustmentIcon, colorAdjustmentIcon2, colorAdjustmentIcon3);//initializes the icon colors
+        colorInit2(colorAdjustmentIcon4, colorAdjustmentIcon5, colorAdjustmentIcon6);//initializes the icon colors
+
+        colorChange(colorOverlap);
+        colorChange2(colorOverlap2);
 
         colorAdjustmentIcon.inputEnabled = true;
         colorAdjustmentIcon.input.enableDrag(true);
@@ -112,6 +125,21 @@ var optionsState = {
         colorAdjustmentIcon3.inputEnabled = true;
         colorAdjustmentIcon3.input.enableDrag(true);
         colorAdjustmentIcon3.events.onDragUpdate.add(dragUpdate4);
+
+
+        colorAdjustmentIcon4.inputEnabled = true;
+        colorAdjustmentIcon4.input.enableDrag(true);
+        colorAdjustmentIcon4.events.onDragUpdate.add(dragUpdate5);
+
+
+        colorAdjustmentIcon5.inputEnabled = true;
+        colorAdjustmentIcon5.input.enableDrag(true);
+        colorAdjustmentIcon5.events.onDragUpdate.add(dragUpdate6);
+
+
+        colorAdjustmentIcon6.inputEnabled = true;
+        colorAdjustmentIcon6.input.enableDrag(true);
+        colorAdjustmentIcon6.events.onDragUpdate.add(dragUpdate7);
 
         //end of the sliding bar function for color adjustment
 
@@ -195,6 +223,17 @@ var optionsState = {
 
 };
 
+function muteFunction(sprite){
+    if(muteState == false){
+        muteState = true;
+    }
+    else{
+        muteState = false;
+    }
+    music.mute = muteState;
+    bottonSound.mute = muteState;
+}
+
 function colorInit (sprite1, sprite2, sprite3) {
     var xPosition1 = sprite1.x;
     var xPosition2 = sprite2.x;
@@ -215,6 +254,26 @@ function colorInit (sprite1, sprite2, sprite3) {
     sprite3.tint = valColor3;
 }
 
+function colorInit2 (sprite1, sprite2, sprite3) {
+    var xPosition1 = sprite1.x;
+    var xPosition2 = sprite2.x;
+    var xPosition3 = sprite3.x;
+
+    valColor4 = (xPosition1 - right2) /range * 255;
+    valColor4 = parseInt(valColor4);
+    sprite1.tint = valColor4;
+
+    valColor5 = (xPosition2 - right2) /range * 255;
+    valColor5 = parseInt(valColor5);
+    valColor5 *= 256;//We wanna modify the middle two digits now
+    sprite2.tint = valColor5;
+
+    valColor6 = (xPosition3 - right2) /range * 255;
+    valColor6 = parseInt(valColor6);
+    valColor6 *= 65536;//We wanna modify the last two digits now
+    sprite3.tint = valColor6;
+}
+
 function dragUpdate (sprite){
     //the following code is for x-axis sliding bar
     //music volume adjustment not activated before dragged
@@ -230,16 +289,16 @@ function dragUpdate (sprite){
     xPos = sprite.x;
 
 
-    if (xPos > left){//upper bound
-        xPos = left;
-        sprite.x = left;
+    if (xPos > mulLeft){//upper bound
+        xPos = mulLeft;
+        sprite.x = mulLeft;
     }
-    else if (xPos < right) {//lower bound
-        xPos = right;
-        sprite.x = right;
+    else if (xPos < mulRight) {//lower bound
+        xPos = mulRight;
+        sprite.x = mulRight;
     }
 
-    musicvol = (xPos-right) / range;
+    musicvol = (xPos-mulRight) / range;
     music.volume = musicvol;
     buttonSound.volume = musicvol;
 
@@ -282,6 +341,40 @@ function dragUpdate2 (sprite){
     }
 }
 
+function dragUpdate5 (sprite){
+
+    const yValue = 880;
+    xPos5 = sprite.x;
+
+    if (xPos5 > left2){//upper bound
+        xPos5 = left2;
+        sprite.x = left2;
+    }
+    else if (xPos5 < right2) {//lower bound
+        xPos5 = right2;
+        sprite.x = right2;
+    }
+
+
+    //255 is the max value of the first two digits under hex
+    valColor4 = (xPos5 - right2) /range * 255;
+    valColor4 = parseInt(valColor4);
+    sprite.tint = valColor4;
+
+    //printing the hex val
+    /*hexString = sprite.tint.toString(16);
+    if (hexString.length % 2) {
+        hexString = '0' + hexString;
+    }
+    console.log(hexString);*/
+
+    colorChange2(colorOverlap2);
+
+    if(sprite.y != yValue){
+        sprite.y = yValue;
+    }
+}
+
 function dragUpdate3 (sprite){
 
     const yValue = 780;
@@ -311,6 +404,41 @@ function dragUpdate3 (sprite){
     console.log(hexString);*/
 
     colorChange(colorOverlap);
+
+    if(sprite.y != yValue){
+        sprite.y = yValue;
+    }
+}
+
+function dragUpdate6 (sprite){
+
+    const yValue = 780;
+
+    xPos6 = sprite.x;
+    if (xPos6 > left2){//upper bound
+        xPos6 = left2;
+        sprite.x = left2;
+    }
+    else if (xPos6 < right2) {//lower bound
+        xPos6 = right2;
+        sprite.x = right2;
+    }
+
+
+    //255 is the max value of the first two digits under hex
+    valColor5 = (xPos6 - right2) /range * 255;
+    valColor5 = parseInt(valColor5);
+    valColor5 *= 256;//We wanna modify the middle two digits now
+    sprite.tint = valColor5;
+
+    //printing the hex val
+    /*hexString = sprite.tint.toString(16);
+    if (hexString.length % 2) {
+        hexString = '0' + hexString;
+    }
+    console.log(hexString);*/
+
+    colorChange2(colorOverlap2);
 
     if(sprite.y != yValue){
         sprite.y = yValue;
@@ -350,8 +478,51 @@ function dragUpdate4 (sprite){
         sprite.y = yValue;
     }
 }
+function dragUpdate7 (sprite){
+
+    const yValue = 680;
+
+    xPos7 = sprite.x;
+
+    if (xPos7 > left2){//upper bound
+        xPos7 = left2;
+        sprite.x = left2;
+    }
+    else if (xPos7 < right2) {//lower bound
+        xPos7 = right2;
+        sprite.x = right2;
+    }
+
+    //255 is the max value of the first two digits under hex
+    valColor6 = (xPos7 - right2) /range * 255;
+    valColor6 = parseInt(valColor6);
+    valColor6 *= 65536;//We wanna modify the last two digits now
+    sprite.tint = valColor6;
+
+    //printing the hex val
+    /*hexString = sprite.tint.toString(16);
+    if (hexString.length % 2) {
+        hexString = '0' + hexString;
+    }
+    console.log(hexString);*/
+
+    colorChange2(colorOverlap2);
+
+    if(sprite.y != yValue){
+        sprite.y = yValue;
+    }
+}
 function colorChange(sprite){
     var finalColor = valColor1 + valColor2 + valColor3;
+    sprite.tint = finalColor;
+    /*hexString = sprite.tint.toString(16);
+    if (hexString.length % 2) {
+        hexString = '0' + hexString;
+    }
+    console.log(hexString);*/
+}
+function colorChange2(sprite){
+    var finalColor = valColor4 + valColor5 + valColor6;
     sprite.tint = finalColor;
     /*hexString = sprite.tint.toString(16);
     if (hexString.length % 2) {

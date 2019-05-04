@@ -693,6 +693,7 @@ var playState = {
 
         //updates the music volume for 'allstar'
         music.volume = musicvol;
+        music.mute = muteState;
 
 
 
