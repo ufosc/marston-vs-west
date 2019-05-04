@@ -25,7 +25,7 @@ var tcsState = {
         if (player1ico.animations) {
             player1ico.alpha = 1;
         }
-
+        if(muteState==false)
         buttonSound.play();
         chickIcon.tint = 0xffffff;
 

@@ -38,6 +38,7 @@ class Item {
             console.log(this);
             if (this.type.key == 'bottle') //heal the player and destroy bottle
             {
+                if(muteState==false)
                 itemSound.play();
                 this.type.destroy();
                 this.type = null;
@@ -49,6 +50,7 @@ class Item {
             }
             else if (this.type.key == 'gator') //Current does the same thing as bottle but does damange to player instead
             {
+                if(muteState==false)
                 itemSound.play();
                 this.type.destroy();
                 this.type = null;
@@ -57,6 +59,7 @@ class Item {
             }
             else if (this.type.key == 'helmet') //Current respawns player without decrementing lives
             {
+                if(muteState==false)
                 itemSound.play();
                 target.lives++; //respawn decrements lives, this increments lives first
                 this.gameRef.respawn(target);
@@ -87,6 +90,7 @@ class Item {
         //console.log('item1.thrown: ' + this.thrown);
         //console.log('item1.active: ' + this.active);
         if (holder.character.scale.x < 0) { //If they user is facing left
+            if(muteState==false)
             itemSound.play();
             //console.log("facing left");
 
@@ -100,6 +104,7 @@ class Item {
         }
         else //if facing to the left
         {
+            if(muteState==false)
             itemSound.play();
             //console.log("facing right");
 

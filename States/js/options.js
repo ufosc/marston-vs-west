@@ -205,6 +205,7 @@ var optionsState = {
         }
     },
     menu: function () {
+        if(muteState==false)
         buttonSound.play();
         game.state.start('menu');
     },

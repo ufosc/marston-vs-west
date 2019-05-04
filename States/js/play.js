@@ -60,20 +60,22 @@ var playState = {
                 
                 RandHit = Math.floor((Math.random() * 4));
                 
-                if(RandHit === 0){
-                    hitSound.play();
-                }
-                else if(RandHit === 1){
-                    hitSound1.play();
-                }
-                else if(RandHit === 2){
-                    hitSound2.play();
-                }
-                else if(RandHit === 3){
-                    hitSound3.play();
-                }
-                else {
-                    hitSound.play();
+                if(muteState == false){
+                    if(RandHit === 0){
+                        hitSound.play();
+                    }
+                    else if(RandHit === 1){
+                        hitSound1.play();
+                    }
+                    else if(RandHit === 2){
+                        hitSound2.play();
+                    }
+                    else if(RandHit === 3){
+                        hitSound3.play();
+                    }
+                    else {
+                        hitSound.play();
+                    }
                 }
 
                 Player1.health += hitDmg;
@@ -270,6 +272,7 @@ var playState = {
         //if (Fighter.character.body.position.x < -50 || Fighter.character.body.position.x > 900) {
         if (Fighter.character.body.position.x < -50 || Fighter.character.body.position.x > game.world.width + 50) {
             Fighter.character.hasItem = false;
+            if(muteState==false)
             deathSound.play();
             this.respawn(Fighter);
             var live = Fighter.stocks.getFirstAlive();
@@ -284,6 +287,7 @@ var playState = {
         //else if (Fighter.character.body.position.y > 700 || Fighter.character.body.position.y < -200) {
         else if (Fighter.character.body.position.y > game.world.height + 100 || Fighter.character.body.position.y < -200) {
             Fighter.character.hasItem = false;
+            if(muteState==false)
             deathSound.play();
             this.respawn(Fighter);
 
@@ -635,6 +639,7 @@ var playState = {
                 if (event.x > x1 && event.x < x2 && event.y > y1+65 && event.y < y2+65) {
                     console.log("go to menu!!!");
                     music.stop();
+                    if(muteState==false)
                     buttonSound.play();
                     game.state.start('menu');
                     pauseMenu.destroy();
@@ -675,6 +680,7 @@ var playState = {
         return minutes.substr(-2) + ":" + seconds.substr(-2);
     },
     playRespawnSound: function () {
+        if(muteState==false)
         respawnSound.play();
     },
 

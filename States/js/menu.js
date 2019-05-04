@@ -53,29 +53,34 @@ var menuState = {
 
     },
     start: function () {
+        if(muteState==false)
         buttonSound.play();
         //music.stop();
         game.state.start('css');
 
     },
     characterSelect: function () {
+        if(muteState==false)
         buttonSound.play();
         console.log("css State");
         game.state.start('css');
 
     },
     options: function () {
+        if(muteState==false)
         buttonSound.play();
         console.log("options state");
         game.state.start('options');
     },
     quit: function () {
         console.log("quit state");
+        if(muteState==false)
         buttonSound.play();
         music.stop();
         game.destroy();
     },
     credits: function () {
+        if(muteState==false)
         buttonSound.play();
         music.stop();
         game.state.start('credits');
