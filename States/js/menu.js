@@ -86,7 +86,7 @@ var menuState = {
             fullScreenButton.visible = true;
         }
         music.volume = musicvol;
-        buttonSound.volume = musicvol;
+        //buttonSound.volume = musicvol;
         //console.log("buttonSound: ", buttonSound.volume);
         //console.log("musicVolume: ", music.volume);
         //this is where music volume should handled by updating

@@ -95,7 +95,7 @@ var optionsState = {
         colorAdjustmentIcon = game.add.sprite(xPos2, initY1, 'Chi');//modify this icon and note that 50 is the radius of the icon?
         colorAdjustmentIcon2 = game.add.sprite(xPos3, initY2, 'Chi');//modify this icon
         colorAdjustmentIcon3 = game.add.sprite(xPos4, initY3, 'Chi');//modify this icon
-        colorOverlap = game.add.sprite (0, 0, 'Chi');//display the final effect and also modify this icon
+        colorOverlap = game.add.sprite (1500, 580, 'Chi');//display the final effect and also modify this icon
 
         colorInit(colorAdjustmentIcon, colorAdjustmentIcon2, colorAdjustmentIcon3);//initializes the icon colors
 
@@ -225,7 +225,7 @@ function dragUpdate (sprite){
     //195: the range that the sliding bar can move
 
 
-    const yValue = 500;
+    const yValue = 970;
 
     xPos = sprite.x;
 
@@ -250,7 +250,7 @@ function dragUpdate (sprite){
 
 function dragUpdate2 (sprite){
 
-    const yValue = 450;
+    const yValue = 880;
     xPos2 = sprite.x;
 
     if (xPos2 > left){//upper bound
@@ -284,7 +284,7 @@ function dragUpdate2 (sprite){
 
 function dragUpdate3 (sprite){
 
-    const yValue = 300;
+    const yValue = 780;
 
     xPos3 = sprite.x;
     if (xPos3 > left){//upper bound
@@ -318,7 +318,7 @@ function dragUpdate3 (sprite){
 }
 function dragUpdate4 (sprite){
 
-    const yValue = 100;
+    const yValue = 680;
 
     xPos4 = sprite.x;
 
