@@ -120,6 +120,7 @@ var loadState = {
         game.load.image('Pause Menu', 'assets/MvW Menus/Pause_Screen.png');
         game.load.image('Kim', 'assets/bottle.png');//for sliding bar and needs to be modified (?)
         game.load.image('Chi', 'assets/uselessWhiteBall.png');//for sliding bar and needs to be modified (?)
+        game.load.image('mute', 'assets/mute.png');
 
     },
     create: function () {

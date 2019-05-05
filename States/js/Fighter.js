@@ -768,6 +768,7 @@ class Fighter {
     jumpStart() {
         //this.character.body.velocity.y = -350 + this.jumpSpeed;
         this.character.body.velocity.y = game.world.height*-3 + this.jumpSpeed;
+        if(muteState==false)
         jumpSound.play();
 
         this.shielding = false;
@@ -1319,6 +1320,7 @@ class Fighter {
             //else if (this.gety() && this.jumps <= 5 && this.airTime <= 5 && !(this.m < 120 && this.m != 0) && this.stunCounter == 0 && !this.inputLock) {
             else if (this.gety() && this.jumps <= 5 && !(this.m < 120 && this.m != 0) && this.stunCounter == 0 && !this.inputLock) {
                 this.character.body.velocity.y = -550 + this.jumpSpeed;
+                if(muteState==false)
                 jumpSound.play();
                 this.jumps += 1;
                 this.shielding = false;

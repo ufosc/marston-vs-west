@@ -209,6 +209,7 @@ var cssState = {
 
         //If you drop the cursor on the icon
         if (game.physics.arcade.overlap(player1Icon, dudeIcon)) {
+            if(muteState==false)
             buttonSound.play();
             //Determine's what's spawned, and lets you start game
             charName1 = "dude";
@@ -233,6 +234,7 @@ var cssState = {
 
         //If you drop the icon on the chick Picture
         if (game.physics.arcade.overlap(player1Icon, chickIcon)) {
+            if(muteState==false)
             buttonSound.play();
             charName1 = "chick";
             charSelected1 = true;
@@ -252,6 +254,7 @@ var cssState = {
 
 
         if (game.physics.arcade.overlap(player2Icon, dudeIcon)) {
+            if(muteState==false)
             buttonSound.play();
             charName2 = "dude";
             charSelected2 = true;
@@ -277,6 +280,7 @@ var cssState = {
 
 
         if (game.physics.arcade.overlap(player2Icon, chickIcon)) {
+            if(muteState==false)
             buttonSound.play();
             charName2 = "chick";
             charSelected2 = true;
@@ -298,6 +302,7 @@ var cssState = {
         }
 
         if (game.physics.arcade.overlap(player2Icon, computerIcon)) {
+            if(muteState==false)
             buttonSound.play();
             charName2 = "chick";
             botSelected = true;
