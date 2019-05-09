@@ -22,6 +22,10 @@ var menuState = {
         var gkey = game.input.keyboard.addKey(Phaser.Keyboard.G);
         gkey.onDown.addOnce(this.characterSelect, this); //Keep for debugging purposes, makes launching the game quicker
 
+        arcadeButton = game.add.button(game.world.width * .5, game.world.height * .5, 'arcadeButton');
+        arcadeButton.anchor.setTo(.5,.5);
+        arcadeButton.onInputUp.add(this.arcade, this);
+
         startButton = game.add.button(game.world.width * .5, game.world.height * .6, 'startButton');
         startButton.anchor.setTo(.5,.5);
         startButton.onInputUp.add(this.start, this);
@@ -58,6 +62,13 @@ var menuState = {
         //music.stop();
         game.state.start('css');
 
+    },
+    arcade: function(){
+        console.log('stupid');
+        if(muteState==false)
+        buttonSound.play();
+        //music.stop();
+        game.state.start('arccss');
     },
     characterSelect: function () {
         if(muteState==false)

@@ -242,6 +242,7 @@ var livesLabel;
 var pauseLabel;
 var choiseLabel;
 var pauseMenu;
+var arcadeButton;
 var startButton;
 var optionsButton;
 var quitButton;
@@ -278,5 +279,9 @@ game.state.add('win', winState);
 game.state.add('css', cssState);
 game.state.add('sss', sssState);
 game.state.add('tcs', tcsState);
+game.state.add('arccss', cssState);
+game.state.add('arcsss', sssState);
+game.state.add('arctcs', tcsState);
+game.state.add('arc', cssState);
 
 game.state.start('boot');
