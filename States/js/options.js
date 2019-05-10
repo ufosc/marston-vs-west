@@ -99,12 +99,14 @@ var optionsState = {
         colorAdjustmentIcon = game.add.sprite(xPos2, initY1, 'Chi');//modify this icon and note that 50 is the radius of the icon?
         colorAdjustmentIcon2 = game.add.sprite(xPos3, initY2, 'Chi');//modify this icon
         colorAdjustmentIcon3 = game.add.sprite(xPos4, initY3, 'Chi');//modify this icon
-        colorOverlap = game.add.sprite (1700, 580, 'Chi');//display the final effect and also modify this icon
+        //colorOverlap = game.add.sprite (1700, 580, 'Chi');//display the final effect and also modify this icon
+        colorOverlap = game.add.sprite(1700, 580, 'dude');
 
         colorAdjustmentIcon4 = game.add.sprite(xPos5, initY1, 'Chi');//modify this icon and note that 50 is the radius of the icon?
         colorAdjustmentIcon5 = game.add.sprite(xPos6, initY2, 'Chi');//modify this icon
         colorAdjustmentIcon6 = game.add.sprite(xPos7, initY3, 'Chi');//modify this icon
-        colorOverlap2 = game.add.sprite (1500, 580, 'Chi');//display the final effect and also modify this icon
+        //colorOverlap2 = game.add.sprite (1500, 580, 'Chi');//display the final effect and also modify this icon
+        colorOverlap2 = game.add.sprite(1400, 580, 'chick');
 
         colorInit(colorAdjustmentIcon, colorAdjustmentIcon2, colorAdjustmentIcon3);//initializes the icon colors
         colorInit2(colorAdjustmentIcon4, colorAdjustmentIcon5, colorAdjustmentIcon6);//initializes the icon colors
@@ -467,11 +469,11 @@ function dragUpdate4 (sprite){
     sprite.tint = valColor3;
 
     //printing the hex val
-    /*hexString = sprite.tint.toString(16);
+    hexString = sprite.tint.toString(16);
     if (hexString.length % 2) {
         hexString = '0' + hexString;
     }
-    console.log(hexString);*/
+    console.log(hexString);
 
     colorChange(colorOverlap);
 
@@ -516,11 +518,11 @@ function dragUpdate7 (sprite){
 function colorChange(sprite){
     var finalColor = valColor1 + valColor2 + valColor3;
     sprite.tint = finalColor;
-    /*hexString = sprite.tint.toString(16);
+    hexString = sprite.tint.toString(16);
     if (hexString.length % 2) {
         hexString = '0' + hexString;
     }
-    console.log(hexString);*/
+    console.log(hexString);
 }
 function colorChange2(sprite){
     var finalColor = valColor4 + valColor5 + valColor6;

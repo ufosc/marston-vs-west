@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="bd3fe372-7533-4001-a5ab-e1cee4911c0d" name="Default Changelist" comment="" />
+    <list default="true" id="bd3fe372-7533-4001-a5ab-e1cee4911c0d" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/States/js/game.js" beforeDir="false" afterPath="$PROJECT_DIR$/States/js/game.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/States/js/options.js" beforeDir="false" afterPath="$PROJECT_DIR$/States/js/options.js" afterDir="false" />
+    </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
     <ignored path="$PROJECT_DIR$/tmp/" />
@@ -17,7 +20,7 @@
         <entry file="file://$PROJECT_DIR$/index.html">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="342">
-              <caret line="18" column="46" lean-forward="true" selection-start-line="18" selection-start-column="46" selection-end-line="18" selection-end-column="46" />
+              <caret line="18" column="46" selection-start-line="18" selection-start-column="46" selection-end-line="18" selection-end-column="46" />
             </state>
           </provider>
         </entry>
@@ -25,8 +28,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/States/js/game.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-683">
-              <caret line="173" column="6" lean-forward="true" selection-start-line="173" selection-start-column="6" selection-end-line="173" selection-end-column="6" />
+            <state relative-caret-position="589">
+              <caret line="188" column="16" selection-start-line="188" selection-start-column="16" selection-end-line="188" selection-end-column="16" />
             </state>
           </provider>
         </entry>
@@ -34,17 +37,26 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/States/js/Fighter.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="206">
-              <caret line="823" column="8" selection-start-line="823" selection-start-column="8" selection-end-line="823" selection-end-column="81" />
+            <state relative-caret-position="567">
+              <caret line="1058" column="43" selection-start-line="1058" selection-start-column="43" selection-end-line="1058" selection-end-column="43" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/States/js/tcs.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="247">
+              <caret line="22" column="59" lean-forward="true" selection-start-line="22" selection-start-column="59" selection-end-line="22" selection-end-column="59" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/States/js/tcs.js">
+        <entry file="file://$PROJECT_DIR$/States/js/options.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="522">
-              <caret line="99" column="51" lean-forward="true" selection-start-line="99" selection-start-column="51" selection-end-line="99" selection-end-column="51" />
+            <state relative-caret-position="275">
+              <caret line="520" column="4" lean-forward="true" selection-start-line="520" selection-start-column="4" selection-end-line="520" selection-end-column="4" />
             </state>
           </provider>
         </entry>
@@ -74,19 +86,19 @@
       <list>
         <option value="$PROJECT_DIR$/States/js/play.js" />
         <option value="$PROJECT_DIR$/States/js/menu.js" />
-        <option value="$PROJECT_DIR$/States/js/options.js" />
-        <option value="$PROJECT_DIR$/States/js/game.js" />
         <option value="$PROJECT_DIR$/States/js/load.js" />
         <option value="$PROJECT_DIR$/index.html" />
         <option value="$PROJECT_DIR$/States/js/sss.js" />
         <option value="$PROJECT_DIR$/States/js/tcs.js" />
+        <option value="$PROJECT_DIR$/States/js/game.js" />
+        <option value="$PROJECT_DIR$/States/js/options.js" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="952" />
-    <option name="width" value="977" />
-    <option name="height" value="1038" />
+    <option name="x" value="951" />
+    <option name="width" value="978" />
+    <option name="height" value="1039" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
@@ -94,21 +106,22 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
             <path>
-              <item name="marston-vs-west-Dev" type="b2602c69:ProjectViewProjectNode" />
-              <item name="marston-vs-west-Dev" type="462c0819:PsiDirectoryNode" />
+              <item name="marston-vs-west" type="b2602c69:ProjectViewProjectNode" />
+              <item name="marston-vs-west" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
-              <item name="marston-vs-west-Dev" type="b2602c69:ProjectViewProjectNode" />
-              <item name="marston-vs-west-Dev" type="462c0819:PsiDirectoryNode" />
+              <item name="marston-vs-west" type="b2602c69:ProjectViewProjectNode" />
+              <item name="marston-vs-west" type="462c0819:PsiDirectoryNode" />
               <item name="States" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
-              <item name="marston-vs-west-Dev" type="b2602c69:ProjectViewProjectNode" />
-              <item name="marston-vs-west-Dev" type="462c0819:PsiDirectoryNode" />
+              <item name="marston-vs-west" type="b2602c69:ProjectViewProjectNode" />
+              <item name="marston-vs-west" type="462c0819:PsiDirectoryNode" />
               <item name="States" type="462c0819:PsiDirectoryNode" />
               <item name="js" type="462c0819:PsiDirectoryNode" />
             </path>
@@ -116,7 +129,6 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -174,11 +186,12 @@
       <workItem from="1549600602870" duration="739000" />
       <workItem from="1553215331826" duration="58000" />
       <workItem from="1553215434808" duration="2129000" />
+      <workItem from="1557432807098" duration="1784000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="35831000" />
+    <option name="totallyTimeSpent" value="37615000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1550" height="838" extended-state="6" />
@@ -232,24 +245,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/States/js/options.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-3059">
-          <caret line="96" column="34" selection-start-line="96" selection-start-column="34" selection-end-line="96" selection-end-column="34" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/States/js/play.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="532">
           <caret line="28" column="26" selection-start-line="28" selection-start-column="26" selection-end-line="28" selection-end-column="26" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="342">
-          <caret line="18" column="46" lean-forward="true" selection-start-line="18" selection-start-column="46" selection-end-line="18" selection-end-column="46" />
         </state>
       </provider>
     </entry>
@@ -267,24 +266,43 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/States/js/game.js">
+    <entry file="file://$PROJECT_DIR$/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-683">
-          <caret line="173" column="6" lean-forward="true" selection-start-line="173" selection-start-column="6" selection-end-line="173" selection-end-column="6" />
+        <state relative-caret-position="342">
+          <caret line="18" column="46" selection-start-line="18" selection-start-column="46" selection-end-line="18" selection-end-column="46" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/States/js/css.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1197" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/States/js/tcs.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="247">
+          <caret line="22" column="59" lean-forward="true" selection-start-line="22" selection-start-column="59" selection-end-line="22" selection-end-column="59" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/States/js/Fighter.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="206">
-          <caret line="823" column="8" selection-start-line="823" selection-start-column="8" selection-end-line="823" selection-end-column="81" />
+        <state relative-caret-position="567">
+          <caret line="1058" column="43" selection-start-line="1058" selection-start-column="43" selection-end-line="1058" selection-end-column="43" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/States/js/tcs.js">
+    <entry file="file://$PROJECT_DIR$/States/js/game.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="522">
-          <caret line="99" column="51" lean-forward="true" selection-start-line="99" selection-start-column="51" selection-end-line="99" selection-end-column="51" />
+        <state relative-caret-position="589">
+          <caret line="188" column="16" selection-start-line="188" selection-start-column="16" selection-end-line="188" selection-end-column="16" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/States/js/options.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="275">
+          <caret line="520" column="4" lean-forward="true" selection-start-line="520" selection-start-column="4" selection-end-line="520" selection-end-column="4" />
         </state>
       </provider>
     </entry>

@@ -162,31 +162,31 @@ var colorAdjustmentIcon6;
 
 const range = 195;
 const right = 1603;
-const left = 1797;
+const left = 1798;
 
 const mulRight = 1403;
-const mulLeft = 1597;
+const mulLeft = 1598;
 
-const right2 = 1403;
-const left2 = 1597;
+const right2 = 1303;
+const left2 = 1498;
 
 var valColor1, valColor2, valColor3;
 var valColor4, valColor5, valColor6;
 var colorOverlap;//displays the final effect
 var colorOverlap2;
 
-var xPos2 = 1700;//the initial x pos of the blue bar
+var xPos2 = 1603;//the initial x pos of the blue bar
 var initY1 = 880;//the initial y pos of the blue bar
-var xPos3 = 1700;//the initial x pos of the green bar
+var xPos3 = 1798;//the initial x pos of the green bar
 var initY2 = 780;//the initial y pos of the green bar
-var xPos4 = 1700;//the initial x pos of the red bar
+var xPos4 = 1798;//the initial x pos of the red bar
 var initY3 = 680;//the initial y pos of the red bar
 var xPos = 1500;//the initial x pos of the music bar
 var initMulY = 970;//the initial y pos of the music bar
 
-var xPos5 = 1500;
-var xPos6 = 1500;
-var xPos7 = 1500;
+var xPos5 = 1498;
+var xPos6 = 1498;
+var xPos7 = 1498;
 //end of color variables
 
 
