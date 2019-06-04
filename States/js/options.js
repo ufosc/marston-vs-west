@@ -57,9 +57,9 @@ var optionsState = {
         secondsButton.anchor.setTo(.5,.5);
         
         //values
-        minLabel = game.add.text(game.world.width * .5 - 250, game.world.height *.5 + 110, `${gameMinutes}`);
-        secLabel = game.add.text(game.world.width * .5 - 250, game.world.height * .5 + 210, `${gameSeconds}`, { font: '65px VT323', fill: '#ffffff' });
-        livesLabel = game.add.text(game.world.width * .5 - 425, game.world.height * .5 + 310, `Lives: ${lives}`, { font: '65px Arial', fill: '#ffffff' });
+        minLabel = game.add.text(game.world.width * .5 - 250, game.world.height *.5 + 110, `${gameManager.gameMinutes}`);
+        secLabel = game.add.text(game.world.width * .5 - 250, game.world.height * .5 + 210, `${gameManager.gameSeconds}`, { font: '65px VT323', fill: '#ffffff' });
+        livesLabel = game.add.text(game.world.width * .5 - 425, game.world.height * .5 + 310, `Lives: ${gameManager.lives}`, { font: '65px Arial', fill: '#ffffff' });
         minLabel.font = 'VT323';
         minLabel.fontSize = 60;
         minLabel.fill = '#ffffff';
@@ -148,49 +148,49 @@ var optionsState = {
         //Can add other options as well, music and sfx toggle, anti-alias, and other ideas
     },
     update: function () {
-        minLabel.text = `${gameMinutes}`;
-        secLabel.text = `${gameSeconds}`;
-        livesLabel.text = `Lives: ${lives}`;
+        minLabel.text = `${gameManager.gameMinutes}`;
+        secLabel.text = `${gameManager.gameSeconds}`;
+        livesLabel.text = `Lives: ${gameManager.lives}`;
         colorChange(colorOverlap);
     },
     gameMinInc: function () {
-        gameMinutes++;
+        gameManager.gameMinutes++;
         buttonSound.play();
-        console.log("Minutes: " + gameMinutes);
+        console.log("Minutes: " + gameManager.gameMinutes);
     },
     gameSecInc: function () {
-        gameSeconds = gameSeconds + 30;
+        gameManager.gameSeconds = gameManager.gameSeconds + 30;
         buttonSound.play();
-        console.log("Seconds: " + gameSeconds);
+        console.log("Seconds: " + gameManager.gameSeconds);
     },
     gameMinDec: function () {
         buttonSound.play();
-        gameMinutes--;
-        if (gameMinutes < 0) {
-            gameMinutes = 0;
+        gameManager.gameMinutes--;
+        if (gameManager.gameMinutes < 0) {
+            gameManager.gameMinutes = 0;
         }
-        console.log("Minutes: " + gameMinutes);
+        console.log("Minutes: " + gameManager.gameMinutes);
     },
     gameSecDec: function () {
-        gameSeconds = gameSeconds - 30;
+        gameManager.gameSeconds = gameManager.gameSeconds - 30;
         buttonSound.play();
-        if (gameSeconds < 0) {
-            gameSeconds = 0;
+        if (gameManager.gameSeconds < 0) {
+            gameManager.gameSeconds = 0;
         }
-        console.log("Seconds: " + gameSeconds);
+        console.log("Seconds: " + gameManager.gameSeconds);
     },
     gameLivesInc: function () {
-        lives++;
+        gameManager.lives++;
         buttonSound.play();
-        console.log("Lives: " + lives);
+        console.log("Lives: " + gameManager.lives);
     },
     gameLivesDec: function () {
-        lives--;
-        if (lives < 1) {
-            lives = 1;
+        gameManager.lives--;
+        if (gameManager.lives < 1) {
+            gameManager.lives = 1;
         }
         buttonSound.play();
-        console.log("Lives: " + lives);
+        console.log("Lives: " + gameManager.lives);
     },
     onFullScreenChange: function (scale) {
         //if you need to change something when fullscreen toggled

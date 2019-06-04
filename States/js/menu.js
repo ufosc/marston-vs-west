@@ -68,12 +68,14 @@ var menuState = {
         if(muteState==false)
         buttonSound.play();
         //music.stop();
+        gameManager.changemode("Arcade");
         game.state.start('arccss');
     },
     characterSelect: function () {
         if(muteState==false)
         buttonSound.play();
         console.log("css State");
+        gameManager.changemode("Multi");
         game.state.start('css');
 
     },

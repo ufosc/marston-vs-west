@@ -16,10 +16,13 @@ var config =
 
 }
 
+
+
 var game = new Phaser.Game(config);
 //Change the screen dimensions to accomidate mobile users (eventually will change other things about mobile experience but not here)
 //Start mobile users in exact_fit with full screen default
 
+var gameManager = new GameInfo();
 
 var gamewidth = 1920;
 var gameheight = 1080;
@@ -65,7 +68,7 @@ var westPicture;
 var mob;
 var people;
 
-var lives = 3;
+//var lives = 3;
 
 var hitpause;
 
@@ -221,8 +224,6 @@ var myPlayer;
 var hitboxes;
 
 
-var prevkey; //currently unused
-
 var Player1;
 var Player2;
 var Player3;
@@ -261,8 +262,8 @@ var gameLivesDecButton;
 
 var music;
 
-var gameMinutes = 1;
-var gameSeconds = 0;
+//var gameMinutes = 1;
+//var gameSeconds = 0;
 
 var stage1;
 var stage2;
