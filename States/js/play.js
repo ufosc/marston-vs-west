@@ -84,21 +84,21 @@ var playState = {
                 Player1.character.body.velocity.y = -(Math.pow(Player1.health, hitAngle));
 
                 if (Player1.health >= 0 || Player1.health <= 75) {
-                    Player1.stunCounter = 60;
+                    Player1.stuncounterset(60);
                 }
                 else if (Player1.health > 75 || Player1.health <= 150) {
-                    Player1.stunCounter = 120;
+                    Player1.stuncounterset(120);
                     if (Player1.health >= 120) {
                         hitpause = 10;
                     }
                 }
                 else if (Player1.health > 150 || Player1.health < 200) {
                     hitpause = 10;
-                    Player1.stunCounter = 300;
+                    Player1.stuncounterset(300);
                 }
                 else {
                     hitpause = 10;
-                    Player1.stunCounter = 450;
+                    Player1.stuncounterset(450);
                 }
             }
             Player2.deltDamage = true;
@@ -255,16 +255,16 @@ var playState = {
 
     playerHitStun: function (Fighter) {
         if (Fighter.health >= 0 || Fighter.health <= 75) {
-            Fighter.stunCounter = 15;
+            Fighter.stuncounterset(15);
         }
         else if (Fighter.health > 75 || Fighter.health <= 150) {
-            Fighter.stunCounter = 45;
+            Fighter.stuncounterset(45);
         }
         else if (Fighter.health > 150 || Fighter.health < 200) {
-            Fighter.stunCounter = 90;
+            Fighter.stuncounterset(90);
         }
         else {
-            Fighter.stunCounter = 150;
+            Fighter.stuncounterset(150);
         }
     },
 
@@ -340,7 +340,7 @@ var playState = {
         stagecam = new cam(40, 350, 1200, 1000);
 
 
-        if(chosenStageName === 'marstonPic') {
+        if(gameManager.chosenStageName === 'marstonPic') {
 
             //Background for our game
             back = game.add.sprite(0, 0, 'sky');
@@ -496,7 +496,9 @@ var playState = {
         }
 
 
-
+        Player1.resettint();
+        console.log("work?");
+        Player2.resettint();
 
         if (multimanmode === true) {
             Player3 = new lab(charName2, 0, gameManager.lives, game.world.width * 0.5, game.world.height * 0.5, controlOptionAI);
@@ -703,7 +705,7 @@ var playState = {
 
 
 
-        if (chosenStageName === 'pool') {
+        if (gameManager.chosenStageName === 'pool') {
             console.log("gravity set low!");
             Player1.character.body.gravity.y = 250; //gravity may need to oscillate between positive and negative so that fighter has a floaty feel to it while swimming 
             Player1.jumps = 0;
@@ -743,7 +745,7 @@ var playState = {
 
 
         //  Collide the players with the platforms and eachother
-        if (chosenStageName === 'westPic') {
+        if (gameManager.chosenStageName === 'westPic') {
             if (Player1.getdown()) {
                 Player1.character.body.immovable = false;
             }

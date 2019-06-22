@@ -267,7 +267,6 @@ var music;
 
 var stage1;
 var stage2;
-var chosenStageName;
 var chosenMap;
 
 game.state.add('boot', bootState);

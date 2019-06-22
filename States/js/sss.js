@@ -32,7 +32,7 @@ class Stage {
     }
     onClick() {
         //gameReadyText.text = `GOOOOOO!`;
-        chosenStageName = this.icon.key;
+        gameManager.chosenStageName = this.icon.key;
         console.log("You chose: " + this.icon.key);
         music.stop();
         game.state.start('tcs');
@@ -43,7 +43,7 @@ class Stage {
 var sssState = {
     create: function () {
         //Reset values to default so if player wants to play again, it does not start off "ready" to play
-        chosenStageName = '';
+        gameManager.chosenStageName = '';
 
         var backgroundSprite = game.add.image(0, 0, 'menuBackground');
         backgroundSprite.anchor.setTo(0,0);

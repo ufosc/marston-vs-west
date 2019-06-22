@@ -1,5 +1,6 @@
 var cssState = {
     create: function () {
+        console.log("CSS???!");
         //Reset values to default so if player wants to play again, it does not start off "ready" to play
         charSelected1 = false;
         charSelected2 = false;
@@ -83,6 +84,10 @@ var cssState = {
         player2BodyIcon.anchor.setTo(.5,.5);
         player1BodyIcon.scale.setTo(1.5, 1.5);
         player2BodyIcon.scale.setTo(1.5, 1.5);
+
+        player1BodyIcon.tint = gameManager.playerTint[0];
+        player2BodyIcon.tint = gameManager.playerTint[1];
+        console.log("TINT!");
 
         //Chose your library: Click on label to set variable to a library, then send info later
         var player1Label = game.add.text(game.world.width*0.25, 50, 'Choose your Library!', { font: '25px Arial', fill: '#ffffff' });

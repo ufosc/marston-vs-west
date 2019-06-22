@@ -1,5 +1,6 @@
 var cssState = {
     create: function () {
+        console.log("css?");
         //Reset values to default so if player wants to play again, it does not start off "ready" to play
         charSelected1 = false;
         charSelected2 = false;
@@ -176,10 +177,12 @@ var cssState = {
         //If the character is selected, play the selected animation
         game.physics.arcade.collide(player1Icon, player2Icon);
         if (player1BodyIcon.animations) {
+            player1BodyIcon.tint = gameManager.playerTint[0];
             player1BodyIcon.animations.play('idle');
         }
 
         if (player2BodyIcon.animations) {
+            player2BodyIcon.tint = gameManager.playerTint[1];
             player2BodyIcon.animations.play('idle');
         }
 
@@ -220,7 +223,7 @@ var cssState = {
             player1BodyIcon.kill();
 
             player1BodyIcon = game.add.sprite(game.world.width * .25 - 150, game.world.height * .5 - 50, 'dude');
-
+            
             player1BodyIcon.scale.setTo(3.5, 3.5);
             player1BodyIcon.animations.add('idle', [1, 2], 5, true);
             player1BodyIcon.animations.add('kick', [6], 5, true);
