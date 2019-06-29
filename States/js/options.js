@@ -516,27 +516,29 @@ function dragUpdate7 (sprite){
         sprite.y = yValue;
     }
 }
+function rgbtohex(color){
+    let hex =  color.toString(16);
+    if(hex.length % 2){
+        hex = "0" + hex;
+    }
+    return hex;
+}
+
 function colorChange(sprite){
-    let finalColor = valColor1 + valColor2 + valColor3;
-    sprite.tint =  finalColor;
-    let hexString = "0x" + sprite.tint.toString(16);
+    let red = rgbtohex(valColor1);
+    let green = rgbtohex(valColor2);
+    let blue = rgbtohex(valColor3);
+
+    sprite.tint = red + green + blue;
     
-    //console.log(hexString);
-    gameManager.playerTint[0] = hexString;
-    /*if (hexString.length % 2) {
-        hexString = '0' + hexString;
-    }*/
-    //console.log(hexString);
+    gameManager.playerTint[0] = red + green + blue;
 }
 function colorChange2(sprite){
-    let finalColor = valColor4 + valColor5 + valColor6;
-    sprite.tint = finalColor;
-    let hexString = "0x" + sprite.tint.toString(16);
-    //console.log("color changed!");
-    gameManager.playerTint[1] = hexString;
-    /*hexString = sprite.tint.toString(16);
-    if (hexString.length % 2) {
-        hexString = '0' + hexString;
-    }
-    console.log(hexString);*/
+    let red = rgbtohex(valColor4);
+    let green = rgbtohex(valColor5);
+    let blue = rgbtohex(valColor6);
+
+    sprite.tint = red + green + blue;
+    
+    gameManager.playerTint[1] = red + green + blue;
 }

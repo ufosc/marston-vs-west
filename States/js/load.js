@@ -8,6 +8,11 @@ var loadState = {
 
         //game.load.image('sky', 'assets/sky.png');
         game.load.image('sky', 'assets/TestStage2.png');
+        game.load.image('WestStage1', 'assets/Stage/West1.jpg');
+        game.load.image('MarstonStage1', 'assets/Stage/Marston1.jpg');
+        game.load.image('MarstonStage2', 'assets/Stage/Marston2.jpg');
+        game.load.image('TurlingtonStage1', 'assets/Stage/Turlington1.png');
+        game.load.image('TurlingtonStage2', 'assets/Stage/Turlington2.jpg');
         //game.load.image('ground', 'assets/platform.png');
         //game.load.image('ground', 'assets/platform2.png');
         game.load.image('ground', 'assets/floorblock.png');

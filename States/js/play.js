@@ -343,7 +343,9 @@ var playState = {
         if(gameManager.chosenStageName === 'marstonPic') {
 
             //Background for our game
-            back = game.add.sprite(0, 0, 'sky');
+            //back = game.add.sprite(0, 0, 'sky');
+            //back = game.add.sprite(0, 0, 'MarstonStage2');
+            back = game.add.sprite(0, 0, 'TurlingtonStage2');
 
             back.scale.setTo(1.5,1.5);
 
@@ -370,7 +372,7 @@ var playState = {
         else {
             //west
             //Background for our game
-            back = game.add.sprite(0, 0, 'sky');
+            back = game.add.sprite(0, 0, 'WestStage1');
             
             back.scale.setTo(1.5,1.5);
 
