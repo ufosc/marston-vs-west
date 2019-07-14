@@ -469,32 +469,35 @@ var playState = {
 
         if (charName1 === 'dude') {
             Player1 = new dj(charName1, 0, gameManager.lives, game.world.width * 0.25, game.world.height * 0.5, controlOptionVpad);
-            console.log(Player1);
-            console.log("Player 1 is dj");
         }
-        else if (charName1 === 'chick') {
+        else if (charName1 === 'Lab') {
             Player1 = new lab(charName1, 0, gameManager.lives, game.world.width * 0.25, game.world.height * 0.5, controlOptionVpad);
-
-            console.log("Player 1 is lab");
         }
-        else {
-            Player1 = new lab(charName1, 0, gameManager.lives, game.world.width * 0.25, game.world.height * 0.5, controlOptionVpad);
-            console.log("Player 1 is lab");
+        else if (charName1 === 'Goth') {
+            Player1 = new goth(charName1, 0, gameManager.lives, game.world.width * 0.25, game.world.height * 0.5, controlOptionVpad);
+        }
+        else if (charName1 === 'Boxer') {
+            Player1 = new boxer(charName1, 0, gameManager.lives, game.world.width * 0.25, game.world.height * 0.5, controlOptionVpad);
+        }
+        else if (charName2 === 'Fighter'){
+            Player1 = new dj(charName1, 0, gameManager.lives, game.world.width * 0.25, game.world.height * 0.5, controlOptionVpad);
         }
 
 
-        if (charName2 === 'dude') {
+        if (charName2 === 'Fighter') {
             Player2 = new dj(charName2, 0, gameManager.lives, game.world.width * 0.75, game.world.height * 0.5, controlOptionAI);
-            console.log("Player 2 is dj");
         }
-        else if (charName2 === 'chick') {
+        else if (charName2 === 'Goth') {
+            Player2 = new goth(charName2, 0, gameManager.lives, game.world.width * 0.75, game.world.height * 0.5, controlOptionAI);
+        }
+        else if (charName2 === 'Lab') {
             Player2 = new lab(charName2, 0, gameManager.lives, game.world.width * 0.75, game.world.height * 0.5, controlOptionAI);
-
-            console.log("Player 2 is lab");
+        }
+        else if (charName2 === 'Boxer') {
+            Player2 = new boxer(charName2, 0, gameManager.lives, game.world.width * 0.75, game.world.height * 0.5, controlOptionAI);
         }
         else {
-            Player2 = new lab(charName2, 0, gameManager.lives, game.world.width * 0.75, game.world.height * 0.5, controlOptionAI);
-            console.log("Player 2 is lab");
+            Player2 = new dj(charName2, 0, gameManager.lives, game.world.width * 0.75, game.world.height * 0.5, controlOptionAI);
         }
 
 
@@ -518,7 +521,6 @@ var playState = {
 
         //Create an item
         item1 = new Item('bottle', game.world.width * .5, game.world.height * .5, this);
-
 
         if (Player1.controlnum === -1) {
             //console.log("virtual buttons are made buttons");

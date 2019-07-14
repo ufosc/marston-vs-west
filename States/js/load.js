@@ -21,8 +21,15 @@ var loadState = {
 
         //game.load.spritesheet('dude', 'assets/Fighter1master.png', 36, 42);
         //game.load.spritesheet('chick', 'assets/Fighter2master.png', 36, 42);
-        game.load.spritesheet('dude', 'assets/TESTFIGHTER1.png', 64, 84);
-        game.load.spritesheet('chick', 'assets/TESTFIGHTER2.png', 64, 84);
+        //game.load.spritesheet('dude', 'assets/TESTFIGHTER1.png', 64, 84);
+        //game.load.spritesheet('dude', 'assets/Fighters/Blanks/DJ_W.png', 64, 84);
+        //game.load.spritesheet('chick', 'assets/TESTFIGHTER2.png', 64, 84);
+        //game.load.spritesheet('goth', 'assets/Fighters/Blanks/Goth_W.png', 64, 96);
+        //game.load.spritesheet('boxer', 'assets/Fighters/Blanks/Boxer_W.png', 64, 96);
+        game.load.spritesheet('Fighter', 'assets/Fighters/Canvas/Fighter_Blank.png', 64, 84);
+        game.load.spritesheet('Lab','assets/Fighters/Canvas/Nerd_Blank.png', 60, 94);
+        game.load.spritesheet('Goth', 'assets/Fighters/Canvas/Goth_Blank.png', 64, 96);
+        game.load.spritesheet('Boxer','assets/Fighters/Canvas/Boxer_Blank.png', 100, 93);
 
 
 
@@ -125,7 +132,8 @@ var loadState = {
         game.load.image('settings', 'assets/MvW Menus/OptionMenu_Sprites/Sprites/Settings_Sprite.png');
         game.load.image('Pause Menu', 'assets/MvW Menus/Pause_Screen.png');
         game.load.image('Kim', 'assets/bottle.png');//for sliding bar and needs to be modified (?)
-        game.load.image('Chi', 'assets/uselessWhiteBall.png');//for sliding bar and needs to be modified (?)
+        game.load.image('Chi', 'assets/WhiteBall.png');//for sliding bar and needs to be modified (?)
+        game.load.image('knob', 'assets/WhiteBall.png');//for sliding bar and needs to be modified (?)
         game.load.image('mute', 'assets/mute.png');
 
     },

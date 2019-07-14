@@ -27,6 +27,12 @@ var optionsState = {
         menuButton.anchor.setTo(.5,.5);
         menuButton.onInputUp.add(this.menu, this);
         
+        //slide test
+        slide = new Slider(50, 200, 200, false);
+
+        //end of slide test
+
+
         //Fullscreen event listeners
         fullScreenButton = game.add.button(game.world.width * .5 - 400, game.world.height * .5 + 450, 'fullscreen');
         fullScreenButton.anchor.setTo(.5,.5);
@@ -243,11 +249,11 @@ function colorInit (sprite1, sprite2, sprite3) {
     var xPosition2 = sprite2.x;
     var xPosition3 = sprite3.x;
 
-    valColor1 = (xPosition1 - right) /range * 255;
+    valColor1 = ((xPosition1 - right) /range) * 255;
     valColor1 = parseInt(valColor1);
     sprite1.tint = valColor1;
 
-    valColor2 = (xPosition2 - right) /range * 255;
+    valColor2 = ((xPosition2 - right) /range) * 255;
     valColor2 = parseInt(valColor2);
     valColor2 *= 256;//We wanna modify the middle two digits now
     sprite2.tint = valColor2;
@@ -393,19 +399,11 @@ function dragUpdate3 (sprite){
         sprite.x = right;
     }
 
-
     //255 is the max value of the first two digits under hex
     valColor2 = (xPos3 - right) /range * 255;
     valColor2 = parseInt(valColor2);
     valColor2 *= 256;//We wanna modify the middle two digits now
     sprite.tint = valColor2;
-
-    //printing the hex val
-    /*hexString = sprite.tint.toString(16);
-    if (hexString.length % 2) {
-        hexString = '0' + hexString;
-    }
-    console.log(hexString);*/
 
     colorChange(colorOverlap);
 
@@ -435,14 +433,7 @@ function dragUpdate6 (sprite){
     valColor5 *= 256;//We wanna modify the middle two digits now
     sprite.tint = valColor5;
 
-    //printing the hex val
-    /*hexString = sprite.tint.toString(16);
-    if (hexString.length % 2) {
-        hexString = '0' + hexString;
-    }
-    console.log(hexString);*/
-
-    colorChange2(colorOverlap2);
+   colorChange2(colorOverlap2);
 
     if(sprite.y != yValue){
         sprite.y = yValue;
@@ -502,13 +493,6 @@ function dragUpdate7 (sprite){
     valColor6 = parseInt(valColor6);
     valColor6 *= 65536;//We wanna modify the last two digits now
     sprite.tint = valColor6;
-
-    //printing the hex val
-    /*hexString = sprite.tint.toString(16);
-    if (hexString.length % 2) {
-        hexString = '0' + hexString;
-    }
-    console.log(hexString);*/
 
     colorChange2(colorOverlap2);
 

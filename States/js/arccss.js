@@ -91,6 +91,7 @@ var cssState = {
 
         //Chose your library: Click on label to set variable to a library, then send info later
         var player1Label = game.add.text(game.world.width*0.25, 50, 'Choose your Library!', { font: '25px Arial', fill: '#ffffff' });
+        
         player1Label.inputEnabled = true;
         player1Label.selected = 0;
         player1Label.librarySelected = '';
@@ -110,7 +111,7 @@ var cssState = {
             }
         });
 
-
+        
         var player2Label = game.add.text(game.world.width * .65 + 150, 50, 'Choose your Library!', { font: '25px Arial', fill: '#ffffff' });
         player2Label.inputEnabled = true;
         player2Label.selected = 0;
@@ -130,7 +131,7 @@ var cssState = {
                     break;
             }
         });
-
+        
         //Hide labels used in debugging
         player1Label.visible = false;
         player2Label.visible = false;
@@ -200,7 +201,7 @@ var cssState = {
                 //music.stop();
                 game.state.start('arcsss');
             });
-
+            
         }
         else {
             {
@@ -211,20 +212,21 @@ var cssState = {
         }
     },
     onDragStop: function () {
-
+        console.log("test?");
         //If you drop the cursor on the icon
         if (game.physics.arcade.overlap(player1Icon, dudeIcon)) {
+            console.log("test?");
             if(muteState==false)
             buttonSound.play();
             //Determine's what's spawned, and lets you start game
-            charName1 = "dude";
+            charName1 = "Lab";
             charSelected1 = true;
             //"select" dude, and change color of pic
             dudeIcon.tint = 0xffff00;
             //destroys the old sprite so when you create a new one only one exists
             player1BodyIcon.kill();
 
-            player1BodyIcon = game.add.sprite(game.world.width * .25 - 150, game.world.height * .5 - 50, 'dude');
+            player1BodyIcon = game.add.sprite(game.world.width * .25 - 150, game.world.height * .5 - 50, 'Lab');
 
             player1BodyIcon.scale.setTo(3.5, 3.5);
             player1BodyIcon.animations.add('idle', [1, 2], 5, true);
@@ -236,19 +238,20 @@ var cssState = {
         else {
             // player1BodyIcon.kill();
         }
-
+        
         //If you drop the icon on the chick Picture
         if (game.physics.arcade.overlap(player1Icon, chickIcon)) {
             if(muteState==false)
             buttonSound.play();
-            charName1 = "chick";
+            charName1 = "Goth";
             charSelected1 = true;
             chickIcon.tint = 0xffff00;
             player1BodyIcon.kill();
 
-            player1BodyIcon = game.add.sprite(game.world.width * .25 - 150, game.world.height * .5 - 50, 'chick');
+            player1BodyIcon = game.add.sprite(game.world.width * .25 - 150, game.world.height * .5 - 50, 'Goth');
 
             player1BodyIcon.scale.setTo(3.5, 3.5);
+            
             player1BodyIcon.animations.add('idle', [1, 2], 5, true);
             player1BodyIcon.animations.add('kick', [6], 5, true);
             if (player1BodyIcon.animations) {
@@ -261,13 +264,13 @@ var cssState = {
         if (game.physics.arcade.overlap(player2Icon, dudeIcon)) {
             if(muteState==false)
             buttonSound.play();
-            charName2 = "dude";
+            charName2 = "Lab";
             charSelected2 = true;
             dudeIcon.tint = 0xffff00;
             player2BodyIcon.kill();
             controlOptionAI = 2;
 
-            player2BodyIcon = game.add.sprite(game.world.width * .75 + 150, game.world.height * .5 - 50, 'dude');
+            player2BodyIcon = game.add.sprite(game.world.width * .75 + 150, game.world.height * .5 - 50, 'Lab');
             player2BodyIcon.scale.setTo(3.5, 3.5);
             player2BodyIcon.animations.add('idle', [1, 2], 5, true);
             player2BodyIcon.animations.add('kick', [6], 5, true);
@@ -287,13 +290,13 @@ var cssState = {
         if (game.physics.arcade.overlap(player2Icon, chickIcon)) {
             if(muteState==false)
             buttonSound.play();
-            charName2 = "chick";
+            charName2 = "Goth";
             charSelected2 = true;
             chickIcon.tint = 0xffff00;
             player2BodyIcon.kill();
             controlOptionAI = 2;
 
-            player2BodyIcon = game.add.sprite(game.world.width * .75 + 150, game.world.height * .5 - 50, 'chick');
+            player2BodyIcon = game.add.sprite(game.world.width * .75 + 150, game.world.height * .5 - 50, 'Goth');
             player2BodyIcon.scale.setTo(3.5, 3.5);
             player2BodyIcon.animations.add('idle', [1, 2], 5, true);
             player2BodyIcon.animations.add('kick', [6], 5, true);
@@ -309,13 +312,13 @@ var cssState = {
         if (game.physics.arcade.overlap(player2Icon, computerIcon)) {
             if(muteState==false)
             buttonSound.play();
-            charName2 = "chick";
+            charName2 = "Goth";
             botSelected = true;
             computerIcon.tint = 0xffff00;
             player2BodyIcon.kill();
             controlOptionAI = -2; //Temporary till we have the AI logic, then replace this with a -2 instead,using vpad to test functionality
             console.log("controlOptionAI: " + controlOptionAI);
-            player2BodyIcon = game.add.sprite(game.world.width * .75 + 150, game.world.height * .5 - 50, 'chick');
+            player2BodyIcon = game.add.sprite(game.world.width * .75 + 150, game.world.height * .5 - 50, 'Goth');
             player2BodyIcon.scale.setTo(3.5, 3.5);
             player2BodyIcon.animations.add('idle', [1, 2], 5, true);
             player2BodyIcon.animations.add('kick', [6], 5, true);

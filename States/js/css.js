@@ -215,7 +215,7 @@ var cssState = {
             if(muteState==false)
             buttonSound.play();
             //Determine's what's spawned, and lets you start game
-            charName1 = "dude";
+            charName1 = "Lab";
             charSelected1 = true;
             //"select" dude, and change color of pic
             dudeIcon.tint = 0xffff00;
@@ -239,7 +239,7 @@ var cssState = {
         if (game.physics.arcade.overlap(player1Icon, chickIcon)) {
             if(muteState==false)
             buttonSound.play();
-            charName1 = "chick";
+            charName1 = "Goth";
             charSelected1 = true;
             chickIcon.tint = 0xffff00;
             player1BodyIcon.kill();
@@ -259,7 +259,7 @@ var cssState = {
         if (game.physics.arcade.overlap(player2Icon, dudeIcon)) {
             if(muteState==false)
             buttonSound.play();
-            charName2 = "dude";
+            charName2 = "Lab";
             charSelected2 = true;
             dudeIcon.tint = 0xffff00;
             player2BodyIcon.kill();
@@ -285,7 +285,7 @@ var cssState = {
         if (game.physics.arcade.overlap(player2Icon, chickIcon)) {
             if(muteState==false)
             buttonSound.play();
-            charName2 = "chick";
+            charName2 = "Goth";
             charSelected2 = true;
             chickIcon.tint = 0xffff00;
             player2BodyIcon.kill();
@@ -307,7 +307,7 @@ var cssState = {
         if (game.physics.arcade.overlap(player2Icon, computerIcon)) {
             if(muteState==false)
             buttonSound.play();
-            charName2 = "chick";
+            charName2 = "Goth";
             botSelected = true;
             computerIcon.tint = 0xffff00;
             player2BodyIcon.kill();
