@@ -88,7 +88,8 @@ var loadState = {
         game.load.image('GothIcon', 'assets/CharIcon/GothIcon.png');
         game.load.image('FighterIcon', 'assets/CharIcon/FighterIcon.png');
         game.load.image('BoxIcon', 'assets/CharIcon/BoxIcon.png');
-        game.load.spritesheet('crowd', 'assets/dude.png', 32, 48);
+
+        //game.load.spritesheet('crowd', 'assets/dude.png', 32, 48);
         
         
         //Audio

@@ -17,7 +17,7 @@ var tcsState = {
         musicToPlay = game.add.audio('titleCardSound');
         musicToPlay.play();
 
-        dudeIcon.tint = 0xffff00;
+        //dudeIcon.tint = 0xffff00;
 
         player1ico.scale.setTo(15, 15);
         player1ico.anchor.setTo(.5,.5);
@@ -29,7 +29,7 @@ var tcsState = {
         }
         if(muteState==false)
         buttonSound.play();
-        chickIcon.tint = 0xffffff;
+        //chickIcon.tint = 0xffffff;
 
         player2ico = game.add.sprite(game.world.width * .95 + 100, game.world.height * .7, 'Goth');
         player2ico.scale.setTo(15, 15);

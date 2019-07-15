@@ -30,6 +30,18 @@ var cssState = {
         game.physics.arcade.enable(GothIcon);
         GothIcon.tint = 0xffffff;
 
+        BoxIcon = game.add.sprite(game.world.width * 0.5 - 250, game.world.height * .5 + 350, 'BoxIcon');
+        BoxIcon.anchor.setTo(.5, .5);
+        BoxIcon.scale.setTo(5, 5);
+        game.physics.arcade.enable(BoxIcon);
+        BoxIcon.tint = 0xffffff;
+
+        FighterIcon = game.add.sprite(game.world.width * 0.5 + 250, game.world.height * .5 + 350, 'FighterIcon');
+        FighterIcon.anchor.setTo(.5, .5);
+        FighterIcon.scale.setTo(5, 5);
+        game.physics.arcade.enable(FighterIcon);
+        FighterIcon.tint = 0xffffff;
+
         //TEST:COMPUTER icon
         computerIcon = game.add.sprite(game.world.width * .5, game.world.height * .5 + 150, 'computerIcon');
         computerIcon.anchor.setTo(.5, .5);
@@ -64,6 +76,8 @@ var cssState = {
 
         LabIcon.enableBody = true;
         GothIcon.enableBody = true;
+        BoxIcon.enableBody = true;
+        FighterIcon.enableBody = true;
 
         buttonSound = game.add.audio('buttonSound');
         buttonSound.volume -= .5;
@@ -222,7 +236,7 @@ var cssState = {
             //destroys the old sprite so when you create a new one only one exists
             player1BodyIcon.kill();
 
-            player1BodyIcon = game.add.sprite(game.world.width * .25 - 150, game.world.height * .5 - 50, 'dude');
+            player1BodyIcon = game.add.sprite(game.world.width * .25 - 150, game.world.height * .5 - 50, 'Lab');
             
             player1BodyIcon.scale.setTo(3.5, 3.5);
             player1BodyIcon.animations.add('idle', [1, 2], 5, true);
@@ -244,7 +258,43 @@ var cssState = {
             GothIcon.tint = 0xffff00;
             player1BodyIcon.kill();
 
-            player1BodyIcon = game.add.sprite(game.world.width * .25 - 150, game.world.height * .5 - 50, 'chick');
+            player1BodyIcon = game.add.sprite(game.world.width * .25 - 150, game.world.height * .5 - 50, 'Goth');
+
+            player1BodyIcon.scale.setTo(3.5, 3.5);
+            player1BodyIcon.animations.add('idle', [1, 2], 5, true);
+            player1BodyIcon.animations.add('kick', [6], 5, true);
+            if (player1BodyIcon.animations) {
+                player1BodyIcon.alpha = 1;
+            }
+        }
+
+        if (game.physics.arcade.overlap(player1Icon, BoxIcon)) {
+            if(muteState==false)
+            buttonSound.play();
+            charName1 = "Boxer";
+            charSelected1 = true;
+            BoxIcon.tint = 0xffff00;
+            player1BodyIcon.kill();
+
+            player1BodyIcon = game.add.sprite(game.world.width * .25 - 150, game.world.height * .5 - 50, 'Boxer');
+
+            player1BodyIcon.scale.setTo(3.5, 3.5);
+            player1BodyIcon.animations.add('idle', [1, 2], 5, true);
+            player1BodyIcon.animations.add('kick', [6], 5, true);
+            if (player1BodyIcon.animations) {
+                player1BodyIcon.alpha = 1;
+            }
+        }
+
+        if (game.physics.arcade.overlap(player1Icon, FighterIcon)) {
+            if(muteState==false)
+            buttonSound.play();
+            charName1 = "Fighter";
+            charSelected1 = true;
+            BoxIcon.tint = 0xffff00;
+            player1BodyIcon.kill();
+
+            player1BodyIcon = game.add.sprite(game.world.width * .25 - 150, game.world.height * .5 - 50, 'Fighter');
 
             player1BodyIcon.scale.setTo(3.5, 3.5);
             player1BodyIcon.animations.add('idle', [1, 2], 5, true);
@@ -265,7 +315,7 @@ var cssState = {
             player2BodyIcon.kill();
             controlOptionAI = 2;
 
-            player2BodyIcon = game.add.sprite(game.world.width * .75 + 150, game.world.height * .5 - 50, 'dude');
+            player2BodyIcon = game.add.sprite(game.world.width * .75 + 150, game.world.height * .5 - 50, 'Lab');
             player2BodyIcon.scale.setTo(3.5, 3.5);
             player2BodyIcon.animations.add('idle', [1, 2], 5, true);
             player2BodyIcon.animations.add('kick', [6], 5, true);
@@ -291,7 +341,7 @@ var cssState = {
             player2BodyIcon.kill();
             controlOptionAI = 2;
 
-            player2BodyIcon = game.add.sprite(game.world.width * .75 + 150, game.world.height * .5 - 50, 'chick');
+            player2BodyIcon = game.add.sprite(game.world.width * .75 + 150, game.world.height * .5 - 50, 'Goth');
             player2BodyIcon.scale.setTo(3.5, 3.5);
             player2BodyIcon.animations.add('idle', [1, 2], 5, true);
             player2BodyIcon.animations.add('kick', [6], 5, true);
@@ -300,6 +350,45 @@ var cssState = {
                 player2BodyIcon.alpha = 1;
             }
         }
+
+        if (game.physics.arcade.overlap(player2Icon, BoxIcon)) {
+            if(muteState==false)
+            buttonSound.play();
+            charName2 = "Boxer";
+            charSelected2 = true;
+            BoxIcon.tint = 0xffff00;
+            player2BodyIcon.kill();
+            controlOptionAI = 2;
+
+            player2BodyIcon = game.add.sprite(game.world.width * .75 + 150, game.world.height * .5 - 50, 'Boxer');
+            player2BodyIcon.scale.setTo(3.5, 3.5);
+            player2BodyIcon.animations.add('idle', [1, 2], 5, true);
+            player2BodyIcon.animations.add('kick', [6], 5, true);
+
+            if (player2BodyIcon.animations) {
+                player2BodyIcon.alpha = 1;
+            }
+        }
+
+        if (game.physics.arcade.overlap(player2Icon, FighterIcon)) {
+            if(muteState==false)
+            buttonSound.play();
+            charName2 = "Fighter";
+            charSelected2 = true;
+            FighterIcon.tint = 0xffff00;
+            player2BodyIcon.kill();
+            controlOptionAI = 2;
+
+            player2BodyIcon = game.add.sprite(game.world.width * .75 + 150, game.world.height * .5 - 50, 'Fighter');
+            player2BodyIcon.scale.setTo(3.5, 3.5);
+            player2BodyIcon.animations.add('idle', [1, 2], 5, true);
+            player2BodyIcon.animations.add('kick', [6], 5, true);
+
+            if (player2BodyIcon.animations) {
+                player2BodyIcon.alpha = 1;
+            }
+        }
+
         else {
             // player2BodyIcon.kill();
         }
@@ -313,7 +402,7 @@ var cssState = {
             player2BodyIcon.kill();
             controlOptionAI = -2; //Temporary till we have the AI logic, then replace this with a -2 instead,using vpad to test functionality
             console.log("controlOptionAI: " + controlOptionAI);
-            player2BodyIcon = game.add.sprite(game.world.width * .75 + 150, game.world.height * .5 - 50, 'chick');
+            player2BodyIcon = game.add.sprite(game.world.width * .75 + 150, game.world.height * .5 - 50, 'Goth');
             player2BodyIcon.scale.setTo(3.5, 3.5);
             player2BodyIcon.animations.add('idle', [1, 2], 5, true);
             player2BodyIcon.animations.add('kick', [6], 5, true);
@@ -326,11 +415,11 @@ var cssState = {
             // player2BodyIcon.kill();
         }
 
-        if (!game.physics.arcade.overlap(player1Icon, LabIcon) && !game.physics.arcade.overlap(player1Icon, GothIcon)) {
+        if (!game.physics.arcade.overlap(player1Icon, LabIcon) && !game.physics.arcade.overlap(player1Icon, GothIcon) && !game.physics.arcade.overlap(player1Icon, BoxIcon)  && !game.physics.arcade.overlap(player1Icon, FighterIcon)) {
             player1BodyIcon.kill();
         }
 
-        if (!game.physics.arcade.overlap(player2Icon, LabIcon) && !game.physics.arcade.overlap(player2Icon, GothIcon) && !game.physics.arcade.overlap(player2Icon, computerIcon)) {
+        if (!game.physics.arcade.overlap(player2Icon, LabIcon) && !game.physics.arcade.overlap(player2Icon, GothIcon) && !game.physics.arcade.overlap(player2Icon, BoxIcon) && !game.physics.arcade.overlap(player2Icon, FighterIcon)&& !game.physics.arcade.overlap(player2Icon, computerIcon)) {
             player2BodyIcon.kill();
         }
 
@@ -359,6 +448,26 @@ var cssState = {
             }
         }
 
+        if (game.physics.arcade.overlap(player1Icon, BoxIcon)) {
+            charName1 = "";
+            charSelected1 = false;
+            BoxIcon.tint = 0xffffff;
+
+            if (player1BodyIcon.animations) {
+                player1BodyIcon.alpha = .5;
+            }
+        }
+
+        if (game.physics.arcade.overlap(player1Icon, FighterIcon)) {
+            charName1 = "";
+            charSelected1 = false;
+            FighterIcon.tint = 0xffffff;
+
+            if (player1BodyIcon.animations) {
+                player1BodyIcon.alpha = .5;
+            }
+        }
+
 
         if (game.physics.arcade.overlap(player2Icon, LabIcon)) {
             charName2 = "";
@@ -370,6 +479,25 @@ var cssState = {
             }
         }
 
+        if (game.physics.arcade.overlap(player2Icon, BoxIcon)) {
+            charName2 = "";
+            charSelected2 = false;
+            BoxIcon.tint = 0xffffff;
+
+            if (player2BodyIcon.animations) {
+                player2BodyIcon.alpha = .5;
+            }
+        }
+
+        if (game.physics.arcade.overlap(player2Icon, FighterIcon)) {
+            charName2 = "";
+            charSelected2 = false;
+            FighterIcon.tint = 0xffffff;
+
+            if (player2BodyIcon.animations) {
+                player2BodyIcon.alpha = .5;
+            }
+        }
 
         if (game.physics.arcade.overlap(player2Icon, GothIcon)) {
             charName2 = "";

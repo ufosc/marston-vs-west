@@ -1,4 +1,4 @@
-class box extends Fighter {
+class boxer extends Fighter {
     constructor(character, health, lives, startx, starty, controlnum) {
 
         super(character, health, lives, startx, starty, controlnum);
