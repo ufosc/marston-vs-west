@@ -18,17 +18,17 @@ var cssState = {
 
         key1 = game.input.keyboard.addKey(Phaser.Keyboard.ENTER);
         
-        dudeIcon = game.add.sprite(game.world.width * 0.5 - 250, game.world.height * .5 + 150, 'dudeIcon');
-        dudeIcon.anchor.setTo(.5, .5);
-        //dudeIcon.scale.setTo(.5, .5);
-        game.physics.arcade.enable(dudeIcon);
-        dudeIcon.tint = 0xffffff;
+        LabIcon = game.add.sprite(game.world.width * 0.5 - 250, game.world.height * .5 + 150, 'LabIcon');
+        LabIcon.anchor.setTo(.5, .5);
+        LabIcon.scale.setTo(5, 5);
+        game.physics.arcade.enable(LabIcon);
+        LabIcon.tint = 0xffffff;
 
-        chickIcon = game.add.sprite(game.world.width * 0.5 + 250, game.world.height * .5 + 150, 'chickIcon');
-        chickIcon.anchor.setTo(.5, .5);
-        //chickIcon.scale.setTo(.5, .5);
-        game.physics.arcade.enable(chickIcon);
-        chickIcon.tint = 0xffffff;
+        GothIcon = game.add.sprite(game.world.width * 0.5 + 250, game.world.height * .5 + 150, 'GothIcon');
+        GothIcon.anchor.setTo(.5, .5);
+        GothIcon.scale.setTo(5, 5);
+        game.physics.arcade.enable(GothIcon);
+        GothIcon.tint = 0xffffff;
 
         //TEST:COMPUTER icon
         computerIcon = game.add.sprite(game.world.width * .5, game.world.height * .5 + 150, 'computerIcon');
@@ -62,8 +62,8 @@ var cssState = {
         player2Icon.events.onDragStop.add(this.onDragStop, this);
         player2Icon.events.onDragStart.add(this.onDragStart, this);
 
-        dudeIcon.enableBody = true;
-        chickIcon.enableBody = true;
+        LabIcon.enableBody = true;
+        GothIcon.enableBody = true;
 
         buttonSound = game.add.audio('buttonSound');
         buttonSound.volume -= .5;
@@ -214,7 +214,7 @@ var cssState = {
     onDragStop: function () {
         console.log("test?");
         //If you drop the cursor on the icon
-        if (game.physics.arcade.overlap(player1Icon, dudeIcon)) {
+        if (game.physics.arcade.overlap(player1Icon, LabIcon)) {
             console.log("test?");
             if(muteState==false)
             buttonSound.play();
@@ -222,7 +222,7 @@ var cssState = {
             charName1 = "Lab";
             charSelected1 = true;
             //"select" dude, and change color of pic
-            dudeIcon.tint = 0xffff00;
+            LabIcon.tint = 0xffff00;
             //destroys the old sprite so when you create a new one only one exists
             player1BodyIcon.kill();
 
@@ -240,12 +240,12 @@ var cssState = {
         }
         
         //If you drop the icon on the chick Picture
-        if (game.physics.arcade.overlap(player1Icon, chickIcon)) {
+        if (game.physics.arcade.overlap(player1Icon, GothIcon)) {
             if(muteState==false)
             buttonSound.play();
             charName1 = "Goth";
             charSelected1 = true;
-            chickIcon.tint = 0xffff00;
+            GothIcon.tint = 0xffff00;
             player1BodyIcon.kill();
 
             player1BodyIcon = game.add.sprite(game.world.width * .25 - 150, game.world.height * .5 - 50, 'Goth');
@@ -261,12 +261,12 @@ var cssState = {
 
 
 
-        if (game.physics.arcade.overlap(player2Icon, dudeIcon)) {
+        if (game.physics.arcade.overlap(player2Icon, LabIcon)) {
             if(muteState==false)
             buttonSound.play();
             charName2 = "Lab";
             charSelected2 = true;
-            dudeIcon.tint = 0xffff00;
+            LabIcon.tint = 0xffff00;
             player2BodyIcon.kill();
             controlOptionAI = 2;
 
@@ -287,12 +287,12 @@ var cssState = {
 
 
 
-        if (game.physics.arcade.overlap(player2Icon, chickIcon)) {
+        if (game.physics.arcade.overlap(player2Icon, GothIcon)) {
             if(muteState==false)
             buttonSound.play();
             charName2 = "Goth";
             charSelected2 = true;
-            chickIcon.tint = 0xffff00;
+            GothIcon.tint = 0xffff00;
             player2BodyIcon.kill();
             controlOptionAI = 2;
 
@@ -331,11 +331,11 @@ var cssState = {
             // player2BodyIcon.kill();
         }
 
-        if (!game.physics.arcade.overlap(player1Icon, dudeIcon) && !game.physics.arcade.overlap(player1Icon, chickIcon)) {
+        if (!game.physics.arcade.overlap(player1Icon, LabIcon) && !game.physics.arcade.overlap(player1Icon, GothIcon)) {
             player1BodyIcon.kill();
         }
 
-        if (!game.physics.arcade.overlap(player2Icon, dudeIcon) && !game.physics.arcade.overlap(player2Icon, chickIcon) && !game.physics.arcade.overlap(player2Icon, computerIcon)) {
+        if (!game.physics.arcade.overlap(player2Icon, LabIcon) && !game.physics.arcade.overlap(player2Icon, GothIcon) && !game.physics.arcade.overlap(player2Icon, computerIcon)) {
             player2BodyIcon.kill();
         }
 
@@ -343,10 +343,10 @@ var cssState = {
     onDragStart: function () {
 
 
-        if (game.physics.arcade.overlap(player1Icon, dudeIcon)) {
+        if (game.physics.arcade.overlap(player1Icon, LabIcon)) {
             charName1 = "";
             charSelected1 = false;
-            dudeIcon.tint = 0xffffff;
+            LabIcon.tint = 0xffffff;
 
             if (player1BodyIcon.animations) {
                 player1BodyIcon.alpha = .5;
@@ -354,10 +354,10 @@ var cssState = {
         }
 
 
-        if (game.physics.arcade.overlap(player1Icon, chickIcon)) {
+        if (game.physics.arcade.overlap(player1Icon, GothIcon)) {
             charName1 = "";
             charSelected1 = false;
-            chickIcon.tint = 0xffffff;
+            GothIcon.tint = 0xffffff;
 
             if (player1BodyIcon.animations) {
                 player1BodyIcon.alpha = .5;
@@ -365,10 +365,10 @@ var cssState = {
         }
 
 
-        if (game.physics.arcade.overlap(player2Icon, dudeIcon)) {
+        if (game.physics.arcade.overlap(player2Icon, LabIcon)) {
             charName2 = "";
             charSelected2 = false;
-            dudeIcon.tint = 0xffffff;
+            LabIcon.tint = 0xffffff;
 
             if (player2BodyIcon.animations) {
                 player2BodyIcon.alpha = .5;
@@ -376,10 +376,10 @@ var cssState = {
         }
 
 
-        if (game.physics.arcade.overlap(player2Icon, chickIcon)) {
+        if (game.physics.arcade.overlap(player2Icon, GothIcon)) {
             charName2 = "";
             charSelected2 = false;
-            chickIcon.tint = 0xffffff;
+            GothIcon.tint = 0xffffff;
 
             if (player2BodyIcon.animations) {
                 player2BodyIcon.alpha = .5;

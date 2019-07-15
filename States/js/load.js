@@ -82,8 +82,12 @@ var loadState = {
         game.load.image('player2cssIcon', 'assets/player2cssIcon.png');
         game.load.image('minusButton', 'assets/minusButton.png');
         game.load.image('plusButton', 'assets/plusButton.png');
-        game.load.image('dudeIcon', 'assets/dudeIcon.png');
-        game.load.image('chickIcon', 'assets/chickIcon.png');
+        //game.load.image('dudeIcon', 'assets/dudeIcon.png');
+        //game.load.image('chickIcon', 'assets/chickIcon.png');
+        game.load.image('LabIcon', 'assets/CharIcon/LabIcon.png');
+        game.load.image('GothIcon', 'assets/CharIcon/GothIcon.png');
+        game.load.image('FighterIcon', 'assets/CharIcon/FighterIcon.png');
+        game.load.image('BoxIcon', 'assets/CharIcon/BoxIcon.png');
         game.load.spritesheet('crowd', 'assets/dude.png', 32, 48);
         
         
