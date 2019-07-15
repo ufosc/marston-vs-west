@@ -13,7 +13,7 @@ var tcsState = {
         var skipLabel = game.add.text(game.world.width * .5 , game.world.height - 25, "Press 'Enter' to skip", { font: '25px Arial', fill: '#ffffff' });
         skipLabel.anchor.setTo(.5,.5);
 
-        player1ico = game.add.sprite(game.world.width * .05 - 100, game.world.height * .7, 'Lab');
+        player1ico = game.add.sprite(game.world.width * .05 - 100, game.world.height * .7, charName1);
         musicToPlay = game.add.audio('titleCardSound');
         musicToPlay.play();
 
@@ -31,7 +31,7 @@ var tcsState = {
         buttonSound.play();
         //chickIcon.tint = 0xffffff;
 
-        player2ico = game.add.sprite(game.world.width * .95 + 100, game.world.height * .7, 'Goth');
+        player2ico = game.add.sprite(game.world.width * .95 + 100, game.world.height * .7, charName2);
         player2ico.scale.setTo(15, 15);
         player2ico.anchor.setTo(.5,.5);
 
