@@ -1,6 +1,6 @@
-var cssState = {
+var arccssState = {
     create: function () {
-        console.log("css?");
+        console.log("arccss?");
         //Reset values to default so if player wants to play again, it does not start off "ready" to play
         charSelected1 = false;
         charSelected2 = false;
@@ -9,6 +9,9 @@ var cssState = {
         charName1 = "";
         charName2 = "";
         multimanmode = false;
+        
+        ColorMenu1 = new ColorMenu();
+        console.log("Color menu made in arcade?");
 
         var backgroundSprite = game.add.image(0, 0, 'menuBackground');
         backgroundSprite.anchor.setTo(0,0);

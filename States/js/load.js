@@ -17,6 +17,7 @@ var loadState = {
         //game.load.image('ground', 'assets/platform2.png');
         game.load.image('ground', 'assets/floorblock.png');
         game.load.image('star', 'assets/star.png');
+        game.load.image('ColorBottle', 'assets/ColorBottleB.png');
         //game.load.spritesheet('dude', 'assets/dude.png', 32, 48);
 
         //game.load.spritesheet('dude', 'assets/Fighter1master.png', 36, 42);
@@ -30,8 +31,6 @@ var loadState = {
         game.load.spritesheet('Lab','assets/Fighters/Canvas/Nerd_Blank.png', 60, 94);
         game.load.spritesheet('Goth', 'assets/Fighters/Canvas/Goth_Blank.png', 64, 96);
         game.load.spritesheet('Boxer','assets/Fighters/Canvas/Boxer_Blank.png', 100, 93);
-
-
 
         game.load.image('hitboxTest', 'assets/testHitbox.png');
         game.load.spritesheet('baddie', 'assets/baddie.png', 32, 32);
@@ -64,7 +63,6 @@ var loadState = {
         game.load.image('xButton', 'assets/ButtonXbig.png');
         game.load.image('yButton', 'assets/ButtonYbig.png');
 
-
         //Menu Assets
         
         game.load.image('menuButton', 'assets/menuButton.png');
@@ -89,8 +87,7 @@ var loadState = {
         game.load.image('FighterIcon', 'assets/CharIcon/FighterIcon.png');
         game.load.image('BoxIcon', 'assets/CharIcon/BoxIcon.png');
 
-        //game.load.spritesheet('crowd', 'assets/dude.png', 32, 48);
-        
+        //game.load.spritesheet('crowd', 'assets/dude.png', 32, 48);        
         
         //Audio
         game.load.audio('hitSound', 'assets/audio/jab.wav');
@@ -119,7 +116,6 @@ var loadState = {
         game.load.image('blueStock', 'assets/blueStock.png');
         game.load.image('dust', 'assets/dust.png');
         game.load.image('music_icon', 'assets/music_sprite.png');
-
 
         //Menu Images
         game.load.image('menuBackground', 'assets/MvW Menus/MainMenu_Sprites/Sprites/Brick Wall_Background.png');

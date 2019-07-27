@@ -515,7 +515,8 @@ function colorChange(sprite){
 
     sprite.tint = red + green + blue;
     
-    gameManager.playerTint[0] = red + green + blue;
+    //gameManager.playerTint[0] = red + green + blue;
+    gameManager.playerTint[0] = "0xFFFFFF";
 }
 function colorChange2(sprite){
     let red = rgbtohex(valColor4);
@@ -524,5 +525,6 @@ function colorChange2(sprite){
 
     sprite.tint = red + green + blue;
     
-    gameManager.playerTint[1] = red + green + blue;
+    //gameManager.playerTint[1] = red + green + blue;
+    gameManager.playerTint[1] = "0xFFFFFF";
 }

@@ -36,12 +36,12 @@ class Stage {
         console.log("You chose: " + this.icon.key);
         music.stop();
         console.log('arctcs');
-        game.state.start('arctcs');
+        game.state.start('tcs');
         //game.state.start('play');
     }
 }
 
-var sssState = {
+var arcsssState = {
     create: function () {
         //Reset values to default so if player wants to play again, it does not start off "ready" to play
         gameManager.chosenStageName = '';

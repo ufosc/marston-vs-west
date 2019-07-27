@@ -57,10 +57,15 @@ var menuState = {
 
     },
     start: function () {
+
+        
         if(muteState==false)
         buttonSound.play();
         //music.stop();
+        console.log("go to normal css?");
         game.state.start('css');
+        //game.state.start('options');
+        
 
     },
     arcade: function(){

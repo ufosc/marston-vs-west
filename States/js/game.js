@@ -6,7 +6,6 @@ var config =
     width: 1920,
     height: 1080,
 
-
     renderer: Phaser.AUTO,
     parent: 'gameDiv',
     transparent: false,
@@ -15,8 +14,6 @@ var config =
     scaleMode: Phaser.ScaleManager.SHOW_ALL
 
 }
-
-
 
 var game = new Phaser.Game(config);
 //Change the screen dimensions to accomidate mobile users (eventually will change other things about mobile experience but not here)
@@ -269,6 +266,8 @@ var stage1;
 var stage2;
 var chosenMap;
 
+
+
 game.state.add('boot', bootState);
 game.state.add('options', optionsState);
 game.state.add('credits', creditsState);
@@ -279,9 +278,27 @@ game.state.add('win', winState);
 game.state.add('css', cssState);
 game.state.add('sss', sssState);
 game.state.add('tcs', tcsState);
-game.state.add('arccss', cssState);
-game.state.add('arcsss', sssState);
-game.state.add('arctcs', tcsState);
-game.state.add('arc', cssState);
+game.state.add('arccss', arccssState);
+//game.state.add('arcsss', arcsssState);//not sure why this needs to be commented out
+game.state.add('arctcs', arctcsState);
+game.state.add('arc', arccssState);
 
 game.state.start('boot');
+
+/*
+game.state.add('boot', bootState);
+game.state.add('options', optionsState);
+game.state.add('credits', creditsState);
+game.state.add('load', loadState);
+game.state.add('menu', menuState);
+game.state.add('play', playState);
+game.state.add('win', winState);
+game.state.add('css', cssState);
+game.state.add('sss', sssState);
+game.state.add('tcs', tcsState);
+game.state.add('arccss', arccssState);
+game.state.add('arcsss', arcsssState);
+game.state.add('arctcs', arctcsState);
+game.state.add('arc', arccssState);
+
+game.state.start('boot');*/

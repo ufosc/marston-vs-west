@@ -1,6 +1,6 @@
 var cssState = {
     create: function () {
-        console.log("css?");
+       
         //Reset values to default so if player wants to play again, it does not start off "ready" to play
         charSelected1 = false;
         charSelected2 = false;
@@ -91,7 +91,6 @@ var cssState = {
         player1Text.anchor.setTo(.5,.5);
         player2Text.anchor.setTo(.5,.5);
 
-
         player1BodyIcon = game.add.sprite(game.world.width * .25 - 150, game.world.height * .5 + 150, '');
         player2BodyIcon = game.add.sprite(game.world.width * .75 + 150, game.world.height * .5 + 150, '');
         player1BodyIcon.anchor.setTo(.5,.5);
@@ -175,10 +174,103 @@ var cssState = {
         });
 
 
+        console.log("css?");
+        ColorMenu1 = new ColorMenu(1);
+        
+        ColorMenu2 = new ColorMenu(2);
+        
+        /*
+        var i;
+        for(i = 0; i < 8; i++){
+            ColorMenu1.button[i].onInputUp.add(function (){
+                console.log(i);
+                gameManager.playerTint[0] = ColorMenu1.colorPick(i);
+            });
+        }
+        */
+        //player 1 color selection events
+        ColorMenu1.button[0].onInputUp.add(function (){
+                //console.log("button1");
+                gameManager.playerTint[0] = ColorMenu1.colorPick(0);
+        });
+
+        ColorMenu1.button[1].onInputUp.add(function (){
+                //console.log("button2");
+                gameManager.playerTint[0] = ColorMenu1.colorPick(1);
+        });
+        
+        ColorMenu1.button[2].onInputUp.add(function (){
+                gameManager.playerTint[0] = ColorMenu1.colorPick(2);
+        });
+
+        ColorMenu1.button[3].onInputUp.add(function (){
+                gameManager.playerTint[0] = ColorMenu1.colorPick(3);
+        });
+        
+        ColorMenu1.button[4].onInputUp.add(function (){
+                gameManager.playerTint[0] = ColorMenu1.colorPick(4);
+        });
+        
+        ColorMenu1.button[5].onInputUp.add(function (){
+                gameManager.playerTint[0] = ColorMenu1.colorPick(5);
+        });
+        
+        ColorMenu1.button[6].onInputUp.add(function (){
+                gameManager.playerTint[0] = ColorMenu1.colorPick(6);
+        });
+        
+        ColorMenu1.button[7].onInputUp.add(function (){
+                gameManager.playerTint[0] = ColorMenu1.colorPick(7);
+        });
+        
+        ColorMenu1.button[8].onInputUp.add(function (){
+                gameManager.playerTint[0] = ColorMenu1.colorPick(8);
+        });
+        
+        //player 2 color selection events
+        ColorMenu2.button[0].onInputUp.add(function (){
+                //console.log("button1");
+                gameManager.playerTint[1] = ColorMenu2.colorPick(0);
+        });
+
+        ColorMenu2.button[1].onInputUp.add(function (){
+                //console.log("button2");
+                gameManager.playerTint[1] = ColorMenu2.colorPick(1);
+        });
+        
+        ColorMenu2.button[2].onInputUp.add(function (){
+                gameManager.playerTint[1] = ColorMenu2.colorPick(2);
+        });
+
+        ColorMenu2.button[3].onInputUp.add(function (){
+                gameManager.playerTint[1] = ColorMenu2.colorPick(3);
+        });
+        
+        ColorMenu2.button[4].onInputUp.add(function (){
+                gameManager.playerTint[1] = ColorMenu2.colorPick(4);
+        });
+        
+        ColorMenu2.button[5].onInputUp.add(function (){
+                gameManager.playerTint[1] = ColorMenu2.colorPick(5);
+        });
+        
+        ColorMenu2.button[6].onInputUp.add(function (){
+                gameManager.playerTint[1] = ColorMenu2.colorPick(6);
+        });
+        
+        ColorMenu2.button[7].onInputUp.add(function (){
+                gameManager.playerTint[1] = ColorMenu2.colorPick(7);
+        });
+        
+        ColorMenu2.button[8].onInputUp.add(function (){
+                gameManager.playerTint[1] = ColorMenu2.colorPick(8);
+        });
+        
+        console.log("Color menu made?");
         //TODO:Incorperate dragUpdate function event system into current system. I think it's needed to fix bugs/add dynamic features like spawning the character when hovering over while still dragging.
         //TODO:
         //find a way to change text, show sprite and name with alpha applied when hovering but NOT selecting character, SOLUTION: probably above comment
-
+        
     },
     start: function () {
         gameReadyText.text = `Game Start!`;
@@ -222,8 +314,10 @@ var cssState = {
 
         }
     },
+    colorButtonPress: function (buttonOrder, buttonNum){
+        gameManager.playerTint[buttonOrder] = playerColorButtons.colorPick(buttonNum);
+    },
     onDragStop: function () {
-
         //If you drop the cursor on the icon
         if (game.physics.arcade.overlap(player1Icon, LabIcon)) {
             if(muteState==false)
@@ -236,7 +330,7 @@ var cssState = {
             //destroys the old sprite so when you create a new one only one exists
             player1BodyIcon.kill();
 
-            player1BodyIcon = game.add.sprite(game.world.width * .25 - 150, game.world.height * .5 - 50, 'Lab');
+            player1BodyIcon = game.add.sprite(game.world.width * .3 - 150, game.world.height * .5 - 50, 'Lab');
             
             player1BodyIcon.scale.setTo(3.5, 3.5);
             player1BodyIcon.animations.add('idle', [1, 2], 5, true);
@@ -258,7 +352,7 @@ var cssState = {
             GothIcon.tint = 0xffff00;
             player1BodyIcon.kill();
 
-            player1BodyIcon = game.add.sprite(game.world.width * .25 - 150, game.world.height * .5 - 50, 'Goth');
+            player1BodyIcon = game.add.sprite(game.world.width * .3 - 150, game.world.height * .5 - 50, 'Goth');
 
             player1BodyIcon.scale.setTo(3.5, 3.5);
             player1BodyIcon.animations.add('idle', [1, 2], 5, true);
@@ -294,7 +388,7 @@ var cssState = {
             BoxIcon.tint = 0xffff00;
             player1BodyIcon.kill();
 
-            player1BodyIcon = game.add.sprite(game.world.width * .25 - 150, game.world.height * .5 - 50, 'Fighter');
+            player1BodyIcon = game.add.sprite(game.world.width * .3 - 150, game.world.height * .5 - 50, 'Fighter');
 
             player1BodyIcon.scale.setTo(3.5, 3.5);
             player1BodyIcon.animations.add('idle', [1, 2], 5, true);
@@ -315,7 +409,7 @@ var cssState = {
             player2BodyIcon.kill();
             controlOptionAI = 2;
 
-            player2BodyIcon = game.add.sprite(game.world.width * .75 + 150, game.world.height * .5 - 50, 'Lab');
+            player2BodyIcon = game.add.sprite(game.world.width * .6 + 150, game.world.height * .5 - 50, 'Lab');
             player2BodyIcon.scale.setTo(3.5, 3.5);
             player2BodyIcon.animations.add('idle', [1, 2], 5, true);
             player2BodyIcon.animations.add('kick', [6], 5, true);
@@ -330,8 +424,6 @@ var cssState = {
             //player2BodyIcon.kill();
         }
 
-
-
         if (game.physics.arcade.overlap(player2Icon, GothIcon)) {
             if(muteState==false)
             buttonSound.play();
@@ -341,7 +433,7 @@ var cssState = {
             player2BodyIcon.kill();
             controlOptionAI = 2;
 
-            player2BodyIcon = game.add.sprite(game.world.width * .75 + 150, game.world.height * .5 - 50, 'Goth');
+            player2BodyIcon = game.add.sprite(game.world.width * .6 + 150, game.world.height * .5 - 50, 'Goth');
             player2BodyIcon.scale.setTo(3.5, 3.5);
             player2BodyIcon.animations.add('idle', [1, 2], 5, true);
             player2BodyIcon.animations.add('kick', [6], 5, true);
@@ -360,7 +452,7 @@ var cssState = {
             player2BodyIcon.kill();
             controlOptionAI = 2;
 
-            player2BodyIcon = game.add.sprite(game.world.width * .75 + 150, game.world.height * .5 - 50, 'Boxer');
+            player2BodyIcon = game.add.sprite(game.world.width * .55 + 150, game.world.height * .5 - 50, 'Boxer');
             player2BodyIcon.scale.setTo(3.5, 3.5);
             player2BodyIcon.animations.add('idle', [1, 2], 5, true);
             player2BodyIcon.animations.add('kick', [6], 5, true);
@@ -379,7 +471,7 @@ var cssState = {
             player2BodyIcon.kill();
             controlOptionAI = 2;
 
-            player2BodyIcon = game.add.sprite(game.world.width * .75 + 150, game.world.height * .5 - 50, 'Fighter');
+            player2BodyIcon = game.add.sprite(game.world.width * .6 + 150, game.world.height * .5 - 50, 'Fighter');
             player2BodyIcon.scale.setTo(3.5, 3.5);
             player2BodyIcon.animations.add('idle', [1, 2], 5, true);
             player2BodyIcon.animations.add('kick', [6], 5, true);
@@ -402,7 +494,7 @@ var cssState = {
             player2BodyIcon.kill();
             controlOptionAI = -2; //Temporary till we have the AI logic, then replace this with a -2 instead,using vpad to test functionality
             console.log("controlOptionAI: " + controlOptionAI);
-            player2BodyIcon = game.add.sprite(game.world.width * .75 + 150, game.world.height * .5 - 50, 'Goth');
+            player2BodyIcon = game.add.sprite(game.world.width * .6 + 150, game.world.height * .5 - 50, 'Goth');
             player2BodyIcon.scale.setTo(3.5, 3.5);
             player2BodyIcon.animations.add('idle', [1, 2], 5, true);
             player2BodyIcon.animations.add('kick', [6], 5, true);

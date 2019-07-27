@@ -1,7 +1,7 @@
 //title card file
 var timer;
 
-var tcsState = {
+var arctcsState = {
     create:function(){
         
         console.log('yoshi');
