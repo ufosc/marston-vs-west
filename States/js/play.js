@@ -340,12 +340,13 @@ var playState = {
         stagecam = new cam(40, 350, 1200, 1000);
 
 
-        if(gameManager.chosenStageName === 'marstonPic') {
+        if(gameManager.chosenStageName === 'MarstonTableStage') {
 
             //Background for our game
             //back = game.add.sprite(0, 0, 'sky');
             //back = game.add.sprite(0, 0, 'MarstonStage2');
-            back = game.add.sprite(0, 0, 'TurlingtonStage2');
+            //back = game.add.sprite(0, 0, 'TurlingtonStage2');
+            back = game.add.sprite(0, 0, 'MarstonTableStage');
 
             back.scale.setTo(1.5,1.5);
 
@@ -369,10 +370,136 @@ var playState = {
             //ground.body.immovable = true;
 
         }
+        else if(gameManager.chosenStageName === 'WestPrintStage') {
+            back = game.add.sprite(0, 0, 'WestPrintStage');
+
+            back.scale.setTo(1.5,1.5);
+
+            // The platforms group contains the ground and the 2 ledges we can jump on
+            platforms = game.add.group();
+            platformsELeft = game.add.group();
+            platformsERight = game.add.group();
+
+            // Create the ground.
+            land = new platform(game.world.width * 0.5, game.world.height - 100, false, 'ground',40, 2)
+            
+            ground = platforms.add(land.plat);
+            leftledge = platformsELeft.add(land.leftledge);
+            rightledge = platformsERight.add(land.rightledge);
+
+            }
+        else if(gameManager.chosenStageName === 'WestDeskStage') {
+            back = game.add.sprite(0, 0, 'WestDeskStage');
+
+            back.scale.setTo(1.5,1.5);
+
+            // The platforms group contains the ground and the 2 ledges we can jump on
+            platforms = game.add.group();
+            platformsELeft = game.add.group();
+            platformsERight = game.add.group();
+
+            // Create the ground.
+            land = new platform(game.world.width * 0.5, game.world.height - 100, false, 'ground',40, 2)
+            
+            ground = platforms.add(land.plat);
+            leftledge = platformsELeft.add(land.leftledge);
+            rightledge = platformsERight.add(land.rightledge);
+            
+            }
+        else if(gameManager.chosenStageName === 'GatorStage') {
+            back = game.add.sprite(0, 0, 'GatorStage');
+
+            back.scale.setTo(1.5,1.5);
+
+            // The platforms group contains the ground and the 2 ledges we can jump on
+            platforms = game.add.group();
+            platformsELeft = game.add.group();
+            platformsERight = game.add.group();
+
+            // Create the ground.
+            land = new platform(game.world.width * 0.5, game.world.height - 100, false, 'ground',40, 2)
+            
+            ground = platforms.add(land.plat);
+            leftledge = platformsELeft.add(land.leftledge);
+            rightledge = platformsERight.add(land.rightledge);
+            
+            }
+        else if(gameManager.chosenStageName === 'TreeStage') {
+            back = game.add.sprite(0, 0, 'TreeStage');
+
+            back.scale.setTo(1.5,1.5);
+
+            // The platforms group contains the ground and the 2 ledges we can jump on
+            platforms = game.add.group();
+            platformsELeft = game.add.group();
+            platformsERight = game.add.group();
+
+            // Create the ground.
+            land = new platform(game.world.width * 0.5, game.world.height - 100, false, 'ground',40, 2)
+            
+            ground = platforms.add(land.plat);
+            leftledge = platformsELeft.add(land.leftledge);
+            rightledge = platformsERight.add(land.rightledge);
+            
+            }
+        else if(gameManager.chosenStageName === 'TableTopStage') {
+            back = game.add.sprite(0, 0, 'TableTopStage');
+
+            back.scale.setTo(1.5,1.5);
+
+            // The platforms group contains the ground and the 2 ledges we can jump on
+            platforms = game.add.group();
+            platformsELeft = game.add.group();
+            platformsERight = game.add.group();
+
+            // Create the ground.
+            land = new platform(game.world.width * 0.5, game.world.height - 100, false, 'ground',40, 2)
+            
+            ground = platforms.add(land.plat);
+            leftledge = platformsELeft.add(land.leftledge);
+            rightledge = platformsERight.add(land.rightledge);
+            
+            }                                    
+        else if(gameManager.chosenStageName === 'TableTop2Stage') {
+            back = game.add.sprite(0, 0, 'TableTop2Stage');
+            
+            back.scale.setTo(1.5,1.5);
+
+            // The platforms group contains the ground and the 2 ledges we can jump on
+            platforms = game.add.group();
+            platformsELeft = game.add.group();
+            platformsERight = game.add.group();
+
+            // Create the ground.
+            land = new platform(game.world.width * 0.5, game.world.height - 100, false, 'ground',40, 2)
+            
+            ground = platforms.add(land.plat);
+            leftledge = platformsELeft.add(land.leftledge);
+            rightledge = platformsERight.add(land.rightledge);
+            
+            }
+        else if(gameManager.chosenStageName === 'ReitzPondStage') {
+            back = game.add.sprite(0, 0, 'ReitzPondStage');
+
+            back.scale.setTo(1.5,1.5);
+
+            // The platforms group contains the ground and the 2 ledges we can jump on
+            platforms = game.add.group();
+            platformsELeft = game.add.group();
+            platformsERight = game.add.group();
+
+            // Create the ground.
+            land = new platform(game.world.width * 0.5, game.world.height - 100, false, 'ground',40, 2)
+            
+            ground = platforms.add(land.plat);
+            leftledge = platformsELeft.add(land.leftledge);
+            rightledge = platformsERight.add(land.rightledge);
+            
+            }
         else {
             //west
             //Background for our game
-            back = game.add.sprite(0, 0, 'WestStage1');
+            back = game.add.sprite(0, 0, 'ReitzStepStage');
             
             back.scale.setTo(1.5,1.5);
 

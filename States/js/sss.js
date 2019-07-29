@@ -7,7 +7,7 @@ class Stage {
         this.icon = game.add.sprite(startx, starty, icon);
         this.icon.anchor.setTo(.5, .5);
         game.physics.arcade.enable(this.icon);
-        this.icon.scale.setTo(.5, .5);
+        this.icon.scale.setTo(.15, .15);
         this.selected = false; //Used to apply hover effect only once
         this.icon.enableBody = true;
         this.icon.inputEnabled = true;
@@ -18,17 +18,15 @@ class Stage {
         this.icon.events.onInputDown.add(this.onClick, this);
     }
     onOver() { //Called when hovering over
-        this.icon.scale.setTo(.6, .6); //Enlarge the selected icon
+        this.icon.scale.setTo(.25, .25); //Enlarge the selected icon
         if(this.icon.key == 'marstonPic')
             gameReadyText.text = "Marston Science Library";
         else if(this.icon.key == 'westPic')
             gameReadyText.text = "Library West";
-        
     }
     onOut() { //Called after you stop hovering over
-        this.icon.scale.setTo(.5, .5);
+        this.icon.scale.setTo(.15, .15);
         gameReadyText.text = "";
-        
     }
     onClick() {
         //gameReadyText.text = `GOOOOOO!`;
@@ -55,9 +53,20 @@ var sssState = {
        
         key1 = game.input.keyboard.addKey(Phaser.Keyboard.ONE);
 
-        stage1 = new Stage(game.world.width * .5 - 250, game.world.height * .5 + 300, 'marstonPic');
-        stage2 = new Stage(game.world.width * .5 + 250, game.world.height * .5 + 300, 'westPic');
-       
+        stage1 = new Stage(game.world.width * .5 - 250, game.world.height * .5 - 300, 'WestPrintStage');
+        stage2 = new Stage(game.world.width * .5, game.world.height * .5 - 300, 'WestDeskStage');
+        stage3 = new Stage(game.world.width * .5 + 250, game.world.height * .5 - 300, 'MarstonTableStage');
+        
+        stage4 = new Stage(game.world.width * .5 - 250, game.world.height * .5, 'GatorStage');
+        stage5 = new Stage(game.world.width * .5, game.world.height * .5, 'TreeStage');
+        stage6 = new Stage(game.world.width * .5 + 250, game.world.height * .5, 'TableTopStage');
+        
+        stage7 = new Stage(game.world.width * .5 - 250, game.world.height * .5 + 300, 'TableTop2Stage');
+        stage8 = new Stage(game.world.width * .5, game.world.height * .5 + 300, 'ReitzPondStage');
+        stage9 = new Stage(game.world.width * .5 + 250, game.world.height * .5 + 300, 'ReitzStepStage');
+      
+      
+        
         buttonSound = game.add.audio('buttonSound');
         buttonSound.volume -= .5;
 

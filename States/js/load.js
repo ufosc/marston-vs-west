@@ -8,11 +8,17 @@ var loadState = {
 
         //game.load.image('sky', 'assets/sky.png');
         game.load.image('sky', 'assets/TestStage2.png');
-        game.load.image('WestStage1', 'assets/Stage/West1.jpg');
-        game.load.image('MarstonStage1', 'assets/Stage/Marston1.jpg');
-        game.load.image('MarstonStage2', 'assets/Stage/Marston2.jpg');
-        game.load.image('TurlingtonStage1', 'assets/Stage/Turlington1.png');
-        game.load.image('TurlingtonStage2', 'assets/Stage/Turlington2.jpg');
+        game.load.image('WestPrintStage', 'assets/Stage/WestPrint.jpg');
+        game.load.image('WestDeskStage', 'assets/Stage/WestDesk.jpg');
+        game.load.image('MarstonTableStage', 'assets/Stage/MarstonTable.jpg');
+        game.load.image('GatorStage', 'assets/Stage/gator.jpg');
+        game.load.image('TreeStage', 'assets/Stage/Tree.jpg');
+        game.load.image('TableTopStage', 'assets/Stage/TableTop.jpg');
+        game.load.image('TableTop2Stage', 'assets/Stage/TableTop2.jpg');
+        game.load.image('ReitzPondStage', 'assets/Stage/ReitzPond.jpg');
+        game.load.image('ReitzStepStage', 'assets/Stage/ReitzSteps.jpg');
+        
+        
         //game.load.image('ground', 'assets/platform.png');
         //game.load.image('ground', 'assets/platform2.png');
         game.load.image('ground', 'assets/floorblock.png');
@@ -105,6 +111,7 @@ var loadState = {
         game.load.script('filter', 'https://cdn.rawgit.com/photonstorm/phaser-ce/master/filters/Fire.js');
         game.load.audio('itemSound', 'assets/itemSound.wav');
         game.load.audio('titleCardSound', 'assets/titlecarddota.mp3');
+        
         //game.load.audio('playMusic', 'assets/playTestMusic.ogg');
         game.load.tilemap('tilemap1', 'assets/Floor.json', null, Phaser.Tilemap.TILED_JSON);
         game.load.spritesheet('gator', 'assets/gatorBat.png', 32, 32);
@@ -136,7 +143,6 @@ var loadState = {
         game.load.image('Chi', 'assets/WhiteBall.png');//for sliding bar and needs to be modified (?)
         game.load.image('knob', 'assets/WhiteBall.png');//for sliding bar and needs to be modified (?)
         game.load.image('mute', 'assets/mute.png');
-
     },
     create: function () {
         music = game.add.audio('menuMusic');
