@@ -32,7 +32,6 @@ var optionsState = {
 
         //end of slide test
 
-
         //Fullscreen event listeners
         fullScreenButton = game.add.button(game.world.width * .5 - 400, game.world.height * .5 + 450, 'fullscreen');
         fullScreenButton.anchor.setTo(.5,.5);
