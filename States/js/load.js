@@ -143,6 +143,8 @@ var loadState = {
         game.load.image('Chi', 'assets/WhiteBall.png');//for sliding bar and needs to be modified (?)
         game.load.image('knob', 'assets/WhiteBall.png');//for sliding bar and needs to be modified (?)
         game.load.image('mute', 'assets/mute.png');
+        
+        game.load.image('helpButton', '/assets/helpButton.png');
     },
     create: function () {
         music = game.add.audio('menuMusic');

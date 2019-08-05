@@ -44,6 +44,10 @@ var menuState = {
         fullScreenButton.onInputUp.add(this.fullScreenConfig, this);
         fullScreenButton.anchor.setTo(.5, .5);
         fullScreenButton.visible = false;
+        
+        helpButton = game.add.button(0, game.world.height, 'helpButton');
+        helpButton.anchor.setTo(0, 1);
+        helpButton.onInputUp.add(this.help, this);
 
 
         buttonSound = game.add.audio('buttonSound');
@@ -69,7 +73,7 @@ var menuState = {
 
     },
     arcade: function(){
-        console.log('stupid');
+        console.log('arcade');
         if(muteState==false)
         buttonSound.play();
         //music.stop();
@@ -134,6 +138,13 @@ var menuState = {
         {
             game.scale.startFullScreen(false);
         }
+    },
+    
+    help: function(){
+        console.log("SOS");
+       if(muteState==false)
+        buttonSound.play();
+        game.state.start('help');
     }
 
 
