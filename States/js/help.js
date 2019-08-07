@@ -210,17 +210,17 @@ var helpState = {
         player2PunchGrab.fill = '#ffffff';
         player2PunchGrab.anchor.setTo(.5, .5);
         
-        var player2Shield = game.add.text(game.world.width * .5 + 650, game.world.height *.5 + 350, '[');
+        var player2Shield = game.add.text(game.world.width * .5 + 650, game.world.height *.5 + 350, '[');//shield and throw?
         player2Shield.font = 'VT323';
         player2Shield.fontSize = 40;
         player2Shield.fill = '#ffffff';
         player2Shield.anchor.setTo(.5, .5);
         
-        var player2Throw = game.add.text(game.world.width * .5 + 650, game.world.height *.5 + 450, 'U');
+        /*var player2Throw = game.add.text(game.world.width * .5 + 650, game.world.height *.5 + 450, 'U');
         player2Throw.font = 'VT323';
         player2Throw.fontSize = 40;
         player2Throw.fill = '#ffffff';
-        player2Throw.anchor.setTo(.5, .5);
+        player2Throw.anchor.setTo(.5, .5);*/
     },
     
     menu: function () {

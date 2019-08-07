@@ -90,8 +90,8 @@ var arctcsState = {
 
     update: function() {
         if(key1.isDown) {
-            console.log('stoobid');
             game.state.start('arc');
+            musicToPlay.stop();
         }
     }
 

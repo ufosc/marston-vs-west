@@ -88,6 +88,7 @@ var tcsState = {
     update: function() {
         if(key1.isDown) {
             game.state.start('play');
+            musicToPlay.stop();
         }
     }
 
