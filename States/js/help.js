@@ -168,49 +168,49 @@ var helpState = {
         player2Text.fill = '#ffffff';
         player2Text.anchor.setTo(.5, .5);
         
-        var player2Up = game.add.text(game.world.width * .5 + 650, game.world.height *.5 - 350, 'W');
+        var player2Up = game.add.text(game.world.width * .5 + 650, game.world.height *.5 - 350, '↑');
         player2Up.font = 'VT323';
         player2Up.fontSize = 40;
         player2Up.fill = '#ffffff';
         player2Up.anchor.setTo(.5, .5);
         
-        var player2Left = game.add.text(game.world.width * .5 + 650, game.world.height *.5 - 250, 'A');
+        var player2Left = game.add.text(game.world.width * .5 + 650, game.world.height *.5 - 250, '←');
         player2Left.font = 'VT323';
         player2Left.fontSize = 40;
         player2Left.fill = '#ffffff';
         player2Left.anchor.setTo(.5, .5);
         
-        var player2Down = game.add.text(game.world.width * .5 + 650, game.world.height *.5 - 150, 'S');
+        var player2Down = game.add.text(game.world.width * .5 + 650, game.world.height *.5 - 150, '↓');
         player2Down.font = 'VT323';
         player2Down.fontSize = 40;
         player2Down.fill = '#ffffff';
         player2Down.anchor.setTo(.5, .5);
         
-        var player2Right = game.add.text(game.world.width * .5 + 650, game.world.height *.5 - 50, 'D');
+        var player2Right = game.add.text(game.world.width * .5 + 650, game.world.height *.5 - 50, '→');
         player2Right.font = 'VT323';
         player2Right.fontSize = 40;
         player2Right.fill = '#ffffff';
         player2Right.anchor.setTo(.5, .5);
         
-        var player2Jump = game.add.text(game.world.width * .5 + 650, game.world.height *.5 + 50, 'E');
+        var player2Jump = game.add.text(game.world.width * .5 + 650, game.world.height *.5 + 50, 'I');
         player2Jump.font = 'VT323';
         player2Jump.fontSize = 40;
         player2Jump.fill = '#ffffff';
         player2Jump.anchor.setTo(.5, .5);
         
-        var player2Sprint = game.add.text(game.world.width * .5 + 650, game.world.height *.5 + 150, 'R');
+        var player2Sprint = game.add.text(game.world.width * .5 + 650, game.world.height *.5 + 150, 'O');
         player2Sprint.font = 'VT323';
         player2Sprint.fontSize = 40;
         player2Sprint.fill = '#ffffff';
         player2Sprint.anchor.setTo(.5, .5);
         
-        var player2PunchGrab = game.add.text(game.world.width * .5 + 650, game.world.height *.5 + 250, 'T');
+        var player2PunchGrab = game.add.text(game.world.width * .5 + 650, game.world.height *.5 + 250, 'P');
         player2PunchGrab.font = 'VT323';
         player2PunchGrab.fontSize = 40;
         player2PunchGrab.fill = '#ffffff';
         player2PunchGrab.anchor.setTo(.5, .5);
         
-        var player2Shield = game.add.text(game.world.width * .5 + 650, game.world.height *.5 + 350, 'Y');
+        var player2Shield = game.add.text(game.world.width * .5 + 650, game.world.height *.5 + 350, '[');
         player2Shield.font = 'VT323';
         player2Shield.fontSize = 40;
         player2Shield.fill = '#ffffff';
