@@ -141,7 +141,6 @@ var menuState = {
     },
     
     help: function(){
-        console.log("SOS");
        if(muteState==false)
         buttonSound.play();
         game.state.start('help');

@@ -269,6 +269,7 @@ var chosenMap;
 
 
 game.state.add('boot', bootState);
+game.state.add('help', helpState);
 game.state.add('options', optionsState);
 game.state.add('credits', creditsState);
 game.state.add('load', loadState);
@@ -282,7 +283,6 @@ game.state.add('arccss', arccssState);
 //game.state.add('arcsss', arcsssState);//not sure why this needs to be commented out
 game.state.add('arctcs', arctcsState);
 game.state.add('arc', arccssState);
-game.state.add('help', helpState);
 
 game.state.start('boot');
 
