@@ -1,3 +1,4 @@
+var dmgText;
 var playState = {
     //hitPlayer12: function (target,attacker)
     hitPlayer12: function (Player1,Player2) {
@@ -80,6 +81,12 @@ var playState = {
 
                 Player1.health += hitDmg;
                 Player1.hitVelocity = Player2.character.scale.x * Player1.health * 2;
+                
+                dmgText = game.add.text(Player1.character.x, Player1.character.y, `${hitDmg}`);
+                dmgText.anchor.setTo(.5,.5);
+                dmgText.fill = '#ffffff';
+                //dmgText.velocity.y = 100;
+                game.time.events.add(Phaser.Timer.SECOND * 3, this.textGoAway, this);
 
                 Player1.character.body.velocity.y = -(Math.pow(Player1.health, hitAngle));
 
@@ -103,6 +110,9 @@ var playState = {
             }
             Player2.deltDamage = true;
         }
+    },
+    textGoAway: function(){
+        dmgText.destroy();
     },
 
     yHitVelocity: function (Fighter) {
