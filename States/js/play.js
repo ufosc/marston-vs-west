@@ -115,6 +115,7 @@ var playState = {
         //dmgText.destroy();
         dmgText.alpha = 0.5;
         //this functions is buggy in that newly generated dmg text wont be affected by this function. A new text can override the old ones
+        //dmg.Text.alpha is for future use, which helps the text go fade out
     },
 
     yHitVelocity: function (Fighter) {
