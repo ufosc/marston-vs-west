@@ -112,7 +112,9 @@ var playState = {
         }
     },
     textGoAway: function(){
-        dmgText.destroy();
+        //dmgText.destroy();
+        dmgText.alpha = 0.5;
+        //this functions is buggy in that newly generated dmg text wont be affected by this function. A new text can override the old ones
     },
 
     yHitVelocity: function (Fighter) {
