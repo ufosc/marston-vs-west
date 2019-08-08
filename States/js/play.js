@@ -313,7 +313,7 @@ var playState = {
     },
 
     create: function () {
-
+        console.log("in play????");
         //  We're going to be using physics, so enable the Arcade Physics system
         //w = 800;
         //h = 600;
@@ -343,12 +343,9 @@ var playState = {
         if(gameManager.chosenStageName === 'MarstonTableStage') {
 
             //Background for our game
-            //back = game.add.sprite(0, 0, 'sky');
-            //back = game.add.sprite(0, 0, 'MarstonStage2');
-            //back = game.add.sprite(0, 0, 'TurlingtonStage2');
             back = game.add.sprite(0, 0, 'MarstonTableStage');
 
-            back.scale.setTo(1.5,1.5);
+            back.scale.setTo(1.6,1.3);
 
             // The platforms group contains the ground and the 2 ledges we can jump on
             platforms = game.add.group();
@@ -356,42 +353,69 @@ var playState = {
             platformsERight = game.add.group();
 
             // Create the ground.
-            land = new platform(game.world.width * 0.5, game.world.height - 100, false, 'ground',40, 2)
+            land = new platform(game.world.width * 0.5, game.world.height - 100, false, 'plat1',40, 2)
             
             ground = platforms.add(land.plat);
             leftledge = platformsELeft.add(land.leftledge);
             rightledge = platformsERight.add(land.rightledge);
             
-            //ground.anchor.setTo(0.5,1);
-            //  Scale it to fit the width of the game (the original sprite is ? in size)
-            //ground.scale.setTo(40, 2);
-
-            //  This stops it from falling away when you jump on it
-            //ground.body.immovable = true;
 
         }
         else if(gameManager.chosenStageName === 'WestPrintStage') {
             back = game.add.sprite(0, 0, 'WestPrintStage');
 
-            back.scale.setTo(1.5,1.5);
+            back.scale.setTo(1.6,1.3);
 
+           
             // The platforms group contains the ground and the 2 ledges we can jump on
             platforms = game.add.group();
             platformsELeft = game.add.group();
             platformsERight = game.add.group();
 
             // Create the ground.
-            land = new platform(game.world.width * 0.5, game.world.height - 100, false, 'ground',40, 2)
+            land = new platform(game.world.width * 0.5 + 255, game.world.height * 0.7, false, 'plat1', 35, 2)
             
             ground = platforms.add(land.plat);
             leftledge = platformsELeft.add(land.leftledge);
             rightledge = platformsERight.add(land.rightledge);
+            
+            
+            //  The platforms group contains the ground and the 2 ledges we can jump on
+            miniPlatforms = game.add.group();
+            
+            miniland1 = new platform(game.world.width*0.45, game.world.height * 0.5 - 5, false, 'plat2', 1,1);
+            miniland2 = new platform(game.world.width*0.63, game.world.height * 0.5, false, 'plat2', 1,1);
 
-            }
+            var plat1 = miniPlatforms.add(miniland1.plat);
+            var plat2 = miniPlatforms.add(miniland2.plat);
+
+            plat1.anchor.setTo(0.5,1);
+            plat2.anchor.setTo(0.5,1);
+
+            plat1.body.collideWorldBounds = true;
+            plat2.body.collideWorldBounds = true;
+            
+            plat1.body.checkCollision.down = false;
+            plat2.body.checkCollision.down = false;
+            
+            plat1.body.immovable = true;
+            plat2.body.immovable = true;
+
+
+            plat1.scale.setTo(5, 0.7);
+            plat2.scale.setTo(5, 0.7);
+
+            //  Scale it to fit the width of the game (the original sprite is ? in size)
+            //ground.scale.setTo(16, 1);
+            //ground.scale.setTo(40, 2);
+
+            //  This stops it from falling away when you jump on it
+            ground.body.immovable = true;
+        }
         else if(gameManager.chosenStageName === 'WestDeskStage') {
             back = game.add.sprite(0, 0, 'WestDeskStage');
 
-            back.scale.setTo(1.5,1.5);
+            back.scale.setTo(1.6,1.3);
 
             // The platforms group contains the ground and the 2 ledges we can jump on
             platforms = game.add.group();
@@ -399,17 +423,40 @@ var playState = {
             platformsERight = game.add.group();
 
             // Create the ground.
-            land = new platform(game.world.width * 0.5, game.world.height - 100, false, 'ground',40, 2)
+            land = new platform(game.world.width * 0.5, game.world.height * 0.7, false, 'plat1',40, 2)
             
             ground = platforms.add(land.plat);
             leftledge = platformsELeft.add(land.leftledge);
             rightledge = platformsERight.add(land.rightledge);
             
+            //  The platforms group contains the ground and the 2 ledges we can jump on
+            miniPlatforms = game.add.group();
+            
+            miniland1 = new platform(game.world.width*0.2, game.world.height * 0.35, false, 'plat2', 5, 0.7);
+            miniland2 = new platform(game.world.width*0.48, game.world.height * 0.27, false, 'plat2', 17, 0.7);
+
+            var plat1 = miniPlatforms.add(miniland1.plat);
+            var plat2 = miniPlatforms.add(miniland2.plat);
+
+            plat1.anchor.setTo(0.5,1);
+            plat2.anchor.setTo(0.5,1);
+
+            plat1.body.collideWorldBounds = true;
+            plat2.body.collideWorldBounds = true;
+            
+            plat1.body.checkCollision.down = false;
+            plat2.body.checkCollision.down = false;
+            
+            plat1.body.immovable = true;
+            plat2.body.immovable = true;
+
+            //plat1.scale.setTo(5, 0.7);
+            //plat2.scale.setTo(5, 0.7);
             }
         else if(gameManager.chosenStageName === 'GatorStage') {
             back = game.add.sprite(0, 0, 'GatorStage');
 
-            back.scale.setTo(1.5,1.5);
+            back.scale.setTo(1.6,1.3);
 
             // The platforms group contains the ground and the 2 ledges we can jump on
             platforms = game.add.group();
@@ -417,17 +464,16 @@ var playState = {
             platformsERight = game.add.group();
 
             // Create the ground.
-            land = new platform(game.world.width * 0.5, game.world.height - 100, false, 'ground',40, 2)
+            land = new platform(game.world.width * 0.5, game.world.height * 0.68, false, 'plat1',40, 2)
             
             ground = platforms.add(land.plat);
             leftledge = platformsELeft.add(land.leftledge);
             rightledge = platformsERight.add(land.rightledge);
-            
             }
         else if(gameManager.chosenStageName === 'TreeStage') {
             back = game.add.sprite(0, 0, 'TreeStage');
 
-            back.scale.setTo(1.5,1.5);
+            back.scale.setTo(1.6,1.3);
 
             // The platforms group contains the ground and the 2 ledges we can jump on
             platforms = game.add.group();
@@ -435,17 +481,68 @@ var playState = {
             platformsERight = game.add.group();
 
             // Create the ground.
-            land = new platform(game.world.width * 0.5, game.world.height - 100, false, 'ground',40, 2)
+            land = new platform(game.world.width * 0.5, game.world.height - 100, false, 'plat1',40, 2)
             
             ground = platforms.add(land.plat);
             leftledge = platformsELeft.add(land.leftledge);
             rightledge = platformsERight.add(land.rightledge);
+           
             
+            
+            //  The platforms group contains the ground and the 5 ledges we can jump on
+            miniPlatforms = game.add.group();
+            
+            miniland1 = new platform(game.world.width*0.45, game.world.height * 0.64, false, 'plat2', 5,0.7);
+            miniland2 = new platform(game.world.width*0.63, game.world.height * 0.67, false, 'plat2', 5,0.7);
+            
+            var plat1 = miniPlatforms.add(miniland1.plat);
+            var plat2 = miniPlatforms.add(miniland2.plat);
+            
+            plat1.anchor.setTo(0.5,1);
+            plat2.anchor.setTo(0.5,1);
+
+            plat1.body.collideWorldBounds = true;
+            plat2.body.collideWorldBounds = true;
+            
+            plat1.body.checkCollision.down = false;
+            plat2.body.checkCollision.down = false;
+            
+            plat1.body.immovable = true;
+            plat2.body.immovable = true;
+            
+            
+            miniland3 = new platform(game.world.width*0.82, game.world.height * 0.6, false, 'plat2', 5,0.7);
+            var plat3 = miniPlatforms.add(miniland3.plat);
+            plat3.anchor.setTo(0.5,1);
+            //plat3.body.collideWorldBounds = true;
+            plat3.body.checkCollision.down = false;
+            plat3.body.immovable = true;
+            
+            miniland4 = new platform(game.world.width*0.3, game.world.height * 0.55, false, 'plat2', 5,0.7);
+            var plat4 = miniPlatforms.add(miniland4.plat);
+            plat4.anchor.setTo(0.5,1);
+            //plat4.body.collideWorldBounds = true;
+            plat4.body.checkCollision.down = false;
+            plat4.body.immovable = true;
+            
+            miniland5 = new platform(game.world.width*0.18, game.world.height * 0.5, false, 'plat2', 5,0.7);
+            var plat5 = miniPlatforms.add(miniland5.plat);
+            plat5.anchor.setTo(0.5,1);
+            //plat5.body.collideWorldBounds = true;
+            plat5.body.checkCollision.down = false;
+            plat5.body.immovable = true;
+            
+            //var plat1 = miniPlatforms.add(miniland1.plat);
+            //var plat2 = miniPlatforms.add(miniland2.plat);
+
+            //plat1.scale.setTo(5, 0.7);
+            //plat2.scale.setTo(5, 0.7);
+
             }
         else if(gameManager.chosenStageName === 'TableTopStage') {
             back = game.add.sprite(0, 0, 'TableTopStage');
 
-            back.scale.setTo(1.5,1.5);
+            back.scale.setTo(1.6,1.3);
 
             // The platforms group contains the ground and the 2 ledges we can jump on
             platforms = game.add.group();
@@ -453,7 +550,7 @@ var playState = {
             platformsERight = game.add.group();
 
             // Create the ground.
-            land = new platform(game.world.width * 0.5, game.world.height - 100, false, 'ground',40, 2)
+            land = new platform(game.world.width * 0.5, game.world.height - 100, false, 'plat1',40, 2)
             
             ground = platforms.add(land.plat);
             leftledge = platformsELeft.add(land.leftledge);
@@ -463,7 +560,7 @@ var playState = {
         else if(gameManager.chosenStageName === 'TableTop2Stage') {
             back = game.add.sprite(0, 0, 'TableTop2Stage');
             
-            back.scale.setTo(1.5,1.5);
+            back.scale.setTo(1.6,1.3);
 
             // The platforms group contains the ground and the 2 ledges we can jump on
             platforms = game.add.group();
@@ -471,17 +568,26 @@ var playState = {
             platformsERight = game.add.group();
 
             // Create the ground.
-            land = new platform(game.world.width * 0.5, game.world.height - 100, false, 'ground',40, 2)
+            land = new platform(game.world.width * 0.5, game.world.height * 0.97, false, 'plat1', 50, 2)
             
             ground = platforms.add(land.plat);
             leftledge = platformsELeft.add(land.leftledge);
             rightledge = platformsERight.add(land.rightledge);
             
+            miniPlatforms = game.add.group();
+            
+            miniland1 = new platform(game.world.width * 0.5, game.world.height * 0.68, false, 'plat2', 38,0.7);
+            var plat1 = miniPlatforms.add(miniland1.plat);
+            plat1.anchor.setTo(0.5,1);
+            //plat1.body.collideWorldBounds = true;
+            plat1.body.checkCollision.down = false;
+            plat1.body.immovable = true;
+            
             }
         else if(gameManager.chosenStageName === 'ReitzPondStage') {
             back = game.add.sprite(0, 0, 'ReitzPondStage');
 
-            back.scale.setTo(1.5,1.5);
+            back.scale.setTo(1.6,1.3);
 
             // The platforms group contains the ground and the 2 ledges we can jump on
             platforms = game.add.group();
@@ -489,7 +595,7 @@ var playState = {
             platformsERight = game.add.group();
 
             // Create the ground.
-            land = new platform(game.world.width * 0.5, game.world.height - 100, false, 'ground',40, 2)
+            land = new platform(game.world.width * 0.5, game.world.height - 100, false, 'plat1',40, 2)
             
             ground = platforms.add(land.plat);
             leftledge = platformsELeft.add(land.leftledge);
@@ -501,7 +607,7 @@ var playState = {
             //Background for our game
             back = game.add.sprite(0, 0, 'ReitzStepStage');
             
-            back.scale.setTo(1.5,1.5);
+            back.scale.setTo(1.6,1.3);
 
             //  The platforms group contains the ground and the 2 ledges we can jump on
             miniPlatforms = game.add.group();
@@ -512,23 +618,14 @@ var playState = {
             platformsERight = game.add.group();
 
             // Create the ground.
-            land = new platform(game.world.width * 0.5, game.world.height - 100, false, 'ground',40, 2)
+            land = new platform(game.world.width * 0.5, game.world.height - 100, false, 'plat1',40, 2)
             
             ground = platforms.add(land.plat);
             leftledge = platformsELeft.add(land.leftledge);
             rightledge = platformsERight.add(land.rightledge);
-
-            //  Enable physics for any object that is created in this group
-            //platforms.enableBody = true;
-            //miniPlatforms.enableBody = true;
-
-            // Create the ground.
-            //var ground = platforms.create(game.world.width*0.5, game.world.height - 100, 'ground');
-            //ground.anchor.setTo(0.5,1);
-            //var plat1 = miniPlatforms.create(game.world.width*0.33, game.world.height*0.7, 'ground');
-            //var plat2 = miniPlatforms.create(game.world.width*0.66, game.world.height*0.7, 'ground');
-            miniland1 = new platform(game.world.width*0.33, game.world.height*0.7, false, 'ground',1,1);
-            miniland2 = new platform(game.world.width*0.66, game.world.height*0.7, false, 'ground', 1,1);
+            
+            miniland1 = new platform(game.world.width*0.33, game.world.height*0.7, false, 'plat2', 1,1);
+            miniland2 = new platform(game.world.width*0.66, game.world.height*0.7, false, 'plat2', 1,1);
 
             var plat1 = miniPlatforms.add(miniland1.plat);
             var plat2 = miniPlatforms.add(miniland2.plat);
@@ -536,17 +633,12 @@ var playState = {
             plat1.anchor.setTo(0.5,1);
             plat2.anchor.setTo(0.5,1);
 
-            //make small platforms grabbable
-            /*leftledge = platformsELeft.add(miniland1.leftledge);
-            rightledge = platformsERight.add(miniland1.rightledge);
-
-            leftledge = platformsELeft.add(miniland2.leftledge);
-            rightledge = platformsERight.add(miniland2.rightledge);*/
-
             plat1.body.collideWorldBounds = true;
             plat2.body.collideWorldBounds = true;
+            
             plat1.body.checkCollision.down = false;
             plat2.body.checkCollision.down = false;
+            
             plat1.body.immovable = true;
             plat2.body.immovable = true;
 
@@ -560,16 +652,6 @@ var playState = {
 
             //  This stops it from falling away when you jump on it
             ground.body.immovable = true;
-
-
-			/*
-			chosenMap = game.add.tilemap('tilemap1');
-			console.log(chosenMap);
-			chosenMap.addTilesetImage('floor', 'hitboxTest');
-			let layer = chosenMap.createLayer('Tile Layer 1');
-			layer.resizeWorld();
-			chosenMap.setCollisionBetween(37, 62);
-			*/
         }
 
         hitSound = game.add.audio('hitSound');
@@ -709,15 +791,11 @@ var playState = {
 
             //end of event listeners
 
-
             //controller1
             testconnect1 = false;
         }
 
-
-
         //mob = new crowd(0,0);
-
 
         healthtext1 = game.add.text(0, game.world.height - 75, `DMG ${Player1.health}`, Player1.fighterStyle);
         healthtext1.stroke = '#ffffff';
@@ -836,13 +914,13 @@ var playState = {
 
 
 
-        if (gameManager.chosenStageName === 'pool') {
+        /*if (gameManager.chosenStageName === 'pool') {
             console.log("gravity set low!");
             Player1.character.body.gravity.y = 250; //gravity may need to oscillate between positive and negative so that fighter has a floaty feel to it while swimming 
             Player1.jumps = 0;
             Player2.character.body.gravity.y = 250;
             Player2.jumps = 0;
-        }
+        }*/
 
         // logic check for hitpause, split second intentional slowdown when players are hit
         if (hitpause > 0) {
@@ -876,13 +954,15 @@ var playState = {
 
 
         //  Collide the players with the platforms and eachother
-        if (gameManager.chosenStageName === 'westPic') {
-            if (Player1.getdown()) {
+        if (gameManager.chosenStageName === 'ReitzStepStage' || gameManager.chosenStageName === 'WestPrintStage' || gameManager.chosenStageName === 'WestDeskStepStage' || gameManager.chosenStageName === 'GatorStage' || gameManager.chosenStageName === 'TreeStage' || gameManager.chosenStageName === 'TableTopStage' || gameManager.chosenStageName === 'TableTop2Stage' || gameManager.chosenStageName === 'ReitzPondStage') {
+    
+        if (Player1.getdown()) {
                 Player1.character.body.immovable = false;
             }
             else {
                 game.physics.arcade.collide(Player1.character, miniPlatforms);
             }
+            
             if (Player2.getdown()) {
                 Player2.character.body.immovable = false;
             }
@@ -892,6 +972,7 @@ var playState = {
         }
 
         game.physics.arcade.collide(Player1.character, ground);
+        game.physics.arcade.collide(Player2.character, ground);
 
         game.physics.arcade.collide(Player1.character, platforms);
         game.physics.arcade.collide(Player2.character, platforms);

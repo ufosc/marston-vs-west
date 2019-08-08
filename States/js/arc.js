@@ -1,4 +1,4 @@
-var playState = {
+var arcplayState = {
     //hitPlayer12: function (target,attacker)
     hitPlayer12: function (Player1,Player2) {
         let hitDmg = 0;
@@ -313,7 +313,7 @@ var playState = {
     },
 
     create: function () {
-
+        console.log("in arc????");
         //  We're going to be using physics, so enable the Arcade Physics system
         //w = 800;
         //h = 600;

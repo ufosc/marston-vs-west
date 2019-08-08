@@ -3,7 +3,6 @@ var loadState = {
 
     preload: function () {
         var loadingLabel = game.add.text(80, 150, 'Loading...', { font: '30px Courier', fill: '#ffffff' });
-
         //Fighting assets
 
         //game.load.image('sky', 'assets/sky.png');
@@ -22,17 +21,11 @@ var loadState = {
         //game.load.image('ground', 'assets/platform.png');
         //game.load.image('ground', 'assets/platform2.png');
         game.load.image('ground', 'assets/floorblock.png');
+        game.load.image('plat1', 'assets/Floor/Plat1.png');
+        game.load.image('plat2', 'assets/Floor/Plat2.png');
         game.load.image('star', 'assets/star.png');
         game.load.image('ColorBottle', 'assets/ColorBottleB.png');
-        //game.load.spritesheet('dude', 'assets/dude.png', 32, 48);
-
-        //game.load.spritesheet('dude', 'assets/Fighter1master.png', 36, 42);
-        //game.load.spritesheet('chick', 'assets/Fighter2master.png', 36, 42);
-        //game.load.spritesheet('dude', 'assets/TESTFIGHTER1.png', 64, 84);
-        //game.load.spritesheet('dude', 'assets/Fighters/Blanks/DJ_W.png', 64, 84);
-        //game.load.spritesheet('chick', 'assets/TESTFIGHTER2.png', 64, 84);
-        //game.load.spritesheet('goth', 'assets/Fighters/Blanks/Goth_W.png', 64, 96);
-        //game.load.spritesheet('boxer', 'assets/Fighters/Blanks/Boxer_W.png', 64, 96);
+        
         game.load.spritesheet('Fighter', 'assets/Fighters/Canvas/Fighter_Blank.png', 64, 84);
         game.load.spritesheet('Lab','assets/Fighters/Canvas/Nerd_Blank.png', 60, 94);
         game.load.spritesheet('Goth', 'assets/Fighters/Canvas/Goth_Blank.png', 64, 96);
@@ -59,7 +52,6 @@ var loadState = {
 
         //Virtual controller assets
         game.load.image('leftButton', 'assets/ButtonLeftbig.png');
-
         game.load.image('rightButton', 'assets/ButtonRightbig.png');
         game.load.image('upButton', 'assets/ButtonUpbig.png');
         game.load.image('downButton', 'assets/ButtonDownbig.png');
@@ -69,8 +61,7 @@ var loadState = {
         game.load.image('xButton', 'assets/ButtonXbig.png');
         game.load.image('yButton', 'assets/ButtonYbig.png');
 
-        //Menu Assets
-        
+        //Menu Assets   
         game.load.image('menuButton', 'assets/menuButton.png');
         this.game.load.audio('creditsMusic', 'assets/Birdbeat.ogg');
         this.game.load.audio('menuMusic', 'assets/Birdbeat.ogg');
