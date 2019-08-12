@@ -82,7 +82,8 @@ var optionsState = {
         minusButton3.onInputUp.add(this.gameLivesDec, this);
 
         buttonSound = game.add.audio('buttonSound');
-        buttonSound.volume -= .5;
+        buttonSound.volume = musicvol;
+        //buttonSound.volume -= .5;
 
         //the sliding bars part
 

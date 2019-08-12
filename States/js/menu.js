@@ -51,7 +51,8 @@ var menuState = {
 
 
         buttonSound = game.add.audio('buttonSound');
-        buttonSound.volume -= .3;
+        //buttonSound.volume -= .3;
+        buttonSound.volume = musicvol;
 
 
         if (music.name != 'menuMusic') {

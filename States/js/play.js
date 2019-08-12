@@ -595,7 +595,8 @@ var playState = {
         jumpSound = game.add.audio('jumpSound');
         itemSound = game.add.audio('itemSound');
         buttonSound = game.add.audio('buttonSound');
-        buttonSound.volume -= .5;
+        buttonSound.volume = musicvol;
+        //buttonSound.volume -= .5;
 
         if (game.device.android || game.device.iOS) {
             //If on mobile, use the vpad as input for player 1,

@@ -17,6 +17,9 @@ var helpState = {
        var backgroundSprite = game.add.image(0, 0, 'menuBackground');
         backgroundSprite.anchor.setTo(0,0);
         
+        buttonSound = game.add.audio('buttonSound');
+        buttonSound.volume = musicvol;
+        
         menuButton = game.add.button(0, game.world.height, 'menuButton');
         menuButton.anchor.setTo(0, 1);
         menuButton.onInputUp.add(this.menu, this);
@@ -102,12 +105,6 @@ var helpState = {
         player1Shield.fill = '#ffffff';
         player1Shield.anchor.setTo(.5, .5);
         
-        var player1Throw = game.add.text(game.world.width * .5 - 250, game.world.height *.5 + 450, 'U');
-        player1Throw.font = 'VT323';
-        player1Throw.fontSize = 40;
-        player1Throw.fill = '#ffffff';
-        player1Throw.anchor.setTo(.5, .5);
-        
         var up = game.add.text(game.world.width * .5 + 200, game.world.height *.5 - 350, 'Up');
         up.font = 'VT323';
         up.fontSize = 40;
@@ -138,7 +135,7 @@ var helpState = {
         jump.fill = '#ffffff';
         jump.anchor.setTo(.5, .5);
         
-        var sprint = game.add.text(game.world.width * .5 + 200, game.world.height *.5 + 150, 'Sprint');
+        var sprint = game.add.text(game.world.width * .5 + 200, game.world.height *.5 + 150, 'Special Movements');
         sprint.font = 'VT323';
         sprint.fontSize = 40;
         sprint.fill = '#ffffff';
@@ -150,17 +147,11 @@ var helpState = {
         punchGrab.fill = '#ffffff';
         punchGrab.anchor.setTo(.5, .5);
         
-        var shield = game.add.text(game.world.width * .5 + 200, game.world.height *.5 + 350, 'Shield');
+        var shield = game.add.text(game.world.width * .5 + 200, game.world.height *.5 + 350, 'Throw/Shield');
         shield.font = 'VT323';
         shield.fontSize = 40;
         shield.fill = '#ffffff';
         shield.anchor.setTo(.5, .5);
-        
-        var throwText = game.add.text(game.world.width * .5 + 200, game.world.height *.5 + 450, 'Throw');
-        throwText.font = 'VT323';
-        throwText.fontSize = 40;
-        throwText.fill = '#ffffff';
-        throwText.anchor.setTo(.5, .5);
         
         var player2Text = game.add.text(game.world.width * .5 + 650, game.world.height *.5 - 450, 'Player 2');
         player2Text.font = 'VT323';
@@ -210,17 +201,11 @@ var helpState = {
         player2PunchGrab.fill = '#ffffff';
         player2PunchGrab.anchor.setTo(.5, .5);
         
-        var player2Shield = game.add.text(game.world.width * .5 + 650, game.world.height *.5 + 350, '[');//shield and throw?
+        var player2Shield = game.add.text(game.world.width * .5 + 650, game.world.height *.5 + 350, '[');
         player2Shield.font = 'VT323';
         player2Shield.fontSize = 40;
         player2Shield.fill = '#ffffff';
         player2Shield.anchor.setTo(.5, .5);
-        
-        /*var player2Throw = game.add.text(game.world.width * .5 + 650, game.world.height *.5 + 450, 'U');
-        player2Throw.font = 'VT323';
-        player2Throw.fontSize = 40;
-        player2Throw.fill = '#ffffff';
-        player2Throw.anchor.setTo(.5, .5);*/
     },
     
     menu: function () {

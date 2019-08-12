@@ -15,6 +15,8 @@ var arctcsState = {
 
         player1ico = game.add.sprite(game.world.width * .05 - 100, game.world.height * .7, charName1);
         musicToPlay = game.add.audio('titleCardSound');
+        musicToPlay.volume = musicvol;
+        if (!muteState)
         musicToPlay.play();
 
         //dudeIcon.tint = 0xffff00;
@@ -27,6 +29,7 @@ var arctcsState = {
         if (player1ico.animations) {
             player1ico.alpha = 1;
         }
+        buttonSound.volume = musicvol;
         if(muteState==false)
         buttonSound.play();
         //chickIcon.tint = 0xffffff;
