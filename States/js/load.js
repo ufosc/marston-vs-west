@@ -47,6 +47,11 @@ var loadState = {
         game.load.spritesheet('book', 'assets/book.png', 32, 32);
         game.load.spritesheet('Sandbag', 'assets/sandbag.png', 32, 32);
         game.load.image('deathBlast', 'assets/DeathBlast.png');
+        
+        //Punching effect assets
+        game.load.image('pow', 'assets/pow.png');
+        game.load.image('ugh', 'assets/ugh.png');
+        game.load.image('ouch', 'assets/ouch.png');
 
         //swipe attack sprites
         /*game.load.image('SwipeD', 'assets/swipeD.png');

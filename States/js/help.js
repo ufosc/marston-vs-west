@@ -20,8 +20,8 @@ var helpState = {
         buttonSound = game.add.audio('buttonSound');
         buttonSound.volume = musicvol;
         
-        menuButton = game.add.button(0, game.world.height, 'menuButton');
-        menuButton.anchor.setTo(0, 1);
+        menuButton = game.add.button(0, 0, 'menuButton');
+        menuButton.anchor.setTo(0, 0);
         menuButton.onInputUp.add(this.menu, this);
         
         var gator = game.add.sprite(game.world.width * .5 - 850, game.world.height *.5 - 300, 'gator');

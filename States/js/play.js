@@ -82,11 +82,11 @@ var playState = {
                 Player1.health += hitDmg;
                 Player1.hitVelocity = Player2.character.scale.x * Player1.health * 2;
                 
-                dmgText = game.add.text(Player1.character.x, Player1.character.y, `${hitDmg}`);
+                /*dmgText = game.add.text(Player1.character.x, Player1.character.y, `${hitDmg}`);
                 dmgText.anchor.setTo(.5,.5);
                 dmgText.fill = '#ffffff';
                 //dmgText.velocity.y = 100;
-                game.time.events.add(Phaser.Timer.SECOND * 3, this.textGoAway, this);
+                game.time.events.add(Phaser.Timer.SECOND * 3, this.textGoAway, this);*/
 
                 Player1.character.body.velocity.y = -(Math.pow(Player1.health, hitAngle));
 
@@ -111,12 +111,12 @@ var playState = {
             Player2.deltDamage = true;
         }
     },
-    textGoAway: function(){
+    /*textGoAway: function(){
         //dmgText.destroy();
         dmgText.alpha = 0.5;
         //this functions is buggy in that newly generated dmg text wont be affected by this function. A new text can override the old ones
         //dmg.Text.alpha is for future use, which helps the text go fade out
-    },
+    },*/
 
     yHitVelocity: function (Fighter) {
         Fighter.character.body.velocity.y = -(Math.pow(Fighter.health, 1.25));
