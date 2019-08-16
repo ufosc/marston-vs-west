@@ -87,6 +87,27 @@ var playState = {
                 dmgText.fill = '#ffffff';
                 //dmgText.velocity.y = 100;
                 game.time.events.add(Phaser.Timer.SECOND * 3, this.textGoAway, this);*/
+                if(hitDmg <= 10)
+                    game.time.events.add(Phaser.Timer.SECOND * 0, function(){
+                        let animation = game.add.sprite(Player1.character.x, Player1.character.y, 'pow');
+                        animation.anchor.setTo(0.5, 0.5);
+                        game.add.tween(animation).to( { alpha: 0 }, 1000, Phaser.Easing.Linear.None, true);
+                        game.add.tween(animation).to( { y: Player1.character.y - 50 }, 1000, Phaser.Easing.Linear.None, true);
+                    }, this);
+                else if((hitDmg > 10) && (hitDmg <= 20))
+                    game.time.events.add(0, function(){
+                        let animation = game.add.sprite(Player1.character.x, Player1.character.y, 'ugh');
+                        animation.anchor.setTo(0.5, 0.5);
+                        game.add.tween(animation).to( { alpha: 0 }, 1000, Phaser.Easing.Linear.None, true);
+                        game.add.tween(animation).to( { y: Player1.character.y - 50 }, 1000, Phaser.Easing.Linear.None, true);
+                    }, this);
+                else
+                    game.time.events.add(Phaser.Timer.SECOND * 0, function() {
+                        let animation = game.add.sprite(Player1.character.x, Player1.character.y, 'ouch');
+                        animation.anchor.setTo(0.5, 0.5);
+                        game.add.tween(animation).to( { alpha: 0 }, 1000, Phaser.Easing.Linear.None, true);
+                        game.add.tween(animation).to( { y: Player1.character.y - 50 }, 1000, Phaser.Easing.Linear.None, true);
+                    }, this);
 
                 Player1.character.body.velocity.y = -(Math.pow(Player1.health, hitAngle));
 
@@ -111,12 +132,6 @@ var playState = {
             Player2.deltDamage = true;
         }
     },
-    /*textGoAway: function(){
-        //dmgText.destroy();
-        dmgText.alpha = 0.5;
-        //this functions is buggy in that newly generated dmg text wont be affected by this function. A new text can override the old ones
-        //dmg.Text.alpha is for future use, which helps the text go fade out
-    },*/
 
     yHitVelocity: function (Fighter) {
         Fighter.character.body.velocity.y = -(Math.pow(Fighter.health, 1.25));
