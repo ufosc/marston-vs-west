@@ -151,7 +151,6 @@ var cssState = {
         MultimanLabel.librarySelected = '';
         MultimanLabel.events.onInputUp.add(function () {
             switch (MultimanLabel.selected) {
-
                 case 0:
                     MultimanLabel.librarySelected = 'Multiman Mode: OFF'
                     MultimanLabel.text = `${MultimanLabel.librarySelected}`;
