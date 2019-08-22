@@ -69,7 +69,8 @@ var sssState = {
       
         
         buttonSound = game.add.audio('buttonSound');
-        buttonSound.volume -= .5;
+        //buttonSound.volume -= .5;
+        buttonSound.volume = musicvol;
 
         gameReadyText = game.add.text(game.world.width * .5, game.world.height * .5 + 475, '', { font: '50px Arial', fill: '#ffffff' });
         gameReadyText.anchor.setTo(.5, .5);

@@ -1,3 +1,4 @@
+var dmgText;
 var playState = {
     //hitPlayer12: function (target,attacker)
     hitPlayer12: function (Player1,Player2) {
@@ -80,6 +81,33 @@ var playState = {
 
                 Player1.health += hitDmg;
                 Player1.hitVelocity = Player2.character.scale.x * Player1.health * 2;
+                
+                /*dmgText = game.add.text(Player1.character.x, Player1.character.y, `${hitDmg}`);
+                dmgText.anchor.setTo(.5,.5);
+                dmgText.fill = '#ffffff';
+                //dmgText.velocity.y = 100;
+                game.time.events.add(Phaser.Timer.SECOND * 3, this.textGoAway, this);*/
+                if(hitDmg <= 10)
+                    game.time.events.add(Phaser.Timer.SECOND * 0, function(){
+                        let animation = game.add.sprite(Player1.character.x, Player1.character.y, 'pow');
+                        animation.anchor.setTo(0.5, 0.5);
+                        game.add.tween(animation).to( { alpha: 0 }, 1000, Phaser.Easing.Linear.None, true);
+                        game.add.tween(animation).to( { y: Player1.character.y - 50 }, 1000, Phaser.Easing.Linear.None, true);
+                    }, this);
+                else if((hitDmg > 10) && (hitDmg <= 20))
+                    game.time.events.add(0, function(){
+                        let animation = game.add.sprite(Player1.character.x, Player1.character.y, 'ugh');
+                        animation.anchor.setTo(0.5, 0.5);
+                        game.add.tween(animation).to( { alpha: 0 }, 1000, Phaser.Easing.Linear.None, true);
+                        game.add.tween(animation).to( { y: Player1.character.y - 50 }, 1000, Phaser.Easing.Linear.None, true);
+                    }, this);
+                else
+                    game.time.events.add(Phaser.Timer.SECOND * 0, function() {
+                        let animation = game.add.sprite(Player1.character.x, Player1.character.y, 'ouch');
+                        animation.anchor.setTo(0.5, 0.5);
+                        game.add.tween(animation).to( { alpha: 0 }, 1000, Phaser.Easing.Linear.None, true);
+                        game.add.tween(animation).to( { y: Player1.character.y - 50 }, 1000, Phaser.Easing.Linear.None, true);
+                    }, this);
 
                 Player1.character.body.velocity.y = -(Math.pow(Player1.health, hitAngle));
 
@@ -697,7 +725,8 @@ var playState = {
         jumpSound = game.add.audio('jumpSound');
         itemSound = game.add.audio('itemSound');
         buttonSound = game.add.audio('buttonSound');
-        buttonSound.volume -= .5;
+        buttonSound.volume = musicvol;
+        //buttonSound.volume -= .5;
 
         if (game.device.android || game.device.iOS) {
             //If on mobile, use the vpad as input for player 1,

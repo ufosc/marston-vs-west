@@ -269,6 +269,7 @@ var chosenMap;
 
 
 game.state.add('boot', bootState);
+game.state.add('help', helpState);
 game.state.add('options', optionsState);
 game.state.add('credits', creditsState);
 game.state.add('load', loadState);

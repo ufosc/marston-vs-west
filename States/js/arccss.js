@@ -83,7 +83,8 @@ var arccssState = {
         FighterIcon.enableBody = true;
 
         buttonSound = game.add.audio('buttonSound');
-        buttonSound.volume -= .5;
+        //buttonSound.volume -= .5;
+        buttonSound.volume = musicvol;
 
         //var startLabel = game.add.text(80, game.world.height - 40, 'Press "1" key to play game after selecting characters!', { font: '25px Arial', fill: '#ffffff' });
         gameReadyText = game.add.text(game.world.width * .5, game.world.height - 75, '', { font: '75px Arial', fill: '#ffffff' });
@@ -233,6 +234,7 @@ var arccssState = {
 
         //If you drop the cursor on the icon
         if (game.physics.arcade.overlap(player1Icon, LabIcon)) {
+            buttonSound.volume = musicvol;
             if(muteState==false)
             buttonSound.play();
             //Determine's what's spawned, and lets you start game
@@ -258,6 +260,7 @@ var arccssState = {
 
         //If you drop the icon on the chick Picture
         if (game.physics.arcade.overlap(player1Icon, GothIcon)) {
+            buttonSound.volume = musicvol;
             if(muteState==false)
             buttonSound.play();
             charName1 = "Goth";
@@ -276,6 +279,7 @@ var arccssState = {
         }
 
         if (game.physics.arcade.overlap(player1Icon, BoxIcon)) {
+            buttonSound.volume = musicvol;
             if(muteState==false)
             buttonSound.play();
             charName1 = "Boxer";
@@ -294,6 +298,7 @@ var arccssState = {
         }
 
         if (game.physics.arcade.overlap(player1Icon, FighterIcon)) {
+            buttonSound.volume = musicvol;
             if(muteState==false)
             buttonSound.play();
             charName1 = "Fighter";
@@ -314,6 +319,7 @@ var arccssState = {
 
 
         if (game.physics.arcade.overlap(player2Icon, LabIcon)) {
+            buttonSound.volume = musicvol;
             if(muteState==false)
             buttonSound.play();
             charName2 = "Lab";
@@ -340,6 +346,7 @@ var arccssState = {
 
 
         if (game.physics.arcade.overlap(player2Icon, GothIcon)) {
+            buttonSound.volume = musicvol;
             if(muteState==false)
             buttonSound.play();
             charName2 = "Goth";
@@ -359,6 +366,7 @@ var arccssState = {
         }
 
         if (game.physics.arcade.overlap(player2Icon, BoxIcon)) {
+            buttonSound.volume = musicvol;
             if(muteState==false)
             buttonSound.play();
             charName2 = "Boxer";
@@ -378,6 +386,7 @@ var arccssState = {
         }
 
         if (game.physics.arcade.overlap(player2Icon, FighterIcon)) {
+            buttonSound.volume = musicvol;
             if(muteState==false)
             buttonSound.play();
             charName2 = "Fighter";
@@ -401,6 +410,7 @@ var arccssState = {
         }
 
         if (game.physics.arcade.overlap(player2Icon, computerIcon)) {
+            buttonSound.volume = musicvol;
             if(muteState==false)
             buttonSound.play();
             charName2 = "Goth";

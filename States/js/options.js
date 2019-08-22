@@ -82,7 +82,8 @@ var optionsState = {
         minusButton3.onInputUp.add(this.gameLivesDec, this);
 
         buttonSound = game.add.audio('buttonSound');
-        buttonSound.volume -= .5;
+        buttonSound.volume = musicvol;
+        //buttonSound.volume -= .5;
 
         //the sliding bars part
 
@@ -91,7 +92,7 @@ var optionsState = {
         volumeIcon.input.enableDrag(true);
         volumeIcon.events.onDragUpdate.add(dragUpdate);
 
-        muteIcon = game.add.sprite(1300, initMulY, 'mute');
+        muteIcon = game.add.button(1300, initMulY, 'mute');
         muteIcon.inputEnabled = true;
         muteIcon.events.onInputDown.add(muteFunction);
         //end of the sliding bar function
