@@ -285,7 +285,7 @@ var playState = {
             
         }
         //else if (Fighter.character.body.position.y > 700 || Fighter.character.body.position.y < -200) {
-        else if (Fighter.character.body.position.y > game.world.height + 100 || Fighter.character.body.position.y < -200) {
+        else if (Fighter.character.body.position.y > game.world.height + 200 || Fighter.character.body.position.y < -200) {
             Fighter.character.hasItem = false;
             if(muteState==false)
             deathSound.play();
@@ -353,7 +353,7 @@ var playState = {
             platformsERight = game.add.group();
 
             // Create the ground.
-            land = new platform(game.world.width * 0.5, game.world.height - 100, false, 'plat1',40, 2)
+            land = new platform(game.world.width * 0.5, game.world.height * 0.7, false, 'plat1',50, 2)
             
             ground = platforms.add(land.plat);
             leftledge = platformsELeft.add(land.leftledge);
@@ -550,13 +550,36 @@ var playState = {
             platformsERight = game.add.group();
 
             // Create the ground.
-            land = new platform(game.world.width * 0.5, game.world.height - 100, false, 'plat1',40, 2)
+            land = new platform(game.world.width * 0.48, game.world.height - 120, false, 'plat1',40, 2)
             
             ground = platforms.add(land.plat);
             leftledge = platformsELeft.add(land.leftledge);
             rightledge = platformsERight.add(land.rightledge);
+
+            miniPlatforms = game.add.group();
+
+            miniland1 = new platform(game.world.width * 0.47, game.world.height * 0.5, false, 'plat2', 14,0.7);
+            var plat1 = miniPlatforms.add(miniland1.plat);
+            plat1.anchor.setTo(0.5,1);
+            //plat1.body.collideWorldBounds = true;
+            plat1.body.checkCollision.down = false;
+            plat1.body.immovable = true;
             
-            }                                    
+            miniland2 = new platform(game.world.width * 0.28, game.world.height * 0.67, false, 'plat2', 7,0.7);
+            var plat2 = miniPlatforms.add(miniland2.plat);
+            plat2.anchor.setTo(0.5,1);
+            //plat2.body.collideWorldBounds = true;
+            plat2.body.checkCollision.down = false;
+            plat2.body.immovable = true;
+
+            miniland3 = new platform(game.world.width * 0.67, game.world.height * 0.67, false, 'plat2', 7,0.7);
+            var plat3 = miniPlatforms.add(miniland3.plat);
+            plat3.anchor.setTo(0.5,1);
+            //plat3.body.collideWorldBounds = true;
+            plat3.body.checkCollision.down = false;
+            plat3.body.immovable = true;
+
+            }
         else if(gameManager.chosenStageName === 'TableTop2Stage') {
             back = game.add.sprite(0, 0, 'TableTop2Stage');
             
@@ -568,7 +591,7 @@ var playState = {
             platformsERight = game.add.group();
 
             // Create the ground.
-            land = new platform(game.world.width * 0.5, game.world.height * 0.97, false, 'plat1', 50, 2)
+            land = new platform(game.world.width * 0.5, game.world.height * 0.97, false, 'plat1', 52, 2)
             
             ground = platforms.add(land.plat);
             leftledge = platformsELeft.add(land.leftledge);
@@ -576,13 +599,14 @@ var playState = {
             
             miniPlatforms = game.add.group();
             
-            miniland1 = new platform(game.world.width * 0.5, game.world.height * 0.68, false, 'plat2', 38,0.7);
+            miniland1 = new platform(game.world.width * 0.5, game.world.height * 0.68, false, 'plat2', 40,0.7);
             var plat1 = miniPlatforms.add(miniland1.plat);
             plat1.anchor.setTo(0.5,1);
             //plat1.body.collideWorldBounds = true;
             plat1.body.checkCollision.down = false;
             plat1.body.immovable = true;
             
+          
             }
         else if(gameManager.chosenStageName === 'ReitzPondStage') {
             back = game.add.sprite(0, 0, 'ReitzPondStage');
@@ -601,6 +625,15 @@ var playState = {
             leftledge = platformsELeft.add(land.leftledge);
             rightledge = platformsERight.add(land.rightledge);
             
+            miniPlatforms = game.add.group();
+
+            miniland1 = new platform(game.world.width*0.82, game.world.height * 0.6, false, 'plat2', 5,0.7);
+            var plat1 = miniPlatforms.add(miniland1.plat);
+            plat1.anchor.setTo(0.5,1);
+            //plat3.body.collideWorldBounds = true;
+            plat1.body.checkCollision.down = false;
+            plat1.body.immovable = true;
+
             }
         else {
             //west
@@ -618,14 +651,14 @@ var playState = {
             platformsERight = game.add.group();
 
             // Create the ground.
-            land = new platform(game.world.width * 0.5, game.world.height - 100, false, 'plat1',40, 2)
+            land = new platform(game.world.width * 0.5, game.world.height * 0.82, false, 'plat1',35, 2)
             
             ground = platforms.add(land.plat);
             leftledge = platformsELeft.add(land.leftledge);
             rightledge = platformsERight.add(land.rightledge);
             
-            miniland1 = new platform(game.world.width*0.33, game.world.height*0.7, false, 'plat2', 1,1);
-            miniland2 = new platform(game.world.width*0.66, game.world.height*0.7, false, 'plat2', 1,1);
+            miniland1 = new platform(game.world.width*0.2, game.world.height*0.54, false, 'plat2', 1,1);
+            miniland2 = new platform(game.world.width*0.85, game.world.height*0.52, false, 'plat2', 1,1);
 
             var plat1 = miniPlatforms.add(miniland1.plat);
             var plat2 = miniPlatforms.add(miniland2.plat);
