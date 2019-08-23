@@ -139,6 +139,7 @@ class Item {
             //Change direction and slow on impact
             this.type.body.velocity.x *= -.25;
             this.active = false;
+            hitSound.play();
 
         }
 

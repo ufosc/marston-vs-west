@@ -17,7 +17,7 @@ class goth extends Fighter {
         //idle animation
         this.aniHang = this.character.animations.add('hang', [24, 25, 26], 5, true);
 
-        this.aniRight = this.character.animations.add('right', [6, 7, 8, 9, 10, 11, 12], 10, true);
+        this.aniRight = this.character.animations.add('right', [6, 7, 8, 9, 10, 11, 12], 10, false);
         this.aniRight.onComplete.add(this.walkEnd, this);
 
         //idle animation
@@ -78,7 +78,7 @@ class goth extends Fighter {
         this.aniWarlockWindUp.onStart.add(this.WarlockWindUpStart, this);
         this.aniWarlockWindUp.onComplete.add(this.WarlockWindUpEnd, this);
         
-        this.aniWarlock = this.character.animations.add('warlock', [22, 22, 22], 7, false);
+        this.aniWarlock = this.character.animations.add('warlock', [22], 14, false);
         this.aniWarlock.onStart.add(this.warlockStart, this);
         this.aniWarlock.onComplete.add(this.warlockEnd, this);
 
