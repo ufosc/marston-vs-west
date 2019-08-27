@@ -113,6 +113,11 @@ var winState = {
         var esckey = game.input.keyboard.addKey(Phaser.Keyboard.ESC);
         esckey.onDown.addOnce(this.start, this);
 
+        gameManager.ScoreKeeper.calcScore(1);
+        gameManager.ScoreKeeper.calcScore(2);
+
+        console.log("SCORES:");
+        console.log(gameManager.ScoreKeeper.scoreTemp);
 
         /*
         if(game.device.android || game.device.iOS)

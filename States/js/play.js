@@ -81,7 +81,13 @@ var playState = {
 
                 Player1.health += hitDmg;
                 Player1.hitVelocity = Player2.character.scale.x * Player1.health * 2;
-                
+
+                //update points for damage dealt
+                gameManager.ScoreKeeper.updatePoint(gameManager.ScoreKeeper.verifyPlayer(Player2.controlnum), 1, hitDmg);
+
+                //update points for damage taken
+                gameManager.ScoreKeeper.updatePoint(gameManager.ScoreKeeper.verifyPlayer(Player1.controlnum), 2, hitDmg);
+
                 /*dmgText = game.add.text(Player1.character.x, Player1.character.y, `${hitDmg}`);
                 dmgText.anchor.setTo(.5,.5);
                 dmgText.fill = '#ffffff';
@@ -237,6 +243,9 @@ var playState = {
         Fighter.character.body.velocity.x = 0;
         Fighter.character.body.velocity.y = 0;
         Fighter.hitVelocity = 0;
+
+        gameManager.ScoreKeeper.updatePoint(gameManager.ScoreKeeper.verifyPlayer(Fighter.controlnum), 0);
+
     },
 
     respawnEvent: function (Fighter) {
@@ -1190,6 +1199,9 @@ var playState = {
 
     //actually is the win function
     start: function () {
+        //update time points
+        
+
         game.state.start('win');
     },
 

@@ -1,38 +1,166 @@
-//game play path, for arcade mode, after character selection, call randomize method, then go to TCS state, then play, after play, win screen, then randomize again and tcs again, repeat until stagenumber == 4?
 class ScoreCounter {
     constructor() {
         this.arcadeLevel = 0;
-        this.ScoreMaster = [0, 0]; //2d matrix each index is an rgb for a character, player1, player2/npc
-        this.ScoreTemp = [0, 0];
+        this.scoreMaster = [0, 0];
+        this.scoreTemp = [0, 0];
+        this.pointTemp = [[0, 0, 0, 0, 0],[0, 0, 0, 0, 0]]; // lives, dmgdealt, dmgtaken, time, throw
+    }
+
+    resetAll(){
+        this.arcadeLevel = 0;
+        this.scoreMaster = [0, 0];
+        this.scoreTemp = [0, 0];
+        this.pointTemp = [[0, 0, 0, 0, 0],[0, 0, 0, 0, 0]];
+    }
+
+    softReset(){
+        this.scoreTemp = [0, 0];
+        this.pointTemp = [[0, 0, 0, 0, 0],[0, 0, 0, 0, 0]];
+    }
+
+    resetScoreTemp(){
+        this.scoreTemp = [0, 0];
+    }
+
+    resetPoint(){
+        this.pointTemp = [[0, 0, 0, 0, 0],[0, 0, 0, 0, 0]];
+    }
+
+    updatePoint(player, spot, points){
+        (this.pointTemp[player][spot]) += points;
+    }
+
+    calcScore(player){
+        //check player number logic
+        //player = this.verifyPlayer(player);
+
+        //calc points where necessary
+        
+        //calc throws
+        //this.calcThrowScore(player);
+
+        //calc lives
+        this.calcLivesLostScore(player);
+
+        this.calcDmgDealtPoints(player);
+
+        this.calcDmgTakenPoints(player);
+        
+        player = this.verifyPlayer(player);
+        //update scores
+        //this.updateScore(player, this.pointTemp[player] [0]);//already calced by other func
+        
+        this.updateScore(player, this.pointTemp[player][1]);
+        this.updateScore(player, this.pointTemp[player][2]);
+        //this.updateScore(player, this.pointTemp[player][3]);
+        //this.updateScore(player, this.pointTemp[player] [4]);
+    }
+
+    verifyPlayer(oldplayer){
+        //check player number logic
+        let player = oldplayer;
+
+        if(player <= 1 && player >= -1){
+            player = 0; //player1
+        }
+        else {
+            player = 1;//player 2/AI
+        }
+        
+        return player;       
     }
 
     updateScore(player, points){
-        this.ScoreTemp[player] += points;
+        //check player number logic
+        //player = this.verifyPlayer(player);
+        
+        this.scoreTemp[player] += points;
     }
 
-    updateMasterScore(){
-        this.ScoreMaster[0] += this.ScoreTemp[0];
-        this.ScoreMaster[1] += this.ScoreTemp[1];
+    updateMasterScore(player){
+        //check player number logic
+        player = this.verifyPlayer(player);
+        
+        this.scoreMaster[player] += this.scoreTemp[player];
     }
 
-    calcLivesLostPoints(){
+    calcLivesLostScore(player){
+        //check player number logic
+        player = this.verifyPlayer(player);
 
+        let score = 1000;
+
+        if (this.pointTemp[player][0] != 0) {
+            score = 0;
+        }
+        this.updateScore(player, score);
     }
 
-    calcThrowPoints(){
-
+    calcThrowScore(player){
+        //check player number logic
+        player = this.verifyPlayer(player);
+        
+        let score = (this.pointTemp[player] [4]) * 50;
+        if(score > 500){
+           score = 500
+        }
+        this.updateScore(player, score);
     }
 
-    calcDmgDealtPoints(){
-
+    calcThrowPoints(player, points){
+        //check player number logic
+        player = this.verifyPlayer(player);
+        
+        this.updatePoint(player, 4, points);
     }
 
-    calcDmgTakenPoints(){
-
+    calcLivePoints(player, points){
+        //check player number logic
+        player = this.verifyPlayer(player);
+        
+        this.updatePoint(player, 0, points);
     }
 
-    calcTimePoints(){
+    calcDmgDealtPoints(player){
+        //check player number logic
+        player = this.verifyPlayer(player);
 
+        //multiply by 6 but its really 7 cause added back to original
+        let points = 6 * this.pointTemp[player][1];
+        if (points > 1000) {
+            points = 1000;
+        }
+        this.updatePoint(player, 1, points);
     }
 
+    calcDmgTakenPoints(player){
+        //check player number logic
+        player = this.verifyPlayer(player);
+        
+        let points = 1000 - 5 * this.pointTemp[player][2];
+        if (points < 0) {
+            points = 0;
+        }
+        this.updatePoint(player, 2, points);
+    }
+
+    calcTimePoints(player, timeLeft, timeStart){
+        //check player number logic
+        player = this.verifyPlayer(player);
+        
+        let points = 500;
+        if(timeLeft < 15){
+            points = 100;
+        }
+        else if(timeLeft < 30){
+            points = 200;
+        }
+        else if(timeLeft < 45){
+            points = 300;
+        }
+        else if(timeLeft < 60){
+            points = 400;
+        }
+        this.updatePoint(player, 3, points);
+    }
 }

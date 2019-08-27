@@ -13,8 +13,10 @@ class GameInfo {
 
         this.lives = 3;
 
+        this.ScoreKeeper = new ScoreCounter();
     }
 
+    
     // random aracde mode/stage selection for next match
     random() {
         //select random number, use to access index in array containing list of arrays 
