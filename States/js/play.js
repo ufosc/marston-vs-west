@@ -244,7 +244,7 @@ var playState = {
         Fighter.character.body.velocity.y = 0;
         Fighter.hitVelocity = 0;
 
-        gameManager.ScoreKeeper.updatePoint(gameManager.ScoreKeeper.verifyPlayer(Fighter.controlnum), 0);
+        gameManager.ScoreKeeper.updatePoint(gameManager.ScoreKeeper.verifyPlayer(Fighter.controlnum), 0, 1);
 
     },
 
