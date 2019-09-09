@@ -40,18 +40,33 @@ class ScoreCounter {
         //this.calcThrowScore(player);
 
         //calc lives
-        this.calcLivesLostScore(player);
+        /*this.calcLivesLostScore(player);
 
         this.calcDmgDealtPoints(player);
 
-        this.calcDmgTakenPoints(player);
+        this.calcDmgTakenPoints(player);*/
+
+        //lives lost bonus
+        this.updateScore(this.verifyPlayer(player), this.calcLivesLostScore(player));
+
+        //damage dealt
+        this.updateScore(this.verifyPlayer(player), this.calcDmgDealtPoints(player));
+
+        //damage taken
+        this.updateScore(this.verifyPlayer(player), this.calcDmgTakenPoints(player));
+
+        //time
+        //this.updateScore(this.verifyPlayer(player), this.calcLivesLostScore(player));
+
+        //throws
+        //this.updateScore(this.verifyPlayer(player), this.calcLivesLostScore(player));
         
-        player = this.verifyPlayer(player);
+        //player = this.verifyPlayer(player);
         //update scores
         //this.updateScore(player, this.pointTemp[player] [0]);//already calced by other func
         
-        this.updateScore(player, this.pointTemp[player][1]);
-        this.updateScore(player, this.pointTemp[player][2]);
+        //this.updateScore(player, this.pointTemp[player][1]);
+        //this.updateScore(player, this.pointTemp[player][2]);
         //this.updateScore(player, this.pointTemp[player][3]);
         //this.updateScore(player, this.pointTemp[player] [4]);
     }
@@ -93,7 +108,8 @@ class ScoreCounter {
         if (this.pointTemp[player][0] != 0) {
             score = 0;
         }
-        this.updateScore(player, score);
+        //this.updateScore(player, score);
+        return score;
     }
 
     calcThrowScore(player){
@@ -104,21 +120,25 @@ class ScoreCounter {
         if(score > 500){
            score = 500
         }
-        this.updateScore(player, score);
+
+        return score;
+        //this.updateScore(player, score);
     }
 
     calcThrowPoints(player, points){
         //check player number logic
         player = this.verifyPlayer(player);
         
-        this.updatePoint(player, 4, points);
+        return points;
+        //this.updatePoint(player, 4, points);
     }
 
     calcLivePoints(player, points){
         //check player number logic
         player = this.verifyPlayer(player);
         
-        this.updatePoint(player, 0, points);
+        return points;
+        //this.updatePoint(player, 0, points);
     }
 
     calcDmgDealtPoints(player){
@@ -130,7 +150,9 @@ class ScoreCounter {
         if (points > 1000) {
             points = 1000;
         }
-        this.updatePoint(player, 1, points);
+
+        return points;
+        //this.updatePoint(player, 1, points);
     }
 
     calcDmgTakenPoints(player){
@@ -141,7 +163,9 @@ class ScoreCounter {
         if (points < 0) {
             points = 0;
         }
-        this.updatePoint(player, 2, points);
+
+        return points;
+        //this.updatePoint(player, 2, points);
     }
 
     calcTimePoints(player, timeLeft, timeStart){
@@ -161,6 +185,8 @@ class ScoreCounter {
         else if(timeLeft < 60){
             points = 400;
         }
-        this.updatePoint(player, 3, points);
+
+        return points;
+        //this.updatePoint(player, 3, points);
     }
 }

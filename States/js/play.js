@@ -351,6 +351,8 @@ var playState = {
 
     create: function () {
 
+        gameManager.changemode("Arcade");
+
         //  We're going to be using physics, so enable the Arcade Physics system
         //w = 800;
         //h = 600;
@@ -1201,6 +1203,7 @@ var playState = {
     start: function () {
         //update time points
         
+        gameManager.ScoreKeeper.updatePoint(0, 4, timer.duration);
 
         game.state.start('win');
     },
