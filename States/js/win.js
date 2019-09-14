@@ -60,41 +60,83 @@ class form extends Phaser.Text {
     }
 }
 
-
 var winState = {
     create: function () {
-        if(multimanmode == false){
-            if (Player1.lives > Player2.lives) {
-                var winLabel = game.add.text(game.world.width*0.4, 80, 'Player 1 won!', { font: '70px Arial', fill: '#ffffff' });
-            }
-            else if (Player1.lives == Player2.lives) {
-                var winLabel = game.add.text(game.world.width*0.4, 80, "It's a tie", { font: '70px Arial', fill: '#ffffff' });
-            }
-            else {
-                var winLabel = game.add.text(game.world.width*0.4, 80, 'Player 2 won!', { font: '70px Arial', fill: '#ffffff' });
-            }
-            var statsLabel1 = game.add.text(80, 160, `Player 1 stats:` + '\n' + `Lives: ${Player1.lives}`, { font: '70px Arial', fill: '#ffffff' }); 
-            var statsLabel2 = game.add.text(game.world.width*0.7, 160, `Player 2 stats:` + '\n' + `Lives: ${Player2.lives}`,{ font: '70px Arial', fill: '#ffffff' });
+        if(gameManager.gameType === "Arcade") {
+
+            gameManager.ScoreKeeper.ArcCalcScore(1);
+            
+            console.log("SCORES:");
+            console.log(gameManager.ScoreKeeper.scoreTemp);
+
+            var statsLabel1 = game.add.text(80, 100, `Player 1 stats:` + '\n' 
+            + `Score: ${gameManager.ScoreKeeper.scoreTemp[0]}` + '\n'
+            + `Lives Lost Bonus: ${gameManager.ScoreKeeper.calcLivesLostScore(0)}` + '\n'
+            + `Damage Dealt: ${gameManager.ScoreKeeper.pointTemp[0][1]}` + '\n'
+            + `Damage Dealt Bonus: ${gameManager.ScoreKeeper.calcDmgDealtPoints(0)}` + '\n'
+            + `Damage Taken: ${gameManager.ScoreKeeper.pointTemp[0][2]}` + '\n'
+            + `Damage Taken Bonus: ${gameManager.ScoreKeeper.calcDmgTakenPoints(0)}` + '\n'
+            + `Time Left: ${gameManager.ScoreKeeper.pointTemp[0][4]}` + '\n'
+            + `Time Left Bonus: ${gameManager.ScoreKeeper.calcTimePoints(0)}` + '\n'
+            , { font: '70px Arial', fill: '#ffffff' });
         }
-        else{
-            var winLabel = game.add.text(80, 80, 'Nice Game!', { font: '70px Arial', fill: '#ffffff' });
-            var statsLabel1 = game.add.text(80, 160, `Player 1 stats:` + '\n' + `KO(s): ${multimenko}`, { font: '70px Arial', fill: '#ffffff' });
+        else if (gameManager.gameType === "MultiPlayer"){
+            gameManager.ScoreKeeper.calcScore(1);
+            gameManager.ScoreKeeper.calcScore(2);
+
+            var statsLabel1 = game.add.text(40, 160, `Player 1 stats:` + '\n' 
+            + `Score: ${gameManager.ScoreKeeper.scoreTemp[0]}` + '\n'
+            + `Lives Lost Bonus: ${gameManager.ScoreKeeper.calcLivesLostScore(0)}` + '\n'
+            + `Damage Dealt: ${gameManager.ScoreKeeper.pointTemp[0][1]}` + '\n'
+            + `Damage Dealt Bonus: ${gameManager.ScoreKeeper.calcDmgDealtPoints(0)}` + '\n'
+            + `Damage Taken: ${gameManager.ScoreKeeper.pointTemp[0][2]}` + '\n'
+            + `Damage Taken Bonus: ${gameManager.ScoreKeeper.calcDmgTakenPoints(0)}` + '\n'
+            , { font: '70px Arial', fill: '#ffffff' });
+
+            var statsLabel2 = game.add.text((game.world.width* 0.5) + 20, 160, `Player 2 stats:` + '\n' 
+            + `Score: ${gameManager.ScoreKeeper.scoreTemp[1]}` + '\n'
+            + `Lives Lost Bonus: ${gameManager.ScoreKeeper.calcLivesLostScore(2)}` + '\n'
+            + `Damage Dealt: ${gameManager.ScoreKeeper.pointTemp[1][1]}` + '\n'
+            + `Damage Dealt Bonus: ${gameManager.ScoreKeeper.calcDmgDealtPoints(2)}` + '\n'
+            + `Damage Taken: ${gameManager.ScoreKeeper.pointTemp[1][2]}` + '\n'
+            + `Damage Taken Bonus: ${gameManager.ScoreKeeper.calcDmgTakenPoints(2)}` + '\n'
+            , { font: '70px Arial', fill: '#ffffff' });
         }
-        var startLabel = game.add.text(80, game.world.height - 80, 'Press "W" key or tap this label to go to menu', { font: '40px Arial', fill: '#ffffff' });
-        startLabel.inputEnabled = true;
-        startLabel.events.onInputUp.add(function () {
-            music.stop();
-            game.state.start('menu');
-        });
+        else {
+            if(multimanmode == false){
+                if (Player1.lives > Player2.lives) {
+                    var winLabel = game.add.text(game.world.width*0.4, 80, 'Player 1 won!', { font: '70px Arial', fill: '#ffffff' });
+                }
+                else if (Player1.lives == Player2.lives) {
+                    var winLabel = game.add.text(game.world.width*0.4, 80, "It's a tie", { font: '70px Arial', fill: '#ffffff' });
+                }
+                else {
+                    var winLabel = game.add.text(game.world.width*0.4, 80, 'Player 2 won!', { font: '70px Arial', fill: '#ffffff' });
+                }
+                var statsLabel1 = game.add.text(80, 160, `Player 1 stats:` + '\n' + `Lives: ${Player1.lives}`, { font: '70px Arial', fill: '#ffffff' }); 
+                var statsLabel2 = game.add.text(game.world.width*0.7, 160, `Player 2 stats:` + '\n' + `Lives: ${Player2.lives}`,{ font: '70px Arial', fill: '#ffffff' });
+            }
+            else{
+                var winLabel = game.add.text(80, 80, 'Nice Game!', { font: '70px Arial', fill: '#ffffff' });
+                var statsLabel1 = game.add.text(80, 160, `Player 1 stats:` + '\n' + `KO(s): ${multimenko}`, { font: '70px Arial', fill: '#ffffff' });
+            }
+            var startLabel = game.add.text(80, game.world.height - 80, 'Press "W" key or tap this label to go to menu', { font: '40px Arial', fill: '#ffffff' });
+            startLabel.inputEnabled = true;
+            startLabel.events.onInputUp.add(function () {
+                music.stop();
+                gameManager.ScoreKeeper.resetAll();
+                gameManager.changemode("Menu");
+                game.state.start('menu');
+            });
 
-        var restartLabel = game.add.text(80, game.world.height - 180, 'Press this label to restart', { font: '40px Arial', fill: '#ffffff' });
-        restartLabel.inputEnabled = true;
-        restartLabel.events.onInputUp.add(function () {
-            music.stop();
-            game.state.start('play');
-        });
-
-
+            var restartLabel = game.add.text(80, game.world.height - 180, 'Press this label to restart', { font: '40px Arial', fill: '#ffffff' });
+            restartLabel.inputEnabled = true;
+            restartLabel.events.onInputUp.add(function () {
+                music.stop();
+                gameManager.ScoreKeeper.resetAll();
+                game.state.start('play');
+            });
+        }
 
         if (game.device.android || game.device.iOS) {
             //If on mobile, open a new tab with the survey form
@@ -113,7 +155,6 @@ var winState = {
         var esckey = game.input.keyboard.addKey(Phaser.Keyboard.ESC);
         esckey.onDown.addOnce(this.start, this);
 
-
         /*
         if(game.device.android || game.device.iOS)
         {
@@ -124,6 +165,8 @@ var winState = {
     },
     start: function () {
         music.stop();
+        gameManager.ScoreKeeper.resetAll();
+        gameManager.changemode("Menu");
         game.state.start('menu');
     }
 };

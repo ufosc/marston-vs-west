@@ -38,17 +38,19 @@ var menuState = {
         creditsButton.anchor.setTo(.5,.5);
         creditsButton.onInputUp.add(this.quit, this);
 
-
         fullScreenButton = game.add.button(game.world.width * .5, game.world.height, 'fullScreenButton');
         fullScreenButton.anchor.setTo(.5,.5);
         fullScreenButton.onInputUp.add(this.fullScreenConfig, this);
         fullScreenButton.anchor.setTo(.5, .5);
         fullScreenButton.visible = false;
-
+        
+        helpButton = game.add.button(0, game.world.height, 'helpButton');
+        helpButton.anchor.setTo(0, 1);
+        helpButton.onInputUp.add(this.help, this);
 
         buttonSound = game.add.audio('buttonSound');
-        buttonSound.volume -= .3;
-
+        //buttonSound.volume -= .3;
+        buttonSound.volume = musicvol;
 
         if (music.name != 'menuMusic') {
             music = game.add.audio('menuMusic');
@@ -57,23 +59,29 @@ var menuState = {
 
     },
     start: function () {
+        
         if(muteState==false)
         buttonSound.play();
         //music.stop();
+        console.log("go to normal css?");
+        gameManager.changemode("MultiPlayer");
         game.state.start('css');
+        //game.state.start('options');
 
     },
     arcade: function(){
-        console.log('stupid');
+        console.log('arcade');
         if(muteState==false)
         buttonSound.play();
         //music.stop();
+        gameManager.changemode("Arcade");
         game.state.start('arccss');
     },
     characterSelect: function () {
         if(muteState==false)
         buttonSound.play();
         console.log("css State");
+        gameManager.changemode("Multi");
         game.state.start('css');
 
     },
@@ -127,6 +135,12 @@ var menuState = {
         {
             game.scale.startFullScreen(false);
         }
+    },
+    
+    help: function(){
+       if(muteState==false)
+        buttonSound.play();
+        game.state.start('help');
     }
 
 

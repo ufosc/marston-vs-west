@@ -17,6 +17,8 @@ class Fighter {
         this.hanging = "no";
         this.hangingtimer = 0;
 
+        this.resettint();
+
         switch (character) {
             case 'dude':
                 this.fighterStyle = {
@@ -88,6 +90,7 @@ class Fighter {
         this.hitVelocity = 0;
         //Hit stun counter
         this.stunCounter = 0;
+        this.stunCounterLock = 0;
 
         this.controlnum = controlnum;
         console.log("controlnum: " + this.controlnum)
@@ -388,6 +391,21 @@ class Fighter {
             this.combo = 0;
         }
     }
+    resettint() {
+        console.log("reset?");
+        if(this.controlnum <= 1) {
+            console.log(gameManager.playerTint[0]);
+            this.character.tint = gameManager.playerTint[0];//            this.character.tint = gameManager.playersTint[0][0]; //proper??
+        }
+        if(this.controlnum > 1) {
+            console.log(gameManager.playerTint[1]);
+            this.character.tint =  gameManager.playerTint[1];
+        }
+    }
+
+    randtint() {
+        this.character.tint = Math.random() * 0xffffff;
+    }
 
     getleft() {
         if (this.testconnect == true) {
@@ -563,87 +581,87 @@ class Fighter {
     //animation events
 
     PunchWindUpStart() {
-        this.character.tint = 0; //0xffffff * 0.5;
+        //this.resettint() //0xffffff * 0.5;
         this.inputLock = true;
     }
     PunchWindUpEnd() {
-        this.character.tint = 0xffffff;
+        //this.resettint();
         this.aniPunch.play(10, false);
     }
 
     KickWindUpStart() {
-        this.character.tint = 0; //0xffffff * 0.5;
+        //this.resettint() //0xffffff * 0.5;
         this.inputLock = true;
     }
     KickWindUpEnd() {
-        this.character.tint = 0xffffff;
+        //this.resettint();
         this.aniKick.play(10, false);
     }
 
     AirFWindUpStart() {
-        this.character.tint = 0; //0xffffff * 0.5;
+        //this.resettint() //0xffffff * 0.5;
         this.inputLock = true;
     }
     AirFWindUpEnd() {
-        this.character.tint = 0xffffff;
+        //this.resettint();
         this.aniAirF.play(10, false);
     }
 
     AirDWindUpStart() {
-        this.character.tint = 0; //0xffffff * 0.5;
+       //this.resettint() //0xffffff * 0.5;
         this.inputLock = true;
     }
     AirDWindUpEnd() {
-        this.character.tint = 0xffffff;
+       //this.resettint();
         this.aniAirD.play(10, false);
     }
 
     AirNWindUpStart() {
-        this.character.tint = 0; //0xffffff * 0.5;
+       //this.resettint() //0xffffff * 0.5;
         this.inputLock = true;
     }
     AirNWindUpEnd() {
-        this.character.tint = 0xffffff;
+       //this.resettint();
         this.aniAirN.play(10, false);
     }
 
     
     UppercutWindUpStart() {
-        this.character.tint = 0; //0xffffff * 0.5;
+       //this.resettint() //0xffffff * 0.5;
         this.inputLock = true;
     }
     UppercutWindUpEnd() {
-        this.character.tint = 0xffffff;
+       //this.resettint();
         this.aniUppercut.play(10, false);
     }
 
     
     WarlockWindUpStart() {
-        this.character.tint = 0; //0xffffff * 0.5;
+       //this.resettint() //0xffffff * 0.5;
         this.inputLock = true;
     }
     WarlockWindUpEnd() {
-        this.character.tint = 0xffffff;
+       //this.resettint();
         this.aniWarlock.play(3, false);
     }
 
 
     JumpKickWindUpStart() {
-        this.character.tint = 0; //0xffffff * 0.5;
+       //this.resettint() //0xffffff * 0.5;
         this.inputLock = true;
     }
     JumpKickWindUpEnd() {
-        this.character.tint = 0xffffff;
+       //this.resettint();
         this.aniJumpKick.play(7, false);
     }
 
     
     JuggleWindUpStart() {
-        this.character.tint = 0; //0xffffff * 0.5;
+       //this.resettint() //0xffffff * 0.5;
         this.inputLock = true;
     }
     JuggleWindUpEnd() {
-        this.character.tint = 0xffffff;
+       //this.resettint();
         this.aniJuggle.play(10, false);
     }
 
@@ -652,7 +670,7 @@ class Fighter {
 
     punchStart() {
         console.log("Punch start");
-        this.character.tint = 0;
+       //this.resettint()
         if (this.character.scale.x < 0) //If facing left, flip the angle of the hitbox
         {
             this.weapon1.bulletAngleOffset = 40;
@@ -672,7 +690,7 @@ class Fighter {
         this.inputLock = false;
         this.attack = '';
         this.basicCD = 15;
-        //this.character.tint = 0xffffff;
+        //this.resettint();
     }
     airforwardStart() {
         console.log('air forward start');
@@ -933,6 +951,11 @@ class Fighter {
         this.inputLock = false;
     }
 
+    stuncounterset(stunnum){
+        this.stunCounter = stunnum;
+        this.stunCounterLock = 1;
+    }
+
     //method to verify if fighter is touching a side of a platform, if true, fighter grabs ledge 
     checkLedge(leftedge, rightedge) {
         //console.log("ledge check");
@@ -1028,8 +1051,9 @@ class Fighter {
             this.hangingtimer--;
         }
         else {
-            console.log("ready to grab again");
+            //console.log("ready to grab again");
             this.hanging = "no";
+            
         }
 
     }
@@ -1055,9 +1079,12 @@ class Fighter {
         if (this.stunCounter != 0) {
             this.stunCounter -= 1;
         }
-        else {
-            this.character.tint = 0xffffff;
+        if(this.stunCounter == 0 && this.stunCounterLock == 1){
+            console.log("reset tint after stun");
+            this.resettint();
+            this.stunCounterLock = 0;
         }
+        
         //update function to decrease/increase the hit velocity based on the original direction of the punch. The natural slowing down of hit velocity
         if (this.hitVelocity < 0) {
             this.hitVelocity += 1;
@@ -1415,6 +1442,7 @@ class Fighter {
                 if (this.stunCounter > 0) {
                     this.character.animations.play('ko');
 
+
                     //make player flash different colors when taking damage
                     this.character.tint = Math.random() * 0xffffff;
                     //game.camera.shake(0.01,15);
@@ -1429,9 +1457,9 @@ class Fighter {
                 }
                 else {
                     //Makes character just a silhouete
-                    //this.character.tint = 0;
+                    //this.resettint()
 
-                    this.character.tint = 0xffffff;
+                   //this.resettint();
 
                     //this.character.animations.play('idle');
                 }

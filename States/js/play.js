@@ -1,3 +1,4 @@
+var dmgText;
 var playState = {
     //hitPlayer12: function (target,attacker)
     hitPlayer12: function (Player1,Player2) {
@@ -81,24 +82,57 @@ var playState = {
                 Player1.health += hitDmg;
                 Player1.hitVelocity = Player2.character.scale.x * Player1.health * 2;
 
+                //update points for damage dealt
+                gameManager.ScoreKeeper.updatePoint(gameManager.ScoreKeeper.verifyPlayer(Player2.controlnum), 1, hitDmg);
+
+                //update points for damage taken
+                gameManager.ScoreKeeper.updatePoint(gameManager.ScoreKeeper.verifyPlayer(Player1.controlnum), 2, hitDmg);
+
+                /*dmgText = game.add.text(Player1.character.x, Player1.character.y, `${hitDmg}`);
+                dmgText.anchor.setTo(.5,.5);
+                dmgText.fill = '#ffffff';
+                //dmgText.velocity.y = 100;
+                game.time.events.add(Phaser.Timer.SECOND * 3, this.textGoAway, this);*/
+                if(hitDmg <= 10)
+                    game.time.events.add(Phaser.Timer.SECOND * 0, function(){
+                        let animation = game.add.sprite(Player1.character.x, Player1.character.y, 'pow');
+                        animation.anchor.setTo(0.5, 0.5);
+                        game.add.tween(animation).to( { alpha: 0 }, 1000, Phaser.Easing.Linear.None, true);
+                        game.add.tween(animation).to( { y: Player1.character.y - 50 }, 1000, Phaser.Easing.Linear.None, true);
+                    }, this);
+                else if((hitDmg > 10) && (hitDmg <= 20))
+                    game.time.events.add(0, function(){
+                        let animation = game.add.sprite(Player1.character.x, Player1.character.y, 'ugh');
+                        animation.anchor.setTo(0.5, 0.5);
+                        game.add.tween(animation).to( { alpha: 0 }, 1000, Phaser.Easing.Linear.None, true);
+                        game.add.tween(animation).to( { y: Player1.character.y - 50 }, 1000, Phaser.Easing.Linear.None, true);
+                    }, this);
+                else
+                    game.time.events.add(Phaser.Timer.SECOND * 0, function() {
+                        let animation = game.add.sprite(Player1.character.x, Player1.character.y, 'ouch');
+                        animation.anchor.setTo(0.5, 0.5);
+                        game.add.tween(animation).to( { alpha: 0 }, 1000, Phaser.Easing.Linear.None, true);
+                        game.add.tween(animation).to( { y: Player1.character.y - 50 }, 1000, Phaser.Easing.Linear.None, true);
+                    }, this);
+
                 Player1.character.body.velocity.y = -(Math.pow(Player1.health, hitAngle));
 
                 if (Player1.health >= 0 || Player1.health <= 75) {
-                    Player1.stunCounter = 60;
+                    Player1.stuncounterset(60);
                 }
                 else if (Player1.health > 75 || Player1.health <= 150) {
-                    Player1.stunCounter = 120;
+                    Player1.stuncounterset(120);
                     if (Player1.health >= 120) {
                         hitpause = 10;
                     }
                 }
                 else if (Player1.health > 150 || Player1.health < 200) {
                     hitpause = 10;
-                    Player1.stunCounter = 300;
+                    Player1.stuncounterset(300);
                 }
                 else {
                     hitpause = 10;
-                    Player1.stunCounter = 450;
+                    Player1.stuncounterset(450);
                 }
             }
             Player2.deltDamage = true;
@@ -209,6 +243,9 @@ var playState = {
         Fighter.character.body.velocity.x = 0;
         Fighter.character.body.velocity.y = 0;
         Fighter.hitVelocity = 0;
+
+        gameManager.ScoreKeeper.updatePoint(gameManager.ScoreKeeper.verifyPlayer(Fighter.controlnum), 0, 1);
+
     },
 
     respawnEvent: function (Fighter) {
@@ -255,16 +292,16 @@ var playState = {
 
     playerHitStun: function (Fighter) {
         if (Fighter.health >= 0 || Fighter.health <= 75) {
-            Fighter.stunCounter = 15;
+            Fighter.stuncounterset(15);
         }
         else if (Fighter.health > 75 || Fighter.health <= 150) {
-            Fighter.stunCounter = 45;
+            Fighter.stuncounterset(45);
         }
         else if (Fighter.health > 150 || Fighter.health < 200) {
-            Fighter.stunCounter = 90;
+            Fighter.stuncounterset(90);
         }
         else {
-            Fighter.stunCounter = 150;
+            Fighter.stuncounterset(150);
         }
     },
 
@@ -314,6 +351,8 @@ var playState = {
 
     create: function () {
 
+        //gameManager.changemode("Arcade");
+
         //  We're going to be using physics, so enable the Arcade Physics system
         //w = 800;
         //h = 600;
@@ -321,9 +360,11 @@ var playState = {
 
         //create a timer for the game
         timer = game.time.create(false);
-        timerEvent = timer.add(Phaser.Timer.MINUTE * gameMinutes + Phaser.Timer.SECOND * gameSeconds, this.timeOutGame, this);
+        timerEvent = timer.add(Phaser.Timer.MINUTE * gameManager.gameMinutes + Phaser.Timer.SECOND * gameManager.gameSeconds, this.timeOutGame, this);
         timer.start();
-
+        if(gameManager.gameType === "Arcade") {
+            gameManager.ScoreKeeper.updatePoint(0, 3, timer.duration);
+        }
         var esckey = game.input.keyboard.addKey(Phaser.Keyboard.ESC);
         esckey.onDown.addOnce(this.timeOutGame);
 
@@ -340,10 +381,13 @@ var playState = {
         stagecam = new cam(40, 350, 1200, 1000);
 
 
-        if(chosenStageName === 'marstonPic') {
+        if(gameManager.chosenStageName === 'MarstonTableStage') {
 
             //Background for our game
-            back = game.add.sprite(0, 0, 'sky');
+            //back = game.add.sprite(0, 0, 'sky');
+            //back = game.add.sprite(0, 0, 'MarstonStage2');
+            //back = game.add.sprite(0, 0, 'TurlingtonStage2');
+            back = game.add.sprite(0, 0, 'MarstonTableStage');
 
             back.scale.setTo(1.5,1.5);
 
@@ -367,10 +411,136 @@ var playState = {
             //ground.body.immovable = true;
 
         }
+        else if(gameManager.chosenStageName === 'WestPrintStage') {
+            back = game.add.sprite(0, 0, 'WestPrintStage');
+
+            back.scale.setTo(1.5,1.5);
+
+            // The platforms group contains the ground and the 2 ledges we can jump on
+            platforms = game.add.group();
+            platformsELeft = game.add.group();
+            platformsERight = game.add.group();
+
+            // Create the ground.
+            land = new platform(game.world.width * 0.5, game.world.height - 100, false, 'ground',40, 2)
+            
+            ground = platforms.add(land.plat);
+            leftledge = platformsELeft.add(land.leftledge);
+            rightledge = platformsERight.add(land.rightledge);
+
+            }
+        else if(gameManager.chosenStageName === 'WestDeskStage') {
+            back = game.add.sprite(0, 0, 'WestDeskStage');
+
+            back.scale.setTo(1.5,1.5);
+
+            // The platforms group contains the ground and the 2 ledges we can jump on
+            platforms = game.add.group();
+            platformsELeft = game.add.group();
+            platformsERight = game.add.group();
+
+            // Create the ground.
+            land = new platform(game.world.width * 0.5, game.world.height - 100, false, 'ground',40, 2)
+            
+            ground = platforms.add(land.plat);
+            leftledge = platformsELeft.add(land.leftledge);
+            rightledge = platformsERight.add(land.rightledge);
+            
+            }
+        else if(gameManager.chosenStageName === 'GatorStage') {
+            back = game.add.sprite(0, 0, 'GatorStage');
+
+            back.scale.setTo(1.5,1.5);
+
+            // The platforms group contains the ground and the 2 ledges we can jump on
+            platforms = game.add.group();
+            platformsELeft = game.add.group();
+            platformsERight = game.add.group();
+
+            // Create the ground.
+            land = new platform(game.world.width * 0.5, game.world.height - 100, false, 'ground',40, 2)
+            
+            ground = platforms.add(land.plat);
+            leftledge = platformsELeft.add(land.leftledge);
+            rightledge = platformsERight.add(land.rightledge);
+            
+            }
+        else if(gameManager.chosenStageName === 'TreeStage') {
+            back = game.add.sprite(0, 0, 'TreeStage');
+
+            back.scale.setTo(1.5,1.5);
+
+            // The platforms group contains the ground and the 2 ledges we can jump on
+            platforms = game.add.group();
+            platformsELeft = game.add.group();
+            platformsERight = game.add.group();
+
+            // Create the ground.
+            land = new platform(game.world.width * 0.5, game.world.height - 100, false, 'ground',40, 2)
+            
+            ground = platforms.add(land.plat);
+            leftledge = platformsELeft.add(land.leftledge);
+            rightledge = platformsERight.add(land.rightledge);
+            
+            }
+        else if(gameManager.chosenStageName === 'TableTopStage') {
+            back = game.add.sprite(0, 0, 'TableTopStage');
+
+            back.scale.setTo(1.5,1.5);
+
+            // The platforms group contains the ground and the 2 ledges we can jump on
+            platforms = game.add.group();
+            platformsELeft = game.add.group();
+            platformsERight = game.add.group();
+
+            // Create the ground.
+            land = new platform(game.world.width * 0.5, game.world.height - 100, false, 'ground',40, 2)
+            
+            ground = platforms.add(land.plat);
+            leftledge = platformsELeft.add(land.leftledge);
+            rightledge = platformsERight.add(land.rightledge);
+            
+            }                                    
+        else if(gameManager.chosenStageName === 'TableTop2Stage') {
+            back = game.add.sprite(0, 0, 'TableTop2Stage');
+            
+            back.scale.setTo(1.5,1.5);
+
+            // The platforms group contains the ground and the 2 ledges we can jump on
+            platforms = game.add.group();
+            platformsELeft = game.add.group();
+            platformsERight = game.add.group();
+
+            // Create the ground.
+            land = new platform(game.world.width * 0.5, game.world.height - 100, false, 'ground',40, 2)
+            
+            ground = platforms.add(land.plat);
+            leftledge = platformsELeft.add(land.leftledge);
+            rightledge = platformsERight.add(land.rightledge);
+            
+            }
+        else if(gameManager.chosenStageName === 'ReitzPondStage') {
+            back = game.add.sprite(0, 0, 'ReitzPondStage');
+
+            back.scale.setTo(1.5,1.5);
+
+            // The platforms group contains the ground and the 2 ledges we can jump on
+            platforms = game.add.group();
+            platformsELeft = game.add.group();
+            platformsERight = game.add.group();
+
+            // Create the ground.
+            land = new platform(game.world.width * 0.5, game.world.height - 100, false, 'ground',40, 2)
+            
+            ground = platforms.add(land.plat);
+            leftledge = platformsELeft.add(land.leftledge);
+            rightledge = platformsERight.add(land.rightledge);
+            
+            }
         else {
             //west
             //Background for our game
-            back = game.add.sprite(0, 0, 'sky');
+            back = game.add.sprite(0, 0, 'ReitzStepStage');
             
             back.scale.setTo(1.5,1.5);
 
@@ -453,7 +623,8 @@ var playState = {
         jumpSound = game.add.audio('jumpSound');
         itemSound = game.add.audio('itemSound');
         buttonSound = game.add.audio('buttonSound');
-        buttonSound.volume -= .5;
+        buttonSound.volume = musicvol;
+        //buttonSound.volume -= .5;
 
         if (game.device.android || game.device.iOS) {
             //If on mobile, use the vpad as input for player 1,
@@ -466,44 +637,49 @@ var playState = {
 
 
         if (charName1 === 'dude') {
-            Player1 = new dj(charName1, 0, 3, game.world.width * 0.25, game.world.height * 0.5, controlOptionVpad);
-            console.log(Player1);
-            console.log("Player 1 is dj");
+            Player1 = new dj(charName1, 0, gameManager.lives, game.world.width * 0.25, game.world.height * 0.5, controlOptionVpad);
         }
-        else if (charName1 === 'chick') {
-            Player1 = new lab(charName1, 0, 3, game.world.width * 0.25, game.world.height * 0.5, controlOptionVpad);
+        else if (charName1 === 'Lab') {
+            Player1 = new lab(charName1, 0, gameManager.lives, game.world.width * 0.25, game.world.height * 0.5, controlOptionVpad);
+        }
+        else if (charName1 === 'Goth') {
+            Player1 = new goth(charName1, 0, gameManager.lives, game.world.width * 0.25, game.world.height * 0.5, controlOptionVpad);
+        }
+        else if (charName1 === 'Boxer') {
+            Player1 = new boxer(charName1, 0, gameManager.lives, game.world.width * 0.25, game.world.height * 0.5, controlOptionVpad);
+        }
+        else if (charName2 === 'Fighter'){
+            Player1 = new dj(charName1, 0, gameManager.lives, game.world.width * 0.25, game.world.height * 0.5, controlOptionVpad);
+        }
 
-            console.log("Player 1 is lab");
+
+        if (charName2 === 'Fighter') {
+            Player2 = new dj(charName2, 0, gameManager.lives, game.world.width * 0.75, game.world.height * 0.5, controlOptionAI);
+        }
+        else if (charName2 === 'Goth') {
+            Player2 = new goth(charName2, 0, gameManager.lives, game.world.width * 0.75, game.world.height * 0.5, controlOptionAI);
+        }
+        else if (charName2 === 'Lab') {
+            Player2 = new lab(charName2, 0, gameManager.lives, game.world.width * 0.75, game.world.height * 0.5, controlOptionAI);
+        }
+        else if (charName2 === 'Boxer') {
+            Player2 = new boxer(charName2, 0, gameManager.lives, game.world.width * 0.75, game.world.height * 0.5, controlOptionAI);
         }
         else {
-            Player1 = new lab(charName1, 0, lives, game.world.width * 0.25, game.world.height * 0.5, controlOptionVpad);
-            console.log("Player 1 is lab");
+            Player2 = new dj(charName2, 0, gameManager.lives, game.world.width * 0.75, game.world.height * 0.5, controlOptionAI);
         }
 
 
-        if (charName2 === 'dude') {
-            Player2 = new dj(charName2, 0, 3, game.world.width * 0.75, game.world.height * 0.5, controlOptionAI);
-            console.log("Player 2 is dj");
-        }
-        else if (charName2 === 'chick') {
-            Player2 = new lab(charName2, 0, 3, game.world.width * 0.75, game.world.height * 0.5, controlOptionAI);
-
-            console.log("Player 2 is lab");
-        }
-        else {
-            Player2 = new lab(charName2, 0, lives, game.world.width * 0.75, game.world.height * 0.5, controlOptionAI);
-            console.log("Player 2 is lab");
-        }
-
-
-
+        Player1.resettint();
+        console.log("work?");
+        Player2.resettint();
 
         if (multimanmode === true) {
-            Player3 = new lab(charName2, 0, 3, game.world.width * 0.5, game.world.height * 0.5, controlOptionAI);
+            Player3 = new lab(charName2, 0, gameManager.lives, game.world.width * 0.5, game.world.height * 0.5, controlOptionAI);
 
             console.log("Player 3 is lab");
 
-            Player4 = new lab(charName2, 0, lives, game.world.width * 0.62, game.world.height * 0.5, controlOptionAI);
+            Player4 = new lab(charName2, 0, gameManager.lives, game.world.width * 0.62, game.world.height * 0.5, controlOptionAI);
             console.log("Player 4 is lab");
         }
 
@@ -514,7 +690,6 @@ var playState = {
 
         //Create an item
         item1 = new Item('bottle', game.world.width * .5, game.world.height * .5, this);
-
 
         if (Player1.controlnum === -1) {
             //console.log("virtual buttons are made buttons");
@@ -685,6 +860,11 @@ var playState = {
     },
 
     timeOutGame: function () {
+    
+        if(gameManager.gameType === "Arcade") {
+            gameManager.ScoreKeeper.updatePoint(0, 4, timer.duration);
+        }
+    
         timer.stop();
         game.state.start('win');
     },
@@ -703,7 +883,7 @@ var playState = {
 
 
 
-        if (chosenStageName === 'pool') {
+        if (gameManager.chosenStageName === 'pool') {
             console.log("gravity set low!");
             Player1.character.body.gravity.y = 250; //gravity may need to oscillate between positive and negative so that fighter has a floaty feel to it while swimming 
             Player1.jumps = 0;
@@ -743,7 +923,7 @@ var playState = {
 
 
         //  Collide the players with the platforms and eachother
-        if (chosenStageName === 'westPic') {
+        if (gameManager.chosenStageName === 'westPic') {
             if (Player1.getdown()) {
                 Player1.character.body.immovable = false;
             }
@@ -1010,6 +1190,9 @@ var playState = {
 
         //If out of lives, end the game
         if (Player1.lives === 0) {
+            if(gameManager.gameType === "Arcade") {
+                gameManager.ScoreKeeper.updatePoint(0, 4, timer.duration);
+            }
             game.state.start('win');
             if (multimanmode === true) {
                 console.log("# of KOs in multiman mode:");
@@ -1017,6 +1200,9 @@ var playState = {
             }
         }
         if (Player2.lives === 0 && multimanmode === false) {
+            if(gameManager.gameType === "Arcade") {
+                gameManager.ScoreKeeper.updatePoint(0, 4, timer.duration);
+            }
             game.state.start('win');
         }
 
@@ -1028,6 +1214,11 @@ var playState = {
 
     //actually is the win function
     start: function () {
+        //update time points, store time left
+        if(gameManager.gameType === "Arcade") {
+            gameManager.ScoreKeeper.updatePoint(0, 4, timer.duration);
+        }
+        console.log("Time Left: Start func?" + timer.duration)
         game.state.start('win');
     },
 

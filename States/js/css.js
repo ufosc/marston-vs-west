@@ -1,5 +1,6 @@
 var cssState = {
     create: function () {
+       
         //Reset values to default so if player wants to play again, it does not start off "ready" to play
         charSelected1 = false;
         charSelected2 = false;
@@ -17,17 +18,29 @@ var cssState = {
 
         key1 = game.input.keyboard.addKey(Phaser.Keyboard.ENTER);
         
-        dudeIcon = game.add.sprite(game.world.width * 0.5 - 250, game.world.height * .5 + 150, 'dudeIcon');
-        dudeIcon.anchor.setTo(.5, .5);
-        //dudeIcon.scale.setTo(.5, .5);
-        game.physics.arcade.enable(dudeIcon);
-        dudeIcon.tint = 0xffffff;
+        LabIcon = game.add.sprite(game.world.width * 0.5 - 250, game.world.height * .5 + 150, 'LabIcon');
+        LabIcon.anchor.setTo(.5, .5);
+        LabIcon.scale.setTo(5, 5);
+        game.physics.arcade.enable(LabIcon);
+        LabIcon.tint = 0xffffff;
 
-        chickIcon = game.add.sprite(game.world.width * 0.5 + 250, game.world.height * .5 + 150, 'chickIcon');
-        chickIcon.anchor.setTo(.5, .5);
-        //chickIcon.scale.setTo(.5, .5);
-        game.physics.arcade.enable(chickIcon);
-        chickIcon.tint = 0xffffff;
+        GothIcon = game.add.sprite(game.world.width * 0.5 + 250, game.world.height * .5 + 150, 'GothIcon');
+        GothIcon.anchor.setTo(.5, .5);
+        GothIcon.scale.setTo(5, 5);
+        game.physics.arcade.enable(GothIcon);
+        GothIcon.tint = 0xffffff;
+
+        BoxIcon = game.add.sprite(game.world.width * 0.5 - 250, game.world.height * .5 + 350, 'BoxIcon');
+        BoxIcon.anchor.setTo(.5, .5);
+        BoxIcon.scale.setTo(5, 5);
+        game.physics.arcade.enable(BoxIcon);
+        BoxIcon.tint = 0xffffff;
+
+        FighterIcon = game.add.sprite(game.world.width * 0.5 + 250, game.world.height * .5 + 350, 'FighterIcon');
+        FighterIcon.anchor.setTo(.5, .5);
+        FighterIcon.scale.setTo(5, 5);
+        game.physics.arcade.enable(FighterIcon);
+        FighterIcon.tint = 0xffffff;
 
         //TEST:COMPUTER icon
         computerIcon = game.add.sprite(game.world.width * .5, game.world.height * .5 + 150, 'computerIcon');
@@ -61,11 +74,14 @@ var cssState = {
         player2Icon.events.onDragStop.add(this.onDragStop, this);
         player2Icon.events.onDragStart.add(this.onDragStart, this);
 
-        dudeIcon.enableBody = true;
-        chickIcon.enableBody = true;
+        LabIcon.enableBody = true;
+        GothIcon.enableBody = true;
+        BoxIcon.enableBody = true;
+        FighterIcon.enableBody = true;
 
         buttonSound = game.add.audio('buttonSound');
-        buttonSound.volume -= .5;
+        //buttonSound.volume -= .5;
+        buttonSound.volume = musicvol;
 
         //var startLabel = game.add.text(80, game.world.height - 40, 'Press "1" key to play game after selecting characters!', { font: '25px Arial', fill: '#ffffff' });
         gameReadyText = game.add.text(game.world.width * .5, game.world.height - 75, '', { font: '75px Arial', fill: '#ffffff' });
@@ -75,7 +91,6 @@ var cssState = {
         player2Text = game.add.text(game.world.width * .75 + 215, game.world.height * .5 + 275, '', { font: '25px Arial', fill: '#ffffff' });
         player1Text.anchor.setTo(.5,.5);
         player2Text.anchor.setTo(.5,.5);
-
 
         player1BodyIcon = game.add.sprite(game.world.width * .25 - 150, game.world.height * .5 + 150, '');
         player2BodyIcon = game.add.sprite(game.world.width * .75 + 150, game.world.height * .5 + 150, '');
@@ -160,10 +175,103 @@ var cssState = {
         });
 
 
+        console.log("css?");
+        ColorMenu1 = new ColorMenu(1);
+        
+        ColorMenu2 = new ColorMenu(2);
+        
+        /*
+        var i;
+        for(i = 0; i < 8; i++){
+            ColorMenu1.button[i].onInputUp.add(function (){
+                console.log(i);
+                gameManager.playerTint[0] = ColorMenu1.colorPick(i);
+            });
+        }
+        */
+        //player 1 color selection events
+        ColorMenu1.button[0].onInputUp.add(function (){
+                //console.log("button1");
+                gameManager.playerTint[0] = ColorMenu1.colorPick(0);
+        });
+
+        ColorMenu1.button[1].onInputUp.add(function (){
+                //console.log("button2");
+                gameManager.playerTint[0] = ColorMenu1.colorPick(1);
+        });
+        
+        ColorMenu1.button[2].onInputUp.add(function (){
+                gameManager.playerTint[0] = ColorMenu1.colorPick(2);
+        });
+
+        ColorMenu1.button[3].onInputUp.add(function (){
+                gameManager.playerTint[0] = ColorMenu1.colorPick(3);
+        });
+        
+        ColorMenu1.button[4].onInputUp.add(function (){
+                gameManager.playerTint[0] = ColorMenu1.colorPick(4);
+        });
+        
+        ColorMenu1.button[5].onInputUp.add(function (){
+                gameManager.playerTint[0] = ColorMenu1.colorPick(5);
+        });
+        
+        ColorMenu1.button[6].onInputUp.add(function (){
+                gameManager.playerTint[0] = ColorMenu1.colorPick(6);
+        });
+        
+        ColorMenu1.button[7].onInputUp.add(function (){
+                gameManager.playerTint[0] = ColorMenu1.colorPick(7);
+        });
+        
+        ColorMenu1.button[8].onInputUp.add(function (){
+                gameManager.playerTint[0] = ColorMenu1.colorPick(8);
+        });
+        
+        //player 2 color selection events
+        ColorMenu2.button[0].onInputUp.add(function (){
+                //console.log("button1");
+                gameManager.playerTint[1] = ColorMenu2.colorPick(0);
+        });
+
+        ColorMenu2.button[1].onInputUp.add(function (){
+                //console.log("button2");
+                gameManager.playerTint[1] = ColorMenu2.colorPick(1);
+        });
+        
+        ColorMenu2.button[2].onInputUp.add(function (){
+                gameManager.playerTint[1] = ColorMenu2.colorPick(2);
+        });
+
+        ColorMenu2.button[3].onInputUp.add(function (){
+                gameManager.playerTint[1] = ColorMenu2.colorPick(3);
+        });
+        
+        ColorMenu2.button[4].onInputUp.add(function (){
+                gameManager.playerTint[1] = ColorMenu2.colorPick(4);
+        });
+        
+        ColorMenu2.button[5].onInputUp.add(function (){
+                gameManager.playerTint[1] = ColorMenu2.colorPick(5);
+        });
+        
+        ColorMenu2.button[6].onInputUp.add(function (){
+                gameManager.playerTint[1] = ColorMenu2.colorPick(6);
+        });
+        
+        ColorMenu2.button[7].onInputUp.add(function (){
+                gameManager.playerTint[1] = ColorMenu2.colorPick(7);
+        });
+        
+        ColorMenu2.button[8].onInputUp.add(function (){
+                gameManager.playerTint[1] = ColorMenu2.colorPick(8);
+        });
+        
+        console.log("Color menu made?");
         //TODO:Incorperate dragUpdate function event system into current system. I think it's needed to fix bugs/add dynamic features like spawning the character when hovering over while still dragging.
         //TODO:
         //find a way to change text, show sprite and name with alpha applied when hovering but NOT selecting character, SOLUTION: probably above comment
-
+        
     },
     start: function () {
         gameReadyText.text = `Game Start!`;
@@ -176,10 +284,12 @@ var cssState = {
         //If the character is selected, play the selected animation
         game.physics.arcade.collide(player1Icon, player2Icon);
         if (player1BodyIcon.animations) {
+            player1BodyIcon.tint = gameManager.playerTint[0];
             player1BodyIcon.animations.play('idle');
         }
 
         if (player2BodyIcon.animations) {
+            player2BodyIcon.tint = gameManager.playerTint[1];
             player2BodyIcon.animations.play('idle');
         }
 
@@ -205,22 +315,24 @@ var cssState = {
 
         }
     },
+    colorButtonPress: function (buttonOrder, buttonNum){
+        gameManager.playerTint[buttonOrder] = playerColorButtons.colorPick(buttonNum);
+    },
     onDragStop: function () {
-
         //If you drop the cursor on the icon
-        if (game.physics.arcade.overlap(player1Icon, dudeIcon)) {
+        if (game.physics.arcade.overlap(player1Icon, LabIcon)) {
             if(muteState==false)
             buttonSound.play();
             //Determine's what's spawned, and lets you start game
-            charName1 = "dude";
+            charName1 = "Lab";
             charSelected1 = true;
             //"select" dude, and change color of pic
-            dudeIcon.tint = 0xffff00;
+            LabIcon.tint = 0xffff00;
             //destroys the old sprite so when you create a new one only one exists
             player1BodyIcon.kill();
 
-            player1BodyIcon = game.add.sprite(game.world.width * .25 - 150, game.world.height * .5 - 50, 'dude');
-
+            player1BodyIcon = game.add.sprite(game.world.width * .3 - 150, game.world.height * .5 - 50, 'Lab');
+            
             player1BodyIcon.scale.setTo(3.5, 3.5);
             player1BodyIcon.animations.add('idle', [1, 2], 5, true);
             player1BodyIcon.animations.add('kick', [6], 5, true);
@@ -233,15 +345,51 @@ var cssState = {
         }
 
         //If you drop the icon on the chick Picture
-        if (game.physics.arcade.overlap(player1Icon, chickIcon)) {
+        if (game.physics.arcade.overlap(player1Icon, GothIcon)) {
             if(muteState==false)
             buttonSound.play();
-            charName1 = "chick";
+            charName1 = "Goth";
             charSelected1 = true;
-            chickIcon.tint = 0xffff00;
+            GothIcon.tint = 0xffff00;
             player1BodyIcon.kill();
 
-            player1BodyIcon = game.add.sprite(game.world.width * .25 - 150, game.world.height * .5 - 50, 'chick');
+            player1BodyIcon = game.add.sprite(game.world.width * .3 - 150, game.world.height * .5 - 50, 'Goth');
+
+            player1BodyIcon.scale.setTo(3.5, 3.5);
+            player1BodyIcon.animations.add('idle', [1, 2], 5, true);
+            player1BodyIcon.animations.add('kick', [6], 5, true);
+            if (player1BodyIcon.animations) {
+                player1BodyIcon.alpha = 1;
+            }
+        }
+
+        if (game.physics.arcade.overlap(player1Icon, BoxIcon)) {
+            if(muteState==false)
+            buttonSound.play();
+            charName1 = "Boxer";
+            charSelected1 = true;
+            BoxIcon.tint = 0xffff00;
+            player1BodyIcon.kill();
+
+            player1BodyIcon = game.add.sprite(game.world.width * .25 - 150, game.world.height * .5 - 50, 'Boxer');
+
+            player1BodyIcon.scale.setTo(3.5, 3.5);
+            player1BodyIcon.animations.add('idle', [1, 2], 5, true);
+            player1BodyIcon.animations.add('kick', [6], 5, true);
+            if (player1BodyIcon.animations) {
+                player1BodyIcon.alpha = 1;
+            }
+        }
+
+        if (game.physics.arcade.overlap(player1Icon, FighterIcon)) {
+            if(muteState==false)
+            buttonSound.play();
+            charName1 = "Fighter";
+            charSelected1 = true;
+            BoxIcon.tint = 0xffff00;
+            player1BodyIcon.kill();
+
+            player1BodyIcon = game.add.sprite(game.world.width * .3 - 150, game.world.height * .5 - 50, 'Fighter');
 
             player1BodyIcon.scale.setTo(3.5, 3.5);
             player1BodyIcon.animations.add('idle', [1, 2], 5, true);
@@ -253,16 +401,16 @@ var cssState = {
 
 
 
-        if (game.physics.arcade.overlap(player2Icon, dudeIcon)) {
+        if (game.physics.arcade.overlap(player2Icon, LabIcon)) {
             if(muteState==false)
             buttonSound.play();
-            charName2 = "dude";
+            charName2 = "Lab";
             charSelected2 = true;
-            dudeIcon.tint = 0xffff00;
+            LabIcon.tint = 0xffff00;
             player2BodyIcon.kill();
             controlOptionAI = 2;
 
-            player2BodyIcon = game.add.sprite(game.world.width * .75 + 150, game.world.height * .5 - 50, 'dude');
+            player2BodyIcon = game.add.sprite(game.world.width * .6 + 150, game.world.height * .5 - 50, 'Lab');
             player2BodyIcon.scale.setTo(3.5, 3.5);
             player2BodyIcon.animations.add('idle', [1, 2], 5, true);
             player2BodyIcon.animations.add('kick', [6], 5, true);
@@ -277,18 +425,16 @@ var cssState = {
             //player2BodyIcon.kill();
         }
 
-
-
-        if (game.physics.arcade.overlap(player2Icon, chickIcon)) {
+        if (game.physics.arcade.overlap(player2Icon, GothIcon)) {
             if(muteState==false)
             buttonSound.play();
-            charName2 = "chick";
+            charName2 = "Goth";
             charSelected2 = true;
-            chickIcon.tint = 0xffff00;
+            GothIcon.tint = 0xffff00;
             player2BodyIcon.kill();
             controlOptionAI = 2;
 
-            player2BodyIcon = game.add.sprite(game.world.width * .75 + 150, game.world.height * .5 - 50, 'chick');
+            player2BodyIcon = game.add.sprite(game.world.width * .6 + 150, game.world.height * .5 - 50, 'Goth');
             player2BodyIcon.scale.setTo(3.5, 3.5);
             player2BodyIcon.animations.add('idle', [1, 2], 5, true);
             player2BodyIcon.animations.add('kick', [6], 5, true);
@@ -297,6 +443,45 @@ var cssState = {
                 player2BodyIcon.alpha = 1;
             }
         }
+
+        if (game.physics.arcade.overlap(player2Icon, BoxIcon)) {
+            if(muteState==false)
+            buttonSound.play();
+            charName2 = "Boxer";
+            charSelected2 = true;
+            BoxIcon.tint = 0xffff00;
+            player2BodyIcon.kill();
+            controlOptionAI = 2;
+
+            player2BodyIcon = game.add.sprite(game.world.width * .55 + 150, game.world.height * .5 - 50, 'Boxer');
+            player2BodyIcon.scale.setTo(3.5, 3.5);
+            player2BodyIcon.animations.add('idle', [1, 2], 5, true);
+            player2BodyIcon.animations.add('kick', [6], 5, true);
+
+            if (player2BodyIcon.animations) {
+                player2BodyIcon.alpha = 1;
+            }
+        }
+
+        if (game.physics.arcade.overlap(player2Icon, FighterIcon)) {
+            if(muteState==false)
+            buttonSound.play();
+            charName2 = "Fighter";
+            charSelected2 = true;
+            FighterIcon.tint = 0xffff00;
+            player2BodyIcon.kill();
+            controlOptionAI = 2;
+
+            player2BodyIcon = game.add.sprite(game.world.width * .6 + 150, game.world.height * .5 - 50, 'Fighter');
+            player2BodyIcon.scale.setTo(3.5, 3.5);
+            player2BodyIcon.animations.add('idle', [1, 2], 5, true);
+            player2BodyIcon.animations.add('kick', [6], 5, true);
+
+            if (player2BodyIcon.animations) {
+                player2BodyIcon.alpha = 1;
+            }
+        }
+
         else {
             // player2BodyIcon.kill();
         }
@@ -304,13 +489,13 @@ var cssState = {
         if (game.physics.arcade.overlap(player2Icon, computerIcon)) {
             if(muteState==false)
             buttonSound.play();
-            charName2 = "chick";
+            charName2 = "Goth";
             botSelected = true;
             computerIcon.tint = 0xffff00;
             player2BodyIcon.kill();
             controlOptionAI = -2; //Temporary till we have the AI logic, then replace this with a -2 instead,using vpad to test functionality
             console.log("controlOptionAI: " + controlOptionAI);
-            player2BodyIcon = game.add.sprite(game.world.width * .75 + 150, game.world.height * .5 - 50, 'chick');
+            player2BodyIcon = game.add.sprite(game.world.width * .6 + 150, game.world.height * .5 - 50, 'Goth');
             player2BodyIcon.scale.setTo(3.5, 3.5);
             player2BodyIcon.animations.add('idle', [1, 2], 5, true);
             player2BodyIcon.animations.add('kick', [6], 5, true);
@@ -323,11 +508,11 @@ var cssState = {
             // player2BodyIcon.kill();
         }
 
-        if (!game.physics.arcade.overlap(player1Icon, dudeIcon) && !game.physics.arcade.overlap(player1Icon, chickIcon)) {
+        if (!game.physics.arcade.overlap(player1Icon, LabIcon) && !game.physics.arcade.overlap(player1Icon, GothIcon) && !game.physics.arcade.overlap(player1Icon, BoxIcon)  && !game.physics.arcade.overlap(player1Icon, FighterIcon)) {
             player1BodyIcon.kill();
         }
 
-        if (!game.physics.arcade.overlap(player2Icon, dudeIcon) && !game.physics.arcade.overlap(player2Icon, chickIcon) && !game.physics.arcade.overlap(player2Icon, computerIcon)) {
+        if (!game.physics.arcade.overlap(player2Icon, LabIcon) && !game.physics.arcade.overlap(player2Icon, GothIcon) && !game.physics.arcade.overlap(player2Icon, BoxIcon) && !game.physics.arcade.overlap(player2Icon, FighterIcon)&& !game.physics.arcade.overlap(player2Icon, computerIcon)) {
             player2BodyIcon.kill();
         }
 
@@ -335,10 +520,10 @@ var cssState = {
     onDragStart: function () {
 
 
-        if (game.physics.arcade.overlap(player1Icon, dudeIcon)) {
+        if (game.physics.arcade.overlap(player1Icon, LabIcon)) {
             charName1 = "";
             charSelected1 = false;
-            dudeIcon.tint = 0xffffff;
+            LabIcon.tint = 0xffffff;
 
             if (player1BodyIcon.animations) {
                 player1BodyIcon.alpha = .5;
@@ -346,10 +531,30 @@ var cssState = {
         }
 
 
-        if (game.physics.arcade.overlap(player1Icon, chickIcon)) {
+        if (game.physics.arcade.overlap(player1Icon, GothIcon)) {
             charName1 = "";
             charSelected1 = false;
-            chickIcon.tint = 0xffffff;
+            GothIcon.tint = 0xffffff;
+
+            if (player1BodyIcon.animations) {
+                player1BodyIcon.alpha = .5;
+            }
+        }
+
+        if (game.physics.arcade.overlap(player1Icon, BoxIcon)) {
+            charName1 = "";
+            charSelected1 = false;
+            BoxIcon.tint = 0xffffff;
+
+            if (player1BodyIcon.animations) {
+                player1BodyIcon.alpha = .5;
+            }
+        }
+
+        if (game.physics.arcade.overlap(player1Icon, FighterIcon)) {
+            charName1 = "";
+            charSelected1 = false;
+            FighterIcon.tint = 0xffffff;
 
             if (player1BodyIcon.animations) {
                 player1BodyIcon.alpha = .5;
@@ -357,21 +562,40 @@ var cssState = {
         }
 
 
-        if (game.physics.arcade.overlap(player2Icon, dudeIcon)) {
+        if (game.physics.arcade.overlap(player2Icon, LabIcon)) {
             charName2 = "";
             charSelected2 = false;
-            dudeIcon.tint = 0xffffff;
+            LabIcon.tint = 0xffffff;
 
             if (player2BodyIcon.animations) {
                 player2BodyIcon.alpha = .5;
             }
         }
 
-
-        if (game.physics.arcade.overlap(player2Icon, chickIcon)) {
+        if (game.physics.arcade.overlap(player2Icon, BoxIcon)) {
             charName2 = "";
             charSelected2 = false;
-            chickIcon.tint = 0xffffff;
+            BoxIcon.tint = 0xffffff;
+
+            if (player2BodyIcon.animations) {
+                player2BodyIcon.alpha = .5;
+            }
+        }
+
+        if (game.physics.arcade.overlap(player2Icon, FighterIcon)) {
+            charName2 = "";
+            charSelected2 = false;
+            FighterIcon.tint = 0xffffff;
+
+            if (player2BodyIcon.animations) {
+                player2BodyIcon.alpha = .5;
+            }
+        }
+
+        if (game.physics.arcade.overlap(player2Icon, GothIcon)) {
+            charName2 = "";
+            charSelected2 = false;
+            GothIcon.tint = 0xffffff;
 
             if (player2BodyIcon.animations) {
                 player2BodyIcon.alpha = .5;

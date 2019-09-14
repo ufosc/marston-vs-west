@@ -1,4 +1,4 @@
-console.log("Reached options state");
+//console.log("Reached options state");
 //  The Google WebFont Loader will look for this object, so create it before loading the script.
 WebFontConfig = {
     //  The Google Fonts we want to load (specify as many as you like in the array)
@@ -27,6 +27,10 @@ var optionsState = {
         menuButton.anchor.setTo(.5,.5);
         menuButton.onInputUp.add(this.menu, this);
         
+        //slide test
+        //slide = new Slider(50, 200, 200, false);
+        //end of slide test
+
         //Fullscreen event listeners
         fullScreenButton = game.add.button(game.world.width * .5 - 400, game.world.height * .5 + 450, 'fullscreen');
         fullScreenButton.anchor.setTo(.5,.5);
@@ -57,9 +61,9 @@ var optionsState = {
         secondsButton.anchor.setTo(.5,.5);
         
         //values
-        minLabel = game.add.text(game.world.width * .5 - 250, game.world.height *.5 + 110, `${gameMinutes}`);
-        secLabel = game.add.text(game.world.width * .5 - 250, game.world.height * .5 + 210, `${gameSeconds}`, { font: '65px VT323', fill: '#ffffff' });
-        livesLabel = game.add.text(game.world.width * .5 - 425, game.world.height * .5 + 310, `Lives: ${lives}`, { font: '65px Arial', fill: '#ffffff' });
+        minLabel = game.add.text(game.world.width * .5 - 250, game.world.height *.5 + 110, `${gameManager.gameMinutes}`);
+        secLabel = game.add.text(game.world.width * .5 - 250, game.world.height * .5 + 210, `${gameManager.gameSeconds}`, { font: '65px VT323', fill: '#ffffff' });
+        livesLabel = game.add.text(game.world.width * .5 - 425, game.world.height * .5 + 310, `Lives: ${gameManager.lives}`, { font: '65px Arial', fill: '#ffffff' });
         minLabel.font = 'VT323';
         minLabel.fontSize = 60;
         minLabel.fill = '#ffffff';
@@ -77,7 +81,8 @@ var optionsState = {
         minusButton3.onInputUp.add(this.gameLivesDec, this);
 
         buttonSound = game.add.audio('buttonSound');
-        buttonSound.volume -= .5;
+        buttonSound.volume = musicvol;
+        //buttonSound.volume -= .5;
 
         //the sliding bars part
 
@@ -86,111 +91,55 @@ var optionsState = {
         volumeIcon.input.enableDrag(true);
         volumeIcon.events.onDragUpdate.add(dragUpdate);
 
-        muteIcon = game.add.sprite(1300, initMulY, 'mute');
+        muteIcon = game.add.button(1300, initMulY, 'mute');
         muteIcon.inputEnabled = true;
         muteIcon.events.onInputDown.add(muteFunction);
         //end of the sliding bar function
 
-        //color bars
-        valColor1 = 0;
-        valColor2 = 0;
-        valColor3 = 0;
-
-        colorAdjustmentIcon = game.add.sprite(xPos2, initY1, 'Chi');//modify this icon and note that 50 is the radius of the icon?
-        colorAdjustmentIcon2 = game.add.sprite(xPos3, initY2, 'Chi');//modify this icon
-        colorAdjustmentIcon3 = game.add.sprite(xPos4, initY3, 'Chi');//modify this icon
-        //colorOverlap = game.add.sprite (1700, 580, 'Chi');//display the final effect and also modify this icon
-        colorOverlap = game.add.sprite(1700, 580, 'dude');
-
-        colorAdjustmentIcon4 = game.add.sprite(xPos5, initY1, 'Chi');//modify this icon and note that 50 is the radius of the icon?
-        colorAdjustmentIcon5 = game.add.sprite(xPos6, initY2, 'Chi');//modify this icon
-        colorAdjustmentIcon6 = game.add.sprite(xPos7, initY3, 'Chi');//modify this icon
-        //colorOverlap2 = game.add.sprite (1500, 580, 'Chi');//display the final effect and also modify this icon
-        colorOverlap2 = game.add.sprite(1400, 580, 'chick');
-
-        colorInit(colorAdjustmentIcon, colorAdjustmentIcon2, colorAdjustmentIcon3);//initializes the icon colors
-        colorInit2(colorAdjustmentIcon4, colorAdjustmentIcon5, colorAdjustmentIcon6);//initializes the icon colors
-
-        colorChange(colorOverlap);
-        colorChange2(colorOverlap2);
-
-        colorAdjustmentIcon.inputEnabled = true;
-        colorAdjustmentIcon.input.enableDrag(true);
-        colorAdjustmentIcon.events.onDragUpdate.add(dragUpdate2);
-
-
-        colorAdjustmentIcon2.inputEnabled = true;
-        colorAdjustmentIcon2.input.enableDrag(true);
-        colorAdjustmentIcon2.events.onDragUpdate.add(dragUpdate3);
-
-
-        colorAdjustmentIcon3.inputEnabled = true;
-        colorAdjustmentIcon3.input.enableDrag(true);
-        colorAdjustmentIcon3.events.onDragUpdate.add(dragUpdate4);
-
-
-        colorAdjustmentIcon4.inputEnabled = true;
-        colorAdjustmentIcon4.input.enableDrag(true);
-        colorAdjustmentIcon4.events.onDragUpdate.add(dragUpdate5);
-
-
-        colorAdjustmentIcon5.inputEnabled = true;
-        colorAdjustmentIcon5.input.enableDrag(true);
-        colorAdjustmentIcon5.events.onDragUpdate.add(dragUpdate6);
-
-
-        colorAdjustmentIcon6.inputEnabled = true;
-        colorAdjustmentIcon6.input.enableDrag(true);
-        colorAdjustmentIcon6.events.onDragUpdate.add(dragUpdate7);
-
-        //end of the sliding bar function for color adjustment
-
         //Can add other options as well, music and sfx toggle, anti-alias, and other ideas
     },
     update: function () {
-        minLabel.text = `${gameMinutes}`;
-        secLabel.text = `${gameSeconds}`;
-        livesLabel.text = `Lives: ${lives}`;
-        colorChange(colorOverlap);
+        minLabel.text = `${gameManager.gameMinutes}`;
+        secLabel.text = `${gameManager.gameSeconds}`;
+        livesLabel.text = `Lives: ${gameManager.lives}`;
     },
     gameMinInc: function () {
-        gameMinutes++;
+        if(gameManager.gameMinutes + 1 <= 5){
+            gameManager.gameMinutes++;
+        }
         buttonSound.play();
-        console.log("Minutes: " + gameMinutes);
     },
     gameSecInc: function () {
-        gameSeconds = gameSeconds + 30;
+        if(gameManager.gameSeconds + 30 < 60){           
+            gameManager.gameSeconds = gameManager.gameSeconds + 30;
+        }
         buttonSound.play();
-        console.log("Seconds: " + gameSeconds);
     },
     gameMinDec: function () {
         buttonSound.play();
-        gameMinutes--;
-        if (gameMinutes < 0) {
-            gameMinutes = 0;
+        
+        if (gameManager.gameMinutes - 1 >= 1) {
+            gameManager.gameMinutes--;
         }
-        console.log("Minutes: " + gameMinutes);
     },
     gameSecDec: function () {
-        gameSeconds = gameSeconds - 30;
         buttonSound.play();
-        if (gameSeconds < 0) {
-            gameSeconds = 0;
+        if (gameManager.gameSeconds - 1 >= 0) {
+            gameManager.gameSeconds = gameManager.gameSeconds - 30;
         }
-        console.log("Seconds: " + gameSeconds);
     },
     gameLivesInc: function () {
-        lives++;
-        buttonSound.play();
-        console.log("Lives: " + lives);
-    },
-    gameLivesDec: function () {
-        lives--;
-        if (lives < 1) {
-            lives = 1;
+        if(gameManager.lives + 1 <= 5){
+            gameManager.lives++;
         }
         buttonSound.play();
-        console.log("Lives: " + lives);
+    },
+    gameLivesDec: function () {
+        
+        if (gameManager.lives - 1 > 1) {
+            gameManager.lives--;
+        }
+        buttonSound.play();
     },
     onFullScreenChange: function (scale) {
         //if you need to change something when fullscreen toggled
@@ -212,18 +161,14 @@ var optionsState = {
         game.state.start('menu');
     },
     fullScreenConfig: function () {
-        console.log("Calling fullscreen function");
         if (!game.scale.isFullScreen) {
             game.scale.startFullScreen();
             //game.scaleMode = SHOW_ALL;
         }
-        else {
-            //game.scaleMode = EXACT_FIT;
-        }
-
-
+        // else {
+        //     //game.scaleMode = EXACT_FIT;
+        // }
     },
-
 };
 
 function muteFunction(sprite){
@@ -234,47 +179,7 @@ function muteFunction(sprite){
         muteState = false;
     }
     music.mute = muteState;
-    bottonSound.mute = muteState;
-}
-
-function colorInit (sprite1, sprite2, sprite3) {
-    var xPosition1 = sprite1.x;
-    var xPosition2 = sprite2.x;
-    var xPosition3 = sprite3.x;
-
-    valColor1 = (xPosition1 - right) /range * 255;
-    valColor1 = parseInt(valColor1);
-    sprite1.tint = valColor1;
-
-    valColor2 = (xPosition2 - right) /range * 255;
-    valColor2 = parseInt(valColor2);
-    valColor2 *= 256;//We wanna modify the middle two digits now
-    sprite2.tint = valColor2;
-
-    valColor3 = (xPosition3 - right) /range * 255;
-    valColor3 = parseInt(valColor3);
-    valColor3 *= 65536;//We wanna modify the last two digits now
-    sprite3.tint = valColor3;
-}
-
-function colorInit2 (sprite1, sprite2, sprite3) {
-    var xPosition1 = sprite1.x;
-    var xPosition2 = sprite2.x;
-    var xPosition3 = sprite3.x;
-
-    valColor4 = (xPosition1 - right2) /range * 255;
-    valColor4 = parseInt(valColor4);
-    sprite1.tint = valColor4;
-
-    valColor5 = (xPosition2 - right2) /range * 255;
-    valColor5 = parseInt(valColor5);
-    valColor5 *= 256;//We wanna modify the middle two digits now
-    sprite2.tint = valColor5;
-
-    valColor6 = (xPosition3 - right2) /range * 255;
-    valColor6 = parseInt(valColor6);
-    valColor6 *= 65536;//We wanna modify the last two digits now
-    sprite3.tint = valColor6;
+    buttonSound.mute = muteState;
 }
 
 function dragUpdate (sprite){
@@ -286,11 +191,9 @@ function dragUpdate (sprite){
     //720: the length of the background
     //195: the range that the sliding bar can move
 
-
     const yValue = 970;
 
     xPos = sprite.x;
-
 
     if (xPos > mulLeft){//upper bound
         xPos = mulLeft;
@@ -310,226 +213,3 @@ function dragUpdate (sprite){
     }
 }
 
-function dragUpdate2 (sprite){
-
-    const yValue = 880;
-    xPos2 = sprite.x;
-
-    if (xPos2 > left){//upper bound
-        xPos2 = left;
-        sprite.x = left;
-    }
-    else if (xPos2 < right) {//lower bound
-        xPos2 = right;
-        sprite.x = right;
-    }
-
-
-    //255 is the max value of the first two digits under hex
-    valColor1 = (xPos2 - right) /range * 255;
-    valColor1 = parseInt(valColor1);
-    sprite.tint = valColor1;
-
-    //printing the hex val
-    /*hexString = sprite.tint.toString(16);
-    if (hexString.length % 2) {
-        hexString = '0' + hexString;
-    }
-    console.log(hexString);*/
-
-    colorChange(colorOverlap);
-
-    if(sprite.y != yValue){
-        sprite.y = yValue;
-    }
-}
-
-function dragUpdate5 (sprite){
-
-    const yValue = 880;
-    xPos5 = sprite.x;
-
-    if (xPos5 > left2){//upper bound
-        xPos5 = left2;
-        sprite.x = left2;
-    }
-    else if (xPos5 < right2) {//lower bound
-        xPos5 = right2;
-        sprite.x = right2;
-    }
-
-
-    //255 is the max value of the first two digits under hex
-    valColor4 = (xPos5 - right2) /range * 255;
-    valColor4 = parseInt(valColor4);
-    sprite.tint = valColor4;
-
-    //printing the hex val
-    /*hexString = sprite.tint.toString(16);
-    if (hexString.length % 2) {
-        hexString = '0' + hexString;
-    }
-    console.log(hexString);*/
-
-    colorChange2(colorOverlap2);
-
-    if(sprite.y != yValue){
-        sprite.y = yValue;
-    }
-}
-
-function dragUpdate3 (sprite){
-
-    const yValue = 780;
-
-    xPos3 = sprite.x;
-    if (xPos3 > left){//upper bound
-        xPos3 = left;
-        sprite.x = left;
-    }
-    else if (xPos3 < right) {//lower bound
-        xPos3 = right;
-        sprite.x = right;
-    }
-
-
-    //255 is the max value of the first two digits under hex
-    valColor2 = (xPos3 - right) /range * 255;
-    valColor2 = parseInt(valColor2);
-    valColor2 *= 256;//We wanna modify the middle two digits now
-    sprite.tint = valColor2;
-
-    //printing the hex val
-    /*hexString = sprite.tint.toString(16);
-    if (hexString.length % 2) {
-        hexString = '0' + hexString;
-    }
-    console.log(hexString);*/
-
-    colorChange(colorOverlap);
-
-    if(sprite.y != yValue){
-        sprite.y = yValue;
-    }
-}
-
-function dragUpdate6 (sprite){
-
-    const yValue = 780;
-
-    xPos6 = sprite.x;
-    if (xPos6 > left2){//upper bound
-        xPos6 = left2;
-        sprite.x = left2;
-    }
-    else if (xPos6 < right2) {//lower bound
-        xPos6 = right2;
-        sprite.x = right2;
-    }
-
-
-    //255 is the max value of the first two digits under hex
-    valColor5 = (xPos6 - right2) /range * 255;
-    valColor5 = parseInt(valColor5);
-    valColor5 *= 256;//We wanna modify the middle two digits now
-    sprite.tint = valColor5;
-
-    //printing the hex val
-    /*hexString = sprite.tint.toString(16);
-    if (hexString.length % 2) {
-        hexString = '0' + hexString;
-    }
-    console.log(hexString);*/
-
-    colorChange2(colorOverlap2);
-
-    if(sprite.y != yValue){
-        sprite.y = yValue;
-    }
-}
-function dragUpdate4 (sprite){
-
-    const yValue = 680;
-
-    xPos4 = sprite.x;
-
-    if (xPos4 > left){//upper bound
-        xPos4 = left;
-        sprite.x = left;
-    }
-    else if (xPos4 < right) {//lower bound
-        xPos4 = right;
-        sprite.x = right;
-    }
-
-    //255 is the max value of the first two digits under hex
-    valColor3 = (xPos4 - right) /range * 255;
-    valColor3 = parseInt(valColor3);
-    valColor3 *= 65536;//We wanna modify the last two digits now
-    sprite.tint = valColor3;
-
-    //printing the hex val
-    hexString = sprite.tint.toString(16);
-    if (hexString.length % 2) {
-        hexString = '0' + hexString;
-    }
-    console.log(hexString);
-
-    colorChange(colorOverlap);
-
-    if(sprite.y != yValue){
-        sprite.y = yValue;
-    }
-}
-function dragUpdate7 (sprite){
-
-    const yValue = 680;
-
-    xPos7 = sprite.x;
-
-    if (xPos7 > left2){//upper bound
-        xPos7 = left2;
-        sprite.x = left2;
-    }
-    else if (xPos7 < right2) {//lower bound
-        xPos7 = right2;
-        sprite.x = right2;
-    }
-
-    //255 is the max value of the first two digits under hex
-    valColor6 = (xPos7 - right2) /range * 255;
-    valColor6 = parseInt(valColor6);
-    valColor6 *= 65536;//We wanna modify the last two digits now
-    sprite.tint = valColor6;
-
-    //printing the hex val
-    /*hexString = sprite.tint.toString(16);
-    if (hexString.length % 2) {
-        hexString = '0' + hexString;
-    }
-    console.log(hexString);*/
-
-    colorChange2(colorOverlap2);
-
-    if(sprite.y != yValue){
-        sprite.y = yValue;
-    }
-}
-function colorChange(sprite){
-    var finalColor = valColor1 + valColor2 + valColor3;
-    sprite.tint = finalColor;
-    hexString = sprite.tint.toString(16);
-    if (hexString.length % 2) {
-        hexString = '0' + hexString;
-    }
-    console.log(hexString);
-}
-function colorChange2(sprite){
-    var finalColor = valColor4 + valColor5 + valColor6;
-    sprite.tint = finalColor;
-    /*hexString = sprite.tint.toString(16);
-    if (hexString.length % 2) {
-        hexString = '0' + hexString;
-    }
-    console.log(hexString);*/
-}
