@@ -60,24 +60,46 @@ class form extends Phaser.Text {
     }
 }
 
-
 var winState = {
     create: function () {
         if(gameManager.gameType === "Arcade") {
 
-            gameManager.ScoreKeeper.calcScore(1);
-            gameManager.ScoreKeeper.calcScore(2);
-    
+            gameManager.ScoreKeeper.ArcCalcScore(1);
+            
             console.log("SCORES:");
             console.log(gameManager.ScoreKeeper.scoreTemp);
 
-            var statsLabel1 = game.add.text(80, 160, `Player 1 stats:` + '\n' 
+            var statsLabel1 = game.add.text(80, 100, `Player 1 stats:` + '\n' 
             + `Score: ${gameManager.ScoreKeeper.scoreTemp[0]}` + '\n'
             + `Lives Lost Bonus: ${gameManager.ScoreKeeper.calcLivesLostScore(0)}` + '\n'
             + `Damage Dealt: ${gameManager.ScoreKeeper.pointTemp[0][1]}` + '\n'
             + `Damage Dealt Bonus: ${gameManager.ScoreKeeper.calcDmgDealtPoints(0)}` + '\n'
             + `Damage Taken: ${gameManager.ScoreKeeper.pointTemp[0][2]}` + '\n'
             + `Damage Taken Bonus: ${gameManager.ScoreKeeper.calcDmgTakenPoints(0)}` + '\n'
+            + `Time Left: ${gameManager.ScoreKeeper.pointTemp[0][4]}` + '\n'
+            + `Time Left Bonus: ${gameManager.ScoreKeeper.calcTimePoints(0)}` + '\n'
+            , { font: '70px Arial', fill: '#ffffff' });
+        }
+        else if (gameManager.gameType === "MultiPlayer"){
+            gameManager.ScoreKeeper.calcScore(1);
+            gameManager.ScoreKeeper.calcScore(2);
+
+            var statsLabel1 = game.add.text(40, 160, `Player 1 stats:` + '\n' 
+            + `Score: ${gameManager.ScoreKeeper.scoreTemp[0]}` + '\n'
+            + `Lives Lost Bonus: ${gameManager.ScoreKeeper.calcLivesLostScore(0)}` + '\n'
+            + `Damage Dealt: ${gameManager.ScoreKeeper.pointTemp[0][1]}` + '\n'
+            + `Damage Dealt Bonus: ${gameManager.ScoreKeeper.calcDmgDealtPoints(0)}` + '\n'
+            + `Damage Taken: ${gameManager.ScoreKeeper.pointTemp[0][2]}` + '\n'
+            + `Damage Taken Bonus: ${gameManager.ScoreKeeper.calcDmgTakenPoints(0)}` + '\n'
+            , { font: '70px Arial', fill: '#ffffff' });
+
+            var statsLabel2 = game.add.text((game.world.width* 0.5) + 20, 160, `Player 2 stats:` + '\n' 
+            + `Score: ${gameManager.ScoreKeeper.scoreTemp[1]}` + '\n'
+            + `Lives Lost Bonus: ${gameManager.ScoreKeeper.calcLivesLostScore(2)}` + '\n'
+            + `Damage Dealt: ${gameManager.ScoreKeeper.pointTemp[1][1]}` + '\n'
+            + `Damage Dealt Bonus: ${gameManager.ScoreKeeper.calcDmgDealtPoints(2)}` + '\n'
+            + `Damage Taken: ${gameManager.ScoreKeeper.pointTemp[1][2]}` + '\n'
+            + `Damage Taken Bonus: ${gameManager.ScoreKeeper.calcDmgTakenPoints(2)}` + '\n'
             , { font: '70px Arial', fill: '#ffffff' });
         }
         else {
@@ -102,6 +124,8 @@ var winState = {
             startLabel.inputEnabled = true;
             startLabel.events.onInputUp.add(function () {
                 music.stop();
+                gameManager.ScoreKeeper.resetAll();
+                gameManager.changemode("Menu");
                 game.state.start('menu');
             });
 
@@ -109,6 +133,7 @@ var winState = {
             restartLabel.inputEnabled = true;
             restartLabel.events.onInputUp.add(function () {
                 music.stop();
+                gameManager.ScoreKeeper.resetAll();
                 game.state.start('play');
             });
         }
@@ -130,8 +155,6 @@ var winState = {
         var esckey = game.input.keyboard.addKey(Phaser.Keyboard.ESC);
         esckey.onDown.addOnce(this.start, this);
 
-
-
         /*
         if(game.device.android || game.device.iOS)
         {
@@ -142,6 +165,8 @@ var winState = {
     },
     start: function () {
         music.stop();
+        gameManager.ScoreKeeper.resetAll();
+        gameManager.changemode("Menu");
         game.state.start('menu');
     }
 };

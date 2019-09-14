@@ -351,7 +351,7 @@ var playState = {
 
     create: function () {
 
-        gameManager.changemode("Arcade");
+        //gameManager.changemode("Arcade");
 
         //  We're going to be using physics, so enable the Arcade Physics system
         //w = 800;
@@ -362,7 +362,9 @@ var playState = {
         timer = game.time.create(false);
         timerEvent = timer.add(Phaser.Timer.MINUTE * gameManager.gameMinutes + Phaser.Timer.SECOND * gameManager.gameSeconds, this.timeOutGame, this);
         timer.start();
-
+        if(gameManager.gameType === "Arcade") {
+            gameManager.ScoreKeeper.updatePoint(0, 3, timer.duration);
+        }
         var esckey = game.input.keyboard.addKey(Phaser.Keyboard.ESC);
         esckey.onDown.addOnce(this.timeOutGame);
 
@@ -858,6 +860,11 @@ var playState = {
     },
 
     timeOutGame: function () {
+    
+        if(gameManager.gameType === "Arcade") {
+            gameManager.ScoreKeeper.updatePoint(0, 4, timer.duration);
+        }
+    
         timer.stop();
         game.state.start('win');
     },
@@ -1183,6 +1190,9 @@ var playState = {
 
         //If out of lives, end the game
         if (Player1.lives === 0) {
+            if(gameManager.gameType === "Arcade") {
+                gameManager.ScoreKeeper.updatePoint(0, 4, timer.duration);
+            }
             game.state.start('win');
             if (multimanmode === true) {
                 console.log("# of KOs in multiman mode:");
@@ -1190,6 +1200,9 @@ var playState = {
             }
         }
         if (Player2.lives === 0 && multimanmode === false) {
+            if(gameManager.gameType === "Arcade") {
+                gameManager.ScoreKeeper.updatePoint(0, 4, timer.duration);
+            }
             game.state.start('win');
         }
 
@@ -1201,10 +1214,11 @@ var playState = {
 
     //actually is the win function
     start: function () {
-        //update time points
-        
-        gameManager.ScoreKeeper.updatePoint(0, 4, timer.duration);
-
+        //update time points, store time left
+        if(gameManager.gameType === "Arcade") {
+            gameManager.ScoreKeeper.updatePoint(0, 4, timer.duration);
+        }
+        console.log("Time Left: Start func?" + timer.duration)
         game.state.start('win');
     },
 

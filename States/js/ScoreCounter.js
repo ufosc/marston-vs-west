@@ -3,7 +3,7 @@ class ScoreCounter {
         this.arcadeLevel = 0;
         this.scoreMaster = [0, 0];
         this.scoreTemp = [0, 0];
-        this.pointTemp = [[0, 0, 0, 0, 0],[0, 0, 0, 0, 0]]; // lives, dmgdealt, dmgtaken, time, throw
+        this.pointTemp = [[0, 0, 0, 0, 0],[0, 0, 0, 0, 0]]; // lives, dmgdealt, dmgtaken, timestart, timeleft
     }
 
     resetAll(){
@@ -69,6 +69,22 @@ class ScoreCounter {
         //this.updateScore(player, this.pointTemp[player][2]);
         //this.updateScore(player, this.pointTemp[player][3]);
         //this.updateScore(player, this.pointTemp[player] [4]);
+    }
+
+    ArcCalcScore(player){
+
+        //lives lost bonus
+        this.updateScore(this.verifyPlayer(player), this.calcLivesLostScore(player));
+
+        //damage dealt
+        this.updateScore(this.verifyPlayer(player), this.calcDmgDealtPoints(player));
+
+        //damage taken
+        this.updateScore(this.verifyPlayer(player), this.calcDmgTakenPoints(player));
+
+        //time
+        this.updateScore(this.verifyPlayer(player), this.calcTimePoints(player));
+
     }
 
     verifyPlayer(oldplayer){
@@ -168,25 +184,21 @@ class ScoreCounter {
         //this.updatePoint(player, 2, points);
     }
 
-    calcTimePoints(player, timeLeft, timeStart){
+    calcTimePoints(player){
         //check player number logic
         player = this.verifyPlayer(player);
-        
-        let points = 500;
+        var timeLeft = (this.pointTemp[player][4])/1000;
+        let points = 1000;
         if(timeLeft < 15){
-            points = 100;
+            points = 250;
         }
         else if(timeLeft < 30){
-            points = 200;
+            points = 500;
         }
         else if(timeLeft < 45){
-            points = 300;
+            points = 750;
         }
-        else if(timeLeft < 60){
-            points = 400;
-        }
-
+       
         return points;
-        //this.updatePoint(player, 3, points);
     }
 }

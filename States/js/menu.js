@@ -38,7 +38,6 @@ var menuState = {
         creditsButton.anchor.setTo(.5,.5);
         creditsButton.onInputUp.add(this.quit, this);
 
-
         fullScreenButton = game.add.button(game.world.width * .5, game.world.height, 'fullScreenButton');
         fullScreenButton.anchor.setTo(.5,.5);
         fullScreenButton.onInputUp.add(this.fullScreenConfig, this);
@@ -49,11 +48,9 @@ var menuState = {
         helpButton.anchor.setTo(0, 1);
         helpButton.onInputUp.add(this.help, this);
 
-
         buttonSound = game.add.audio('buttonSound');
         //buttonSound.volume -= .3;
         buttonSound.volume = musicvol;
-
 
         if (music.name != 'menuMusic') {
             music = game.add.audio('menuMusic');
@@ -62,15 +59,14 @@ var menuState = {
 
     },
     start: function () {
-
         
         if(muteState==false)
         buttonSound.play();
         //music.stop();
         console.log("go to normal css?");
+        gameManager.changemode("MultiPlayer");
         game.state.start('css');
         //game.state.start('options');
-        
 
     },
     arcade: function(){

@@ -1,15 +1,13 @@
 # Marston-VS-West
-## In order to run, use Mongoose or a web server and open up the states folder in this repo, if it does not automatically run, then run index.html :)
+## In order to test the game, you need to make a local web server, there are python commands, and plug-ins for visual studio code and other IDEs that will let you do this.
 A simple street fighter/ smash bros esque video game project about the ongoing debate for best library
 
 This project is made using javascript and the Phaser framework
 
-Current issues are creating temporary hitboxes and implementing a statemachine and creation of a fighter class.
+Current issues are finishing up arcade mode, and fleshing out character movesets
 
-Future goals for the project is implementing a basic ai fighter as well as couch multiplayer and items and other stages.
+Future goals for the project include implementing a more refined NPC fighter as well as more items and game modes.
 
 
 Getting Started:
-Mongoose is a recommended personal embedded web server, it is an application to run/host html files so you can run phaser games on your desktop. There is a download link for it below. Once downloaded, simply put mongoose on your desktop or inside your phaser folder, select mongoose and then click on the game file to run your game!
-
-https://cesanta.com/binary.html
+Visual studio code is a great IDE that will let you work on the game code, push and pull from the repo and best of all it has plug ins to let you make a local live server to test the game out. Brackets is also another option in terms of an IDE that will let you test the game out as well.
