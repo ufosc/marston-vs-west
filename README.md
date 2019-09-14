@@ -1,6 +1,7 @@
 # Marston-VS-West
 ## In order to test the game, you need to make a local web server, there are python commands, and plug-ins for visual studio code and other IDEs that will let you do this.
-A simple street fighter/ smash bros esque video game project about the ongoing debate for best library
+
+A simple smash bros inspired video game project about the ongoing debate for best library at UF
 
 This project is made using javascript and the Phaser framework
 
