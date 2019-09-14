@@ -2,7 +2,7 @@
 
 class GameInfo {
     constructor() {
-        this.gameType = "Menu"; // gametype can be either Menu Arcade, Multiplayer, Boss, or other gamemodes
+        this.gameType = "Menu"; // gametype can be either Menu, Arcade, Multiplayer, Boss, or other gamemodes
         this.stageName = ""; //game system variable to keep track of current stage
         this.arcadeLevel = 0;
         this.playerTint = [0,0]; //2d matrix each index is an rgb for a character, player1, player2/npc 
@@ -13,8 +13,10 @@ class GameInfo {
 
         this.lives = 3;
 
+        this.ScoreKeeper = new ScoreCounter();
     }
 
+    
     // random aracde mode/stage selection for next match
     random() {
         //select random number, use to access index in array containing list of arrays 

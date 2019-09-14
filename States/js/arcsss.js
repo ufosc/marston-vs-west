@@ -36,12 +36,12 @@ class Stage {
         console.log("You chose: " + this.icon.key);
         music.stop();
         console.log('arctcs');
-        game.state.start('arctcs');
+        game.state.start('tcs');
         //game.state.start('play');
     }
 }
 
-var sssState = {
+var arcsssState = {
     create: function () {
         //Reset values to default so if player wants to play again, it does not start off "ready" to play
         gameManager.chosenStageName = '';
@@ -60,7 +60,8 @@ var sssState = {
         stage2 = new Stage(game.world.width * .5 + 250, game.world.height * .5 + 300, 'westPic');
        
         buttonSound = game.add.audio('buttonSound');
-        buttonSound.volume -= .5;
+        //buttonSound.volume -= .5;
+        buttonSound.volume = musicvol;
 
         gameReadyText = game.add.text(game.world.width * .5, game.world.height * .5 + 475, '', { font: '50px Arial', fill: '#ffffff' });
         gameReadyText.anchor.setTo(.5, .5);

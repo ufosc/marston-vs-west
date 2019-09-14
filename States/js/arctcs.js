@@ -1,7 +1,7 @@
-
+//title card file
 var timer;
 
-var tcsState = {
+var arctcsState = {
     create:function(){
         
         console.log('yoshi');
@@ -13,11 +13,13 @@ var tcsState = {
         var skipLabel = game.add.text(game.world.width * .5 , game.world.height - 25, "Press 'Enter' to skip", { font: '25px Arial', fill: '#ffffff' });
         skipLabel.anchor.setTo(.5,.5);
 
-        player1ico = game.add.sprite(game.world.width * .05 - 100, game.world.height * .7, 'dude');
+        player1ico = game.add.sprite(game.world.width * .05 - 100, game.world.height * .7, charName1);
         musicToPlay = game.add.audio('titleCardSound');
+        musicToPlay.volume = musicvol;
+        if (!muteState)
         musicToPlay.play();
 
-        dudeIcon.tint = 0xffff00;
+        //dudeIcon.tint = 0xffff00;
 
         player1ico.scale.setTo(15, 15);
         player1ico.anchor.setTo(.5,.5);
@@ -27,11 +29,12 @@ var tcsState = {
         if (player1ico.animations) {
             player1ico.alpha = 1;
         }
+        buttonSound.volume = musicvol;
         if(muteState==false)
         buttonSound.play();
-        chickIcon.tint = 0xffffff;
+        //chickIcon.tint = 0xffffff;
 
-        player2ico = game.add.sprite(game.world.width * .95 + 100, game.world.height * .7, 'chick');
+        player2ico = game.add.sprite(game.world.width * .95 + 100, game.world.height * .7, charName2);
         player2ico.scale.setTo(15, 15);
         player2ico.anchor.setTo(.5,.5);
 
@@ -90,8 +93,8 @@ var tcsState = {
 
     update: function() {
         if(key1.isDown) {
-            console.log('stoobid');
             game.state.start('arc');
+            musicToPlay.stop();
         }
     }
 
