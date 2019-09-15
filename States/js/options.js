@@ -1,4 +1,4 @@
-console.log("Reached options state");
+//console.log("Reached options state");
 //  The Google WebFont Loader will look for this object, so create it before loading the script.
 WebFontConfig = {
     //  The Google Fonts we want to load (specify as many as you like in the array)
@@ -30,7 +30,6 @@ var optionsState = {
         //slide test
         //slide = new Slider(50, 200, 200, false);
         //end of slide test
-
 
         //Fullscreen event listeners
         fullScreenButton = game.add.button(game.world.width * .5 - 400, game.world.height * .5 + 450, 'fullscreen');
@@ -97,54 +96,50 @@ var optionsState = {
         muteIcon.events.onInputDown.add(muteFunction);
         //end of the sliding bar function
 
-
-
         //Can add other options as well, music and sfx toggle, anti-alias, and other ideas
     },
     update: function () {
         minLabel.text = `${gameManager.gameMinutes}`;
         secLabel.text = `${gameManager.gameSeconds}`;
         livesLabel.text = `Lives: ${gameManager.lives}`;
-       
     },
     gameMinInc: function () {
-        gameManager.gameMinutes++;
+        if(gameManager.gameMinutes + 1 <= 5){
+            gameManager.gameMinutes++;
+        }
         buttonSound.play();
-        console.log("Minutes: " + gameManager.gameMinutes);
     },
     gameSecInc: function () {
-        gameManager.gameSeconds = gameManager.gameSeconds + 30;
+        if(gameManager.gameSeconds + 30 < 60){           
+            gameManager.gameSeconds = gameManager.gameSeconds + 30;
+        }
         buttonSound.play();
-        console.log("Seconds: " + gameManager.gameSeconds);
     },
     gameMinDec: function () {
         buttonSound.play();
-        gameManager.gameMinutes--;
-        if (gameManager.gameMinutes < 0) {
-            gameManager.gameMinutes = 0;
+        
+        if (gameManager.gameMinutes - 1 >= 1) {
+            gameManager.gameMinutes--;
         }
-        console.log("Minutes: " + gameManager.gameMinutes);
     },
     gameSecDec: function () {
-        gameManager.gameSeconds = gameManager.gameSeconds - 30;
         buttonSound.play();
-        if (gameManager.gameSeconds < 0) {
-            gameManager.gameSeconds = 0;
+        if (gameManager.gameSeconds - 1 >= 0) {
+            gameManager.gameSeconds = gameManager.gameSeconds - 30;
         }
-        console.log("Seconds: " + gameManager.gameSeconds);
     },
     gameLivesInc: function () {
-        gameManager.lives++;
-        buttonSound.play();
-        console.log("Lives: " + gameManager.lives);
-    },
-    gameLivesDec: function () {
-        gameManager.lives--;
-        if (gameManager.lives < 1) {
-            gameManager.lives = 1;
+        if(gameManager.lives + 1 <= 5){
+            gameManager.lives++;
         }
         buttonSound.play();
-        console.log("Lives: " + gameManager.lives);
+    },
+    gameLivesDec: function () {
+        
+        if (gameManager.lives - 1 > 1) {
+            gameManager.lives--;
+        }
+        buttonSound.play();
     },
     onFullScreenChange: function (scale) {
         //if you need to change something when fullscreen toggled
@@ -166,18 +161,14 @@ var optionsState = {
         game.state.start('menu');
     },
     fullScreenConfig: function () {
-        console.log("Calling fullscreen function");
         if (!game.scale.isFullScreen) {
             game.scale.startFullScreen();
             //game.scaleMode = SHOW_ALL;
         }
-        else {
-            //game.scaleMode = EXACT_FIT;
-        }
-
-
+        // else {
+        //     //game.scaleMode = EXACT_FIT;
+        // }
     },
-
 };
 
 function muteFunction(sprite){
@@ -200,11 +191,9 @@ function dragUpdate (sprite){
     //720: the length of the background
     //195: the range that the sliding bar can move
 
-
     const yValue = 970;
 
     xPos = sprite.x;
-
 
     if (xPos > mulLeft){//upper bound
         xPos = mulLeft;

@@ -81,7 +81,13 @@ var playState = {
 
                 Player1.health += hitDmg;
                 Player1.hitVelocity = Player2.character.scale.x * Player1.health * 2;
-                
+
+                //update points for damage dealt
+                gameManager.ScoreKeeper.updatePoint(gameManager.ScoreKeeper.verifyPlayer(Player2.controlnum), 1, hitDmg);
+
+                //update points for damage taken
+                gameManager.ScoreKeeper.updatePoint(gameManager.ScoreKeeper.verifyPlayer(Player1.controlnum), 2, hitDmg);
+
                 /*dmgText = game.add.text(Player1.character.x, Player1.character.y, `${hitDmg}`);
                 dmgText.anchor.setTo(.5,.5);
                 dmgText.fill = '#ffffff';
@@ -234,6 +240,9 @@ var playState = {
         Fighter.character.body.velocity.x = 0;
         Fighter.character.body.velocity.y = 0;
         Fighter.hitVelocity = 0;
+
+        gameManager.ScoreKeeper.updatePoint(gameManager.ScoreKeeper.verifyPlayer(Fighter.controlnum), 0, 1);
+
     },
 
     respawnEvent: function (Fighter) {
@@ -335,7 +344,6 @@ var playState = {
     },
 
     create: function () {
-        console.log("in play????");
         //  We're going to be using physics, so enable the Arcade Physics system
         //w = 800;
         //h = 600;
@@ -345,7 +353,9 @@ var playState = {
         timer = game.time.create(false);
         timerEvent = timer.add(Phaser.Timer.MINUTE * gameManager.gameMinutes + Phaser.Timer.SECOND * gameManager.gameSeconds, this.timeOutGame, this);
         timer.start();
-
+        if(gameManager.gameType === "Arcade") {
+            gameManager.ScoreKeeper.updatePoint(0, 3, timer.duration);
+        }
         var esckey = game.input.keyboard.addKey(Phaser.Keyboard.ESC);
         esckey.onDown.addOnce(this.timeOutGame);
 
@@ -950,6 +960,11 @@ var playState = {
         respawnSound.play();
     },
     timeOutGame: function () {
+    
+        if(gameManager.gameType === "Arcade") {
+            gameManager.ScoreKeeper.updatePoint(0, 4, timer.duration);
+        }
+    
         timer.stop();
         game.state.start('win');
     },
@@ -1235,6 +1250,9 @@ var playState = {
 
         //If out of lives, end the game
         if (Player1.lives === 0) {
+            if(gameManager.gameType === "Arcade") {
+                gameManager.ScoreKeeper.updatePoint(0, 4, timer.duration);
+            }
             game.state.start('win');
             if (multimanmode === true) {
                 console.log("# of KOs in multiman mode:");
@@ -1242,6 +1260,9 @@ var playState = {
             }
         }
         if (Player2.lives === 0 && multimanmode === false) {
+            if(gameManager.gameType === "Arcade") {
+                gameManager.ScoreKeeper.updatePoint(0, 4, timer.duration);
+            }
             game.state.start('win');
         }
         timerText.text = this.formatTime(Math.round((timerEvent.delay - timer.ms) / 1000));
@@ -1249,6 +1270,11 @@ var playState = {
 
     //actually is the win function
     start: function () {
+        //update time points, store time left
+        if(gameManager.gameType === "Arcade") {
+            gameManager.ScoreKeeper.updatePoint(0, 4, timer.duration);
+        }
+        console.log("Time Left: Start func?" + timer.duration)
         game.state.start('win');
     },
 
