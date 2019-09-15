@@ -120,7 +120,7 @@ class Fighter {
         //idle animation
         this.aniHang = this.character.animations.add('hang', [6], 5, true);
 
-        this.aniRight = this.character.animations.add('right', [3, 4, 5, 6, 7], 10, true);
+        this.aniRight = this.character.animations.add('right', [3, 4, 5, 6, 7], 10, false);
         this.aniRight.onComplete.add(this.walkEnd, this);
 
         //idle animation
@@ -685,11 +685,13 @@ class Fighter {
     }
     punchEnd() {
         console.log("Punch end");
+        this.aniIdle.play(10, false);
         this.attacking = false;
         this.deltDamage = false;
         this.inputLock = false;
         this.attack = '';
         this.basicCD = 15;
+        
         //this.resettint();
     }
     airforwardStart() {
@@ -777,11 +779,13 @@ class Fighter {
     }
     kickEnd() {
         console.log("kick end");
+        this.aniIdle.play(10, false);
         this.attacking = false;
         this.deltDamage = false;
         this.inputLock = false;
         this.attack = '';
         this.basicCD = 25;
+        
     }
     jumpStart() {
         //this.character.body.velocity.y = -350 + this.jumpSpeed;
@@ -801,6 +805,7 @@ class Fighter {
     }
     walkEnd() {
         //this.aniIdle.play(10, false);
+        this.character.animations.play('idle');
     }
     dashStart() {
         this.character.alpha = 0.5;
@@ -911,6 +916,7 @@ class Fighter {
         this.inputLock = false;
         this.warlockCD = 30;
         this.xZero = true;
+        console.log("Successfully ended warlock kick")
     }
     shieldEnd() {
         this.aniIdle.play(10, false);
@@ -967,10 +973,22 @@ class Fighter {
             //console.log("hanging???");
             this.velocity = 0;
             this.character.x = leftedge.x;
-            this.character.y = leftedge.y;
+            this.character.y = leftedge.y - 25;
             
             if(this.hanging == "no"){
                 this.character.animations.play('hang', true);
+                //Cancels all other states
+                this.character.body.velocity.x = 0;
+                this.character.body.velocity.y = 0;
+                this.character.alpha = 1;
+                this.invincible = false;
+                this.inputLock = false;
+                this.dashCD = 0;
+                this.warlockCD = 0;
+                this.uppercutCD = 0;
+                this.basicCD = 0;
+                this.airDodgeCD = 0;
+                
                 this.hanging = "yes";
             }
         }
@@ -979,10 +997,22 @@ class Fighter {
             //console.log("hanging???");
             this.velocity = 0;
             this.character.x = (rightedge.x);
-            this.character.y = (rightedge.y);
+            this.character.y = (rightedge.y - 25);
             
             if(this.hanging == "no"){
                 this.character.animations.play('hang', true);
+                //Cancels all other states
+                this.character.body.velocity.x = 0;
+                this.character.body.velocity.y = 0;
+                this.character.alpha = 1;
+                this.invincible = false;
+                this.inputLock = false;
+                this.dashCD = 0;
+                this.warlockCD = 0;
+                this.uppercutCD = 0;
+                this.basicCD = 0;
+                this.airDodgeCD = 0;
+                
                 this.hanging = "yes";
             }
             
@@ -1059,6 +1089,9 @@ class Fighter {
     }
 
     updateInput() {
+        
+       
+        
         //Cooldown for attacks
         if (this.dashCD != 0) {
             this.dashCD -= 1;
@@ -1462,12 +1495,14 @@ class Fighter {
                    //this.resettint();
 
                     //this.character.animations.play('idle');
+                    
                 }
                 this.shielding = false;
 
                 if (this.character.body.touching.down) {
                     this.jumps = 0;
                 }
+                //this.character.animations.play('idle');
             }
         }
         //end of update input function

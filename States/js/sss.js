@@ -40,6 +40,7 @@ class Stage {
 
 var sssState = {
     create: function () {
+        console.log("in sss????");
         //Reset values to default so if player wants to play again, it does not start off "ready" to play
         gameManager.chosenStageName = '';
 

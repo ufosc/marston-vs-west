@@ -59,7 +59,7 @@ var menuState = {
 
     },
     start: function () {
-        
+
         if(muteState==false)
         buttonSound.play();
         //music.stop();
