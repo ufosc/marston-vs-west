@@ -127,5 +127,29 @@ class lab extends Fighter {
         this.aniAirDodge.onStart.add(this.airDodgeStart, this);
         this.aniAirDodge.onComplete.add(this.airDodgeEnd, this);
 
+
+        //overridden weapons
+        this.weaponKick = game.add.weapon(1, 'slash');
+        this.weaponKick.bulletKillType = Phaser.Weapon.KILL_LIFESPAN;
+        this.weaponKick.bulletLifespan = 50; //50
+        this.weaponKick.bulletSpeed = 10; //0
+        this.weaponKick.fireRate = 100;
+        this.weaponKick.trackSprite(this.character, 50, 50, true);
+
+    }
+
+    //overridden methods
+    warlockTimer() {
+        console.log("yo");
+        if (this.attacking) {
+            this.weaponKick.fire();
+            this.character.body.moves = true;
+            this.character.body.velocity.x = 5 * this.character.scale.x;
+        }
+        else {
+            this.xZero = true;
+            this.character.body.moves = true;
+            this.aniIdle.play(10, false);
+        }
     }
 }

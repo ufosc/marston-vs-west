@@ -759,8 +759,6 @@ class Fighter {
         this.attacking = true;
         this.inputLock = true;
     }
-
-
     JuggleEnd() {
         console.log("juggle end");
         this.attacking = false;
@@ -806,6 +804,7 @@ class Fighter {
     walkEnd() {
         //this.aniIdle.play(10, false);
         this.character.animations.play('idle');
+        
     }
     dashStart() {
         this.character.alpha = 0.5;
@@ -830,10 +829,13 @@ class Fighter {
             this.jumpKick.fire();
             this.character.body.velocity.x = 150 * this.character.scale.x;
             this.character.body.velocity.y = -100;
+            this.inputLock = true;
         }
         else {
             this.xZero = true;
+            this.inputLock = false;
             this.aniIdle.play(10, false);
+            
         }
 
     }
@@ -885,11 +887,13 @@ class Fighter {
             this.weaponKick.fire();
             this.character.body.moves = true;
             this.character.body.velocity.x = 5 * this.character.scale.x;
+            this.inputLock = true;
         }
         else {
             this.xZero = true;
             this.character.body.moves = true;
-            this.aniIdle.play(10, false);
+            this.inputLock = false;
+            this.aniIdle.play(10, true);
         }
 
     }
@@ -1226,7 +1230,6 @@ class Fighter {
                     this.character.hasItem = false;
                 }
 
-
                 //If really freaking close to item, and if he isnt holding something, use it!
                 if ((item1.xDistCheck(this.character) < 50) && (item1.yDistCheck(this.character) < 100) && !(this.character.hasItem) && (item1.user == null)) {
                     item1.user = this;
@@ -1234,7 +1237,6 @@ class Fighter {
                     this.character.hasItem = true;
                     //console.log("close to item");
                 }
-
 
                 if (this.combo == 1) {
                     //logic to change direction facing
