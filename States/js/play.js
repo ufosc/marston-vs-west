@@ -195,7 +195,6 @@ var playState = {
             Fighter.invincible = false;
             Fighter.xZero = true;
         }
-
         else if (Fighter.controlnum === 2) {
             //console.log("controlnum = 2");
             Fighter.character.x = 0.75 * game.width;
@@ -206,7 +205,6 @@ var playState = {
             Fighter.invincible = false;
             Fighter.xZero = true;
         }
-
         else if (Fighter.controlnum === -1) {
             //console.log("controlnum = -1");
             //Fighter.character.body.position.x = 200;
@@ -231,7 +229,6 @@ var playState = {
             Fighter.invincible = false;
             Fighter.xZero = true;
         }
-
         Fighter.health = 0;
         Fighter.lives += -1;
         Fighter.character.body.velocity.x = 0;
@@ -280,7 +277,6 @@ var playState = {
         }
     },
 
-
     playerHitStun: function (Fighter) {
         if (Fighter.health >= 0 || Fighter.health <= 75) {
             Fighter.stuncounterset(15);
@@ -309,8 +305,7 @@ var playState = {
             }
             if (multimanmode === true && Fighter.controlnum < 0) {
                 multimenko++;
-            }
-            
+            }         
         }
         //else if (Fighter.character.body.position.y > 700 || Fighter.character.body.position.y < -200) {
         else if (Fighter.character.body.position.y > game.world.height + 200 || Fighter.character.body.position.y < -200) {
@@ -326,7 +321,6 @@ var playState = {
             if (multimanmode === true && Fighter.controlnum < 0) {
                 multimenko++;
             }
-
         }
     },
 
@@ -355,18 +349,15 @@ var playState = {
         var esckey = game.input.keyboard.addKey(Phaser.Keyboard.ESC);
         esckey.onDown.addOnce(this.timeOutGame);
 
-
         //Play music
         music = game.add.audio('allstar');
         //music.volume = musicvol;
         music.loopFull();
 
-
         hitpause = 0;
 
         //Camera tests
         stagecam = new cam(40, 350, 1200, 1000);
-
 
         if(gameManager.chosenStageName === 'MarstonTableStage') {
 
@@ -387,13 +378,11 @@ var playState = {
             leftledge = platformsELeft.add(land.leftledge);
             rightledge = platformsERight.add(land.rightledge);
             
-
         }
         else if(gameManager.chosenStageName === 'WestPrintStage') {
             back = game.add.sprite(0, 0, 'WestPrintStage');
 
             back.scale.setTo(1.6,1.3);
-
            
             // The platforms group contains the ground and the 2 ledges we can jump on
             platforms = game.add.group();
@@ -401,13 +390,12 @@ var playState = {
             platformsERight = game.add.group();
 
             // Create the ground.
-            land = new platform(game.world.width * 0.5 + 255, game.world.height * 0.7, false, 'plat1', 35, 2)
+            land = new platform(game.world.width * 0.5 + 170, game.world.height * 0.7, false, 'plat1', 43, 2)
             
             ground = platforms.add(land.plat);
             leftledge = platformsELeft.add(land.leftledge);
             rightledge = platformsERight.add(land.rightledge);
-            
-            
+              
             //  The platforms group contains the ground and the 2 ledges we can jump on
             miniPlatforms = game.add.group();
             
@@ -429,9 +417,23 @@ var playState = {
             plat1.body.immovable = true;
             plat2.body.immovable = true;
 
-
             plat1.scale.setTo(5, 0.7);
             plat2.scale.setTo(5, 0.7);
+
+
+            miniland3 = new platform(game.world.width*0.85, game.world.height * 0.45, false, 'plat2', 7, 1);
+            var plat3 = miniPlatforms.add(miniland3.plat);
+            plat3.anchor.setTo(0.5,1);
+            //plat3.body.collideWorldBounds = true;
+            plat3.body.checkCollision.down = false;
+            plat3.body.immovable = true;
+            
+            miniland4 = new platform(game.world.width*0.1 -20, game.world.height * 0.6, false, 'plat2', 7, 1);
+            var plat4 = miniPlatforms.add(miniland4.plat);
+            plat4.anchor.setTo(0.5,1);
+            //plat4.body.collideWorldBounds = true;
+            plat4.body.checkCollision.down = false;
+            plat4.body.immovable = true;
 
             //  Scale it to fit the width of the game (the original sprite is ? in size)
             //ground.scale.setTo(16, 1);
@@ -480,7 +482,14 @@ var playState = {
 
             //plat1.scale.setTo(5, 0.7);
             //plat2.scale.setTo(5, 0.7);
-            }
+
+            miniland3 = new platform(game.world.width*0.8, game.world.height * 0.35, false, 'plat2', 5,0.7);
+            var plat3 = miniPlatforms.add(miniland3.plat);
+            plat3.anchor.setTo(0.5,1);
+            //plat3.body.collideWorldBounds = true;
+            plat3.body.checkCollision.down = false;
+            plat3.body.immovable = true;
+        }
         else if(gameManager.chosenStageName === 'GatorStage') {
             back = game.add.sprite(0, 0, 'GatorStage');
 
@@ -497,7 +506,7 @@ var playState = {
             ground = platforms.add(land.plat);
             leftledge = platformsELeft.add(land.leftledge);
             rightledge = platformsERight.add(land.rightledge);
-            }
+        }
         else if(gameManager.chosenStageName === 'TreeStage') {
             back = game.add.sprite(0, 0, 'TreeStage');
 
@@ -515,8 +524,6 @@ var playState = {
             leftledge = platformsELeft.add(land.leftledge);
             rightledge = platformsERight.add(land.rightledge);
            
-            
-            
             //  The platforms group contains the ground and the 5 ledges we can jump on
             miniPlatforms = game.add.group();
             
@@ -565,8 +572,7 @@ var playState = {
 
             //plat1.scale.setTo(5, 0.7);
             //plat2.scale.setTo(5, 0.7);
-
-            }
+        }
         else if(gameManager.chosenStageName === 'TableTopStage') {
             back = game.add.sprite(0, 0, 'TableTopStage');
 
@@ -607,7 +613,7 @@ var playState = {
             plat3.body.checkCollision.down = false;
             plat3.body.immovable = true;
 
-            }
+        }
         else if(gameManager.chosenStageName === 'TableTop2Stage') {
             back = game.add.sprite(0, 0, 'TableTop2Stage');
             
@@ -632,10 +638,8 @@ var playState = {
             plat1.anchor.setTo(0.5,1);
             //plat1.body.collideWorldBounds = true;
             plat1.body.checkCollision.down = false;
-            plat1.body.immovable = true;
-            
-          
-            }
+            plat1.body.immovable = true;            
+        }
         else if(gameManager.chosenStageName === 'ReitzPondStage') {
             back = game.add.sprite(0, 0, 'ReitzPondStage');
 
@@ -703,7 +707,6 @@ var playState = {
             plat1.body.immovable = true;
             plat2.body.immovable = true;
 
-
             plat1.scale.setTo(10, 1);
             plat2.scale.setTo(10, 1);
 
@@ -737,7 +740,6 @@ var playState = {
             controlOptionVpad = 1;
         }
 
-
         if (charName1 === 'dude') {
             Player1 = new dj(charName1, 0, gameManager.lives, game.world.width * 0.25, game.world.height * 0.5, controlOptionVpad);
         }
@@ -770,7 +772,6 @@ var playState = {
         else {
             Player2 = new dj(charName2, 0, gameManager.lives, game.world.width * 0.75, game.world.height * 0.5, controlOptionAI);
         }
-
 
         Player1.resettint();
         console.log("work?");
@@ -821,7 +822,6 @@ var playState = {
             Player1.controller1.buttondown.events.onInputOut.add(function () { Player1.controller1.downpress = false; });
             Player1.controller1.buttondown.events.onInputDown.add(function () { Player1.controller1.downpress = true; });
             Player1.controller1.buttondown.events.onInputUp.add(function () { Player1.controller1.downpress = false; });
-
 
             //A button
             Player1.controller1.buttona = game.add.button(685, 425, 'aButton', null, this, 0, 1, 0, 1);
@@ -891,9 +891,6 @@ var playState = {
             }
             game.paused = true;
             
-            
-                
-
             //choiseLabel = game.add.text(game.world.width / 2, game.world.height - 150, 'Click outside menu to continue, click center to quit', { font: '30px Arial', fill: '#fff' });
             //choiseLabel.anchor.setTo(0.5, 0.5);
         });
@@ -937,13 +934,9 @@ var playState = {
                     game.destroy();
                 }
             }
-
         };
-
-
         timerText = game.add.text(game.world.width * .5, game.world.height* 0.1, `Time: ${timer.duration}`, { font: '80px Arial', fill: '#000000' });
         timerText.anchor.setTo(.5, .5);
-
     },
 
     formatTime: function (s) {
@@ -956,14 +949,10 @@ var playState = {
         if(muteState==false)
         respawnSound.play();
     },
-
     timeOutGame: function () {
         timer.stop();
         game.state.start('win');
     },
-
-
-
     update: function () {
         //console.log('Inside update function');
         //console.log("controlOptionAI: " + controlOptionAI);
@@ -973,16 +962,6 @@ var playState = {
         //updates the music volume for 'allstar'
         music.volume = musicvol;
         music.mute = muteState;
-
-
-
-        /*if (gameManager.chosenStageName === 'pool') {
-            console.log("gravity set low!");
-            Player1.character.body.gravity.y = 250; //gravity may need to oscillate between positive and negative so that fighter has a floaty feel to it while swimming 
-            Player1.jumps = 0;
-            Player2.character.body.gravity.y = 250;
-            Player2.jumps = 0;
-        }*/
 
         // logic check for hitpause, split second intentional slowdown when players are hit
         if (hitpause > 0) {
@@ -1014,9 +993,8 @@ var playState = {
             Player2.character.body.velocity.x = 5 * Player2.character.scale.x;
         }
 
-
         //  Collide the players with the platforms and eachother
-        if (gameManager.chosenStageName === 'ReitzStepStage' || gameManager.chosenStageName === 'WestPrintStage' || gameManager.chosenStageName === 'WestDeskStepStage' || gameManager.chosenStageName === 'GatorStage' || gameManager.chosenStageName === 'TreeStage' || gameManager.chosenStageName === 'TableTopStage' || gameManager.chosenStageName === 'TableTop2Stage' || gameManager.chosenStageName === 'ReitzPondStage') {
+        if (gameManager.chosenStageName === 'ReitzStepStage' || gameManager.chosenStageName === 'WestPrintStage' || gameManager.chosenStageName === 'WestDeskStage' || gameManager.chosenStageName === 'TreeStage' || gameManager.chosenStageName === 'TableTopStage' || gameManager.chosenStageName === 'TableTop2Stage' || gameManager.chosenStageName === 'ReitzPondStage') {
     
         if (Player1.getdown()) {
                 Player1.character.body.immovable = false;
@@ -1053,7 +1031,6 @@ var playState = {
         //end of goomba stomp bug killer
         //if bug still persists, maybe turn off collisions once velocity > velocity limit?
 
-
         // logic for player to bump against then pass through other character
         if (game.physics.arcade.overlap(Player2.character, Player1.character)) {
             passtimer1v2 += 10;
@@ -1083,7 +1060,6 @@ var playState = {
             else {
                 passtimer1v2--;
             }
-
         }
         //console.log(passtimer1v2);    
         // end of logic for player to bump against then pass through other character
@@ -1112,13 +1088,11 @@ var playState = {
             //console.log('item1.user.controlnum: '+ item1.user.controlnum);
             //console.log('item1.thrown: ' + item1.thrown);
             //console.log('item1.active: ' + item1.active);
-
         }
 
         //Item Collision, makes sure that the item you hold doesnt hit you when you throw it, but only hits the other person
         //Item must be active(can only hit you once), and thrown for the collision to go off
         if (item1.thrown && item1.getActive() && item1.getThrown()) {
-
             if (item1.previousUser.controlnum === Player1.controlnum && !Player2.respawnSwitch) //if the user is the the person colliding with the item(Player1)
             {
                 game.physics.arcade.overlap(Player2.character, item1.type, item1.itemCollision(Player2), null, this);
@@ -1128,7 +1102,6 @@ var playState = {
                 game.physics.arcade.overlap(Player1.character, item1.type, item1.itemCollision(Player1), null, this);
             }
         }
-
 
         //hitbox collision for player 2, we pass the type of hit into the hit player function
         if (Player1.attacking) {
@@ -1156,7 +1129,6 @@ var playState = {
                 game.physics.arcade.overlap(Player1.weaponSwipeFD, Player3.character, this.hitPlayer12(Player3, Player1));
                 game.physics.arcade.overlap(Player1.weaponSwipeFU, Player3.character, this.hitPlayer12(Player3, Player1));
                 game.physics.arcade.overlap(Player1.weaponSwipeD, Player3.character, this.hitPlayer12(Player3, Player1));
-
 
                 game.physics.arcade.overlap(Player1.weapon1.bullets, Player4.character, this.hitPlayer12(Player4, Player1));
                 game.physics.arcade.overlap(Player1.weaponKick.bullets, Player4.character, this.hitPlayer12(Player4, Player1));
@@ -1186,8 +1158,7 @@ var playState = {
             game.physics.arcade.overlap(Player2.weaponSwipeD, Player1.character, this.hitPlayer12(Player1, Player2));
         }
 
-        if (multimanmode === true) {
-            
+        if (multimanmode === true) {            
             if (Player3.attacking) {
                 //hitbox collision for player 1, we pass the type of hit into the hit player function
                 game.physics.arcade.overlap(Player3.weapon1.bullets, Player1.character, this.hitPlayer12(Player1,Player3));
@@ -1214,7 +1185,6 @@ var playState = {
             }
         }
 
-
         //Name tag align/follow
         nameText1.alignTo(Player1.character, Phaser.TOP, 16);
         nameText2.alignTo(Player2.character, Phaser.TOP, 16);
@@ -1227,16 +1197,12 @@ var playState = {
             else {
                 item1.alignToTarget();
             }
-
         }
 
-
         if (controlOptionAI === -2) {
-
             this.AIplay(Player1, Player2);
             //Multiman mode on so AI controls 2 additional fighters
             if (multimanmode === true) {
-
                 this.AIplay(Player1, Player3);
                 this.AIplay(Player1, Player4);
                 Player3.updateInput();
@@ -1249,23 +1215,6 @@ var playState = {
                 nameText4.alignTo(Player4.character, Phaser.TOP, 16);
             }
         }
-
-        /*
-        //Multiman mode on so AI controls 2 additional fighters
-        if (multimanmode === true) {
-            console.log("attack 3 and 4!")
-            this.AIplay(Player1, Player3);
-            this.AIplay(Player1, Player4);
-            Player3.updateInput();
-            Player4.updateInput();
-            this.KO(Player3);
-            this.KO(Player4);
-            this.respawnEvent(Player3);
-            this.respawnEvent(Player4);
-            nameText3.alignTo(Player3.character, Phaser.TOP, 16);
-            nameText4.alignTo(Player4.character, Phaser.TOP, 16);
-        }*/
-        
 
         //console.log("echo");
         Player1.updateInput();
@@ -1295,11 +1244,7 @@ var playState = {
         if (Player2.lives === 0 && multimanmode === false) {
             game.state.start('win');
         }
-
         timerText.text = this.formatTime(Math.round((timerEvent.delay - timer.ms) / 1000));
-
-        //stagecam.updatecamera(Player1,Player2,100,100,800,600);
-
     },
 
     //actually is the win function
@@ -1329,9 +1274,6 @@ var playState = {
             AIFighter.character.body.velocity.y = -100;
         }
     },
-
-    
-
 
     defendMode: function (AIFighter, AIxdist, AIydist) {
         //defensive behavior mode
@@ -1490,15 +1432,12 @@ var playState = {
             //THE MOVE SCRIPTS
             // if the distance between the AI and the user is greater than 50 pixels, then the AI should move left
             if (AIxdist > 50) {
-
                 //console.log("AI should be moving left");
                 AIFighter.controller1.leftpress = true;
                 AIFighter.controller1.rightpress = false;
-
             }
             // if the distance between the AI and the user is less than -50 pixels, then the AI should move right
             else if (AIxdist < -50) {
-
                 //console.log("AI should be moving right");
                 AIFighter.controller1.leftpress = false;
                 AIFighter.controller1.rightpress = true;
