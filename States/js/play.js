@@ -1118,6 +1118,9 @@ var playState = {
             }
         }
 
+        //special logic for lab's items
+
+
         //hitbox collision for player 2, we pass the type of hit into the hit player function
         if (Player1.attacking) {
             /*game.physics.arcade.overlap(Player1.weapon1.bullets, Player2.character, this.hitPlayer2(Player1.attacking));

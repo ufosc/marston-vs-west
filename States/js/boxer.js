@@ -60,7 +60,7 @@ class boxer extends Fighter {
         this.aniJumpKickWindUp.onStart.add(this.JumpKickWindUpStart, this);
         this.aniJumpKickWindUp.onComplete.add(this.JumpKickWindUpEnd, this);
 
-        this.aniJumpKick = this.character.animations.add('jumpKick', [22], 5, false);
+        this.aniJumpKick = this.character.animations.add('jumpKick', [22, 22, 22, 22, 22], 5, false);
         this.aniJumpKick.onStart.add(this.jumpKickStart, this);
         this.aniJumpKick.onComplete.add(this.jumpKickEnd, this);
 
@@ -126,5 +126,79 @@ class boxer extends Fighter {
         this.aniAirDodge = this.character.animations.add('airDodge', [20], 15, false);
         this.aniAirDodge.onStart.add(this.airDodgeStart, this);
         this.aniAirDodge.onComplete.add(this.airDodgeEnd, this);
+
+
+        //weapons
+        this.weaponKick = game.add.weapon(10, 'slash');
+        this.weaponKick.bulletKillType = Phaser.Weapon.KILL_LIFESPAN;
+        this.weaponKick.bulletLifespan = 500; //50
+        this.weaponKick.bulletSpeed = 0; //0
+        this.weaponKick.fireRate = 2;
+        this.weaponKick.multiFire = true;
+        this.weaponKick.trackSprite(this.character, 50, 50, true);
+    }
+
+    //end of constructor
+
+    kickStart() {
+        console.log("Kick start");
+        this.attacking = true;
+        this.attack = 'kick';
+        this.weaponKick.bulletSpeed = 0;
+        this.weaponKick.fire();
+        this.inputLock = true;
+    }
+
+    warlockStart() {
+        this.xZero = false;
+        this.inputLock = true;
+        this.attacking = true;
+        console.log("Attack??");
+        if (this.character.body.touching.down) {
+            this.character.body.moves = false;
+        }
+        this.attack = 'warlock';
+        this.character.body.velocity.x = 5 * this.character.scale.x;
+        //this.weaponKick.fireFrom.set(10,10);
+        let i = 0;
+        if(this.character.scale.x < 0){  
+            while (i < 5){
+
+                this.weaponKick.trackSprite(this.character, 50, -1*(50 + Math.floor(Math.random() * 51)), true);
+                this.weaponKick.bulletSpeed = -150;
+                this.weaponKick.fire();
+                i++;
+            }    
+        }
+        else {
+            while (i < 5){
+
+                this.weaponKick.trackSprite(this.character, 50, (50 + Math.floor(Math.random() * 51)), true);
+                this.weaponKick.bulletSpeed = 150;
+                this.weaponKick.fire();
+                i++;
+            }
+        }
+        //game.time.events.add(Phaser.Timer.SECOND * 1.15, this.warlockTimer, this);
+    }
+
+    warlockTimer(){
+        //console.log("boxer rapid fire!");
+        if (this.attacking) {
+            console.log("boxer rapid fire!");
+
+                this.weaponKick.fire();
+            
+                this.character.body.moves = true;
+                this.character.body.velocity.x = 5 * this.character.scale.x;
+                this.inputLock = true;
+        }
+        else {
+            this.xZero = true;
+            this.character.body.moves = true;
+            this.inputLock = false;
+            this.aniIdle.play(10, true);
+        }
+
     }
 }

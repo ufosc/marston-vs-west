@@ -10,7 +10,7 @@ class Fighter {
         this.airTime = 0;
         this.deathBlast = game.add.sprite(game.world.width * 0.2, game.world.width * 0.05, "deathBlast");
         this.deathBlast.visible = false;
-
+        this.jumpKickBulletSpeedCons = 150;
         this.combo = 0;
         this.comboclock = 0;
 
@@ -249,6 +249,7 @@ class Fighter {
             this.controller1 = new vpad(-2);
         }
 
+        // weapons
         this.weapon1 = game.add.weapon(1, 'slash');
         
         this.weapon1.bulletKillType = Phaser.Weapon.KILL_LIFESPAN;
@@ -319,6 +320,8 @@ class Fighter {
         this.weaponSwipeU.bulletSpeed = 0; //0
         this.weaponSwipeU.fireRate = 100;
         this.weaponSwipeU.trackSprite(this.character, 0, 20, true);
+
+        //end of weapons
 
         //used to create the trail effect for knockback
         this.dustTrail = game.add.weapon(20, 'dust');
@@ -851,7 +854,7 @@ class Fighter {
     }
     jumpKickEnd() {
         this.aniIdle.play(10, false);
-        this.attacking = false;
+        this.attacking = true;
         this.deltDamage = false;
         this.inputLock = false;
         game.time.events.add(Phaser.Timer.SECOND * .05, this.jumpKickTimer2, this);
@@ -912,6 +915,7 @@ class Fighter {
     warlockEnd() {
         //this.character.body.position.x += 200 * this.character.scale.x;
         //this.weaponKick.fire();
+        
         this.aniIdle.play(10, false);
         this.attacking = false;
         this.character.body.moves = true;
@@ -1072,7 +1076,7 @@ class Fighter {
                 }
 
                 this.hanging = "letgo";
-                console.log("rolling!");
+                //console.log("rolling!");
                 this.hangingtimer = 100;
             }
 
@@ -1089,12 +1093,54 @@ class Fighter {
             this.hanging = "no";
             
         }
+    }
+
+    checkface(facing){
+
+        if (facing === "Left" && this.character.scale.x > 0){
+            this.character.scale.x *= -1;
+            this.weapontracking();
+        }
+
+        if (facing === "Right" && this.character.scale.x < 0){
+            this.character.scale.x *= -1;
+            this.weapontracking();
+        }
+    }
+
+    weapontracking() {
+
+        if(this.character.scale.x > 0) {
+            
+            this.weapon1.trackSprite(this.character, 30, 20, true);
+            this.weaponKick.trackSprite(this.character, 50, 50, true);
+            this.weaponUppercut.trackSprite(this.character, 30, 10, true);
+            this.jumpKick.trackSprite(this.character, 50, 50, true); //true
+            this.jumpKick.bulletSpeed = this.jumpKickBulletSpeedCons; //150;
+
+            this.weaponSwipeD.trackSprite(this.character, 0, 90, true);                    
+            this.weaponSwipeFD.trackSprite(this.character, 25, 30, true);
+            this.weaponSwipeFU.trackSprite(this.character, 25, 20, true);
+            this.weaponSwipeU.trackSprite(this.character, 0, 10, true);
+        }
+        else if (this.character.scale.x < 0) {
+            
+            this.weapon1.trackSprite(this.character, 30, -20, true);
+            this.weaponKick.trackSprite(this.character, 50, -50, true);
+            this.weaponUppercut.trackSprite(this.character, 30, -10, true);
+            this.jumpKick.trackSprite(this.character, 50, -50, true ); //false
+            this.jumpKick.bulletSpeed = -1 * this.jumpKickBulletSpeedCons; //-150;
+
+            this.weaponSwipeD.trackSprite(this.character, 0, -90, true);                    
+            this.weaponSwipeFD.trackSprite(this.character, 25, -30, true);
+            this.weaponSwipeFU.trackSprite(this.character, 25, -20, true);
+            this.weaponSwipeU.trackSprite(this.character, 0, -10, true);
+
+        }
 
     }
 
     updateInput() {
-        
-       
         
         //Cooldown for attacks
         if (this.dashCD != 0) {
@@ -1394,20 +1440,8 @@ class Fighter {
                     this.jumps = 0;
                 }
 
-                if (this.character.scale.x > 0) {
-                    this.character.scale.x *= -1;
-                    this.weapon1.trackSprite(this.character, 30, -20, true);
-                    this.weaponKick.trackSprite(this.character, 50, -50, true);
-                    this.weaponUppercut.trackSprite(this.character, 30, -10, true);
-                    this.jumpKick.trackSprite(this.character, 50, -50, true);
-                    this.jumpKick.bulletSpeed = -150;
-
-                    this.weaponSwipeD.trackSprite(this.character, 0, -90, true);                    
-                    this.weaponSwipeFD.trackSprite(this.character, 25, -30, true);
-                    this.weaponSwipeFU.trackSprite(this.character, 25, -20, true);
-                    this.weaponSwipeU.trackSprite(this.character, 0, -10, true);
-
-                }
+                this.checkface("Left");
+                
                 if (this.character.body.touching.down) {
                     this.character.body.velocity.x = -250 + this.hitVelocity;
                 }
@@ -1431,21 +1465,9 @@ class Fighter {
                 if (this.character.body.touching.down) {
                     this.jumps = 0;
                 }
-                //logic to change direction facing
-                if (this.character.scale.x < 0) {
-                    this.character.scale.x *= -1;
-                    this.weapon1.trackSprite(this.character, 30, 20, true);
-                    this.weaponKick.trackSprite(this.character, 50, 50, true);
-                    this.weaponUppercut.trackSprite(this.character, 30, 10, true);
-                    this.jumpKick.trackSprite(this.character, 50, 50, true);
-                    this.jumpKick.bulletSpeed = 150;
 
-                    this.weaponSwipeD.trackSprite(this.character, 0, 90, true);                    
-                    this.weaponSwipeFD.trackSprite(this.character, 25, 30, true);
-                    this.weaponSwipeFU.trackSprite(this.character, 25, 20, true);
-                    this.weaponSwipeU.trackSprite(this.character, 0, 10, true);
-
-                }
+                this.checkface("Right");
+                    
                 if (this.character.body.touching.down) {
                     this.character.body.velocity.x = 250 + this.hitVelocity;
                 }
