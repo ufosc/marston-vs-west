@@ -152,8 +152,9 @@ class goth extends Fighter {
         this.xZero = false;
         game.time.events.add(Phaser.Timer.SECOND * .3, this.jumpKickTimer, this);
 
-        this.velocity.x = 50 + this.velocity.x.
+        //this.velocity.x = 50 + this.velocity.x;
     }
+
     jumpKickEnd() {
         this.aniIdle.play(10, false);
         this.attacking = true;
@@ -161,7 +162,7 @@ class goth extends Fighter {
         this.inputLock = false;
         game.time.events.add(Phaser.Timer.SECOND * .05, this.jumpKickTimer2, this);
         this.attack = '';
-        this.velocity.x = 0.
+        //this.velocity.x = 0;
     }
 
 }

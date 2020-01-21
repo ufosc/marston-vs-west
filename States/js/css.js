@@ -5,7 +5,7 @@ var cssState = {
         charSelected1 = false;
         charSelected2 = false;
         botSelected = false;
-        controlOptionAI = 0;
+        controlOptionAI = 2;
         charName1 = "";
         charName2 = "";
         multimanmode = false;
@@ -43,11 +43,23 @@ var cssState = {
         FighterIcon.tint = 0xffffff;
 
         //TEST:COMPUTER icon
-        computerIcon = game.add.sprite(game.world.width * .5, game.world.height * .5 + 150, 'computerIcon');
+        computerIcon = game.add.button(game.world.width * .5, game.world.height * .5 + 150, 'computerIcon');
         computerIcon.anchor.setTo(.5, .5);
         computerIcon.scale.setTo( .35, .53);
-        game.physics.arcade.enable(computerIcon);
+        //game.physics.arcade.enable(computerIcon);
         computerIcon.tint = 0xffffff;
+        
+        computerIcon.events.onInputUp.add(function () {
+            controlOptionAI *= -1;
+            console.log(controlOptionAI);
+            if (controlOptionAI == -2){
+                computerIcon.tint = 0xffff00;
+            }
+            else{
+                computerIcon.tint = 0xffffff;
+            }
+        });
+        //.onInputUp.add(this.arcade, this);
 
         player1Icon = game.add.sprite(game.world.width * .5 - 200, game.world.height * .5 + 400, 'player1cssIcon');
         player1Icon.scale.setTo(3, 3);
@@ -485,28 +497,6 @@ var cssState = {
             // player2BodyIcon.kill();
         }
 
-        if (game.physics.arcade.overlap(player2Icon, computerIcon)) {
-            if(muteState==false)
-            buttonSound.play();
-            charName2 = "Goth";
-            botSelected = true;
-            computerIcon.tint = 0xffff00;
-            player2BodyIcon.kill();
-            controlOptionAI = -2; //Temporary till we have the AI logic, then replace this with a -2 instead,using vpad to test functionality
-            console.log("controlOptionAI: " + controlOptionAI);
-            player2BodyIcon = game.add.sprite(game.world.width * .6 + 150, game.world.height * .5 - 50, 'Goth');
-            player2BodyIcon.scale.setTo(3.5, 3.5);
-            player2BodyIcon.animations.add('idle', [1, 2], 5, true);
-            player2BodyIcon.animations.add('kick', [6], 5, true);
-
-            if (player2BodyIcon.animations) {
-                player2BodyIcon.alpha = 1;
-            }
-        }
-        else {
-            // player2BodyIcon.kill();
-        }
-
         if (!game.physics.arcade.overlap(player1Icon, LabIcon) && !game.physics.arcade.overlap(player1Icon, GothIcon) && !game.physics.arcade.overlap(player1Icon, BoxIcon)  && !game.physics.arcade.overlap(player1Icon, FighterIcon)) {
             player1BodyIcon.kill();
         }
@@ -600,18 +590,5 @@ var cssState = {
                 player2BodyIcon.alpha = .5;
             }
         }
-        if (game.physics.arcade.overlap(player2Icon, computerIcon)) {
-            charName2 = "";
-            botSelected = false;
-            computerIcon.tint = 0xffffff;
-
-            console.log("controlOptionAI: " + controlOptionAI);
-
-            if (player2BodyIcon.animations) {
-                player2BodyIcon.alpha = .5;
-            }
-        }
-
-
     }
 };
