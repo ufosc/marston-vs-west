@@ -154,6 +154,7 @@ class lab extends Fighter {
             
             this.weapon1.trackSprite(this.character, 30, 20, true);
             this.weaponKick.trackSprite(this.character, 50, 50, true);
+            this.weaponKick.bulletSpeed = 500;
             this.weaponUppercut.trackSprite(this.character, 30, 10, true);
             this.jumpKick.trackSprite(this.character, 50, 50, false); //true
             this.jumpKick.bulletSpeed = this.jumpKickBulletSpeedCons; //150;
@@ -167,10 +168,11 @@ class lab extends Fighter {
             
             this.weapon1.trackSprite(this.character, 30, -20, true);
             this.weaponKick.trackSprite(this.character, 50, -50, true);
+            this.weaponKick.bulletSpeed = -500;
             this.weaponUppercut.trackSprite(this.character, 30, -10, true);
-            this.jumpKick.trackSprite(this.character, 50, -50, false ); //false
+            this.jumpKick.trackSprite(this.character, 0, 50, false ); //false
             this.jumpKick.bulletSpeed = -1 * this.jumpKickBulletSpeedCons; //-150;
-
+            
             this.weaponSwipeD.trackSprite(this.character, 0, -90, true);                    
             this.weaponSwipeFD.trackSprite(this.character, 25, -30, true);
             this.weaponSwipeFU.trackSprite(this.character, 25, -20, true);
@@ -238,18 +240,8 @@ class lab extends Fighter {
         }
         this.attack = 'warlock';
         this.character.body.velocity.x = 5 * this.character.scale.x;
-        //this.weaponKick.fireFrom.set(10,10);
         
-        if(this.character.scale.x < 0){
-                this.weaponKick.trackSprite(this.character, 50, -50, true);
-                this.weaponKick.bulletSpeed = -500;
-                this.weaponKick.fire();    
-        }
-        else {
-                this.weaponKick.trackSprite(this.character, 50, 50, true);
-                this.weaponKick.bulletSpeed = 500;
-                this.weaponKick.fire();
-        }
+        this.weaponKick.fire();
 
         //game.time.events.add(Phaser.Timer.SECOND * 1.15, this.warlockTimer, this);
     }
