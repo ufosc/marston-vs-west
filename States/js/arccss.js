@@ -1,17 +1,14 @@
 var arccssState = {
     create: function () {
-        console.log("arccss?");
+       
         //Reset values to default so if player wants to play again, it does not start off "ready" to play
         charSelected1 = false;
         charSelected2 = false;
         botSelected = false;
-        controlOptionAI = 0;
+        controlOptionAI = -2;
         charName1 = "";
         charName2 = "";
         multimanmode = false;
-        
-        ColorMenu1 = new ColorMenu();
-        console.log("Color menu made in arcade?");
 
         var backgroundSprite = game.add.image(0, 0, 'menuBackground');
         backgroundSprite.anchor.setTo(0,0);
@@ -46,31 +43,45 @@ var arccssState = {
         FighterIcon.tint = 0xffffff;
 
         //TEST:COMPUTER icon
-        computerIcon = game.add.sprite(game.world.width * .5, game.world.height * .5 + 150, 'computerIcon');
+        computerIcon = game.add.button(game.world.width * .5, game.world.height * .5 + 150, 'computerIcon');
         computerIcon.anchor.setTo(.5, .5);
         computerIcon.scale.setTo( .35, .53);
-        game.physics.arcade.enable(computerIcon);
+        computerIcon.visible = false;
+        //game.physics.arcade.enable(computerIcon);
         computerIcon.tint = 0xffffff;
+        
+        computerIcon.events.onInputUp.add(function () {
+            controlOptionAI *= -1;
+            console.log(controlOptionAI);
+            if (controlOptionAI == -2){
+                computerIcon.tint = 0xffff00;
+            }
+            else{
+                computerIcon.tint = 0xffffff;
+            }
+        });
+        //.onInputUp.add(this.arcade, this);
 
         player1Icon = game.add.sprite(game.world.width * .5 - 200, game.world.height * .5 + 400, 'player1cssIcon');
         player1Icon.scale.setTo(3, 3);
         player1Icon.anchor.setTo(.5, .5);
 
         player2Icon = game.add.sprite(game.world.width * .5 + 200, game.world.height * .5 + 400, 'player2cssIcon');
-        player2Icon.scale.setTo(3, 3);
-        player2Icon.anchor.setTo(.5, .5);
+        player2Icon.visible = false;
+        //player2Icon.scale.setTo(3, 3);
+        //player2Icon.anchor.setTo(.5, .5);
 
         player1Icon.inputEnabled = true;
-        player2Icon.inputEnabled = true;
+        //player2Icon.inputEnabled = true;
 
         player1Icon.input.enableDrag(true);
-        player2Icon.input.enableDrag(true);
+        //player2Icon.input.enableDrag(true);
         
         game.physics.arcade.enable(player1Icon);
-        game.physics.arcade.enable(player2Icon);
+        //game.physics.arcade.enable(player2Icon);
 
         player1Icon.enableBody = true;
-        player2Icon.enableBody = true;
+        //player2Icon.enableBody = true;
 
         player1Icon.events.onDragStop.add(this.onDragStop, this);
         player1Icon.events.onDragStart.add(this.onDragStart, this);
@@ -95,17 +106,12 @@ var arccssState = {
         player1Text.anchor.setTo(.5,.5);
         player2Text.anchor.setTo(.5,.5);
 
-
         player1BodyIcon = game.add.sprite(game.world.width * .25 - 150, game.world.height * .5 + 150, '');
         player2BodyIcon = game.add.sprite(game.world.width * .75 + 150, game.world.height * .5 + 150, '');
         player1BodyIcon.anchor.setTo(.5,.5);
         player2BodyIcon.anchor.setTo(.5,.5);
         player1BodyIcon.scale.setTo(1.5, 1.5);
         player2BodyIcon.scale.setTo(1.5, 1.5);
-
-        player1BodyIcon.tint = gameManager.playerTint[0];		
-        player2BodyIcon.tint = gameManager.playerTint[1];		
-        console.log("TINT!");
 
         //Chose your library: Click on label to set variable to a library, then send info later
         var player1Label = game.add.text(game.world.width*0.25, 50, 'Choose your Library!', { font: '25px Arial', fill: '#ffffff' });
@@ -160,7 +166,6 @@ var arccssState = {
         MultimanLabel.librarySelected = '';
         MultimanLabel.events.onInputUp.add(function () {
             switch (MultimanLabel.selected) {
-
                 case 0:
                     MultimanLabel.librarySelected = 'Multiman Mode: OFF'
                     MultimanLabel.text = `${MultimanLabel.librarySelected}`;
@@ -182,16 +187,58 @@ var arccssState = {
             game.state.start('menu');
         });
 
+        console.log("arcade css?");
+        ColorMenu1 = new ColorMenu(1);
+        
+        //player 1 color selection events
+        ColorMenu1.button[0].onInputUp.add(function (){
+                //console.log("button1");
+                gameManager.playerTint[0] = ColorMenu1.colorPick(0);
+        });
 
+        ColorMenu1.button[1].onInputUp.add(function (){
+                //console.log("button2");
+                gameManager.playerTint[0] = ColorMenu1.colorPick(1);
+        });
+        
+        ColorMenu1.button[2].onInputUp.add(function (){
+                gameManager.playerTint[0] = ColorMenu1.colorPick(2);
+        });
+
+        ColorMenu1.button[3].onInputUp.add(function (){
+                gameManager.playerTint[0] = ColorMenu1.colorPick(3);
+        });
+        
+        ColorMenu1.button[4].onInputUp.add(function (){
+                gameManager.playerTint[0] = ColorMenu1.colorPick(4);
+        });
+        
+        ColorMenu1.button[5].onInputUp.add(function (){
+                gameManager.playerTint[0] = ColorMenu1.colorPick(5);
+        });
+        
+        ColorMenu1.button[6].onInputUp.add(function (){
+                gameManager.playerTint[0] = ColorMenu1.colorPick(6);
+        });
+        
+        ColorMenu1.button[7].onInputUp.add(function (){
+                gameManager.playerTint[0] = ColorMenu1.colorPick(7);
+        });
+        
+        ColorMenu1.button[8].onInputUp.add(function (){
+                gameManager.playerTint[0] = ColorMenu1.colorPick(8);
+        });
+        
+        console.log("Color menu made?");
         //TODO:Incorperate dragUpdate function event system into current system. I think it's needed to fix bugs/add dynamic features like spawning the character when hovering over while still dragging.
         //TODO:
         //find a way to change text, show sprite and name with alpha applied when hovering but NOT selecting character, SOLUTION: probably above comment
-
+        
     },
     start: function () {
         gameReadyText.text = `Game Start!`;
         //music.stop();
-        game.state.start('arcsss');
+        game.state.start('arctcs');
     },
     update: function () {
         player1Text.text = `${charName1}`;
@@ -208,17 +255,17 @@ var arccssState = {
             player2BodyIcon.animations.play('idle');
         }
 
-        if (charSelected1 && (charSelected2 || botSelected) && key1.isDown) {
+        if (charSelected1 && key1.isDown) {
             //Eventually allow the player to start game;
             gameReadyText.text = `Game Start!`;
-            game.state.start('sss');
+            game.state.start('arctcs');
         }
-        else if (charSelected1 && (botSelected || charSelected2)) { //Allow the player to tap game ready to start game
+        else if (charSelected1) { //Allow the player to tap game ready to start game
             gameReadyText.text = `Click here or Press 'ENTER' to start!`;
             gameReadyText.inputEnabled = true;
             gameReadyText.events.onInputUp.addOnce(function () {
                 //music.stop();
-                game.state.start('arcsss');
+                game.state.start('arctcs');
             });
 
         }
@@ -230,11 +277,12 @@ var arccssState = {
 
         }
     },
+    colorButtonPress: function (buttonOrder, buttonNum){
+        gameManager.playerTint[buttonOrder] = playerColorButtons.colorPick(buttonNum);
+    },
     onDragStop: function () {
-
         //If you drop the cursor on the icon
         if (game.physics.arcade.overlap(player1Icon, LabIcon)) {
-            buttonSound.volume = musicvol;
             if(muteState==false)
             buttonSound.play();
             //Determine's what's spawned, and lets you start game
@@ -245,7 +293,7 @@ var arccssState = {
             //destroys the old sprite so when you create a new one only one exists
             player1BodyIcon.kill();
 
-            player1BodyIcon = game.add.sprite(game.world.width * .25 - 150, game.world.height * .5 - 50, 'Lab');
+            player1BodyIcon = game.add.sprite(game.world.width * .3 - 150, game.world.height * .5 - 50, 'Lab');
             
             player1BodyIcon.scale.setTo(3.5, 3.5);
             player1BodyIcon.animations.add('idle', [1, 2], 5, true);
@@ -260,7 +308,6 @@ var arccssState = {
 
         //If you drop the icon on the chick Picture
         if (game.physics.arcade.overlap(player1Icon, GothIcon)) {
-            buttonSound.volume = musicvol;
             if(muteState==false)
             buttonSound.play();
             charName1 = "Goth";
@@ -268,7 +315,7 @@ var arccssState = {
             GothIcon.tint = 0xffff00;
             player1BodyIcon.kill();
 
-            player1BodyIcon = game.add.sprite(game.world.width * .25 - 150, game.world.height * .5 - 50, 'Goth');
+            player1BodyIcon = game.add.sprite(game.world.width * .3 - 150, game.world.height * .5 - 50, 'Goth');
 
             player1BodyIcon.scale.setTo(3.5, 3.5);
             player1BodyIcon.animations.add('idle', [1, 2], 5, true);
@@ -279,7 +326,6 @@ var arccssState = {
         }
 
         if (game.physics.arcade.overlap(player1Icon, BoxIcon)) {
-            buttonSound.volume = musicvol;
             if(muteState==false)
             buttonSound.play();
             charName1 = "Boxer";
@@ -298,7 +344,6 @@ var arccssState = {
         }
 
         if (game.physics.arcade.overlap(player1Icon, FighterIcon)) {
-            buttonSound.volume = musicvol;
             if(muteState==false)
             buttonSound.play();
             charName1 = "Fighter";
@@ -306,7 +351,7 @@ var arccssState = {
             BoxIcon.tint = 0xffff00;
             player1BodyIcon.kill();
 
-            player1BodyIcon = game.add.sprite(game.world.width * .25 - 150, game.world.height * .5 - 50, 'Fighter');
+            player1BodyIcon = game.add.sprite(game.world.width * .3 - 150, game.world.height * .5 - 50, 'Fighter');
 
             player1BodyIcon.scale.setTo(3.5, 3.5);
             player1BodyIcon.animations.add('idle', [1, 2], 5, true);
@@ -319,16 +364,15 @@ var arccssState = {
 
 
         if (game.physics.arcade.overlap(player2Icon, LabIcon)) {
-            buttonSound.volume = musicvol;
             if(muteState==false)
             buttonSound.play();
             charName2 = "Lab";
             charSelected2 = true;
             LabIcon.tint = 0xffff00;
             player2BodyIcon.kill();
-            controlOptionAI = 2;
+            controlOptionAI = -2;
 
-            player2BodyIcon = game.add.sprite(game.world.width * .75 + 150, game.world.height * .5 - 50, 'Lab');
+            player2BodyIcon = game.add.sprite(game.world.width * .6 + 150, game.world.height * .5 - 50, 'Lab');
             player2BodyIcon.scale.setTo(3.5, 3.5);
             player2BodyIcon.animations.add('idle', [1, 2], 5, true);
             player2BodyIcon.animations.add('kick', [6], 5, true);
@@ -343,19 +387,16 @@ var arccssState = {
             //player2BodyIcon.kill();
         }
 
-
-
         if (game.physics.arcade.overlap(player2Icon, GothIcon)) {
-            buttonSound.volume = musicvol;
             if(muteState==false)
             buttonSound.play();
             charName2 = "Goth";
             charSelected2 = true;
             GothIcon.tint = 0xffff00;
             player2BodyIcon.kill();
-            controlOptionAI = 2;
+            controlOptionAI = -2;
 
-            player2BodyIcon = game.add.sprite(game.world.width * .75 + 150, game.world.height * .5 - 50, 'Goth');
+            player2BodyIcon = game.add.sprite(game.world.width * .6 + 150, game.world.height * .5 - 50, 'Goth');
             player2BodyIcon.scale.setTo(3.5, 3.5);
             player2BodyIcon.animations.add('idle', [1, 2], 5, true);
             player2BodyIcon.animations.add('kick', [6], 5, true);
@@ -366,16 +407,15 @@ var arccssState = {
         }
 
         if (game.physics.arcade.overlap(player2Icon, BoxIcon)) {
-            buttonSound.volume = musicvol;
             if(muteState==false)
             buttonSound.play();
             charName2 = "Boxer";
             charSelected2 = true;
             BoxIcon.tint = 0xffff00;
             player2BodyIcon.kill();
-            controlOptionAI = 2;
+            controlOptionAI = -2;
 
-            player2BodyIcon = game.add.sprite(game.world.width * .75 + 150, game.world.height * .5 - 50, 'Boxer');
+            player2BodyIcon = game.add.sprite(game.world.width * .55 + 150, game.world.height * .5 - 50, 'Boxer');
             player2BodyIcon.scale.setTo(3.5, 3.5);
             player2BodyIcon.animations.add('idle', [1, 2], 5, true);
             player2BodyIcon.animations.add('kick', [6], 5, true);
@@ -386,16 +426,15 @@ var arccssState = {
         }
 
         if (game.physics.arcade.overlap(player2Icon, FighterIcon)) {
-            buttonSound.volume = musicvol;
             if(muteState==false)
             buttonSound.play();
             charName2 = "Fighter";
             charSelected2 = true;
             FighterIcon.tint = 0xffff00;
             player2BodyIcon.kill();
-            controlOptionAI = 2;
+            controlOptionAI = -2;
 
-            player2BodyIcon = game.add.sprite(game.world.width * .75 + 150, game.world.height * .5 - 50, 'Fighter');
+            player2BodyIcon = game.add.sprite(game.world.width * .6 + 150, game.world.height * .5 - 50, 'Fighter');
             player2BodyIcon.scale.setTo(3.5, 3.5);
             player2BodyIcon.animations.add('idle', [1, 2], 5, true);
             player2BodyIcon.animations.add('kick', [6], 5, true);
@@ -405,29 +444,6 @@ var arccssState = {
             }
         }
 
-        else {
-            // player2BodyIcon.kill();
-        }
-
-        if (game.physics.arcade.overlap(player2Icon, computerIcon)) {
-            buttonSound.volume = musicvol;
-            if(muteState==false)
-            buttonSound.play();
-            charName2 = "Goth";
-            botSelected = true;
-            computerIcon.tint = 0xffff00;
-            player2BodyIcon.kill();
-            controlOptionAI = -2; //Temporary till we have the AI logic, then replace this with a -2 instead,using vpad to test functionality
-            console.log("controlOptionAI: " + controlOptionAI);
-            player2BodyIcon = game.add.sprite(game.world.width * .75 + 150, game.world.height * .5 - 50, 'Goth');
-            player2BodyIcon.scale.setTo(3.5, 3.5);
-            player2BodyIcon.animations.add('idle', [1, 2], 5, true);
-            player2BodyIcon.animations.add('kick', [6], 5, true);
-
-            if (player2BodyIcon.animations) {
-                player2BodyIcon.alpha = 1;
-            }
-        }
         else {
             // player2BodyIcon.kill();
         }
@@ -525,18 +541,5 @@ var arccssState = {
                 player2BodyIcon.alpha = .5;
             }
         }
-        if (game.physics.arcade.overlap(player2Icon, computerIcon)) {
-            charName2 = "";
-            botSelected = false;
-            computerIcon.tint = 0xffffff;
-
-            console.log("controlOptionAI: " + controlOptionAI);
-
-            if (player2BodyIcon.animations) {
-                player2BodyIcon.alpha = .5;
-            }
-        }
-
-
     }
 };
