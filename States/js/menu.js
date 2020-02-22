@@ -48,12 +48,13 @@ var menuState = {
         helpButton.anchor.setTo(0, 1);
         helpButton.onInputUp.add(this.help, this);
 
-        buttonSound = game.add.audio('buttonSound');
+        buttonSound = game.add.audio('buttonSound', 0.06);
+        buttonSound.stop();
         //buttonSound.volume -= .3;
-        buttonSound.volume = musicvol;
+        //buttonSound.volume = musicvol;
 
         if (music.name != 'menuMusic') {
-            music = game.add.audio('menuMusic');
+            music = game.add.audio('menuMusic,musicvol');
             music.loopFull();
         }
 

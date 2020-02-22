@@ -360,8 +360,9 @@ var playState = {
         esckey.onDown.addOnce(this.timeOutGame);
 
         //Play music
-        music = game.add.audio('allstar');
-        //music.volume = musicvol;
+
+        music = game.add.audio('allstar', musicvol*0.1);
+
         music.loopFull();
 
         hitpause = 0;
@@ -727,17 +728,17 @@ var playState = {
             //  This stops it from falling away when you jump on it
             ground.body.immovable = true;
         }
+        hitvol = 0.1;
+        hitSound = game.add.audio('hitSound',hitvol);
+        hitSound1 = game.add.audio('hitSound1',hitvol);
+        hitSound2 = game.add.audio('hitSound2',hitvol);
+        hitSound3 = game.add.audio('hitSound3',hitvol);
 
-        hitSound = game.add.audio('hitSound');
-        hitSound1 = game.add.audio('hitSound1');
-        hitSound2 = game.add.audio('hitSound2');
-        hitSound3 = game.add.audio('hitSound3');
-
-        respawnSound = game.add.audio('respawnSound');
-        deathSound = game.add.audio('deathSound');
-        jumpSound = game.add.audio('jumpSound');
-        itemSound = game.add.audio('itemSound');
-        buttonSound = game.add.audio('buttonSound');
+        respawnSound = game.add.audio('respawnSound', 0.1);
+        deathSound = game.add.audio('deathSound', 0.2);
+        jumpSound = game.add.audio('jumpSound',0.2);
+        itemSound = game.add.audio('itemSound',0.05);
+        buttonSound = game.add.audio('buttonSound', 0.4);
         buttonSound.volume = musicvol;
         //buttonSound.volume -= .5;
 
@@ -975,7 +976,7 @@ var playState = {
         game.physics.arcade.overlap(Player2.character, this.win, this.Win, null, this);
 
         //updates the music volume for 'allstar'
-        music.volume = musicvol;
+        //music.volume = musicvol;
         music.mute = muteState;
 
         // logic check for hitpause, split second intentional slowdown when players are hit
