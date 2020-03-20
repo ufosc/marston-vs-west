@@ -1,13 +1,19 @@
 //title card file
 var timer;
+var words; 
 
 var arctcsState = {
     create:function(){
         console.log("Test:" + gameManager.gameType)
         console.log("in arctcs????")
+
         numX = 20;
         numY = 20;
         
+        Words = new DialogueManager();
+
+        Words.selectPhrase();
+
         gameManager.randomcharacter(1);
         gameManager.randomtint(1);
         gameManager.randomstage();
@@ -65,6 +71,15 @@ var arctcsState = {
         player2ico.tint = gameManager.playerTint[1];
 
         console.log("players made?");
+
+/*        game.add.text((game.world.width* 0.15), 50, 
+              `Player2: ${Words.Phrase}` + '\n'
+            + `Player1: ${Words.Response}`
+            , { font: '70px Arial', fill: '#ffffff' });*/
+
+            game.add.text((game.world.width* 0.5), 50, 
+            `Player2: ${Words.Phrase}` + '\n'
+          , { font: '70px Arial', fill: '#ffffff' });
     },
 
     rush:function(){
@@ -80,6 +95,10 @@ var arctcsState = {
         player2ico.body.velocity.x = -70;
 
         game.time.events.add(Phaser.Timer.SECOND * 4.7, this.rushStop, this);
+        
+        game.add.text((game.world.width* 0), 50, 
+        `Player1: ${Words.Response}`
+        , { font: '70px Arial', fill: '#ffffff' });
     },
     rushStop:function(){
         player1ico.body.velocity.x = 0;

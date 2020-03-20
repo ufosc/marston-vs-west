@@ -4,6 +4,7 @@ var timer;
 var tcsState = {
     create:function(){
         console.log("in tcs????")
+
         numX = 20;
         numY = 20;
 

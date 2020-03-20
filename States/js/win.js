@@ -65,20 +65,25 @@ var winState = {
         if(gameManager.gameType === "Arcade") {
 
             gameManager.ScoreKeeper.ArcCalcScore(1);
+            gameManager.ScoreKeeper.updateMasterScore(1);
             
             console.log("SCORES:");
             console.log(gameManager.ScoreKeeper.scoreTemp);
 
-            var statsLabel1 = game.add.text(80, 100, `Player 1 stats:` + '\n' 
-            + `Score: ${gameManager.ScoreKeeper.scoreTemp[0]}` + '\n'
+            var statsLabel1 = game.add.text(80, 20,
+              'LEVEL' + gameManager.arcadeLevel + '\n'
+            + `Player 1 stats:` + '\n' 
             + `Lives Lost Bonus: ${gameManager.ScoreKeeper.calcLivesLostScore(0)}` + '\n'
             + `Damage Dealt: ${gameManager.ScoreKeeper.pointTemp[0][1]}` + '\n'
             + `Damage Dealt Bonus: ${gameManager.ScoreKeeper.calcDmgDealtPoints(0)}` + '\n'
             + `Damage Taken: ${gameManager.ScoreKeeper.pointTemp[0][2]}` + '\n'
             + `Damage Taken Bonus: ${gameManager.ScoreKeeper.calcDmgTakenPoints(0)}` + '\n'
-            + `Time Left: ${gameManager.ScoreKeeper.pointTemp[0][4]}` + '\n'
+            //+ `Time Left: ${gameManager.ScoreKeeper.pointTemp[0][4]}` + '\n'
             + `Time Left Bonus: ${gameManager.ScoreKeeper.calcTimePoints(0)}` + '\n'
+            + `Match Score: ${gameManager.ScoreKeeper.scoreTemp[0]}` + '\n'
+            + `Total Score: ${gameManager.ScoreKeeper.scoreMaster[0]}`
             , { font: '70px Arial', fill: '#ffffff' });
+
         }
         else if (gameManager.gameType === "MultiPlayer"){
             gameManager.ScoreKeeper.calcScore(1);
@@ -133,20 +138,20 @@ var winState = {
             restartLabel.inputEnabled = true;
             restartLabel.events.onInputUp.add(function () {
                 music.stop();
-                gameManager.ScoreKeeper.resetAll();
+                gameManager.ScoreKeeper.softReset();
                 game.state.start('play');
             });
         }
 
         if (game.device.android || game.device.iOS) {
             //If on mobile, open a new tab with the survey form
-            feedbackLabel = new Link(this.game, 80, game.world.height - 240, "Click here to send feedback! Thanks for playing on  Mobile!", "https://goo.gl/forms/wA6NGUAJ4OiKhVC93", { font: '40px Arial', fill: '#ffffff' });
+            feedbackLabel = new Link(this.game, 80, game.world.height - 140, "Click here to send feedback! Thanks for playing on  Mobile!", "https://goo.gl/forms/wA6NGUAJ4OiKhVC93", { font: '40px Arial', fill: '#ffffff' });
 
         }
         else {
             //If on desktop, open up embedded form.
             //feedbackLabel = new form(this.game, 80,game.world.height-240, "Click here to send feedback! Thanks for playing on Desktop!", "https://goo.gl/forms/wA6NGUAJ4OiKhVC93", {font: '25px Arial',fill:'#ffffff'});
-            feedbackLabel = new Link(this.game, 80, game.world.height - 240, "Click here to send feedback! Thanks for playing on Desktop!", "https://goo.gl/forms/wA6NGUAJ4OiKhVC93", { font: '40px Arial', fill: '#ffffff' });
+            feedbackLabel = new Link(this.game, 80, game.world.height - 140, "Click here to send feedback! Thanks for playing on Desktop!", "https://goo.gl/forms/wA6NGUAJ4OiKhVC93", { font: '40px Arial', fill: '#ffffff' });
         }
 
         var wkey = game.input.keyboard.addKey(Phaser.Keyboard.W);
@@ -165,8 +170,16 @@ var winState = {
     },
     start: function () {
         music.stop();
-        gameManager.ScoreKeeper.resetAll();
-        gameManager.changemode("Menu");
-        game.state.start('menu');
+        
+        if(gameManager.gameType === "Arcade"){
+            gameManager.arcadeLevel += 1;
+            gameManager.ScoreKeeper.softReset();
+            game.state.start('arctcs');
+        }
+        else{
+            gameManager.ScoreKeeper.resetAll();
+            gameManager.changemode("Menu");
+            game.state.start('menu');
+        }
     }
 };

@@ -4,7 +4,7 @@ class GameInfo {
     constructor() {
         this.gameType = "Menu"; // gametype can be either Menu, Arcade, Multiplayer, Boss, or other gamemodes
         this.chosenStageName = ""; //game system variable to keep track of current stage
-        this.arcadeLevel = 0;
+        this.arcadeLevel = 1;
         this.playerTint = [0,0]; //2d matrix each index is an rgb for a character, player1, player2/npc 
         
         this.stageList = ["WestPrintStage", "WestDeskStage",    "MarstonTableStage", 
@@ -17,7 +17,7 @@ class GameInfo {
         
         this.gameMinutes = 1;
         this.gameSeconds = 0;
-
+        this.OnePunchDeath = 10000;
         //list of playable characters
         this.characterList = ["Boxer", "Fighter", "Goth", "Lab"];
 

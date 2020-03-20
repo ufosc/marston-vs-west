@@ -2,6 +2,7 @@ var dmgText;
 var playState = {
     //hitPlayer12: function (target,attacker)
     hitPlayer12: function (Player1,Player2) {
+        let OnePunchDeath = gameManager.OnePunchDeath;
         let hitDmg = 0;
         let hitAngle = 0;
         let attackDistance = 0;
@@ -80,7 +81,7 @@ var playState = {
                 }
 
                 Player1.health += hitDmg;
-                Player1.hitVelocity = Player2.character.scale.x * Player1.health * 2;
+                Player1.hitVelocity = Player2.character.scale.x * Player1.health * 2 + OnePunchDeath;
 
                 //update points for damage dealt
                 gameManager.ScoreKeeper.updatePoint(gameManager.ScoreKeeper.verifyPlayer(Player2.controlnum), 1, hitDmg);
@@ -237,6 +238,10 @@ var playState = {
         }
         Fighter.health = 0;
         Fighter.lives += -1;
+        if(gameManager.OnePunchDeath === 10000){
+            Fighter.lives = 0;
+        }
+
         Fighter.character.body.velocity.x = 0;
         Fighter.character.body.velocity.y = 0;
         Fighter.hitVelocity = 0;
@@ -348,7 +353,8 @@ var playState = {
         //w = 800;
         //h = 600;
         game.time.advancedTiming = true;
-
+        FrameTimer = 0;
+        FrameTarget = 3;
         //create a timer for the game
         timer = game.time.create(false);
         timerEvent = timer.add(Phaser.Timer.MINUTE * gameManager.gameMinutes + Phaser.Timer.SECOND * gameManager.gameSeconds, this.timeOutGame, this);
@@ -360,7 +366,7 @@ var playState = {
         esckey.onDown.addOnce(this.timeOutGame);
 
         //Play music
-
+        music.stop();
         music = game.add.audio('allstar', musicvol*0.1);
 
         music.loopFull();
@@ -728,7 +734,7 @@ var playState = {
             //  This stops it from falling away when you jump on it
             ground.body.immovable = true;
         }
-        hitvol = 0.1;
+        hitvol = 0.07;
         hitSound = game.add.audio('hitSound',hitvol);
         hitSound1 = game.add.audio('hitSound1',hitvol);
         hitSound2 = game.add.audio('hitSound2',hitvol);
@@ -736,7 +742,7 @@ var playState = {
 
         respawnSound = game.add.audio('respawnSound', 0.1);
         deathSound = game.add.audio('deathSound', 0.2);
-        jumpSound = game.add.audio('jumpSound',0.2);
+        jumpSound = game.add.audio('jumpSound',0.1);
         itemSound = game.add.audio('itemSound',0.05);
         buttonSound = game.add.audio('buttonSound', 0.4);
         buttonSound.volume = musicvol;
@@ -970,6 +976,10 @@ var playState = {
         game.state.start('win');
     },
     update: function () {
+        FrameTimer++;
+        if (FrameTimer > FrameTarget){
+            FrameTimer = 0
+        } 
         //console.log('Inside update function');
         //console.log("controlOptionAI: " + controlOptionAI);
         game.physics.arcade.overlap(Player1.character, this.win, this.Win, null, this);
@@ -1219,11 +1229,11 @@ var playState = {
         }
 
         if (controlOptionAI === -2) {
-            this.AIplay(Player1, Player2);
+            this.AIplay(Player1, Player2, FrameTimer);
             //Multiman mode on so AI controls 2 additional fighters
             if (multimanmode === true) {
-                this.AIplay(Player1, Player3);
-                this.AIplay(Player1, Player4);
+                this.AIplay(Player1, Player3, FrameTimer);
+                this.AIplay(Player1, Player4, FrameTimer);
                 Player3.updateInput();
                 Player4.updateInput();
                 this.KO(Player3);
@@ -1349,60 +1359,40 @@ var playState = {
         }
     },
 
-    AIplay: function (Target, AIFighter) {
+    AIplay: function (Target, AIFighter, FrameTimer) {
+        if(FrameTimer == FrameTarget) {
+            this.AIFighter = AIFighter;
+            this.Target = Target;
 
-        this.AIFighter = AIFighter;
-        this.Target = Target;
+            function attackMode(Fighter, AIxdist, AIydist) 
+            {
+                //aggressive ai behavior mode
 
-        function attackMode(Fighter, AIxdist, AIydist) 
-        {
-            //aggressive ai behavior mode
+                if (AIxdist > 50) {
 
-            if (AIxdist > 50) {
+                    //console.log("AI should be moving left");
+                    Fighter.controller1.leftpress = true;
+                    Fighter.controller1.rightpress = false;
+                }
+                else if (AIxdist < -50) {
 
-                //console.log("AI should be moving left");
-                Fighter.controller1.leftpress = true;
-                Fighter.controller1.rightpress = false;
+                    //console.log("AI should be moving right");
+                    Fighter.controller1.leftpress = false;
+                    Fighter.controller1.rightpress = true;
+                }
+                else {
+                    Fighter.controller1.leftpress = false;
+                    Fighter.controller1.rightpress = false;
+                }
             }
-            else if (AIxdist < -50) {
 
-                //console.log("AI should be moving right");
-                Fighter.controller1.leftpress = false;
-                Fighter.controller1.rightpress = true;
-            }
-            else {
-                Fighter.controller1.leftpress = false;
-                Fighter.controller1.rightpress = false;
-            }
-        }
+            AIxdist = AIFighter.character.body.position.x - Target.character.body.position.x;
+            AIydist = AIFighter.character.body.position.y - Target.character.body.position.y;
 
-        AIxdist = AIFighter.character.body.position.x - Target.character.body.position.x;
-        AIydist = AIFighter.character.body.position.y - Target.character.body.position.y;
+            //if AIxdist is > 0 then AIFighter is on right, fighter 1 on left
+            //if AIxdist is < 0 then AIFighter is on left, fighter 1 on right
 
-        //if AIxdist is > 0 then AIFighter is on right, fighter 1 on left
-        //if AIxdist is < 0 then AIFighter is on left, fighter 1 on right
-
-        //initialize all buttons to false
-        AIFighter.leftpress = false;
-        AIFighter.rightpress = false;
-        AIFighter.uppress = false;
-        AIFighter.downpress = false;
-
-        AIFighter.apress = false;//regular attack button
-        AIFighter.bpress = false;//special button
-        AIFighter.xpress = false;//jump button
-        AIFighter.ypress = false;//block button
-        console.log(AIydist);
-        //random number generator between 1 and 1000
-        react = Math.floor((Math.random() * 1000) + 1);
-        if (react < 10) {
-            console.log("Behavior switch!");
-
-            //console.log(AIFighter.AImode);
-
-            AIFighter.AImode = AIFighter.AImode * -1;
-        }
-        if (react > 100) {
+            //initialize all buttons to false
             AIFighter.leftpress = false;
             AIFighter.rightpress = false;
             AIFighter.uppress = false;
@@ -1412,128 +1402,160 @@ var playState = {
             AIFighter.bpress = false;//special button
             AIFighter.xpress = false;//jump button
             AIFighter.ypress = false;//block button
-            console.log("reacting to nothing");
-            return;
-        }
-        //random number to determine if AI should use a jab or normal attack
-        attack = Math.floor((Math.random() * 100) + 1);
-        //normal attack logic
-        if(attack > 5){
-            if (AIxdist < 60 && AIxdist > 0) {
-                AIFighter.controller1.apress = true;
-            }
-            else if (AIxdist > -60 && AIxdist < 0) {
-                AIFighter.controller1.apress = true;
-            }
-            //Juggle AKA Up swipe attack
-            else if ((AIydist < 15 && AIydist > 0) && (AIxdist < 20 && AIxdist > -20)) {
-                AIFighter.controller1.uppress = true;
-                AIFighter.controller1.apress = true;
-            }
-            else {
-                AIFighter.controller1.apress = false;
-            }
-        }
-        else{
-            //special attack logic
-            if (AIxdist < 60 && AIxdist > 0) {
-                AIFighter.controller1.bpress = true;
-            }
-            else if (AIxdist > -60 && AIxdist < 0) {
-                AIFighter.controller1.bpress = true;
-            }
-            else {
-                AIFighter.controller1.bpress = false;
-            }
-        }
-        //jump logic
-		/*
-		if(AIydist > 100 || AIFighter.character.body.position.y < 40){
-				//AIFighter.controller1.ypress = true;
-		}
-		else{
-				AIFighter.controller1.ypress = false;
-		}
-		*/
+            console.log(AIydist);
+            //random number generator between 1 and 1000
+            react = Math.floor((Math.random() * 10) + 1);
+            if (react == 1) {
+                console.log("Behavior switch!");
 
-        //General movement/walk behavior
+                AIFighter.AImode = AIFighter.AImode * -1;
 
-        if (AIFighter.AImode === 1) {
-            //THE MOVE SCRIPTS
-            // if the distance between the AI and the user is greater than 50 pixels, then the AI should move left
-            if (AIxdist > 50) {
-                //console.log("AI should be moving left");
-                AIFighter.controller1.leftpress = true;
-                AIFighter.controller1.rightpress = false;
+                if(AIFighter.hanging === "yes" && react == 10){
+                    AIFighter.controller1.ypress = true;
+                }
             }
-            // if the distance between the AI and the user is less than -50 pixels, then the AI should move right
-            else if (AIxdist < -50) {
-                //console.log("AI should be moving right");
-                AIFighter.controller1.leftpress = false;
+            if (react > 7) {
+                AIFighter.leftpress = false;
+                AIFighter.rightpress = false;
+                AIFighter.uppress = false;
+                AIFighter.downpress = false;
+
+                AIFighter.apress = false;//regular attack button
+                AIFighter.bpress = false;//special button
+                AIFighter.xpress = false;//jump button
+                AIFighter.ypress = false;//block button
+                console.log("reacting to nothing");
+                return;
+            }
+            //random number to determine if AI should use a jab or normal attack
+            attack = Math.floor((Math.random() * 10) + 1);
+            //normal attack logic
+            if(attack > 5){
+                if (AIxdist < 60 && AIxdist > 0 && AIydist < 10 && AIydist > -10) {
+                    AIFighter.controller1.apress = true;
+                }
+                else if (AIxdist > -60 && AIxdist < 0 && AIydist < 10 && AIydist > -10) {
+                    AIFighter.controller1.apress = true;
+                }
+                //Juggle AKA Up swipe attack
+                else if ((AIydist < 15 && AIydist > 0) && (AIxdist < 20 && AIxdist > -20)) {
+                    AIFighter.controller1.uppress = true;
+                    AIFighter.controller1.apress = true;
+                }
+                else {
+                    AIFighter.controller1.apress = false;
+                }
+            }
+            else{
+                //special attack logic
+                if (AIxdist < 60 && AIxdist > 0 && AIydist < 10 && AIydist > -10) {
+                    AIFighter.controller1.bpress = true;
+                }
+                else if (AIxdist > -60 && AIxdist < 0 && AIydist < 10 && AIydist > -10) {
+                    AIFighter.controller1.bpress = true;
+                }
+                else {
+                    AIFighter.controller1.bpress = false;
+                }
+            }
+            //jump logic
+            
+            if(AIydist > 170 ){
+                    AIFighter.controller1.ypress = true;
+            }
+            else if(AIydist < -170 ){
+                    AIFighter.controller1.downpress = true;
+            }
+            else{
+                    AIFighter.controller1.ypress = false;
+                    AIFighter.controller1.downpress = false;
+            }
+            
+
+            //General movement/walk behavior
+
+            if (AIFighter.AImode === 1) {
+                //THE MOVE SCRIPTS
+                // if the distance between the AI and the user is greater than 50 pixels, then the AI should move left
+                if (AIxdist > 50) {
+                    //console.log("AI should be moving left");
+                    AIFighter.controller1.leftpress = true;
+                    AIFighter.controller1.rightpress = false;
+                }
+                // if the distance between the AI and the user is less than -50 pixels, then the AI should move right
+                else if (AIxdist < -50) {
+                    //console.log("AI should be moving right");
+                    AIFighter.controller1.leftpress = false;
+                    AIFighter.controller1.rightpress = true;
+                }
+                else {
+                    AIFighter.controller1.leftpress = false;
+                    AIFighter.controller1.rightpress = false;
+                    AIFighter.controller1.ypress = false;
+                }
+            }
+            else if (AIFighter.AImode === -10) {
+                //defensive behavior1 (AI tries to stay away from User)
+                //defendMode(AIFighter, AIxdist, AIydist);
+
+                if (AIxdist < 150 && AIxdist > 0 || AIxdist < -250) {
+                    //console.log("AI should be keeping right");
+                    AIFighter.controller1.leftpress = false;
+                    AIFighter.controller1.rightpress = true;
+                }
+                else if (AIxdist > -150 && AIxdist < 0 || AIxdist > 250) {
+                    //console.log("AI should be keeping left");
+                    AIFighter.controller1.leftpress = true;
+                    AIFighter.controller1.rightpress = false;
+                }
+                else {
+                    AIFighter.controller1.leftpress = false;
+                    AIFighter.controller1.rightpress = false;
+                    AIFighter.controller1.ypress = false;
+                }
+            }
+            else if (AIFighter.AImode === -1) {
+                //defensive behavior2 (AI tries to stay in center of stage)
+                //defendMode(AIFighter, AIxdist, AIydist);
+
+                if (AIFighter.character.body.position.x < 300) {
+                    //console.log("AI should be keeping right");
+                    AIFighter.controller1.leftpress = false;
+                    AIFighter.controller1.rightpress = true;
+                }
+                else if (AIFighter.character.body.position.x > 400) {
+                    //console.log("AI should be keeping left");
+                    AIFighter.controller1.leftpress = true;
+                    AIFighter.controller1.rightpress = false;
+                }
+                else {
+                    AIFighter.controller1.leftpress = false;
+                    AIFighter.controller1.rightpress = false;
+                    AIFighter.controller1.ypress = false;
+                }
+            }
+
+            //avoid going out of bounds, this logic is always checked 
+            if (AIFighter.character.body.position.y > ground.body.y) {
+                //Avoid left bound
                 AIFighter.controller1.rightpress = true;
+                AIFighter.controller1.ypress = true;
             }
-            else {
-                AIFighter.controller1.leftpress = false;
-                AIFighter.controller1.rightpress = false;
-                AIFighter.controller1.ypress = false;
-            }
-        }
-        else if (AIFighter.AImode === -10) {
-            //defensive behavior1 (AI tries to stay away from User)
-            //defendMode(AIFighter, AIxdist, AIydist);
-
-            if (AIxdist < 150 && AIxdist > 0 || AIxdist < -250) {
-                //console.log("AI should be keeping right");
-                AIFighter.controller1.leftpress = false;
+            if (AIFighter.character.body.position.x < 150) {
+                //Avoid left bound
                 AIFighter.controller1.rightpress = true;
+                //AIFighter.controller1.ypress = true;
             }
-            else if (AIxdist > -150 && AIxdist < 0 || AIxdist > 250) {
-                //console.log("AI should be keeping left");
+            else if (AIFighter.character.body.position.x > 820) {
+                //Avoid right bound
                 AIFighter.controller1.leftpress = true;
-                AIFighter.controller1.rightpress = false;
+                //AIFighter.controller1.ypress = true;
             }
             else {
-                AIFighter.controller1.leftpress = false;
-                AIFighter.controller1.rightpress = false;
-                AIFighter.controller1.ypress = false;
+                //temporary fix need to remove later
+                //AIFighter.controller1.leftpress = false;
+                //AIFighter.controller1.rightpress = false;
             }
-        }
-        else if (AIFighter.AImode === -1) {
-            //defensive behavior2 (AI tries to stay in center of stage)
-            //defendMode(AIFighter, AIxdist, AIydist);
-
-            if (AIFighter.character.body.position.x < 300) {
-                //console.log("AI should be keeping right");
-                AIFighter.controller1.leftpress = false;
-                AIFighter.controller1.rightpress = true;
-            }
-            else if (AIFighter.character.body.position.x > 400) {
-                //console.log("AI should be keeping left");
-                AIFighter.controller1.leftpress = true;
-                AIFighter.controller1.rightpress = false;
-            }
-            else {
-                AIFighter.controller1.leftpress = false;
-                AIFighter.controller1.rightpress = false;
-                AIFighter.controller1.ypress = false;
-            }
-        }
-
-        //avoid going out of bounds, this logic is always checked 
-        if (AIFighter.character.body.position.x < 250) {
-            //Avoid left bound
-            AIFighter.controller1.rightpress = true;
-            AIFighter.controller1.ypress = true;
-        }
-        else if (AIFighter.character.body.position.x > 650) {
-            //Avoid right bound
-            AIFighter.controller1.leftpress = true;
-            AIFighter.controller1.ypress = true;
-        }
-        else {
-            //temporary fix need to remove later
-            //AIFighter.controller1.leftpress = false;
-            //AIFighter.controller1.rightpress = false;
         }
     },
 

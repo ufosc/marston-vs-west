@@ -229,7 +229,6 @@ class Fighter {
         this.aniAirDodge.onStart.add(this.airDodgeStart, this);
         this.aniAirDodge.onComplete.add(this.airDodgeEnd, this);
 
-
         //this.controller1 = game.input.keyboard.addKeys({ 'up': Phaser.KeyCode.W, 'down': Phaser.KeyCode.S, 'left': Phaser.KeyCode.A, 'right': Phaser.KeyCode.D , 'punch': Phaser.KeyCode.T, 'kick': Phaser.KeyCode.R});
 
         this.nespad = new nespad(controlnum);
@@ -377,9 +376,7 @@ class Fighter {
 
                     stock.anchor.setTo(.5, .5);
                 }
-
             }
-
         }
         console.log("fighter made");
         //return this;
@@ -396,11 +393,11 @@ class Fighter {
     }
     resettint() {
         console.log("reset?");
-        if(this.controlnum <= 1) {
+        if(this.controlnum <= 1 && this.controlnum >= -1) {
             console.log(gameManager.playerTint[0]);
             this.character.tint = gameManager.playerTint[0];//            this.character.tint = gameManager.playersTint[0][0]; //proper??
         }
-        if(this.controlnum > 1) {
+        else if(this.controlnum > 1 || this.controlnum < 0) {
             console.log(gameManager.playerTint[1]);
             this.character.tint =  gameManager.playerTint[1];
         }
@@ -1213,11 +1210,8 @@ class Fighter {
                         this.aniAirDodge.play(4, false);
                         this.shielding = true;
                     }
-
                 }
-
             }
-
 
             //air forawrd swipe (air launcher)
             else if (this.geta() && this.character.body.touching.down == false && (this.getleft() || this.getright()) && !(this.m < 120 && this.m != 0) && this.stunCounter == 0 && !this.inputLock && this.basicCD == 0) {
@@ -1237,7 +1231,6 @@ class Fighter {
                 this.hitSwitchPunch = true;
             }
 
-
             //juggle move aka up normal attack, can be done in air and on ground
             else if (this.geta() && (this.getup()) && !(this.m < 120 && this.m != 0) && this.stunCounter == 0 && !this.inputLock && this.basicCD == 0) {
                 this.aniJuggle.play(10, false);
@@ -1255,8 +1248,6 @@ class Fighter {
                 this.shielding = false;
                 this.hitSwitchPunch = true;
             }
-
-
 
             //punch logic
             //else if ( this.geta() && (this.getright() || this.getleft()) && !(this.m < 120 && this.m != 0) && this.stunCounter == 0 && !this.inputLock && this.basicCD == 0)
@@ -1392,7 +1383,6 @@ class Fighter {
                     //console.log("close to item");
                 }
 
-
                 //this.hitCD = 30;
                 this.shielding = false;
                 this.hitSwitchPunch = true;
@@ -1498,7 +1488,6 @@ class Fighter {
                 }
                 if (this.stunCounter > 0) {
                     this.character.animations.play('ko');
-
 
                     //make player flash different colors when taking damage
                     this.character.tint = Math.random() * 0xffffff;

@@ -61,9 +61,10 @@ var menuState = {
     },
     start: function () {
 
-        if(muteState==false)
-        buttonSound.play();
-        //music.stop();
+        if(muteState==false){
+            buttonSound.play();
+            //music.stop();
+        }
         console.log("go to normal css?");
         gameManager.changemode("MultiPlayer");
         game.state.start('css');
@@ -72,9 +73,11 @@ var menuState = {
     },
     arcade: function(){
         console.log('arcade');
-        if(muteState==false)
-        buttonSound.play();
-        //music.stop();
+
+        if(muteState==false){
+            buttonSound.play();
+            //music.stop();
+        }
         gameManager.changemode("Arcade");
         game.state.start('arccss');
     },
