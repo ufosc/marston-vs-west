@@ -64,13 +64,38 @@ var winState = {
     create: function () {
         if(gameManager.gameType === "Arcade") {
 
+            if(Player1.lives < 0){
+                //gameManager.matchOutcome = "Win"
+                gameManager.matchOutcome = "Loss"
+            }
+
             gameManager.ScoreKeeper.ArcCalcScore(1);
             gameManager.ScoreKeeper.updateMasterScore(1);
             
-            console.log("SCORES:");
-            console.log(gameManager.ScoreKeeper.scoreTemp);
+            //console.log("SCORES:");
+            //console.log(gameManager.ScoreKeeper.scoreTemp);
+            
+            if(gameManager.matchOutcome === "Win"){
+            
+                if(gameManager.arcadeLevel == 4){
+                var winBanner = game.add.text(80, 20,
+                    "ONLY A TRUE GATOR CAN WIN IT ALL, CONGRATS!"
+                    ,{ font: '70px Arial', fill: '#ffffff' });
+                }
+                else {
+                    var winBanner = game.add.text(80, 20,
+                        "MATCH WIN!"
+                        ,{ font: '70px Arial', fill: '#ffffff' });
+                }
+            }
 
-            var statsLabel1 = game.add.text(80, 20,
+            else if(gameManager.matchOutcome === "Loss"){
+                var winBanner = game.add.text(80, 20,
+                    "MATCH LOSS ..."
+                    ,{ font: '70px Arial', fill: '#ffffff' });
+            }
+
+            var statsLabel1 = game.add.text(80, 85,
               'LEVEL' + gameManager.arcadeLevel + '\n'
             + `Player 1 stats:` + '\n' 
             + `Lives Lost Bonus: ${gameManager.ScoreKeeper.calcLivesLostScore(0)}` + '\n'
@@ -126,8 +151,8 @@ var winState = {
                 var statsLabel1 = game.add.text(80, 160, `Player 1 stats:` + '\n' + `KO(s): ${multimenko}`, { font: '70px Arial', fill: '#ffffff' });
             }
             var startLabel = game.add.text(80, game.world.height - 80, 'Press "W" key or tap this label to go to menu', { font: '40px Arial', fill: '#ffffff' });
-            startLabel.inputEnabled = true;
-            startLabel.events.onInputUp.add(function () {
+                startLabel.inputEnabled = true;
+                startLabel.events.onInputUp.add(function () {
                 music.stop();
                 gameManager.ScoreKeeper.resetAll();
                 gameManager.changemode("Menu");
@@ -171,8 +196,14 @@ var winState = {
     start: function () {
         music.stop();
         
-        if(gameManager.gameType === "Arcade"){
-            gameManager.arcadeLevel += 1;
+        if(gameManager.gameType === "Arcade") {
+            if(gameManager.matchOutcome === "Win") {
+                gameManager.arcadeLevel += 1;
+            }
+            else{
+                //gameManager.ScoreKeeper.scoreMaster = gameManager.ScoreKeeper.scoreMaster - 2000;
+            }
+            
             gameManager.ScoreKeeper.softReset();
             game.state.start('arctcs');
         }

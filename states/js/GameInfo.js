@@ -7,17 +7,23 @@ class GameInfo {
         this.arcadeLevel = 1;
         this.playerTint = [0,0]; //2d matrix each index is an rgb for a character, player1, player2/npc 
         
+        this.matchOutcome = "";
+        
         this.stageList = ["WestPrintStage", "WestDeskStage",    "MarstonTableStage", 
                         "GatorStage",     "TreeStage",       "TableTopStage",
                         "TableTop2Stage", "ReitzPondStage",  "ReitzStepStage" ];
         
-        this.scenario = ["MultiMan", "1v1",      "Target", 
+        this.scenario = ["MultiMan",  "1v1",      "Defender", 
+                         "GatorFight","Giant",    "Boss", 
+                         "OnePunch",  "BookFight","Invisible"];
+
+        /*this.scenario = ["MultiMan", "1v1",      "Target", 
                          "1v2",      "Giant",    "Boss", 
-                         "Metal",    "Invisible"]
+                         "Metal",    "Invisible"];*/
         
         this.gameMinutes = 1;
         this.gameSeconds = 0;
-        this.OnePunchDeath = 10000;
+        this.OnePunchDeath = 0; //10000;
         //list of playable characters
         this.characterList = ["Boxer", "Fighter", "Goth", "Lab"];
 
