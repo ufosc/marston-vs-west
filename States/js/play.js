@@ -757,7 +757,7 @@ var playState = {
             controlOptionVpad = 1;
         }
 
-        if (charName1 === 'dude') {
+        if (charName1 === 'Fighter'){
             Player1 = new dj(charName1, 0, gameManager.lives, game.world.width * 0.25, game.world.height * 0.5, controlOptionVpad);
         }
         else if (charName1 === 'Lab') {
@@ -768,9 +768,6 @@ var playState = {
         }
         else if (charName1 === 'Boxer') {
             Player1 = new boxer(charName1, 0, gameManager.lives, game.world.width * 0.25, game.world.height * 0.5, controlOptionVpad);
-        }
-        else if (charName2 === 'Fighter'){
-            Player1 = new dj(charName1, 0, gameManager.lives, game.world.width * 0.25, game.world.height * 0.5, controlOptionVpad);
         }
 
 
@@ -786,13 +783,6 @@ var playState = {
         else if (charName2 === 'Boxer') {
             Player2 = new boxer(charName2, 0, gameManager.lives, game.world.width * 0.75, game.world.height * 0.5, controlOptionAI);
         }
-        else {
-            Player2 = new dj(charName2, 0, gameManager.lives, game.world.width * 0.75, game.world.height * 0.5, controlOptionAI);
-        }
-
-        Player1.resettint();
-        console.log("work?");
-        Player2.resettint();
 
         if (multimanmode === true) {
             Player3 = new lab(charName2, 0, gameManager.lives, game.world.width * 0.5, game.world.height * 0.5, controlOptionAI);
@@ -802,6 +792,12 @@ var playState = {
             Player4 = new lab(charName2, 0, gameManager.lives, game.world.width * 0.62, game.world.height * 0.5, controlOptionAI);
             console.log("Player 4 is lab");
         }
+
+        console.log("work?");
+        
+        Player1.resettint();
+        
+        Player2.resettint();
 
         //event listener for player1 touch controls
         //console.log("test print");
@@ -970,9 +966,11 @@ var playState = {
     
         if(gameManager.gameType === "Arcade") {
             gameManager.ScoreKeeper.updatePoint(0, 4, timer.duration);
+            gameManager.matchOutcome = "Loss";
         }
     
         timer.stop();
+        //checkArcadeWin();
         game.state.start('win');
     },
     update: function () {
@@ -1267,16 +1265,20 @@ var playState = {
             if(gameManager.gameType === "Arcade") {
                 gameManager.ScoreKeeper.updatePoint(0, 4, timer.duration);
             }
-            game.state.start('win');
+            
             if (multimanmode === true) {
                 console.log("# of KOs in multiman mode:");
                 console.log(multimenko);
             }
+            
+            this.checkArcadeWin();
+            game.state.start('win');
         }
         if (Player2.lives === 0 && multimanmode === false) {
             if(gameManager.gameType === "Arcade") {
                 gameManager.ScoreKeeper.updatePoint(0, 4, timer.duration);
             }
+            this.checkArcadeWin();
             game.state.start('win');
         }
         timerText.text = this.formatTime(Math.round((timerEvent.delay - timer.ms) / 1000));
@@ -1288,7 +1290,8 @@ var playState = {
         if(gameManager.gameType === "Arcade") {
             gameManager.ScoreKeeper.updatePoint(0, 4, timer.duration);
         }
-        console.log("Time Left: Start func?" + timer.duration)
+        this.checkArcadeWin();
+        //console.log("Time Left: Start func?" + timer.duration)
         game.state.start('win');
     },
 
@@ -1557,6 +1560,19 @@ var playState = {
                 //AIFighter.controller1.rightpress = false;
             }
         }
+    },
+
+    checkArcadeWin: function () {
+        if(gameManager.gameType === "Arcade") {
+            console.log("Check arcade match?");
+            if(Player1.lives > 0 && timer.duration > 0){
+                gameManager.matchOutcome = "Win"
+            }
+            else{
+                gameManager.matchOutcome = "Loss"
+            }
+        }
+
     },
 
     // function to control the moving mob hazard in marston stage
