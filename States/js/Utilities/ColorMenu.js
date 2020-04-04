@@ -2,22 +2,22 @@ class ColorMenu {
     constructor(playernum) {
         
         //this.original = "0xffffff";
-        this.white = "0xffffff";
+        //this.white = "0xffffff";
         this.orange = "0xff8615";
         this.blue = "0x1c6bff";
         this.red = "0xcc0000";
         this.green = "0x33cc33";
         this.yellow = "0xffff00";
         this.purple = "0x9933ff";
-        this.black = "0x343434";
+        //this.black = "0x343434";
         
         
-        this.tintList = [this.white, this.orange, this.blue, this.red, this.green, this.yellow, this.purple, this.black];
-        
+        //this.tintList = [this.white, this.orange, this.blue, this.red, this.green, this.yellow, this.purple, this.black];
+        this.tintList = [this.orange, this.blue, this.red, this.green, this.yellow, this.purple];        
         this.button = new Array;
         var i;
         var colorcount = 0;
-        for(i= 0; i < 3; i++){
+        for(i= 0; i < 2; i++){
             var j;
             //colorcount++;
             for(j = 0; j < 3; j++){

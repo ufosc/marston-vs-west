@@ -2,6 +2,7 @@ var dmgText;
 var playState = {
     //hitPlayer12: function (target,attacker)
     hitPlayer12: function (Player1,Player2) {
+
         let OnePunchDeath = gameManager.OnePunchDeath;
         let hitDmg = 0;
         let hitAngle = 0;
@@ -80,7 +81,9 @@ var playState = {
                     }
                 }
 
-                Player1.health += hitDmg;
+                Player1.hanging = "letgo";
+                Player1.hangingtimer = 100;
+                Player1.health += hitDmg + OnePunchDeath;
                 Player1.hitVelocity = Player2.character.scale.x * Player1.health * 2 + OnePunchDeath;
 
                 //update points for damage dealt
@@ -290,7 +293,7 @@ var playState = {
             }
         }
     },
-
+    
     playerHitStun: function (Fighter) {
         if (Fighter.health >= 0 || Fighter.health <= 75) {
             Fighter.stuncounterset(15);
@@ -734,6 +737,9 @@ var playState = {
             //  This stops it from falling away when you jump on it
             ground.body.immovable = true;
         }
+
+        var scenarioLabel = game.add.text(game.world.width * 0.5, game.world.height * 0.9, gameManager.scenario, { font: '60px Arial', fill: '#ffffff' });
+
         hitvol = 0.07;
         hitSound = game.add.audio('hitSound',hitvol);
         hitSound1 = game.add.audio('hitSound1',hitvol);
@@ -792,6 +798,7 @@ var playState = {
             Player4 = new lab(charName2, 0, gameManager.lives, game.world.width * 0.62, game.world.height * 0.5, controlOptionAI);
             console.log("Player 4 is lab");
         }
+
 
         console.log("work?");
         
@@ -872,13 +879,18 @@ var playState = {
 
         //mob = new crowd(0,0);
 
-        healthtext1 = game.add.text(0, game.world.height - 75, `DMG ${Player1.health}`, Player1.fighterStyle);
+        healthtext1 = game.add.text(game.world.width*0.1, game.world.height * 0.9 , `DMG ${Player1.health}`, Player1.fighterStyle);
         healthtext1.stroke = '#ffffff';
-        healthtext1.strokeThickness = 4;
+        healthtext1.strokeThickness = 10;
+        healthtext1.scale.x = 2;
+        healthtext1.scale.y = 2;
 
-        healthtext2 = game.add.text(game.world.width*0.9, game.world.height - 75, `DMG ${Player2.health}`, Player2.fighterStyle);
+        healthtext2 = game.add.text(game.world.width*0.8, game.world.height * 0.9, `DMG ${Player2.health}`, Player2.fighterStyle);
         healthtext2.stroke = '#ffffff';
-        healthtext2.strokeThickness = 4;
+        healthtext2.strokeThickness = 10;
+        healthtext2.scale.x = 2;
+        healthtext2.scale.y = 2;
+
 
         //livetext1 = game.add.text(0, game.world.height - 50, ``,style2);
 
@@ -978,6 +990,25 @@ var playState = {
         if (FrameTimer > FrameTarget){
             FrameTimer = 0
         } 
+
+        if(gameManager.scenario === "Invisible"){
+            Player1.character.alpha = 0;
+            Player2.character.alpha = 0;
+
+            if (multimanmode === true){
+                Player3.character.alpha = 0;
+                Player4.character.alpha = 0;
+            }
+        }
+
+        if(gameManager.scenario === "Giant"){
+            Player1.character.scale.x  = 10;
+
+            if (multimanmode === true){
+                Player3.character.alpha = 0;
+                Player4.character.alpha = 0;
+            }
+        }
         //console.log('Inside update function');
         //console.log("controlOptionAI: " + controlOptionAI);
         game.physics.arcade.overlap(Player1.character, this.win, this.Win, null, this);
@@ -1118,11 +1149,13 @@ var playState = {
         //Item must be active(can only hit you once), and thrown for the collision to go off
         if (item1.thrown && item1.getActive() && item1.getThrown()) {
             if (item1.previousUser.controlnum === Player1.controlnum && !Player2.respawnSwitch) //if the user is the the person colliding with the item(Player1)
-            {
+            {   
+                console.log("THROW!");
                 game.physics.arcade.overlap(Player2.character, item1.type, item1.itemCollision(Player2), null, this);
             }
             else if (item1.previousUser.controlnum === Player2.controlnum && !Player1.respawnSwitch) //if the user is the the person colliding with the item(Player2)
             {
+                console.log("THROW!");
                 game.physics.arcade.overlap(Player1.character, item1.type, item1.itemCollision(Player1), null, this);
             }
         }
@@ -1572,7 +1605,6 @@ var playState = {
                 gameManager.matchOutcome = "Loss"
             }
         }
-
     },
 
     // function to control the moving mob hazard in marston stage

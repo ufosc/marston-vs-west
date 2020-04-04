@@ -14,10 +14,14 @@ var arctcsState = {
 
         Words.selectPhrase();
 
-        gameManager.randomcharacter(1);
-        gameManager.randomtint(1);
-        gameManager.randomstage();
-        charName2 = gameManager.characters[1];
+        if (gameManager.matchOutcome !== "Loss") {
+  
+            gameManager.randomcharacter(1);
+            gameManager.randomtint(1);
+            gameManager.randomstage();
+            charName2 = gameManager.characters[1];
+            gameManager.randomscenario();
+        }
 
         console.log("chars:" + charName1 +", " + charName2 + ", " + gameManager.charName2);
 
@@ -52,15 +56,17 @@ var arctcsState = {
         player2ico.animations.add('idle', [1, 2], 5, true);
         player2ico.animations.add('kick', [6], 5, true);
         console.log("middle of making?");
+        
         if (player2ico.animations) {
             player2ico.alpha = 1;
         }
+        
         player1ico.animations.play('idle');
         player2ico.animations.play('idle');
         game.physics.enable(player1ico, Phaser.Physics.ARCADE);
         game.physics.enable(player2ico, Phaser.Physics.ARCADE);
 
-        game.time.events.add(Phaser.Timer.SECOND * 3.5, this.rush, this);
+        game.time.events.add(Phaser.Timer.SECOND * 1.5, this.rush, this);
 
         player1ico.inputEnabled = true;
         player1ico.events.onInputDown.add(this.start, this);
@@ -72,7 +78,7 @@ var arctcsState = {
 
         console.log("players made?");
 
-/*        game.add.text((game.world.width* 0.15), 50, 
+        /*game.add.text((game.world.width* 0.15), 50, 
               `Player2: ${Words.Phrase}` + '\n'
             + `Player1: ${Words.Response}`
             , { font: '70px Arial', fill: '#ffffff' });*/
@@ -80,6 +86,11 @@ var arctcsState = {
             game.add.text((game.world.width* 0.5), 50, 
             `Player2: ${Words.Phrase}` + '\n'
           , { font: '70px Arial', fill: '#ffffff' });
+
+          
+
+          var scenarioLabel = game.add.text(game.world.width * 0.5, game.world.height * 0.9, gameManager.scenario, { font: '60px Arial', fill: '#ffffff' });
+  
     },
 
     rush:function(){

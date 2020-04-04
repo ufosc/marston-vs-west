@@ -65,10 +65,13 @@ var menuState = {
             buttonSound.play();
             //music.stop();
         }
+        
         console.log("go to normal css?");
         gameManager.changemode("MultiPlayer");
         game.state.start('css');
         //game.state.start('options');
+        gameManager.playerTint[0] = "0xff8615";
+        gameManager.playerTint[1] = "0x1c6bff";
 
     },
     arcade: function(){
@@ -78,6 +81,10 @@ var menuState = {
             buttonSound.play();
             //music.stop();
         }
+
+        gameManager.playerTint[0] = "0xff8615";
+        gameManager.playerTint[1] = "0x1c6bff";
+
         gameManager.changemode("Arcade");
         game.state.start('arccss');
     },

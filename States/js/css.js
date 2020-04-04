@@ -226,7 +226,7 @@ var cssState = {
         ColorMenu1.button[5].onInputUp.add(function (){
                 gameManager.playerTint[0] = ColorMenu1.colorPick(5);
         });
-        
+        /*
         ColorMenu1.button[6].onInputUp.add(function (){
                 gameManager.playerTint[0] = ColorMenu1.colorPick(6);
         });
@@ -237,7 +237,7 @@ var cssState = {
         
         ColorMenu1.button[8].onInputUp.add(function (){
                 gameManager.playerTint[0] = ColorMenu1.colorPick(8);
-        });
+        });*/
         
         //player 2 color selection events
         ColorMenu2.button[0].onInputUp.add(function (){
@@ -265,7 +265,7 @@ var cssState = {
         ColorMenu2.button[5].onInputUp.add(function (){
                 gameManager.playerTint[1] = ColorMenu2.colorPick(5);
         });
-        
+        /*
         ColorMenu2.button[6].onInputUp.add(function (){
                 gameManager.playerTint[1] = ColorMenu2.colorPick(6);
         });
@@ -277,7 +277,7 @@ var cssState = {
         ColorMenu2.button[8].onInputUp.add(function (){
                 gameManager.playerTint[1] = ColorMenu2.colorPick(8);
         });
-        
+        */
         console.log("Color menu made?");
         //TODO:Incorperate dragUpdate function event system into current system. I think it's needed to fix bugs/add dynamic features like spawning the character when hovering over while still dragging.
         //TODO:

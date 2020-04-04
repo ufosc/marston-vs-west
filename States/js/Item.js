@@ -128,13 +128,17 @@ class Item {
                 target.hitVelocity += 200;
                 target.character.body.velocity.y -= 250;
                 target.health += 10;
-
             }
             else {
                 target.hitVelocity -= 200;
                 target.character.body.velocity.y -= 250;
                 target.health += 10;
                 
+            }
+
+            if(this.type.key == 'gator'){
+                target.hitVelocity *= 200;
+                this.respawnItem();
             }
             //Change direction and slow on impact
             this.type.body.velocity.x *= -.25;

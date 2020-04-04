@@ -94,7 +94,7 @@ var arccssState = {
         FighterIcon.enableBody = true;
 
         buttonSound = game.add.audio('buttonSound');
-        //buttonSound.volume -= .5;
+
         buttonSound.volume = musicvol;
 
         //var startLabel = game.add.text(80, game.world.height - 40, 'Press "1" key to play game after selecting characters!', { font: '25px Arial', fill: '#ffffff' });
@@ -133,7 +133,6 @@ var arccssState = {
                     break;
             }
         });
-
 
         var player2Label = game.add.text(game.world.width * .65 + 150, 50, 'Choose your Library!', { font: '25px Arial', fill: '#ffffff' });
         player2Label.inputEnabled = true;
@@ -216,7 +215,7 @@ var arccssState = {
         ColorMenu1.button[5].onInputUp.add(function (){
                 gameManager.playerTint[0] = ColorMenu1.colorPick(5);
         });
-        
+        /*
         ColorMenu1.button[6].onInputUp.add(function (){
                 gameManager.playerTint[0] = ColorMenu1.colorPick(6);
         });
@@ -227,9 +226,9 @@ var arccssState = {
         
         ColorMenu1.button[8].onInputUp.add(function (){
                 gameManager.playerTint[0] = ColorMenu1.colorPick(8);
-        });
+        });*/
         
-        console.log("Color menu made?");
+        //console.log("Color menu made?");
         //TODO:Incorperate dragUpdate function event system into current system. I think it's needed to fix bugs/add dynamic features like spawning the character when hovering over while still dragging.
         //TODO:
         //find a way to change text, show sprite and name with alpha applied when hovering but NOT selecting character, SOLUTION: probably above comment
@@ -267,14 +266,12 @@ var arccssState = {
                 //music.stop();
                 game.state.start('arctcs');
             });
-
         }
         else {
             {
                 gameReadyText.text = ``;
                 gameReadyText.inputEnabled = false;
             }
-
         }
     },
     colorButtonPress: function (buttonOrder, buttonNum){
@@ -361,8 +358,6 @@ var arccssState = {
             }
         }
 
-
-
         if (game.physics.arcade.overlap(player2Icon, LabIcon)) {
             if(muteState==false)
             buttonSound.play();
@@ -377,7 +372,6 @@ var arccssState = {
             player2BodyIcon.animations.add('idle', [1, 2], 5, true);
             player2BodyIcon.animations.add('kick', [6], 5, true);
             player2BodyIcon.visible = true;
-
 
             if (player2BodyIcon.animations) {
                 player2BodyIcon.alpha = 1;
@@ -455,10 +449,8 @@ var arccssState = {
         if (!game.physics.arcade.overlap(player2Icon, LabIcon) && !game.physics.arcade.overlap(player2Icon, GothIcon) && !game.physics.arcade.overlap(player2Icon, BoxIcon) && !game.physics.arcade.overlap(player2Icon, FighterIcon)&& !game.physics.arcade.overlap(player2Icon, computerIcon)) {
             player2BodyIcon.kill();
         }
-
     },
     onDragStart: function () {
-
 
         if (game.physics.arcade.overlap(player1Icon, LabIcon)) {
             charName1 = "";
@@ -469,7 +461,6 @@ var arccssState = {
                 player1BodyIcon.alpha = .5;
             }
         }
-
 
         if (game.physics.arcade.overlap(player1Icon, GothIcon)) {
             charName1 = "";
@@ -500,7 +491,6 @@ var arccssState = {
                 player1BodyIcon.alpha = .5;
             }
         }
-
 
         if (game.physics.arcade.overlap(player2Icon, LabIcon)) {
             charName2 = "";

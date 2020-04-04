@@ -150,7 +150,10 @@ var winState = {
                 var winLabel = game.add.text(80, 80, 'Nice Game!', { font: '70px Arial', fill: '#ffffff' });
                 var statsLabel1 = game.add.text(80, 160, `Player 1 stats:` + '\n' + `KO(s): ${multimenko}`, { font: '70px Arial', fill: '#ffffff' });
             }
-            var startLabel = game.add.text(80, game.world.height - 80, 'Press "W" key or tap this label to go to menu', { font: '40px Arial', fill: '#ffffff' });
+            
+        }
+
+        var startLabel = game.add.text(80, game.world.height - 80, 'Press "W" key or tap this label to go to menu', { font: '40px Arial', fill: '#ffffff' });
                 startLabel.inputEnabled = true;
                 startLabel.events.onInputUp.add(function () {
                 music.stop();
@@ -159,14 +162,13 @@ var winState = {
                 game.state.start('menu');
             });
 
-            var restartLabel = game.add.text(80, game.world.height - 180, 'Press this label to restart', { font: '40px Arial', fill: '#ffffff' });
+            /*var restartLabel = game.add.text(80, game.world.height - 180, 'Press this label to restart', { font: '40px Arial', fill: '#ffffff' });
             restartLabel.inputEnabled = true;
             restartLabel.events.onInputUp.add(function () {
                 music.stop();
                 gameManager.ScoreKeeper.softReset();
                 game.state.start('play');
-            });
-        }
+            });*/
 
         if (game.device.android || game.device.iOS) {
             //If on mobile, open a new tab with the survey form
