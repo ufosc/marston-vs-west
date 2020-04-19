@@ -158,31 +158,15 @@ var arccssState = {
         player1Label.visible = false;
         player2Label.visible = false;
 
-        var MultimanLabel = game.add.text(game.world.width * .5, game.world.height * .5 + 20, 'Multiman Mode: OFF', { font: '25px Arial', fill: '#ffffff' });
-        MultimanLabel.anchor.setTo(.5,.5);
-        MultimanLabel.inputEnabled = true;
-        MultimanLabel.selected = 0;
-        MultimanLabel.librarySelected = '';
-        MultimanLabel.events.onInputUp.add(function () {
-            switch (MultimanLabel.selected) {
-                case 0:
-                    MultimanLabel.librarySelected = 'Multiman Mode: OFF'
-                    MultimanLabel.text = `${MultimanLabel.librarySelected}`;
-                    MultimanLabel.selected++;
-                    multimanmode = false;
-                    break;
-                case 1:
-                    MultimanLabel.librarySelected = 'Multiman Mode: ON'
-                    MultimanLabel.text = `${MultimanLabel.librarySelected}`;
-                    MultimanLabel.selected--;
-                    multimanmode = true;
-                    break;
-            }
-        });
-
-        var backbutton = game.add.text(50, 200, 'Click to go back', { font: '25px Arial', fill: '#ffffff' });
+        /*var backbutton = game.add.text(50, 200, 'Click to go back', { font: '25px Arial', fill: '#ffffff' });
         backbutton.inputEnabled = true;
         backbutton.events.onInputUp.add(function () {
+            game.state.start('menu');
+        });*/
+
+        var menuLabel = game.add.text(game.world.width * .05, game.world.height * .8, 'MENU', { font: '90px Permanent Marker', fill: '#ffffff' });
+        menuLabel.inputEnabled = true;
+        menuLabel.events.onInputUp.add(function () {
             game.state.start('menu');
         });
 

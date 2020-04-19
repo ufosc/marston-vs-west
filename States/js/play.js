@@ -362,11 +362,17 @@ var playState = {
         timer = game.time.create(false);
         timerEvent = timer.add(Phaser.Timer.MINUTE * gameManager.gameMinutes + Phaser.Timer.SECOND * gameManager.gameSeconds, this.timeOutGame, this);
         timer.start();
+
         if(gameManager.gameType === "Arcade") {
             gameManager.ScoreKeeper.updatePoint(0, 3, timer.duration);
         }
+        
         var esckey = game.input.keyboard.addKey(Phaser.Keyboard.ESC);
         esckey.onDown.addOnce(this.timeOutGame);
+
+        if(gameManager.scenario === "multiman"){
+            multimanmode === true;
+        }
 
         //Play music
         music.stop();
@@ -986,6 +992,20 @@ var playState = {
         game.state.start('win');
     },
     update: function () {
+
+    /*
+    console.log("update?");
+    // Pad "connected or not" indicator
+    if (game.input.gamepad.supported && game.input.gamepad.active)
+    {
+        console.log("Controller works?!?!?");
+    }
+    else
+    {
+        console.log("Controller doesnt works?!?!?");
+    }
+    */
+
         FrameTimer++;
         if (FrameTimer > FrameTarget){
             FrameTimer = 0
@@ -1308,12 +1328,23 @@ var playState = {
             game.state.start('win');
         }
         if (Player2.lives === 0 && multimanmode === false) {
-            if(gameManager.gameType === "Arcade") {
+            if(gameManager.gameType === "Arcade") {{}
                 gameManager.ScoreKeeper.updatePoint(0, 4, timer.duration);
             }
             this.checkArcadeWin();
             game.state.start('win');
         }
+        
+        if (multimanmode === true) {
+            if(Player2.lives == 0 && Player3.lives == 0 && Player4.lives == 0) {
+                if(gameManager.gameType === "Arcade") {
+                    gameManager.ScoreKeeper.updatePoint(0, 4, timer.duration);
+                }
+                this.checkArcadeWin();
+                game.state.start('win');
+            }
+        }
+
         timerText.text = this.formatTime(Math.round((timerEvent.delay - timer.ms) / 1000));
     },
 

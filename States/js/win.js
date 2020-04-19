@@ -62,6 +62,9 @@ class form extends Phaser.Text {
 
 var winState = {
     create: function () {
+
+        console.log("win.js???");
+
         if(gameManager.gameType === "Arcade") {
 
             if(Player1.lives < 0){
@@ -78,7 +81,7 @@ var winState = {
             if(gameManager.matchOutcome === "Win"){
             
                 if(gameManager.arcadeLevel == 4){
-                var winBanner = game.add.text(80, 20,
+                    var winBanner = game.add.text(80, 20,
                     "ONLY A TRUE GATOR CAN WIN IT ALL, CONGRATS!"
                     ,{ font: '70px Arial', fill: '#ffffff' });
                 }
@@ -158,8 +161,46 @@ var winState = {
                 startLabel.events.onInputUp.add(function () {
                 music.stop();
                 gameManager.ScoreKeeper.resetAll();
-                gameManager.changemode("Menu");
-                game.state.start('menu');
+                //gameManager.changemode("Menu");
+                //game.state.start('menu');
+                //this.start();
+                //this.start();
+
+                console.log("Start???");
+
+                music.stop();
+
+                if(gameManager.gameType === "Arcade") {
+                    console.log("Arcade start?");
+                    if(gameManager.matchOutcome === "Win" && gameManager.arcadeLevel < 4) {
+                        gameManager.arcadeLevel += 1;
+                    }
+                    
+                    if(gameManager.matchOutcome === "Win" && gameManager.arcadeLevel >= 4 ){
+        
+                        gameManager.ScoreKeeper.resetAll();
+                        
+                        
+                        gameManager.changemode("Menu");
+                        
+                        game.state.start('menu');
+
+                    }
+                    else{
+                        //gameManager.ScoreKeeper.scoreMaster = gameManager.ScoreKeeper.scoreMaster - 2000;
+                        gameManager.ScoreKeeper.softReset();
+                        game.state.start('arctcs');
+                    }
+                    
+                    //gameManager.ScoreKeeper.softReset();
+                    //game.state.start('arctcs');
+                }
+                else{
+                    gameManager.ScoreKeeper.resetAll();
+                    gameManager.changemode("Menu");
+                    game.state.start('menu');
+                }
+
             });
 
             /*var restartLabel = game.add.text(80, game.world.height - 180, 'Press this label to restart', { font: '40px Arial', fill: '#ffffff' });
@@ -173,7 +214,6 @@ var winState = {
         if (game.device.android || game.device.iOS) {
             //If on mobile, open a new tab with the survey form
             feedbackLabel = new Link(this.game, 80, game.world.height - 140, "Click here to send feedback! Thanks for playing on  Mobile!", "https://goo.gl/forms/wA6NGUAJ4OiKhVC93", { font: '40px Arial', fill: '#ffffff' });
-
         }
         else {
             //If on desktop, open up embedded form.
@@ -195,19 +235,32 @@ var winState = {
         }
         */
     },
-    start: function () {
+    //start: function () {
+    start() {
         music.stop();
-        
+
         if(gameManager.gameType === "Arcade") {
-            if(gameManager.matchOutcome === "Win") {
+            if(gameManager.matchOutcome === "Win" && gameManager.arcadeLevel < 4) {
                 gameManager.arcadeLevel += 1;
-            }
-            else{
                 //gameManager.ScoreKeeper.scoreMaster = gameManager.ScoreKeeper.scoreMaster - 2000;
+                gameManager.ScoreKeeper.softReset();
+                game.state.start('arctcs');
             }
+            else if(gameManager.matchOutcome === "Win" && gameManager.arcadeLevel >= 4 ){
+
+                gameManager.ScoreKeeper.resetAll();
+                gameManager.changemode("Menu");
+                gameManager.resetsettings();
+                game.state.start('menu');
+            }
+            /*else{
+                //gameManager.ScoreKeeper.scoreMaster = gameManager.ScoreKeeper.scoreMaster - 2000;
+                gameManager.ScoreKeeper.softReset();
+                game.state.start('arctcs');
+            }*/
             
-            gameManager.ScoreKeeper.softReset();
-            game.state.start('arctcs');
+            //gameManager.ScoreKeeper.softReset();
+            //game.state.start('arctcs');
         }
         else{
             gameManager.ScoreKeeper.resetAll();

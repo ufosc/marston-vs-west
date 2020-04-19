@@ -22,6 +22,7 @@ var menuState = {
         var gkey = game.input.keyboard.addKey(Phaser.Keyboard.G);
         gkey.onDown.addOnce(this.characterSelect, this); //Keep for debugging purposes, makes launching the game quicker
 
+        /*
         arcadeButton = game.add.button(game.world.width * .5, game.world.height * .5, 'arcadeButton');
         arcadeButton.anchor.setTo(.5,.5);
         arcadeButton.onInputUp.add(this.arcade, this);
@@ -47,6 +48,32 @@ var menuState = {
         helpButton = game.add.button(0, game.world.height, 'helpButton');
         helpButton.anchor.setTo(0, 1);
         helpButton.onInputUp.add(this.help, this);
+        
+        */
+        
+        var arcadeLabel = game.add.text(game.world.width * .4, game.world.height * .5, 'ARCADE', { font: '90px Permanent Marker', fill: '#ffffff' });
+        arcadeLabel.inputEnabled = true;
+        arcadeLabel.events.onInputUp.add(function () {
+            menuState.arcade();            
+        });
+
+        var versusLabel = game.add.text(game.world.width * .4, game.world.height * .6, 'VERSUS', { font: '90px Permanent Marker', fill: '#ffffff' });
+        versusLabel.inputEnabled = true;
+        versusLabel.events.onInputUp.add(function () {
+            menuState.start();
+        });
+        
+        var optionsLabel = game.add.text(game.world.width * .4, game.world.height * .7, 'OPTIONS', { font: '90px Permanent Marker', fill: '#ffffff' });
+        optionsLabel.inputEnabled = true;
+        optionsLabel.events.onInputUp.add(function () {
+            menuState.options();            
+        });
+
+        var creditsLabel = game.add.text(game.world.width * .4, game.world.height * .8, 'CREDITS', { font: '90px Permanent Marker', fill: '#ffffff' });
+        creditsLabel.inputEnabled = true;
+        creditsLabel.events.onInputUp.add(function () {
+            menuState.credits();
+        });
 
         buttonSound = game.add.audio('buttonSound', 0.06);
         buttonSound.stop();
@@ -65,6 +92,8 @@ var menuState = {
             buttonSound.play();
             //music.stop();
         }
+
+        gameManager.ScoreKeeper.resetAll();
         
         console.log("go to normal css?");
         gameManager.changemode("MultiPlayer");
@@ -86,13 +115,17 @@ var menuState = {
         gameManager.playerTint[1] = "0x1c6bff";
 
         gameManager.changemode("Arcade");
+        gameManager.ScoreKeeper.resetAll();
         game.state.start('arccss');
     },
     characterSelect: function () {
         if(muteState==false)
         buttonSound.play();
         console.log("css State");
+
+        gameManager.ScoreKeeper.resetAll();
         gameManager.changemode("Multi");
+        gameManager.resetsettings();
         game.state.start('css');
 
     },

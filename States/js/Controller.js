@@ -39,7 +39,6 @@ class nespad {
         this.controlnum = controlnum;
         this.testconnect = false;
 
-
     }
 
     connectgamepad() {

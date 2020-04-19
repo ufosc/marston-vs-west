@@ -3,7 +3,7 @@
 WebFontConfig = {
     //  The Google Fonts we want to load (specify as many as you like in the array)
     google: {
-      families: ['VT323']
+      families: ['VT323' ]
     }
 };
 var optionsState = {
@@ -23,52 +23,64 @@ var optionsState = {
         var logo = game.add.image(game.world.width * .5, game.world.height * .5, 'logo');
         logo.anchor.setTo(.5,.5);
         logo.scale.setTo(.8,.8);
-        menuButton = game.add.button(game.world.width * .5 - 50, game.world.height * .5 + 50, 'menuButton');
+        /*menuButton = game.add.button(game.world.width * .5 - 50, game.world.height * .5 + 50, 'menuButton');
         menuButton.anchor.setTo(.5,.5);
-        menuButton.onInputUp.add(this.menu, this);
+        menuButton.onInputUp.add(this.menu, this);*/
         
         //slide test
         //slide = new Slider(50, 200, 200, false);
         //end of slide test
 
         //Fullscreen event listeners
-        fullScreenButton = game.add.button(game.world.width * .5 - 400, game.world.height * .5 + 450, 'fullscreen');
-        fullScreenButton.anchor.setTo(.5,.5);
-        fullScreenButton.onInputUp.add(this.fullScreenConfig, this);
-        game.scale.onFullScreenChange.add(this.onFullScreenChange, this);
+        //fullScreenButton = game.add.button(game.world.width * .5 - 400, game.world.height * .5 + 450, 'fullscreen');
+        //fullScreenButton.anchor.setTo(.5,.5);
+        //fullScreenButton.onInputUp.add(this.fullScreenConfig, this);
+        //game.scale.onFullScreenChange.add(this.onFullScreenChange, this);
+
+        var menuLabel = game.add.text(game.world.width * .4, game.world.height * .5, 'MENU', { font: '90px Permanent Marker', fill: '#ffffff' });
+        menuLabel.inputEnabled = true;
+        menuLabel.events.onInputUp.add(this.menu, this);
+
+        var fullScreenLabel = game.add.text(game.world.width * .3, game.world.height * .85, 'FULLSCREEN', { font: '90px Permanent Marker', fill: '#ffffff' });
+        fullScreenLabel.inputEnabled = true;
+        fullScreenLabel.events.onInputUp.add(
+            this.fullScreenConfig, this);
+        game.scale.onFullScreenChange.add(this.onFullScreenChange, this);      
+        
 
         //incremental buttons for different values that can be set in options menu
         //minutes = 1, seconds = 2, lives = 3
-        plusButton1 = game.add.button(game.world.width * .5 - 125, game.world.height * .5 + 150, 'plus');
+        plusButton1 = game.add.button(game.world.width * .55, game.world.height * .5 + 150, 'plus');
         plusButton1.anchor.setTo(.5,.5);
-        minusButton1 = game.add.button(game.world.width * .5 - 50, game.world.height * .5 + 150, 'minus');
+        minusButton1 = game.add.button(game.world.width * .55 + 150, game.world.height * .5 + 150, 'minus');
         minusButton1.anchor.setTo(.5,.5);
-        plusButton2 = game.add.button(game.world.width * .5 - 125, game.world.height * .5 + 250, 'plus');
+        plusButton2 = game.add.button(game.world.width * .55, game.world.height * .5 + 250, 'plus');
         plusButton2.anchor.setTo(.5,.5);
-        minusButton2 = game.add.button(game.world.width * .5 - 50, game.world.height * .5 + 250, 'minus');
+        minusButton2 = game.add.button(game.world.width * .55 + 150, game.world.height * .5 + 250, 'minus');
         minusButton2.anchor.setTo(.5,.5);
-        plusButton3 = game.add.button(game.world.width * .5 - 125, game.world.height * .5 + 350, 'plus');
+        plusButton3 = game.add.button(game.world.width * .55, game.world.height * .5 + 350, 'plus');
         plusButton3.anchor.setTo(.5,.5);
-        minusButton3 = game.add.button(game.world.width * .5 - 50, game.world.height * .5 + 350, 'minus');
+        minusButton3 = game.add.button(game.world.width * .55 + 150, game.world.height * .5 + 350, 'minus');
         minusButton3.anchor.setTo(.5,.5);
 
         //labels
-        SettingLabel = game.add.button(game.world.width * .5 - 400, game.world.height * .5 + 50, 'settings');
-        SettingLabel.anchor.setTo(.5,.5);
-        minutesButton = game.add.button(game.world.width * .5 - 450, game.world.height * .5 + 150, 'minutes');
-        minutesButton.anchor.setTo(.5,.5);
-        secondsButton = game.add.button(game.world.width * .5 - 450, game.world.height * .5 + 250, 'seconds');
-        secondsButton.anchor.setTo(.5,.5);
+        //SettingLabel = game.add.button(game.world.width * .5 - 400, game.world.height * .5 + 50, 'settings');
+        //SettingLabel.anchor.setTo(.5,.5);
+        //minutesButton = game.add.button(game.world.width * .5 - 450, game.world.height * .5 + 150, 'minutes');
+        //minutesButton.anchor.setTo(.5,.5);
+        //secondsButton = game.add.button(game.world.width * .5 - 450, game.world.height * .5 + 250, 'seconds');
+        //secondsButton.anchor.setTo(.5,.5);
         
-        //values
-        minLabel = game.add.text(game.world.width * .5 - 250, game.world.height *.5 + 110, `${gameManager.gameMinutes}`);
-        secLabel = game.add.text(game.world.width * .5 - 250, game.world.height * .5 + 210, `${gameManager.gameSeconds}`, { font: '65px VT323', fill: '#ffffff' });
-        livesLabel = game.add.text(game.world.width * .5 - 425, game.world.height * .5 + 310, `Lives: ${gameManager.lives}`, { font: '65px Arial', fill: '#ffffff' });
-        minLabel.font = 'VT323';
+        //values // originaly 250
+        minLabel = game.add.text(game.world.width * .3, game.world.height *.5 + 110, `MINUTES: ${gameManager.gameMinutes}`);
+        secLabel = game.add.text(game.world.width * .3, game.world.height * .5 + 210, `SECONDS: ${gameManager.gameSeconds}`, { font: '65px VT323', fill: '#ffffff' });
+        livesLabel = game.add.text(game.world.width * .3, game.world.height * .5 + 310, `LIVES: ${gameManager.lives}`, { font: '65px VT323', fill: '#ffffff' });
+        //livesLabel = game.add.text(game.world.width * .5 - 425, game.world.height * .5 + 310, `Lives: ${gameManager.lives}`, { font: '65px Arial', fill: '#ffffff' });
+        minLabel.font = 'Permanent Marker'; //'VT323';
         minLabel.fontSize = 60;
         minLabel.fill = '#ffffff';
-        secLabel.font = 'VT323';
-        livesLabel.font = 'VT323';
+        secLabel.font = 'Permanent Marker';
+        livesLabel.font = 'Permanent Marker';
 
         //event listeners for buttons
         plusButton1.onInputUp.add(this.gameMinInc, this);
@@ -87,6 +99,8 @@ var optionsState = {
         //the sliding bars part
 
         volumeIcon = game.add.sprite(xPos, initMulY, 'music_icon');//modify this icon
+        volumeIcon.scale.x *= 2;
+        volumeIcon.scale.y *= 2;
         volumeIcon.inputEnabled = true;
         volumeIcon.input.enableDrag(true);
         volumeIcon.events.onDragUpdate.add(dragUpdate);
@@ -99,8 +113,8 @@ var optionsState = {
         //Can add other options as well, music and sfx toggle, anti-alias, and other ideas
     },
     update: function () {
-        minLabel.text = `${gameManager.gameMinutes}`;
-        secLabel.text = `${gameManager.gameSeconds}`;
+        minLabel.text = `MINUTES: ${gameManager.gameMinutes}`;
+        secLabel.text = `SECONDS: ${gameManager.gameSeconds}`;
         livesLabel.text = `Lives: ${gameManager.lives}`;
     },
     gameMinInc: function () {
@@ -135,8 +149,7 @@ var optionsState = {
         buttonSound.play();
     },
     gameLivesDec: function () {
-        
-        if (gameManager.lives - 1 > 1) {
+        if (gameManager.lives - 1 >= 1) {
             gameManager.lives--;
         }
         buttonSound.play();

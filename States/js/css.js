@@ -157,7 +157,7 @@ var cssState = {
         player1Label.visible = false;
         player2Label.visible = false;
 
-        var MultimanLabel = game.add.text(game.world.width * .5, game.world.height * .5 + 20, 'Multiman Mode: OFF', { font: '25px Arial', fill: '#ffffff' });
+        var MultimanLabel = game.add.text(game.world.width * .5, game.world.height * .5, 'Multiman Mode: OFF', { font: '70px Permanent Marker', fill: '#ffffff' });
         MultimanLabel.anchor.setTo(.5,.5);
         MultimanLabel.inputEnabled = true;
         MultimanLabel.selected = 0;
@@ -179,12 +179,11 @@ var cssState = {
             }
         });
 
-        var backbutton = game.add.text(50, 200, 'Click to go back', { font: '25px Arial', fill: '#ffffff' });
-        backbutton.inputEnabled = true;
-        backbutton.events.onInputUp.add(function () {
+        var menuLabel = game.add.text(game.world.width * .05, game.world.height * .8, 'MENU', { font: '90px Permanent Marker', fill: '#ffffff' });
+        menuLabel.inputEnabled = true;
+        menuLabel.events.onInputUp.add(function () {
             game.state.start('menu');
         });
-
 
         console.log("css?");
         ColorMenu1 = new ColorMenu(1);

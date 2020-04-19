@@ -38,7 +38,7 @@ class GameInfo {
 
         this.characterHistory = [];
 
-        this.lives = 3;
+        this.lives = 1;
 
         this.ScoreKeeper = new ScoreCounter();
 
