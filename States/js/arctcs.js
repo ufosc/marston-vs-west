@@ -20,7 +20,10 @@ var arctcsState = {
             gameManager.randomtint(1);
             gameManager.randomstage();
             charName2 = gameManager.characters[1];
+
             gameManager.randomscenario();
+            //gameManager.scenario = "MultiMan";
+            gameManager.scenario = "GatorFight";
         }
 
         console.log("chars:" + charName1 +", " + charName2 + ", " + gameManager.charName2);

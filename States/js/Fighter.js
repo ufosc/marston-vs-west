@@ -14,6 +14,9 @@ class Fighter {
         this.combo = 0;
         this.comboclock = 0;
 
+        this.useItem = false;
+        this.throwItem = false;
+
         this.hanging = "no";
         this.hangingtimer = 0;
 
@@ -1198,11 +1201,12 @@ class Fighter {
                     this.shielding = true;
                     if (this.character.hasItem) //If he has an item, THROW IT!
                     {
-                        item1.throwItem(this);
+                        this.throwItem = true;
+                        /*item1.throwItem(this);
 
                         item1.user = null;
                         item1.pickedUp = false;
-                        this.character.hasItem = false;
+                        this.character.hasItem = false;*/
                     }
                 }
                 else {
@@ -1261,19 +1265,20 @@ class Fighter {
                 
                 if (this.character.hasItem) //If he has an item, USE IT!
                 {
-                    item1.useItem(this);
+                    //this.useItem = true;
+                    /*item1.useItem(this);
                     item1.user = null;
                     item1.pickedUp = false;
-                    this.character.hasItem = false;
+                    this.character.hasItem = false;*/
                 }
 
                 //If really freaking close to item, and if he isnt holding something, use it!
-                if ((item1.xDistCheck(this.character) < 50) && (item1.yDistCheck(this.character) < 100) && !(this.character.hasItem) && (item1.user == null)) {
+                /*if ((item1.xDistCheck(this.character) < 50) && (item1.yDistCheck(this.character) < 100) && !(this.character.hasItem) && (item1.user == null)) {
                     item1.user = this;
                     item1.pickedUp = true;
                     this.character.hasItem = true;
                     //console.log("close to item");
-                }
+                }*/
 
                 if (this.combo == 1) {
                     //logic to change direction facing
@@ -1367,21 +1372,23 @@ class Fighter {
                 //this.aniPunch.play(10, false);
                 if (this.character.hasItem) //If he has an item, USE IT!
                 {
-                    item1.useItem(this);
+                    /*item1.useItem(this);
                     item1.user = null;
                     item1.pickedUp = false;
-                    this.character.hasItem = false;
+                    this.character.hasItem = false;*/
+                    //this.useItem = true;
                 }
+                
                 //this.character.animations.play('punch');
                 //this.weapon1.fire();
 
                 //If really freaking close to item, and if he isnt holding something, use it!
-                if ((item1.xDistCheck(this.character) < 50) && (item1.yDistCheck(this.character) < 100) && !(this.character.hasItem) && (item1.user == null)) {
+                /*if ((item1.xDistCheck(this.character) < 50) && (item1.yDistCheck(this.character) < 100) && !(this.character.hasItem) && (item1.user == null)) {
                     item1.user = this;
                     item1.pickedUp = true;
                     this.character.hasItem = true;
                     //console.log("close to item");
-                }
+                }*/
 
                 //this.hitCD = 30;
                 this.shielding = false;

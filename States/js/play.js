@@ -148,6 +148,7 @@ var playState = {
     },
 
     respawn: function (Fighter) {
+        
         game.time.events.add(Phaser.Timer.SECOND, this.playRespawnSound, this);
         Fighter.aniIdle.play(10, false);
 
@@ -195,54 +196,56 @@ var playState = {
             Fighter.deathBlast.angle = -90;
         }
 
-        if (Fighter.controlnum === 1) {
-            //console.log("controlnum = 1");
-            Fighter.character.x = 0.25 * game.width  //200;
-            Fighter.character.y = 0.25 * game.height //230;
-            Fighter.respawnSwitch = true;
-            Fighter.m = 0;
-            Fighter.inputLock = false;
-            Fighter.invincible = false;
-            Fighter.xZero = true;
-        }
-        else if (Fighter.controlnum === 2) {
-            //console.log("controlnum = 2");
-            Fighter.character.x = 0.75 * game.width;
-            Fighter.character.y = 0.25 * game.height;
-            Fighter.respawnSwitch = true;
-            Fighter.m = 0;
-            Fighter.inputLock = false;
-            Fighter.invincible = false;
-            Fighter.xZero = true;
-        }
-        else if (Fighter.controlnum === -1) {
-            //console.log("controlnum = -1");
-            //Fighter.character.body.position.x = 200;
-            Fighter.character.x = 0.25 * game.width  //200;
-            Fighter.character.y = 0.25 * game.height //230;
-            Fighter.respawnSwitch = true;
-            Fighter.m = 0;
-            Fighter.inputLock = false;
-            Fighter.invincible = false;
-            Fighter.xZero = true;
-        }
-        else if (Fighter.controlnum === -2) {
-            //console.log("controlnum = -2");
-            //Fighter.character.body.position.x = 200;
-            //Fighter.character.x = 600;
-            //Fighter.character.y = 230;
-            Fighter.character.x = 0.75 * game.width;
-            Fighter.character.y = 0.25 * game.height;
-            Fighter.respawnSwitch = true;
-            Fighter.m = 0;
-            Fighter.inputLock = false;
-            Fighter.invincible = false;
-            Fighter.xZero = true;
-        }
-        Fighter.health = 0;
-        Fighter.lives += -1;
-        if(gameManager.OnePunchDeath === 10000){
-            Fighter.lives = 0;
+        if(Fighter.lives >= 1){
+            if (Fighter.controlnum === 1) {
+                //console.log("controlnum = 1");
+                Fighter.character.x = 0.25 * game.width  //200;
+                Fighter.character.y = 0.25 * game.height //230;
+                Fighter.respawnSwitch = true;
+                Fighter.m = 0;
+                Fighter.inputLock = false;
+                Fighter.invincible = false;
+                Fighter.xZero = true;
+            }
+            else if (Fighter.controlnum === 2) {
+                //console.log("controlnum = 2");
+                Fighter.character.x = 0.75 * game.width;
+                Fighter.character.y = 0.25 * game.height;
+                Fighter.respawnSwitch = true;
+                Fighter.m = 0;
+                Fighter.inputLock = false;
+                Fighter.invincible = false;
+                Fighter.xZero = true;
+            }
+            else if (Fighter.controlnum === -1) {
+                //console.log("controlnum = -1");
+                //Fighter.character.body.position.x = 200;
+                Fighter.character.x = 0.25 * game.width  //200;
+                Fighter.character.y = 0.25 * game.height //230;
+                Fighter.respawnSwitch = true;
+                Fighter.m = 0;
+                Fighter.inputLock = false;
+                Fighter.invincible = false;
+                Fighter.xZero = true;
+            }
+            else if (Fighter.controlnum === -2) {
+                //console.log("controlnum = -2");
+                //Fighter.character.body.position.x = 200;
+                //Fighter.character.x = 600;
+                //Fighter.character.y = 230;
+                Fighter.character.x = 0.75 * game.width;
+                Fighter.character.y = 0.25 * game.height;
+                Fighter.respawnSwitch = true;
+                Fighter.m = 0;
+                Fighter.inputLock = false;
+                Fighter.invincible = false;
+                Fighter.xZero = true;
+            }
+            Fighter.health = 0;
+            Fighter.lives += -1;
+            if(gameManager.OnePunchDeath === 10000){
+                Fighter.lives = 0;
+            }
         }
 
         Fighter.character.body.velocity.x = 0;
@@ -310,12 +313,15 @@ var playState = {
     },
 
     KO: function (Fighter) {
+        
         //if (Fighter.character.body.position.x < -50 || Fighter.character.body.position.x > 900) {
         if (Fighter.character.body.position.x < -50 || Fighter.character.body.position.x > game.world.width + 50) {
             Fighter.character.hasItem = false;
             if(muteState==false)
             deathSound.play();
+            
             this.respawn(Fighter);
+            
             var live = Fighter.stocks.getFirstAlive();
             if (live) {
                 live.kill();
@@ -370,8 +376,8 @@ var playState = {
         var esckey = game.input.keyboard.addKey(Phaser.Keyboard.ESC);
         esckey.onDown.addOnce(this.timeOutGame);
 
-        if(gameManager.scenario === "multiman"){
-            multimanmode === true;
+        if(gameManager.scenario === "MultiMan"){
+            multimanmode = true;
         }
 
         //Play music
@@ -396,6 +402,8 @@ var playState = {
             platforms = game.add.group();
             platformsELeft = game.add.group();
             platformsERight = game.add.group();
+            
+            
 
             // Create the ground.
             land = new platform(game.world.width * 0.5, game.world.height * 0.7, false, 'plat1',50, 2)
@@ -818,7 +826,16 @@ var playState = {
         //console.log(Player1.controlnum);
 
         //Create an item
-        item1 = new Item('bottle', game.world.width * .5, game.world.height * .5, this);
+        //item1 = new Item('bottle', game.world.width * .5, game.world.height * .5, this);
+
+        //gatorfight
+        if(gameManager.scenario === "GatorFight"){
+            item1 = new Item('gator', game.world.width * .25, game.world.height * .5, this);
+            item2 = new Item('gator', game.world.width * .35, game.world.height * .5, this);
+            item3 = new Item('gator', game.world.width * .5, game.world.height * .5, this);
+            item4 = new Item('gator', game.world.width * .45, game.world.height * .5, this);
+            item5 = new Item('gator', game.world.width * .75, game.world.height * .5, this);
+        }
 
         if (Player1.controlnum === -1) {
             //console.log("virtual buttons are made buttons");
@@ -1142,6 +1159,13 @@ var playState = {
         //add physics for item (eventually just add items to a group and use collision detection for the group)
         game.physics.arcade.collide(item1.type, platforms, item1.onGround());
 
+        if(gameManager.scenario === "GatorFight"){
+            game.physics.arcade.collide(item2.type, platforms, item2.onGround());
+            game.physics.arcade.collide(item3.type, platforms, item3.onGround());
+            game.physics.arcade.collide(item4.type, platforms, item4.onGround());
+            game.physics.arcade.collide(item5.type, platforms, item5.onGround());
+        }
+
         if (multimanmode === true ) {
             game.physics.arcade.collide(Player3.character, platforms);
             game.physics.arcade.collide(Player4.character, platforms);
@@ -1167,7 +1191,7 @@ var playState = {
 
         //Item Collision, makes sure that the item you hold doesnt hit you when you throw it, but only hits the other person
         //Item must be active(can only hit you once), and thrown for the collision to go off
-        if (item1.thrown && item1.getActive() && item1.getThrown()) {
+        /*if (item1.thrown && item1.getActive() && item1.getThrown()) {
             if (item1.previousUser.controlnum === Player1.controlnum && !Player2.respawnSwitch) //if the user is the the person colliding with the item(Player1)
             {   
                 console.log("THROW!");
@@ -1178,7 +1202,30 @@ var playState = {
                 console.log("THROW!");
                 game.physics.arcade.overlap(Player1.character, item1.type, item1.itemCollision(Player1), null, this);
             }
+        }*/
+        playState.itemCheck(item1);
+
+        playState.itemUpdate(item1, Player1);
+        playState.itemUpdate(item1, Player2);
+
+        if (gameManager.scenario === "GatorFight"){
+            playState.itemCheck(item2);
+            playState.itemCheck(item3);
+            playState.itemCheck(item4);
+            playState.itemCheck(item5);
+
+            playState.itemUpdate(item2, Player1);
+            playState.itemUpdate(item3, Player1);
+            playState.itemUpdate(item4, Player1);
+            playState.itemUpdate(item5, Player1);
+
+            playState.itemUpdate(item2, Player2);
+            playState.itemUpdate(item3, Player2);
+            playState.itemUpdate(item4, Player2);
+            playState.itemUpdate(item5, Player2);
         }
+
+
 
         //special logic for lab's items
 
@@ -1346,6 +1393,63 @@ var playState = {
         }
 
         timerText.text = this.formatTime(Math.round((timerEvent.delay - timer.ms) / 1000));
+    },
+
+    itemUpdate: function (helditem, targetFighter) {
+
+        //If really freaking close to item, and if he isnt holding something, grab it!
+        if (helditem.type != null) {
+            if (helditem.inAir) {
+                helditem.angle += 5;
+            }
+            else {
+                helditem.alignToTarget();
+            }
+        }
+
+        if (targetFighter.geta() && (helditem.xDistCheck(targetFighter.character) < 50) && (helditem.yDistCheck(targetFighter.character) < 100) && !(targetFighter.character.hasItem) && (helditem.user == null)) {
+            console.log("Grab?");
+            helditem.user = targetFighter;
+            helditem.pickedUp = true;
+            targetFighter.character.hasItem = true;
+            //console.log("close to item");
+        }
+
+        else if (targetFighter.character.hasItem && targetFighter.throwItem && helditem.user == targetFighter) //If he has an item, THROW IT!
+            {
+                helditem.throwItem(targetFighter);
+
+                helditem.user = null;
+                helditem.pickedUp = false;
+                targetFighter.character.hasItem = false;
+                targetFighter.throwItem = false;
+            }
+
+        /*else if (targetFighter.character.hasItem && targetFighter.useItem) //If he has an item, USE IT!
+            {
+                helditem.useItem(targetFighter);
+                helditem.user = null;
+                helditem.pickedUp = false;
+                targetFighter.character.hasItem = false;
+                targetFighter.useItem = false;
+            }*/
+    },
+
+    itemCheck: function (heldItem) {
+        //Item Collision, makes sure that the item you hold doesnt hit you when you throw it, but only hits the other person
+        //Item must be active(can only hit you once), and thrown for the collision to go off
+        if (heldItem.thrown && heldItem.getActive() && heldItem.getThrown() && heldItem.previousUser != null) {
+            if (heldItem.previousUser.controlnum === Player1.controlnum && !Player2.respawnSwitch) //if the user is the the person colliding with the item(Player1)
+            {   
+                console.log("THROW!");
+                game.physics.arcade.overlap(Player2.character, heldItem.type, heldItem.itemCollision(Player2), null, this);
+            }
+            else if (heldItem.previousUser.controlnum === Player2.controlnum && !Player1.respawnSwitch) //if the user is the the person colliding with the item(Player2)
+            {
+                console.log("THROW!");
+                game.physics.arcade.overlap(Player1.character, heldItem.type, heldItem.itemCollision(Player1), null, this);
+            }
+        }
     },
 
     //actually is the win function
