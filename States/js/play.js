@@ -1423,14 +1423,22 @@ var playState = {
             //console.log("close to item");
         }
 
-        else if (targetFighter.character.hasItem && targetFighter.throwItem && helditem.user == targetFighter) //If he has an item, THROW IT!
+        //else if (targetFighter.character.hasItem && targetFighter.throwItem && helditem.user == targetFighter) //If he has an item, THROW IT!
+        else if (targetFighter.character.hasItem && targetFighter.useItem && helditem.user == targetFighter) //If he has an item, USE IT!
             {
-                helditem.throwItem(targetFighter);
+                /*helditem.throwItem(targetFighter);
 
                 helditem.user = null;
                 helditem.pickedUp = false;
                 targetFighter.character.hasItem = false;
-                targetFighter.throwItem = false;
+                targetFighter.throwItem = false;*/
+
+                helditem.useItem(targetFighter);
+                helditem.user = null;
+                helditem.pickedUp = false;
+                targetFighter.character.hasItem = false;
+                targetFighter.useItem = false;
+
             }
 
         /*else if (targetFighter.character.hasItem && targetFighter.useItem) //If he has an item, USE IT!

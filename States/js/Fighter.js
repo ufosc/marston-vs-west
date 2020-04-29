@@ -342,7 +342,7 @@ class Fighter {
 
         this.stocks = game.add.group();
         //Stocks will now match up to character selected
-        for (var g = lives - 1; g > -1; g--) {
+        /*for (var g = lives - 1; g > -1; g--) {
 
             if (controlnum == -1 || controlnum == 1) //For the vpad
             {
@@ -363,12 +363,41 @@ class Fighter {
                 var stock = this.stocks.create((game.world.width * .95) + (30 * h), game.world.height - 25, 'blueStock');
                 stock.anchor.setTo(.5, .5);
             }
-        }
+        }*/
+
+        this.updateStocks();
+
         console.log("fighter made");
         //return this;
     }
 
     //Method to check whether or not fighter is currently trying to execute a combo
+
+    updateStocks() {
+        for (var g = this.lives - 1; g > -1; g--) {
+
+            if (this.controlnum == -1 || this.controlnum == 1) //For the vpad
+            {
+                //sets up the cell for the damage icon and stocks
+                var damageBox1 = game.add.sprite(0, game.world.game.world.height - 75, this.damageBox);
+                damageBox1.scale.setTo(5.5, 2.2);
+                var stock = this.stocks.create((30) + (90 * g / this.lives), game.world.height - 25, 'blueStock');
+                stock.anchor.setTo(.5, .5);
+            }
+
+        }
+        for (var h = 0; h < this.lives; h++) {
+            if (this.controlnum == 2 || this.controlnum == -2) {
+            
+                //sets up the cell for the damage icon and stocks
+                var damageBox2 = game.add.sprite(game.world.width*0.9, game.world.game.world.height - 75, this.damageBox);
+                damageBox2.scale.setTo(5.5, 2.2);
+                var stock = this.stocks.create((game.world.width * .95) + (30 * h), game.world.height - 25, 'blueStock');
+                stock.anchor.setTo(.5, .5);
+            }
+        }
+    }
+
     combocheck() {
         if (this.combo > 0 && this.comboclock > 0) {
             this.comboclock--;
@@ -1180,13 +1209,19 @@ class Fighter {
             if (this.getx() && this.stunCounter == 0 && this.hitVelocity == 0 && !this.inputLock) {
                 //If statement that decides if the character will perform a shield on the ground or else it the air dodge animation will be played
                 if (this.character.hasItem) {
-                        //If he has an item, THROW IT!
-                        this.throwItem = true;
-                        /*item1.throwItem(this);
+                    console.log("ITEM!");
+                    //If he has an item, USE IT!
+                    
+                    this.useItem = true;
+                                        
+                    //If he has an item, THROW IT!
+                    //this.throwItem = true;
+                    
+                    /*item1.throwItem(this);
 
-                        item1.user = null;
-                        item1.pickedUp = false;
-                        this.character.hasItem = false;*/
+                    item1.user = null;
+                    item1.pickedUp = false;
+                    this.character.hasItem = false;*/
                 }
                 else if (this.character.body.touching.down) {
                     this.character.body.velocity.x = 0;
@@ -1249,14 +1284,14 @@ class Fighter {
                 //console.log(this.comboclock);
                 this.comboclock = 60;
                 
-                if (this.character.hasItem) //If he has an item, USE IT!
+                /*if (this.character.hasItem) //If he has an item, USE IT!
                 {
                     //this.useItem = true;
-                    /*item1.useItem(this);
+                    item1.useItem(this);
                     item1.user = null;
                     item1.pickedUp = false;
-                    this.character.hasItem = false;*/
-                }
+                    this.character.hasItem = false;
+                }*/
 
                 //If really freaking close to item, and if he isnt holding something, use it!
                 /*if ((item1.xDistCheck(this.character) < 50) && (item1.yDistCheck(this.character) < 100) && !(this.character.hasItem) && (item1.user == null)) {

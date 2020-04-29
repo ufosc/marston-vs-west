@@ -5,9 +5,9 @@ var tcsState = {
     create:function(){
         console.log("in tcs????")
 
-        gameManager.randomscenario();
+        //gameManager.randomscenario();
 
-        var scenarioLabel = game.add.text(game.world.width * 0.5, game.world.height * 0.9, gameManager.scenario, { font: '60px Arial', fill: '#ffffff' });
+        //var scenarioLabel = game.add.text(game.world.width * 0.5, game.world.height * 0.9, gameManager.scenario, { font: '60px Arial', fill: '#ffffff' });
         
         numX = 20;
         numY = 20;
