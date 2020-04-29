@@ -22,8 +22,8 @@ var arctcsState = {
             charName2 = gameManager.characters[1];
 
             gameManager.randomscenario();
-            //gameManager.scenario = "MultiMan";
-            gameManager.scenario = "GatorFight";
+            
+            //gameManager.scenario = "Reverse";
         }
 
         console.log("chars:" + charName1 +", " + charName2 + ", " + gameManager.charName2);

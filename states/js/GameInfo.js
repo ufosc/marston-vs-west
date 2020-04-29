@@ -17,8 +17,8 @@ class GameInfo {
         this.stageHistory = [];
 
         this.scenarioList = ["MultiMan",  "1v1",      "Defender", 
-                         "GatorFight","Giant",    "Boss", 
-                         "OnePunch",  "BookFight", "Invisible"];
+                             "GatorFight","Boss", "RockPaper",
+                             "OnePunch",  "Invisible", "Reverse"];
 
         this.scenarioHistory = [];
 
@@ -58,9 +58,9 @@ class GameInfo {
 
     randomscenario() {
 
-        var randNum = Math.floor(Math.random() * 9);
+        var randNum = Math.floor(Math.random() * 8);
 
-        randNum = this.checkHistory(10, randNum, this.scenarioHistory)
+        randNum = this.checkHistory(8, randNum, this.scenarioHistory)
 
         console.log(randNum);
         this.scenario = this.scenarioList[randNum];
@@ -81,9 +81,9 @@ class GameInfo {
     randomstage() {
         //select random number, use to access index in array containing list of arrays 
         //randNum = 0;
-        var randNum = Math.floor(Math.random() * 10);
+        var randNum = Math.floor(Math.random() * 9);
         
-        randNum = this.checkHistory(10, randNum, this.stageHistory)
+        randNum = this.checkHistory(9, randNum, this.stageHistory)
         
         this.chosenStageName = this.stageList[randNum];
         console.log("stage?:" + this.ChosenStageName);

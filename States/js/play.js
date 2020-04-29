@@ -775,6 +775,11 @@ var playState = {
         else {
             //If on desktop, do not use virtual inputs for player 1.
             controlOptionVpad = 1;
+            //reverse controls
+            if(gameManager.scenario === "Reverse"){
+                controlOptionVpad = 24;
+            }
+            
         }
 
         if (charName1 === 'Fighter'){
@@ -835,6 +840,9 @@ var playState = {
             item3 = new Item('gator', game.world.width * .5, game.world.height * .5, this);
             item4 = new Item('gator', game.world.width * .45, game.world.height * .5, this);
             item5 = new Item('gator', game.world.width * .75, game.world.height * .5, this);
+        }
+        else {
+            item1 = new Item('bottle', game.world.width * .5, game.world.height * .5, this);
         }
 
         if (Player1.controlnum === -1) {

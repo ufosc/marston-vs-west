@@ -22,6 +22,7 @@ class boxer extends Fighter {
 
         //idle animation
         this.aniIdle = this.character.animations.add('idle', [1, 2, 3, 4], 5, true);
+        this.aniIdle.onComplete.add(this.IdleEnd, this);
 
         //jump animation
         this.aniJump = this.character.animations.add('jump', [20], 5, false); //need to adjust animation speed
@@ -29,7 +30,7 @@ class boxer extends Fighter {
         this.aniJump.onComplete.add(this.jumpEnd, this);
         
         //shield animation
-        this.aniShield = this.character.animations.add('shield', [19], 5, false);
+        this.aniShield = this.character.animations.add('shield', [19, 19, 19], 1, false);
         this.aniShield.onComplete.add(this.shieldEnd, this);
 
         //punch animations

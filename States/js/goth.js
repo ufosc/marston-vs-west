@@ -22,6 +22,7 @@ class goth extends Fighter {
 
         //idle animation
         this.aniIdle = this.character.animations.add('idle', [3, 4, 5], 5, true);
+        this.aniIdle.onComplete.add(this.IdleEnd, this);
 
         //jump animation
         this.aniJump = this.character.animations.add('jump', [23, 23], 5, false); //need to adjust animation speed
@@ -29,7 +30,7 @@ class goth extends Fighter {
         this.aniJump.onComplete.add(this.jumpEnd, this);
         
         //shield animation
-        this.aniShield = this.character.animations.add('shield', [13], 5, false);
+        this.aniShield = this.character.animations.add('shield', [13, 13, 13], 1, false);
         this.aniShield.onComplete.add(this.shieldEnd, this);
 
         //punch animations
