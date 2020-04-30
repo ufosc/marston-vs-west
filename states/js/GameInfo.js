@@ -10,14 +10,14 @@ class GameInfo {
 
         this.matchOutcome = "";
         
-        this.stageList = ["WestPrintStage", "WestDeskStage",    "MarstonTableStage", 
-                        "GatorStage",     "TreeStage",       "TableTopStage",
-                        "TableTop2Stage", "ReitzPondStage",  "ReitzStepStage" ];
+        this.stageList = ["WestPrintStage", "WestDeskStage",  "MarstonTableStage", 
+                          "GatorStage",     "TreeStage",      "TableTopStage",
+                          "TableTop2Stage", "ReitzPondStage", "ReitzStepStage" ];
         
         this.stageHistory = [];
 
-        this.scenarioList = ["MultiMan",  "1v1",      "Defender", 
-                             "GatorFight","Boss", "RockPaper",
+        this.scenarioList = ["MultiMan",  "1v1",       "Defender", 
+                             "GatorFight","Boss",      "RockPaper",
                              "OnePunch",  "Invisible", "Reverse"];
 
         this.scenarioHistory = [];

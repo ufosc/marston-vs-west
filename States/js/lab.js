@@ -17,11 +17,11 @@ class lab extends Fighter {
         //idle animation
         this.aniHang = this.character.animations.add('hang', [24, 25, 26], 5, true);
 
-        this.aniRight = this.character.animations.add('right', [6, 7, 8, 9], 10, true);
+        this.aniRight = this.character.animations.add('right', [6, 7, 8, 9], 10, false);
         this.aniRight.onComplete.add(this.walkEnd, this);
 
         //idle animation
-        this.aniIdle = this.character.animations.add('idle', [1, 2, 3, 4, 5], 5, true);
+        this.aniIdle = this.character.animations.add('idle', [1, 2, 3, 4, 4, 3, 2, 1], 8, true);
         this.aniIdle.onComplete.add(this.IdleEnd, this);
 
         //jump animation
@@ -30,7 +30,7 @@ class lab extends Fighter {
         this.aniJump.onComplete.add(this.jumpEnd, this);
         
         //shield animation
-        this.aniShield = this.character.animations.add('shield', [20, 20, 20], 1, false);
+        this.aniShield = this.character.animations.add('shield', [20], 2, false);
         this.aniShield.onComplete.add(this.shieldEnd, this);
 
         //punch animations

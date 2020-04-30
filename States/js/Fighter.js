@@ -127,7 +127,7 @@ class Fighter {
         this.aniRight.onComplete.add(this.walkEnd, this);
 
         //idle animation
-        this.aniIdle = this.character.animations.add('idle', [6], 5, true);
+        this.aniIdle = this.character.animations.add('idle', [5, 6, 7, 5, 6, 7], 6, true);
         this.aniIdle.onComplete.add(this.IdleEnd, this);
 
         //jump animation
@@ -136,7 +136,7 @@ class Fighter {
         this.aniJump.onComplete.add(this.jumpEnd, this);
         
         //shield animation
-        this.aniShield = this.character.animations.add('shield', [10, 10, 10], 1, false);
+        this.aniShield = this.character.animations.add('shield', [10], 2, false);
         this.aniShield.onComplete.add(this.shieldEnd, this);
 
         //punch animations
