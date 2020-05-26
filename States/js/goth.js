@@ -2,6 +2,7 @@ class goth extends Fighter {
     constructor(character, health, lives, startx, starty, controlnum) {
 
         super(character, health, lives, startx, starty, controlnum);
+        
         this.character.body.gravity.y = 650;
         //console.log("we created the lab construtor");
 
@@ -139,11 +140,7 @@ class goth extends Fighter {
             this.character.body.moves = false;
         }
         this.attack = 'warlock';
-                // this.weaponKick.trackSprite(this.character, 50, -1*(50 + Math.floor(Math.random() * 51)), true);
-                // this.weaponKick.bulletSpeed = -150;
-        this.weapon1.fire();    
-           
-        //game.time.events.add(Phaser.Timer.SECOND * 1.15, this.warlockTimer, this);
+        this.weapon1.fire();               
     }
 
     jumpKickStart() {
@@ -152,8 +149,6 @@ class goth extends Fighter {
         this.inputLock = true;
         this.xZero = false;
         game.time.events.add(Phaser.Timer.SECOND * .3, this.jumpKickTimer, this);
-
-        //this.velocity.x = 50 + this.velocity.x;
     }
 
     jumpKickEnd() {
@@ -167,25 +162,3 @@ class goth extends Fighter {
     }
 
 }
-
-/*
-        let i = 0;
-        if(this.character.scale.x < 0){  
-            while (i < 5){
-
-                this.weaponKick.trackSprite(this.character, 50, -1*(50 + Math.floor(Math.random() * 51)), true);
-                this.weaponKick.bulletSpeed = -150;
-                this.weaponKick.fire();
-                i++;
-            }    
-        }
-        else {
-            while (i < 5){
-
-                this.weaponKick.trackSprite(this.character, 50, (50 + Math.floor(Math.random() * 51)), true);
-                this.weaponKick.bulletSpeed = 150;
-                this.weaponKick.fire();
-                i++;
-            }
-        }
-*/

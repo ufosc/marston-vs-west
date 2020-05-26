@@ -13,7 +13,7 @@ var tcsState = {
         numY = 20;
 
         key1 = game.input.keyboard.addKey(Phaser.Keyboard.ENTER);
-        var skipLabel = game.add.text(game.world.width * .5 , game.world.height - 25, "Press 'Enter' to skip", { font: '25px Arial', fill: '#ffffff' });
+        var skipLabel = game.add.text(game.world.width * .5 , game.world.height - 25, "Press 'Enter' to skip", { font: '50px Permanent Marker', fill: '#ffffff' });
         skipLabel.anchor.setTo(.5,.5);
 
         player1ico = game.add.sprite(game.world.width * .05 - 100, game.world.height * .7, charName1);

@@ -1,13 +1,13 @@
 class ScoreCounter {
     constructor() {
-        this.arcadeLevel = 0;
+        this.arcadeLevel = 1;
         this.scoreMaster = [0, 0];
         this.scoreTemp = [0, 0];
         this.pointTemp = [[0, 0, 0, 0, 0],[0, 0, 0, 0, 0]]; // lives, dmgdealt, dmgtaken, timestart, timeleft
     }
 
     resetAll(){
-        this.arcadeLevel = 0;
+        this.arcadeLevel = 1;
         this.scoreMaster = [0, 0];
         this.scoreTemp = [0, 0];
         this.pointTemp = [[0, 0, 0, 0, 0],[0, 0, 0, 0, 0]];

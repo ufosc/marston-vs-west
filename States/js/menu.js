@@ -2,11 +2,15 @@ var menuState = {
 
     create: function () {
         //Create the menu & settings
-        game.scale.fullScreenScaleMode = Phaser.ScaleManager.EXACT_FIT;
-        game.stage.backgroundColor = '#000000';   //Give us some color pls
+        
         background = game.add.sprite(0, 0);
-        background.width = 1920;
-        background.height = 1080;
+        background.width = game.width;
+        background.height = game.height;
+
+        game.stage.backgroundColor = '#000000';   //Give us some color pls
+
+        game.scale.fullScreenScaleMode = Phaser.ScaleManager.EXACT_FIT;
+        //game.scale._scaleMode = 3;
 
         filter = game.add.filter('Fire', 1920, 1080);
         filter.alpha = 0.0;
@@ -51,25 +55,32 @@ var menuState = {
         
         */
         
-        var arcadeLabel = game.add.text(game.world.width * .4, game.world.height * .5, 'ARCADE', { font: '90px Permanent Marker', fill: '#ffffff' });
-        arcadeLabel.inputEnabled = true;
+        //var arcadeLabel = game.add.text(game.world.width * .4, game.world.height * .45, 'ARCADE', { font: '90px Permanent Marker', fill: '#ffffff' });
+        arcadeLabel = new TextButton(this.game, game.world.width * .2, game.world.height * .45, 'ARCADE', { font: '80px Permanent Marker', fill: '#ffffff' });
+        arcadeLabel.anchor.setTo(0, 0);
         arcadeLabel.events.onInputUp.add(function () {
             menuState.arcade();            
         });
 
-        var versusLabel = game.add.text(game.world.width * .4, game.world.height * .6, 'VERSUS', { font: '90px Permanent Marker', fill: '#ffffff' });
-        versusLabel.inputEnabled = true;
+        //var versusLabel = game.add.text(game.world.width * .4, game.world.height * .55 + 30, 'VERSUS', { font: '90px Permanent Marker', fill: '#ffffff' });
+        versusLabel = new TextButton(this.game, game.world.width * .8, game.world.height * .45, 'VERSUS', { font: '80px Permanent Marker', fill: '#ffffff' });
+        versusLabel.anchor.setTo(1, 0);
+
         versusLabel.events.onInputUp.add(function () {
             menuState.start();
         });
         
-        var optionsLabel = game.add.text(game.world.width * .4, game.world.height * .7, 'OPTIONS', { font: '90px Permanent Marker', fill: '#ffffff' });
-        optionsLabel.inputEnabled = true;
+        //var optionsLabel = game.add.text(game.world.width * .4, game.world.height * .65 + 60, 'OPTIONS', { font: '90px Permanent Marker', fill: '#ffffff' });
+        optionsLabel = new TextButton(this.game, game.world.width * .2, game.world.height * .65, 'OPTIONS', { font: '80px Permanent Marker', fill: '#ffffff' });
+        optionsLabel.anchor.setTo(0, 0);
         optionsLabel.events.onInputUp.add(function () {
             menuState.options();            
         });
 
-        var creditsLabel = game.add.text(game.world.width * .4, game.world.height * .8, 'CREDITS', { font: '90px Permanent Marker', fill: '#ffffff' });
+        //var creditsLabel = game.add.text(game.world.width * .4, game.world.height * .75 + 90, 'CREDITS', { font: '90px Permanent Marker', fill: '#ffffff' });
+        
+        creditsLabel =  new TextButton(this.game, game.world.width * .8, game.world.height * .65, 'CREDITS', { font: '80px Permanent Marker', fill: '#ffffff' });
+        creditsLabel.anchor.setTo(1, 0);
         creditsLabel.inputEnabled = true;
         creditsLabel.events.onInputUp.add(function () {
             menuState.credits();
@@ -93,6 +104,7 @@ var menuState = {
             //music.stop();
         }
 
+        gameManager.resetsettings();
         gameManager.ScoreKeeper.resetAll();
         
         console.log("go to normal css?");
@@ -111,21 +123,24 @@ var menuState = {
             //music.stop();
         }
 
+        gameManager.lives = 1;
+
         gameManager.playerTint[0] = "0xff8615";
         gameManager.playerTint[1] = "0x1c6bff";
 
-        gameManager.changemode("Arcade");
+        gameManager.resetsettings();
         gameManager.ScoreKeeper.resetAll();
+        gameManager.changemode("Arcade");
         game.state.start('arccss');
     },
     characterSelect: function () {
         if(muteState==false)
         buttonSound.play();
         console.log("css State");
-
+        gameManager.resetsettings();
         gameManager.ScoreKeeper.resetAll();
         gameManager.changemode("Multi");
-        gameManager.resetsettings();
+        
         game.state.start('css');
 
     },

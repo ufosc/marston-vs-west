@@ -4,6 +4,7 @@ var words;
 
 var arctcsState = {
     create:function(){
+
         console.log("Test:" + gameManager.gameType)
         console.log("in arctcs????")
 
@@ -29,7 +30,7 @@ var arctcsState = {
         console.log("chars:" + charName1 +", " + charName2 + ", " + gameManager.charName2);
 
         key1 = game.input.keyboard.addKey(Phaser.Keyboard.ENTER);
-        var skipLabel = game.add.text(game.world.width * .5 , game.world.height - 25, "Press 'Enter' to skip", { font: '25px Arial', fill: '#ffffff' });
+        var skipLabel = game.add.text(game.world.width * .5 , game.world.height - 25, "Press 'Enter' to skip", { font: '50px Permanent Marker', fill: '#ffffff' });
         skipLabel.anchor.setTo(.5,.5);
 
         player1ico = game.add.sprite(game.world.width * .05 - 100, game.world.height * .7, charName1);
@@ -53,9 +54,10 @@ var arctcsState = {
         
         console.log("making sprite");
         player2ico = game.add.sprite(game.world.width * .95 + 100, game.world.height * .7, charName2);
+        console.log("making sprite2");
         player2ico.scale.setTo(15, 15);
         player2ico.anchor.setTo(.5,.5);
-        
+        console.log("making sprite anchors done");
         player2ico.animations.add('idle', [1, 2], 5, true);
         player2ico.animations.add('kick', [6], 5, true);
         console.log("middle of making?");
@@ -81,19 +83,15 @@ var arctcsState = {
 
         console.log("players made?");
 
-        /*game.add.text((game.world.width* 0.15), 50, 
-              `Player2: ${Words.Phrase}` + '\n'
-            + `Player1: ${Words.Response}`
-            , { font: '70px Arial', fill: '#ffffff' });*/
-
-            game.add.text((game.world.width* 0.5), 50, 
+            player2response = game.add.text((game.world.width), 50, 
             `Player2: ${Words.Phrase}` + '\n'
-          , { font: '70px Arial', fill: '#ffffff' });
+          , { font: '50px Permanent Marker', fill: '#ffffff' });
 
+          player2response.anchor.setTo(1,0);
           
 
-          var scenarioLabel = game.add.text(game.world.width * 0.5, game.world.height * 0.9, gameManager.scenario, { font: '60px Arial', fill: '#ffffff' });
-  
+          var scenarioLabel = game.add.text(game.world.width * 0.5, game.world.height * 0.9, gameManager.scenario, { font: '50px Permanent Marker', fill: '#ffffff' });
+          scenarioLabel.anchor.setTo(0.5, 0.5);
     },
 
     rush:function(){
@@ -110,9 +108,11 @@ var arctcsState = {
 
         game.time.events.add(Phaser.Timer.SECOND * 4.7, this.rushStop, this);
         
-        game.add.text((game.world.width* 0), 50, 
+        player1response = game.add.text((game.world.width* 0), 50, 
         `Player1: ${Words.Response}`
-        , { font: '70px Arial', fill: '#ffffff' });
+        , { font: '50px Permanent Marker', fill: '#ffffff' });
+
+        player1response.anchor.setTo(0,0);
     },
     rushStop:function(){
         player1ico.body.velocity.x = 0;

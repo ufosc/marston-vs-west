@@ -3,16 +3,20 @@ var config =
     //width: 800,
     //height: 600,
 
-    width: 1920,
-    height: 1080,
+    width: window.innerWidth,
+    height: window.innerHeight,
+
+    //width: 1920,
+    //height: 1080,
 
     renderer: Phaser.AUTO,
     parent: 'gameDiv',
     transparent: false,
     antialias: false,
     state: this,
-    scaleMode: Phaser.ScaleManager.SHOW_ALL
-
+    scaleMode: Phaser.ScaleManager.RESIZE
+    //scaleMode: Phaser.ScaleManager.SHOW_ALL
+    //scaleMode: Phaser.ScaleManager.SHOW_ALL
 }
 
 var game = new Phaser.Game(config);
@@ -23,6 +27,8 @@ var gameManager = new GameInfo();
 
 var gamewidth = 1920;
 var gameheight = 1080;
+/*var gamewidth = 1920;
+var gameheight = 1080;*/
 
 var multimanmode = false;
 var multimenko = 0;

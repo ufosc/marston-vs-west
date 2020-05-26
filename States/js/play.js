@@ -3,7 +3,12 @@ var playState = {
     //hitPlayer12: function (target,attacker)
     hitPlayer12: function (Player1,Player2) {
 
-        let OnePunchDeath = gameManager.OnePunchDeath;
+        var OnePunchBonus = 0;
+        
+        if(gameManager.OnePunchDeath){
+            OnePunchBonus = 10000;
+        }
+
         let hitDmg = 0;
         let hitAngle = 0;
         let attackDistance = 0;
@@ -81,10 +86,10 @@ var playState = {
                     }
                 }
 
-                Player1.hanging = "letgo";
-                Player1.hangingtimer = 100;
-                Player1.health += hitDmg + OnePunchDeath;
-                Player1.hitVelocity = Player2.character.scale.x * Player1.health * 2 + OnePunchDeath;
+                Player1.hangingState = "LetGo";
+                Player1.hangingTimer = 100;
+                Player1.health += hitDmg + OnePunchBonus;
+                Player1.hitVelocity = Player2.character.scale.x * Player1.health * 2 + OnePunchBonus;
 
                 //update points for damage dealt
                 gameManager.ScoreKeeper.updatePoint(gameManager.ScoreKeeper.verifyPlayer(Player2.controlnum), 1, hitDmg);
@@ -120,8 +125,11 @@ var playState = {
                     }, this);
 
                 Player1.character.body.velocity.y = -(Math.pow(Player1.health, hitAngle));
-
-                if (Player1.health >= 0 || Player1.health <= 75) {
+                
+                if (gameManager.scenario == "Metal"){
+                    Player1.stuncounterset(0);
+                }
+                else if (Player1.health >= 0 || Player1.health <= 75) {
                     Player1.stuncounterset(60);
                 }
                 else if (Player1.health > 75 || Player1.health <= 150) {
@@ -198,9 +206,8 @@ var playState = {
 
         if(Fighter.lives >= 1){
             if (Fighter.controlnum === 1) {
-                //console.log("controlnum = 1");
                 Fighter.character.x = 0.25 * game.width  //200;
-                Fighter.character.y = 0.25 * game.height //230;
+                Fighter.character.y = 0.15 * game.height //230;
                 Fighter.respawnSwitch = true;
                 Fighter.m = 0;
                 Fighter.inputLock = false;
@@ -208,9 +215,8 @@ var playState = {
                 Fighter.xZero = true;
             }
             else if (Fighter.controlnum === 2) {
-                //console.log("controlnum = 2");
                 Fighter.character.x = 0.75 * game.width;
-                Fighter.character.y = 0.25 * game.height;
+                Fighter.character.y = 0.15 * game.height;
                 Fighter.respawnSwitch = true;
                 Fighter.m = 0;
                 Fighter.inputLock = false;
@@ -221,7 +227,7 @@ var playState = {
                 //console.log("controlnum = -1");
                 //Fighter.character.body.position.x = 200;
                 Fighter.character.x = 0.25 * game.width  //200;
-                Fighter.character.y = 0.25 * game.height //230;
+                Fighter.character.y = 0.15 * game.height //230;
                 Fighter.respawnSwitch = true;
                 Fighter.m = 0;
                 Fighter.inputLock = false;
@@ -234,7 +240,7 @@ var playState = {
                 //Fighter.character.x = 600;
                 //Fighter.character.y = 230;
                 Fighter.character.x = 0.75 * game.width;
-                Fighter.character.y = 0.25 * game.height;
+                Fighter.character.y = 0.15 * game.height;
                 Fighter.respawnSwitch = true;
                 Fighter.m = 0;
                 Fighter.inputLock = false;
@@ -243,7 +249,7 @@ var playState = {
             }
             Fighter.health = 0;
             Fighter.lives += -1;
-            if(gameManager.OnePunchDeath === 10000){
+            if(gameManager.OnePunchDeath === true){
                 Fighter.lives = 0;
             }
         }
@@ -298,7 +304,10 @@ var playState = {
     },
     
     playerHitStun: function (Fighter) {
-        if (Fighter.health >= 0 || Fighter.health <= 75) {
+        if (gameManager.scenario == "Metal"){
+            Fighter.stuncounterset(0);
+        }
+        else if (Fighter.health >= 0 || Fighter.health <= 75) {
             Fighter.stuncounterset(15);
         }
         else if (Fighter.health > 75 || Fighter.health <= 150) {
@@ -315,7 +324,7 @@ var playState = {
     KO: function (Fighter) {
         
         //if (Fighter.character.body.position.x < -50 || Fighter.character.body.position.x > 900) {
-        if (Fighter.character.body.position.x < -50 || Fighter.character.body.position.x > game.world.width + 50) {
+        if (Fighter.character.body.position.x < -100 || Fighter.character.body.position.x > game.world.width + 100) {
             Fighter.character.hasItem = false;
             if(muteState==false)
             deathSound.play();
@@ -331,7 +340,7 @@ var playState = {
             }         
         }
         //else if (Fighter.character.body.position.y > 700 || Fighter.character.body.position.y < -200) {
-        else if (Fighter.character.body.position.y > game.world.height + 200 || Fighter.character.body.position.y < -200) {
+        else if (Fighter.character.body.position.y > game.world.height + 300 || Fighter.character.body.position.y < -300) {
             Fighter.character.hasItem = false;
             if(muteState==false)
             deathSound.play();
@@ -379,6 +388,9 @@ var playState = {
         if(gameManager.scenario === "MultiMan"){
             multimanmode = true;
         }
+        else{
+            multimanmode = false;
+        }
 
         //Play music
         music.stop();
@@ -406,7 +418,7 @@ var playState = {
             
 
             // Create the ground.
-            land = new platform(game.world.width * 0.5, game.world.height * 0.7, false, 'plat1',50, 2)
+            land = new platform(game.world.width * 0.5, game.world.height * 0.7, false, 'plat1',35, 2)
             
             ground = platforms.add(land.plat);
             leftledge = platformsELeft.add(land.leftledge);
@@ -424,7 +436,7 @@ var playState = {
             platformsERight = game.add.group();
 
             // Create the ground.
-            land = new platform(game.world.width * 0.5 + 170, game.world.height * 0.7, false, 'plat1', 43, 2)
+            land = new platform(game.world.width * 0.5, game.world.height * 0.78, false, 'plat1', 35, 2)
             
             ground = platforms.add(land.plat);
             leftledge = platformsELeft.add(land.leftledge);
@@ -462,7 +474,7 @@ var playState = {
             plat3.body.checkCollision.down = false;
             plat3.body.immovable = true;
             
-            miniland4 = new platform(game.world.width*0.1 -20, game.world.height * 0.6, false, 'plat2', 7, 1);
+            miniland4 = new platform(game.world.width*0.1 -20, game.world.height * 0.5, false, 'plat2', 7, 1);
             var plat4 = miniPlatforms.add(miniland4.plat);
             plat4.anchor.setTo(0.5,1);
             //plat4.body.collideWorldBounds = true;
@@ -535,7 +547,7 @@ var playState = {
             platformsERight = game.add.group();
 
             // Create the ground.
-            land = new platform(game.world.width * 0.5, game.world.height * 0.68, false, 'plat1',40, 2)
+            land = new platform(game.world.width * 0.5, game.world.height * 0.68, false, 'plat1',35, 2)
             
             ground = platforms.add(land.plat);
             leftledge = platformsELeft.add(land.leftledge);
@@ -561,8 +573,8 @@ var playState = {
             //  The platforms group contains the ground and the 5 ledges we can jump on
             miniPlatforms = game.add.group();
             
-            miniland1 = new platform(game.world.width*0.45, game.world.height * 0.64, false, 'plat2', 5,0.7);
-            miniland2 = new platform(game.world.width*0.63, game.world.height * 0.67, false, 'plat2', 5,0.7);
+            miniland1 = new platform(game.world.width*0.45, game.world.height * 0.62, false, 'plat2', 5,0.7);
+            miniland2 = new platform(game.world.width*0.63, game.world.height * 0.65, false, 'plat2', 5,0.7);
             
             var plat1 = miniPlatforms.add(miniland1.plat);
             var plat2 = miniPlatforms.add(miniland2.plat);
@@ -580,32 +592,27 @@ var playState = {
             plat2.body.immovable = true;
             
             
-            miniland3 = new platform(game.world.width*0.82, game.world.height * 0.6, false, 'plat2', 5,0.7);
+            miniland3 = new platform(game.world.width*0.82, game.world.height * 0.57, false, 'plat2', 5,0.7);
             var plat3 = miniPlatforms.add(miniland3.plat);
             plat3.anchor.setTo(0.5,1);
             //plat3.body.collideWorldBounds = true;
             plat3.body.checkCollision.down = false;
             plat3.body.immovable = true;
             
-            miniland4 = new platform(game.world.width*0.3, game.world.height * 0.55, false, 'plat2', 5,0.7);
+            miniland4 = new platform(game.world.width*0.3, game.world.height * 0.52, false, 'plat2', 5,0.7);
             var plat4 = miniPlatforms.add(miniland4.plat);
             plat4.anchor.setTo(0.5,1);
             //plat4.body.collideWorldBounds = true;
             plat4.body.checkCollision.down = false;
             plat4.body.immovable = true;
             
-            miniland5 = new platform(game.world.width*0.18, game.world.height * 0.5, false, 'plat2', 5,0.7);
+            miniland5 = new platform(game.world.width*0.18, game.world.height * 0.47, false, 'plat2', 5,0.7);
             var plat5 = miniPlatforms.add(miniland5.plat);
             plat5.anchor.setTo(0.5,1);
             //plat5.body.collideWorldBounds = true;
             plat5.body.checkCollision.down = false;
             plat5.body.immovable = true;
             
-            //var plat1 = miniPlatforms.add(miniland1.plat);
-            //var plat2 = miniPlatforms.add(miniland2.plat);
-
-            //plat1.scale.setTo(5, 0.7);
-            //plat2.scale.setTo(5, 0.7);
         }
         else if(gameManager.chosenStageName === 'TableTopStage') {
             back = game.add.sprite(0, 0, 'TableTopStage');
@@ -618,7 +625,7 @@ var playState = {
             platformsERight = game.add.group();
 
             // Create the ground.
-            land = new platform(game.world.width * 0.48, game.world.height - 120, false, 'plat1',40, 2)
+            land = new platform(game.world.width * 0.48, game.world.height * 0.9, false, 'plat1',40, 2)
             
             ground = platforms.add(land.plat);
             leftledge = platformsELeft.add(land.leftledge);
@@ -626,21 +633,21 @@ var playState = {
 
             miniPlatforms = game.add.group();
 
-            miniland1 = new platform(game.world.width * 0.47, game.world.height * 0.5, false, 'plat2', 14,0.7);
+            miniland1 = new platform(game.world.width * 0.47, game.world.height * 0.48, false, 'plat2', 14,0.7);
             var plat1 = miniPlatforms.add(miniland1.plat);
             plat1.anchor.setTo(0.5,1);
             //plat1.body.collideWorldBounds = true;
             plat1.body.checkCollision.down = false;
             plat1.body.immovable = true;
             
-            miniland2 = new platform(game.world.width * 0.28, game.world.height * 0.67, false, 'plat2', 7,0.7);
+            miniland2 = new platform(game.world.width * 0.28, game.world.height * 0.63, false, 'plat2', 7,0.7);
             var plat2 = miniPlatforms.add(miniland2.plat);
             plat2.anchor.setTo(0.5,1);
             //plat2.body.collideWorldBounds = true;
             plat2.body.checkCollision.down = false;
             plat2.body.immovable = true;
 
-            miniland3 = new platform(game.world.width * 0.67, game.world.height * 0.67, false, 'plat2', 7,0.7);
+            miniland3 = new platform(game.world.width * 0.67, game.world.height * 0.63, false, 'plat2', 7,0.7);
             var plat3 = miniPlatforms.add(miniland3.plat);
             plat3.anchor.setTo(0.5,1);
             //plat3.body.collideWorldBounds = true;
@@ -659,7 +666,7 @@ var playState = {
             platformsERight = game.add.group();
 
             // Create the ground.
-            land = new platform(game.world.width * 0.5, game.world.height * 0.97, false, 'plat1', 52, 2)
+            land = new platform(game.world.width * 0.5, game.world.height * 0.97, false, 'plat1', 42, 2)
             
             ground = platforms.add(land.plat);
             leftledge = platformsELeft.add(land.leftledge);
@@ -667,7 +674,7 @@ var playState = {
             
             miniPlatforms = game.add.group();
             
-            miniland1 = new platform(game.world.width * 0.5, game.world.height * 0.68, false, 'plat2', 40,0.7);
+            miniland1 = new platform(game.world.width * 0.5, game.world.height * 0.68, false, 'plat2', 32,0.7);
             var plat1 = miniPlatforms.add(miniland1.plat);
             plat1.anchor.setTo(0.5,1);
             //plat1.body.collideWorldBounds = true;
@@ -752,7 +759,12 @@ var playState = {
             ground.body.immovable = true;
         }
 
-        var scenarioLabel = game.add.text(game.world.width * 0.5, game.world.height * 0.9, gameManager.scenario, { font: '60px Arial', fill: '#ffffff' });
+        //set stage to correct size
+        back.width = game.world.width;
+        back.height = game.world.height * 1.05;
+
+        var scenarioLabel = game.add.text(game.world.width * 0.5, game.world.height * 0.9, gameManager.scenario, { font: '50px Permanent Marker', fill: '#ffffff' });
+        scenarioLabel.anchor.setTo(0.5, 0.5);
 
         hitvol = 0.07;
         hitSound = game.add.audio('hitSound',hitvol);
@@ -783,38 +795,38 @@ var playState = {
         }
 
         if (charName1 === 'Fighter'){
-            Player1 = new dj(charName1, 0, gameManager.lives, game.world.width * 0.25, game.world.height * 0.5, controlOptionVpad);
+            Player1 = new dj(charName1, 0, gameManager.lives, game.world.width * 0.25, game.world.height * 0.25, controlOptionVpad);
         }
         else if (charName1 === 'Lab') {
-            Player1 = new lab(charName1, 0, gameManager.lives, game.world.width * 0.25, game.world.height * 0.5, controlOptionVpad);
+            Player1 = new lab(charName1, 0, gameManager.lives, game.world.width * 0.25, game.world.height * 0.25, controlOptionVpad);
         }
         else if (charName1 === 'Goth') {
-            Player1 = new goth(charName1, 0, gameManager.lives, game.world.width * 0.25, game.world.height * 0.5, controlOptionVpad);
+            Player1 = new goth(charName1, 0, gameManager.lives, game.world.width * 0.25, game.world.height * 0.25, controlOptionVpad);
         }
         else if (charName1 === 'Boxer') {
-            Player1 = new boxer(charName1, 0, gameManager.lives, game.world.width * 0.25, game.world.height * 0.5, controlOptionVpad);
+            Player1 = new boxer(charName1, 0, gameManager.lives, game.world.width * 0.25, game.world.height * 0.25, controlOptionVpad);
         }
 
 
         if (charName2 === 'Fighter') {
-            Player2 = new dj(charName2, 0, gameManager.lives, game.world.width * 0.75, game.world.height * 0.5, controlOptionAI);
+            Player2 = new dj(charName2, 0, gameManager.lives, game.world.width * 0.75, game.world.height * 0.25, controlOptionAI);
         }
         else if (charName2 === 'Goth') {
-            Player2 = new goth(charName2, 0, gameManager.lives, game.world.width * 0.75, game.world.height * 0.5, controlOptionAI);
+            Player2 = new goth(charName2, 0, gameManager.lives, game.world.width * 0.75, game.world.height * 0.25, controlOptionAI);
         }
         else if (charName2 === 'Lab') {
-            Player2 = new lab(charName2, 0, gameManager.lives, game.world.width * 0.75, game.world.height * 0.5, controlOptionAI);
+            Player2 = new lab(charName2, 0, gameManager.lives, game.world.width * 0.75, game.world.height * 0.25, controlOptionAI);
         }
         else if (charName2 === 'Boxer') {
-            Player2 = new boxer(charName2, 0, gameManager.lives, game.world.width * 0.75, game.world.height * 0.5, controlOptionAI);
+            Player2 = new boxer(charName2, 0, gameManager.lives, game.world.width * 0.75, game.world.height * 0.25, controlOptionAI);
         }
 
         if (multimanmode === true) {
-            Player3 = new lab(charName2, 0, gameManager.lives, game.world.width * 0.5, game.world.height * 0.5, controlOptionAI);
+            Player3 = new lab(charName2, 0, gameManager.lives, game.world.width * 0.5, game.world.height * 0.25, controlOptionAI);
 
             console.log("Player 3 is lab");
 
-            Player4 = new lab(charName2, 0, gameManager.lives, game.world.width * 0.62, game.world.height * 0.5, controlOptionAI);
+            Player4 = new lab(charName2, 0, gameManager.lives, game.world.width * 0.62, game.world.height * 0.25, controlOptionAI);
             console.log("Player 4 is lab");
         }
 
@@ -910,17 +922,19 @@ var playState = {
 
         //mob = new crowd(0,0);
 
-        healthtext1 = game.add.text(game.world.width*0.1, game.world.height * 0.9 , `DMG ${Player1.health}`, Player1.fighterStyle);
+        healthtext1 = game.add.text(game.world.width*0.1, game.world.height * 0.95, `DMG ${Player1.health}`,{ font: '20px Permanent Marker'}, Player1.fighterStyle );
         healthtext1.stroke = '#ffffff';
         healthtext1.strokeThickness = 10;
         healthtext1.scale.x = 2;
         healthtext1.scale.y = 2;
+        healthtext1.anchor.setTo(0,1);
 
-        healthtext2 = game.add.text(game.world.width*0.8, game.world.height * 0.9, `DMG ${Player2.health}`, Player2.fighterStyle);
+        healthtext2 = game.add.text(game.world.width*0.9, game.world.height * 0.95, `DMG ${Player2.health}`,{ font: '20px Permanent Marker'}, Player2.fighterStyle);
         healthtext2.stroke = '#ffffff';
         healthtext2.strokeThickness = 10;
         healthtext2.scale.x = 2;
         healthtext2.scale.y = 2;
+        healthtext2.anchor.setTo(1,1);
 
 
         //livetext1 = game.add.text(0, game.world.height - 50, ``,style2);
@@ -935,11 +949,13 @@ var playState = {
             nameText3 = game.add.text(0, 0, "P3", style);
             nameText4 = game.add.text(0, 0, "P4", style);
         }
+
         //Pause
-        pauseLabel = game.add.text(game.world.width * .5, game.world.height * .15, 'Pause', { font: '70px Arial', fill: '#ffffff' });
-        pauseLabel.anchor.setTo(.5, .5);
+        pauseLabel = game.add.text(game.world.width * .5, game.world.height * .1, 'Pause', { font: '50px Permanent Marker', fill: '#ffffff' });
+        pauseLabel.anchor.setTo(.5, 0.5);
         pauseLabel.inputEnabled = true;
         pauseLabel.events.onInputUp.add(function () {
+            
             //Pause menu
             if(game.paused == false) {
                 pauseMenu = game.add.sprite(game.world.width * .5, game.world.height * .5, 'Pause Menu');
@@ -947,8 +963,6 @@ var playState = {
             }
             game.paused = true;
             
-            //choiseLabel = game.add.text(game.world.width / 2, game.world.height - 150, 'Click outside menu to continue, click center to quit', { font: '30px Arial', fill: '#fff' });
-            //choiseLabel.anchor.setTo(0.5, 0.5);
         });
         game.input.onDown.add(unpause, self);
         function unpause(event) {
@@ -969,7 +983,6 @@ var playState = {
                     buttonSound.play();
                     game.state.start('menu');
                     pauseMenu.destroy();
-                    //choiseLabel.destroy();
 
                     // Unpause the game, required to actually jump to the menu
                     game.paused = false;
@@ -980,8 +993,7 @@ var playState = {
                     console.log("resume game!!!");
                     // Remove the menu and the label
                     pauseMenu.destroy();
-                    //choiseLabel.destroy();
-
+                   
                     // Unpause the game
                     game.paused = false;
                 }
@@ -991,8 +1003,8 @@ var playState = {
                 }
             }
         };
-        timerText = game.add.text(game.world.width * .5, game.world.height* 0.1, `Time: ${timer.duration}`, { font: '80px Arial', fill: '#000000' });
-        timerText.anchor.setTo(.5, .5);
+        timerText = game.add.text(game.world.width * .5, game.world.height* 0, `Time: ${timer.duration}`, { font: '50px Permanent Marker', fill: '#000000' });
+        timerText.anchor.setTo(.5, 0);
     },
 
     formatTime: function (s) {
@@ -1534,7 +1546,6 @@ var playState = {
         }
         else if (AIFighter.character.body.position.x > 400) {
 
-            //console.log("AI should be keeping left");
             AIFighter.controller1.leftpress = true;
             AIFighter.controller1.rightpress = false;
         }
@@ -1556,14 +1567,10 @@ var playState = {
                 //aggressive ai behavior mode
 
                 if (AIxdist > 50) {
-
-                    //console.log("AI should be moving left");
                     Fighter.controller1.leftpress = true;
                     Fighter.controller1.rightpress = false;
                 }
                 else if (AIxdist < -50) {
-
-                    //console.log("AI should be moving right");
                     Fighter.controller1.leftpress = false;
                     Fighter.controller1.rightpress = true;
                 }
@@ -1589,7 +1596,7 @@ var playState = {
             AIFighter.bpress = false;//special button
             AIFighter.xpress = false;//jump button
             AIFighter.ypress = false;//block button
-            console.log(AIydist);
+
             //random number generator between 1 and 1000
             react = Math.floor((Math.random() * 10) + 1);
             if (react == 1) {
@@ -1597,7 +1604,7 @@ var playState = {
 
                 AIFighter.AImode = AIFighter.AImode * -1;
 
-                if(AIFighter.hanging === "yes" && react == 10){
+                if(AIFighter.hangingState === "Hanging" && react == 10){
                     AIFighter.controller1.ypress = true;
                 }
             }
@@ -1665,13 +1672,11 @@ var playState = {
                 //THE MOVE SCRIPTS
                 // if the distance between the AI and the user is greater than 50 pixels, then the AI should move left
                 if (AIxdist > 50) {
-                    //console.log("AI should be moving left");
                     AIFighter.controller1.leftpress = true;
                     AIFighter.controller1.rightpress = false;
                 }
                 // if the distance between the AI and the user is less than -50 pixels, then the AI should move right
                 else if (AIxdist < -50) {
-                    //console.log("AI should be moving right");
                     AIFighter.controller1.leftpress = false;
                     AIFighter.controller1.rightpress = true;
                 }
@@ -1686,12 +1691,10 @@ var playState = {
                 //defendMode(AIFighter, AIxdist, AIydist);
 
                 if (AIxdist < 150 && AIxdist > 0 || AIxdist < -250) {
-                    //console.log("AI should be keeping right");
                     AIFighter.controller1.leftpress = false;
                     AIFighter.controller1.rightpress = true;
                 }
                 else if (AIxdist > -150 && AIxdist < 0 || AIxdist > 250) {
-                    //console.log("AI should be keeping left");
                     AIFighter.controller1.leftpress = true;
                     AIFighter.controller1.rightpress = false;
                 }
@@ -1706,12 +1709,10 @@ var playState = {
                 //defendMode(AIFighter, AIxdist, AIydist);
 
                 if (AIFighter.character.body.position.x < 300) {
-                    //console.log("AI should be keeping right");
                     AIFighter.controller1.leftpress = false;
                     AIFighter.controller1.rightpress = true;
                 }
                 else if (AIFighter.character.body.position.x > 400) {
-                    //console.log("AI should be keeping left");
                     AIFighter.controller1.leftpress = true;
                     AIFighter.controller1.rightpress = false;
                 }
@@ -1748,7 +1749,6 @@ var playState = {
 
     checkArcadeWin: function () {
         if(gameManager.gameType === "Arcade") {
-            console.log("Check arcade match?");
             if(Player1.lives > 0 && timer.duration > 0){
                 gameManager.matchOutcome = "Win"
             }

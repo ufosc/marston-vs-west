@@ -18,26 +18,26 @@ var arccssState = {
 
         key1 = game.input.keyboard.addKey(Phaser.Keyboard.ENTER);
         
-        LabIcon = game.add.sprite(game.world.width * 0.5 - 250, game.world.height * .5 + 150, 'LabIcon');
-        LabIcon.anchor.setTo(.5, .5);
+        LabIcon = game.add.sprite(game.world.width * 0.3, game.world.height * .5, 'LabIcon');
+        LabIcon.anchor.setTo(.5, 1);
         LabIcon.scale.setTo(5, 5);
         game.physics.arcade.enable(LabIcon);
         LabIcon.tint = 0xffffff;
 
-        GothIcon = game.add.sprite(game.world.width * 0.5 + 250, game.world.height * .5 + 150, 'GothIcon');
-        GothIcon.anchor.setTo(.5, .5);
+        GothIcon = game.add.sprite(game.world.width * 0.7, game.world.height * .5, 'GothIcon');
+        GothIcon.anchor.setTo(.5, 1);
         GothIcon.scale.setTo(5, 5);
         game.physics.arcade.enable(GothIcon);
         GothIcon.tint = 0xffffff;
 
-        BoxIcon = game.add.sprite(game.world.width * 0.5 - 250, game.world.height * .5 + 350, 'BoxIcon');
-        BoxIcon.anchor.setTo(.5, .5);
+        BoxIcon = game.add.sprite(game.world.width * 0.3, game.world.height * .5, 'BoxIcon');
+        BoxIcon.anchor.setTo(.5, 0);
         BoxIcon.scale.setTo(5, 5);
         game.physics.arcade.enable(BoxIcon);
         BoxIcon.tint = 0xffffff;
 
-        FighterIcon = game.add.sprite(game.world.width * 0.5 + 250, game.world.height * .5 + 350, 'FighterIcon');
-        FighterIcon.anchor.setTo(.5, .5);
+        FighterIcon = game.add.sprite(game.world.width * 0.7, game.world.height * 0.5, 'FighterIcon');
+        FighterIcon.anchor.setTo(.5, 0);
         FighterIcon.scale.setTo(5, 5);
         game.physics.arcade.enable(FighterIcon);
         FighterIcon.tint = 0xffffff;
@@ -62,7 +62,7 @@ var arccssState = {
         });
         //.onInputUp.add(this.arcade, this);
 
-        player1Icon = game.add.sprite(game.world.width * .5 - 200, game.world.height * .5 + 400, 'player1cssIcon');
+        player1Icon = game.add.sprite(game.world.width * .5, game.world.height * .5, 'player1cssIcon');
         player1Icon.scale.setTo(3, 3);
         player1Icon.anchor.setTo(.5, .5);
 
@@ -98,13 +98,14 @@ var arccssState = {
         buttonSound.volume = musicvol;
 
         //var startLabel = game.add.text(80, game.world.height - 40, 'Press "1" key to play game after selecting characters!', { font: '25px Arial', fill: '#ffffff' });
-        gameReadyText = game.add.text(game.world.width * .5, game.world.height - 75, '', { font: '75px Arial', fill: '#ffffff' });
+        //gameReadyText = game.add.text(game.world.width * .5, game.world.height - 75, '', { font: '90px Permanent Marker', fill: '#ffffff' });
+        gameReadyText = new TextButton(this.game, game.world.width * .5, game.world.height - 75, '', { font: '75px Permanent Marker', fill: '#ffffff' });
         gameReadyText.anchor.setTo(.5, .5);
 
-        player1Text = game.add.text(game.world.width * .25 - 85, game.world.height * .5 + 275, '', { font: '25px Arial', fill: '#ffffff' });
-        player2Text = game.add.text(game.world.width * .75 + 215, game.world.height * .5 + 275, '', { font: '25px Arial', fill: '#ffffff' });
-        player1Text.anchor.setTo(.5,.5);
-        player2Text.anchor.setTo(.5,.5);
+        player1Text = game.add.text(game.world.width * .05, game.world.height * .3, '', { font: '90px Permanent Marker', fill: '#ffffff' });
+        player2Text = game.add.text(game.world.width * .95, game.world.height * .3, '', { font: '90px Permanent Marker', fill: '#ffffff' });
+        player1Text.anchor.setTo(0,.5);
+        player2Text.anchor.setTo(1,.5);
 
         player1BodyIcon = game.add.sprite(game.world.width * .25 - 150, game.world.height * .5 + 150, '');
         player2BodyIcon = game.add.sprite(game.world.width * .75 + 150, game.world.height * .5 + 150, '');
@@ -114,7 +115,7 @@ var arccssState = {
         player2BodyIcon.scale.setTo(1.5, 1.5);
 
         //Chose your library: Click on label to set variable to a library, then send info later
-        var player1Label = game.add.text(game.world.width*0.25, 50, 'Choose your Library!', { font: '25px Arial', fill: '#ffffff' });
+        var player1Label = game.add.text(game.world.width*0.25, 50, 'Choose your Library!', { font: '50px Permanent Marker', fill: '#ffffff' });
         player1Label.inputEnabled = true;
         player1Label.selected = 0;
         player1Label.librarySelected = '';
@@ -134,7 +135,7 @@ var arccssState = {
             }
         });
 
-        var player2Label = game.add.text(game.world.width * .65 + 150, 50, 'Choose your Library!', { font: '25px Arial', fill: '#ffffff' });
+        var player2Label = game.add.text(game.world.width * .65 + 150, 50, 'Choose your Library!', { font: '50px Permanent Marker', fill: '#ffffff' });
         player2Label.inputEnabled = true;
         player2Label.selected = 0;
         player2Label.librarySelected = '';
@@ -158,14 +159,8 @@ var arccssState = {
         player1Label.visible = false;
         player2Label.visible = false;
 
-        /*var backbutton = game.add.text(50, 200, 'Click to go back', { font: '25px Arial', fill: '#ffffff' });
-        backbutton.inputEnabled = true;
-        backbutton.events.onInputUp.add(function () {
-            game.state.start('menu');
-        });*/
+        menuLabel = new TextButton(this.game, game.world.width * .05, game.world.height * .05, 'MENU', { font: '90px Permanent Marker', fill: '#ffffff' });
 
-        var menuLabel = game.add.text(game.world.width * .05, game.world.height * .8, 'MENU', { font: '90px Permanent Marker', fill: '#ffffff' });
-        menuLabel.inputEnabled = true;
         menuLabel.events.onInputUp.add(function () {
             game.state.start('menu');
         });
@@ -175,12 +170,10 @@ var arccssState = {
         
         //player 1 color selection events
         ColorMenu1.button[0].onInputUp.add(function (){
-                //console.log("button1");
                 gameManager.playerTint[0] = ColorMenu1.colorPick(0);
         });
 
         ColorMenu1.button[1].onInputUp.add(function (){
-                //console.log("button2");
                 gameManager.playerTint[0] = ColorMenu1.colorPick(1);
         });
         
@@ -199,24 +192,7 @@ var arccssState = {
         ColorMenu1.button[5].onInputUp.add(function (){
                 gameManager.playerTint[0] = ColorMenu1.colorPick(5);
         });
-        /*
-        ColorMenu1.button[6].onInputUp.add(function (){
-                gameManager.playerTint[0] = ColorMenu1.colorPick(6);
-        });
-        
-        ColorMenu1.button[7].onInputUp.add(function (){
-                gameManager.playerTint[0] = ColorMenu1.colorPick(7);
-        });
-        
-        ColorMenu1.button[8].onInputUp.add(function (){
-                gameManager.playerTint[0] = ColorMenu1.colorPick(8);
-        });*/
-        
-        //console.log("Color menu made?");
-        //TODO:Incorperate dragUpdate function event system into current system. I think it's needed to fix bugs/add dynamic features like spawning the character when hovering over while still dragging.
-        //TODO:
-        //find a way to change text, show sprite and name with alpha applied when hovering but NOT selecting character, SOLUTION: probably above comment
-        
+
     },
     start: function () {
         gameReadyText.text = `Game Start!`;

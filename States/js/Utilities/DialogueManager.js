@@ -57,8 +57,6 @@ class DialogueManager {
         var randNum = Math.floor(Math.random() * 18);
         this.Phrase = this.phraseList[randNum];
         this.Response = this.responseList[randNum];
-        console.log("Phrase:" + this.phrase);
-        console.log("Response:" + this.response);
 
     }
 

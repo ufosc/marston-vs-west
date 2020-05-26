@@ -3,18 +3,17 @@ class boxer extends Fighter {
 
         super(character, health, lives, startx, starty, controlnum);
         this.character.body.gravity.y = 650;
-        //console.log("we created the lab construtor");
 
         this.jumpSpeed = 40;
         this.fallSpeed = 55;
         this.runSpeed = 60;
-        this.attackSpeed = 1; //250;
+        this.attackSpeed = 1;
         this.attackDmg = 1;
         this.moveSpeed = 230;
 
         //Player animations
 
-        //idle animation
+        //Hanging from ledge animation
         this.aniHang = this.character.animations.add('hang', [26, 27, 28], 5, true);
 
         this.aniRight = this.character.animations.add('right', [7, 8, 9, 10, 11], 10, false);
@@ -128,21 +127,17 @@ class boxer extends Fighter {
         this.aniAirDodge.onStart.add(this.airDodgeStart, this);
         this.aniAirDodge.onComplete.add(this.airDodgeEnd, this);
 
-
         //weapons
         this.weaponKick = game.add.weapon(10, 'slash');
         this.weaponKick.bulletKillType = Phaser.Weapon.KILL_LIFESPAN;
-        this.weaponKick.bulletLifespan = 500; //50
-        this.weaponKick.bulletSpeed = 0; //0
+        this.weaponKick.bulletLifespan = 500;
+        this.weaponKick.bulletSpeed = 0;
         this.weaponKick.fireRate = 2;
         this.weaponKick.multiFire = true;
         this.weaponKick.trackSprite(this.character, 50, 50, true);
     }
 
-    //end of constructor
-
     kickStart() {
-        console.log("Kick start");
         this.attacking = true;
         this.attack = 'kick';
         this.weaponKick.bulletSpeed = 0;
@@ -154,13 +149,13 @@ class boxer extends Fighter {
         this.xZero = false;
         this.inputLock = true;
         this.attacking = true;
-        console.log("Attack??");
+
         if (this.character.body.touching.down) {
             this.character.body.moves = false;
         }
         this.attack = 'warlock';
         this.character.body.velocity.x = 5 * this.character.scale.x;
-        //this.weaponKick.fireFrom.set(10,10);
+
         let i = 0;
         if(this.character.scale.x < 0){  
             while (i < 5){
@@ -180,26 +175,5 @@ class boxer extends Fighter {
                 i++;
             }
         }
-        //game.time.events.add(Phaser.Timer.SECOND * 1.15, this.warlockTimer, this);
-    }
-
-    warlockTimer(){
-        //console.log("boxer rapid fire!");
-        if (this.attacking) {
-            console.log("boxer rapid fire!");
-
-                this.weaponKick.fire();
-            
-                this.character.body.moves = true;
-                this.character.body.velocity.x = 5 * this.character.scale.x;
-                this.inputLock = true;
-        }
-        else {
-            this.xZero = true;
-            this.character.body.moves = true;
-            this.inputLock = false;
-            this.aniIdle.play(10, true);
-        }
-
     }
 }

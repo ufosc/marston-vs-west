@@ -18,32 +18,32 @@ var cssState = {
 
         key1 = game.input.keyboard.addKey(Phaser.Keyboard.ENTER);
         
-        LabIcon = game.add.sprite(game.world.width * 0.5 - 250, game.world.height * .5 + 150, 'LabIcon');
-        LabIcon.anchor.setTo(.5, .5);
+        LabIcon = game.add.sprite(game.world.width * 0.3, game.world.height * .5, 'LabIcon');
+        LabIcon.anchor.setTo(.5, 1);
         LabIcon.scale.setTo(5, 5);
         game.physics.arcade.enable(LabIcon);
         LabIcon.tint = 0xffffff;
 
-        GothIcon = game.add.sprite(game.world.width * 0.5 + 250, game.world.height * .5 + 150, 'GothIcon');
-        GothIcon.anchor.setTo(.5, .5);
+        GothIcon = game.add.sprite(game.world.width * 0.7, game.world.height * .5, 'GothIcon');
+        GothIcon.anchor.setTo(.5, 1);
         GothIcon.scale.setTo(5, 5);
         game.physics.arcade.enable(GothIcon);
         GothIcon.tint = 0xffffff;
 
-        BoxIcon = game.add.sprite(game.world.width * 0.5 - 250, game.world.height * .5 + 350, 'BoxIcon');
-        BoxIcon.anchor.setTo(.5, .5);
+        BoxIcon = game.add.sprite(game.world.width * 0.3, game.world.height * .5, 'BoxIcon');
+        BoxIcon.anchor.setTo(.5, 0);
         BoxIcon.scale.setTo(5, 5);
         game.physics.arcade.enable(BoxIcon);
         BoxIcon.tint = 0xffffff;
 
-        FighterIcon = game.add.sprite(game.world.width * 0.5 + 250, game.world.height * .5 + 350, 'FighterIcon');
-        FighterIcon.anchor.setTo(.5, .5);
+        FighterIcon = game.add.sprite(game.world.width * 0.7, game.world.height * 0.5, 'FighterIcon');
+        FighterIcon.anchor.setTo(.5, 0);
         FighterIcon.scale.setTo(5, 5);
         game.physics.arcade.enable(FighterIcon);
         FighterIcon.tint = 0xffffff;
 
         //TEST:COMPUTER icon
-        computerIcon = game.add.button(game.world.width * .5, game.world.height * .5 + 150, 'computerIcon');
+        computerIcon = game.add.button(game.world.width * .5, game.world.height * .5, 'computerIcon');
         computerIcon.anchor.setTo(.5, .5);
         computerIcon.scale.setTo( .35, .53);
         //game.physics.arcade.enable(computerIcon);
@@ -61,11 +61,11 @@ var cssState = {
         });
         //.onInputUp.add(this.arcade, this);
 
-        player1Icon = game.add.sprite(game.world.width * .5 - 200, game.world.height * .5 + 400, 'player1cssIcon');
+        player1Icon = game.add.sprite(game.world.width * .45, game.world.height * .5, 'player1cssIcon');
         player1Icon.scale.setTo(3, 3);
         player1Icon.anchor.setTo(.5, .5);
 
-        player2Icon = game.add.sprite(game.world.width * .5 + 200, game.world.height * .5 + 400, 'player2cssIcon');
+        player2Icon = game.add.sprite(game.world.width * .55, game.world.height * .5, 'player2cssIcon');
         player2Icon.scale.setTo(3, 3);
         player2Icon.anchor.setTo(.5, .5);
 
@@ -96,13 +96,15 @@ var cssState = {
         buttonSound.volume = musicvol;
 
         //var startLabel = game.add.text(80, game.world.height - 40, 'Press "1" key to play game after selecting characters!', { font: '25px Arial', fill: '#ffffff' });
-        gameReadyText = game.add.text(game.world.width * .5, game.world.height - 75, '', { font: '75px Arial', fill: '#ffffff' });
+        //gameReadyText = game.add.text(game.world.width * .5, game.world.height - 75, '', { font: '75px Permanent Marker', fill: '#ffffff' });
+
+        gameReadyText = new TextButton(this.game, game.world.width * .5, game.world.height - 75, '', { font: '75px Permanent Marker', fill: '#ffffff' });
         gameReadyText.anchor.setTo(.5, .5);
 
-        player1Text = game.add.text(game.world.width * .25 - 85, game.world.height * .5 + 275, '', { font: '25px Arial', fill: '#ffffff' });
-        player2Text = game.add.text(game.world.width * .75 + 215, game.world.height * .5 + 275, '', { font: '25px Arial', fill: '#ffffff' });
-        player1Text.anchor.setTo(.5,.5);
-        player2Text.anchor.setTo(.5,.5);
+        player1Text = game.add.text(game.world.width * .05, game.world.height * .3, '', { font: '90px Permanent Marker', fill: '#ffffff' });
+        player2Text = game.add.text(game.world.width * .95, game.world.height * .3, '', { font: '90px Permanent Marker', fill: '#ffffff' });
+        player1Text.anchor.setTo(0,.5);
+        player2Text.anchor.setTo(1,.5);
 
         player1BodyIcon = game.add.sprite(game.world.width * .25 - 150, game.world.height * .5 + 150, '');
         player2BodyIcon = game.add.sprite(game.world.width * .75 + 150, game.world.height * .5 + 150, '');
@@ -156,31 +158,9 @@ var cssState = {
         //Hide labels used in debugging
         player1Label.visible = false;
         player2Label.visible = false;
-
-        var MultimanLabel = game.add.text(game.world.width * .5, game.world.height * .5, 'Multiman Mode: OFF', { font: '70px Permanent Marker', fill: '#ffffff' });
-        MultimanLabel.anchor.setTo(.5,.5);
-        MultimanLabel.inputEnabled = true;
-        MultimanLabel.selected = 0;
-        MultimanLabel.librarySelected = '';
-        MultimanLabel.events.onInputUp.add(function () {
-            switch (MultimanLabel.selected) {
-                case 0:
-                    MultimanLabel.librarySelected = 'Multiman Mode: OFF'
-                    MultimanLabel.text = `${MultimanLabel.librarySelected}`;
-                    MultimanLabel.selected++;
-                    multimanmode = false;
-                    break;
-                case 1:
-                    MultimanLabel.librarySelected = 'Multiman Mode: ON'
-                    MultimanLabel.text = `${MultimanLabel.librarySelected}`;
-                    MultimanLabel.selected--;
-                    multimanmode = true;
-                    break;
-            }
-        });
-
-        var menuLabel = game.add.text(game.world.width * .05, game.world.height * .8, 'MENU', { font: '90px Permanent Marker', fill: '#ffffff' });
-        menuLabel.inputEnabled = true;
+        
+        menuLabel = new TextButton(this.game, game.world.width * .05, game.world.height * .05, 'MENU', { font: '90px Permanent Marker', fill: '#ffffff' });
+        
         menuLabel.events.onInputUp.add(function () {
             game.state.start('menu');
         });
@@ -225,18 +205,6 @@ var cssState = {
         ColorMenu1.button[5].onInputUp.add(function (){
                 gameManager.playerTint[0] = ColorMenu1.colorPick(5);
         });
-        /*
-        ColorMenu1.button[6].onInputUp.add(function (){
-                gameManager.playerTint[0] = ColorMenu1.colorPick(6);
-        });
-        
-        ColorMenu1.button[7].onInputUp.add(function (){
-                gameManager.playerTint[0] = ColorMenu1.colorPick(7);
-        });
-        
-        ColorMenu1.button[8].onInputUp.add(function (){
-                gameManager.playerTint[0] = ColorMenu1.colorPick(8);
-        });*/
         
         //player 2 color selection events
         ColorMenu2.button[0].onInputUp.add(function (){
@@ -264,24 +232,7 @@ var cssState = {
         ColorMenu2.button[5].onInputUp.add(function (){
                 gameManager.playerTint[1] = ColorMenu2.colorPick(5);
         });
-        /*
-        ColorMenu2.button[6].onInputUp.add(function (){
-                gameManager.playerTint[1] = ColorMenu2.colorPick(6);
-        });
-        
-        ColorMenu2.button[7].onInputUp.add(function (){
-                gameManager.playerTint[1] = ColorMenu2.colorPick(7);
-        });
-        
-        ColorMenu2.button[8].onInputUp.add(function (){
-                gameManager.playerTint[1] = ColorMenu2.colorPick(8);
-        });
-        */
-        console.log("Color menu made?");
-        //TODO:Incorperate dragUpdate function event system into current system. I think it's needed to fix bugs/add dynamic features like spawning the character when hovering over while still dragging.
-        //TODO:
-        //find a way to change text, show sprite and name with alpha applied when hovering but NOT selecting character, SOLUTION: probably above comment
-        
+ 
     },
     start: function () {
         gameReadyText.text = `Game Start!`;
@@ -409,8 +360,6 @@ var cssState = {
             }
         }
 
-
-
         if (game.physics.arcade.overlap(player2Icon, LabIcon)) {
             if(muteState==false)
             buttonSound.play();
@@ -425,7 +374,6 @@ var cssState = {
             player2BodyIcon.animations.add('idle', [1, 2], 5, true);
             player2BodyIcon.animations.add('kick', [6], 5, true);
             player2BodyIcon.visible = true;
-
 
             if (player2BodyIcon.animations) {
                 player2BodyIcon.alpha = 1;
