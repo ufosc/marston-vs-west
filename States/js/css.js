@@ -92,8 +92,7 @@ var cssState = {
         FighterIcon.enableBody = true;
 
         buttonSound = game.add.audio('buttonSound');
-        //buttonSound.volume -= .5;
-        buttonSound.volume = musicvol;
+        buttonSound.volume = gameManager.volume * 0.2;
 
         //var startLabel = game.add.text(80, game.world.height - 40, 'Press "1" key to play game after selecting characters!', { font: '25px Arial', fill: '#ffffff' });
         //gameReadyText = game.add.text(game.world.width * .5, game.world.height - 75, '', { font: '75px Permanent Marker', fill: '#ffffff' });

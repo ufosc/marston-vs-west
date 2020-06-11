@@ -34,7 +34,7 @@ var optionsState = {
         //fullScreenButton.onInputUp.add(this.fullScreenConfig, this);
         //game.scale.onFullScreenChange.add(this.onFullScreenChange, this);
 
-        menuLabel = new TextButton(this.game, game.world.width * .1, game.world.height * .2, 'MENU', { font: '90px Permanent Marker', fill: '#ffffff' });
+        menuLabel = new TextButton(this.game, game.world.width * .1, game.world.height * .1, 'MENU', { font: '90px Permanent Marker', fill: '#ffffff' });
 
         menuLabel.events.onInputUp.add(this.menu, this);
 
@@ -44,8 +44,7 @@ var optionsState = {
 
         fullScreenLabel.inputEnabled = true;
 
-        fullScreenLabel.events.onInputUp.add(
-            this.fullScreenConfig, this);
+        fullScreenLabel.events.onInputUp.add(this.fullScreenConfig, this);
         game.scale.onFullScreenChange.add(this.onFullScreenChange, this);      
 
         //incremental buttons for different values that can be set in options menu
@@ -53,10 +52,16 @@ var optionsState = {
         plusButton1.anchor.setTo(1,0.5);
         minusButton1 = game.add.button(game.world.width * .6, game.world.height * .5, 'minus');
         minusButton1.anchor.setTo(0,0.5);
+       
         plusButton2 = game.add.button(game.world.width * .58, game.world.height * .65, 'plus');
         plusButton2.anchor.setTo(1,0.5);
         minusButton2 = game.add.button(game.world.width * .6, game.world.height * .65, 'minus');
         minusButton2.anchor.setTo(0,0.5);
+
+        plusButton3 = game.add.button(game.world.width * .58, game.world.height * .4, 'plus');
+        plusButton3.anchor.setTo(1,0.5);
+        minusButton3 = game.add.button(game.world.width * .6, game.world.height * .4, 'minus');
+        minusButton3.anchor.setTo(0,0.5);
         
         //values // originaly 250
         minLabel = game.add.text(game.world.width * .4, game.world.height *.5, `MINUTES: ${gameManager.gameMinutes}`);
@@ -64,6 +69,9 @@ var optionsState = {
         //secLabel = game.add.text(game.world.width * .3, game.world.height * .5 + 210, `SECONDS: ${gameManager.gameSeconds}`, { font: '65px VT323', fill: '#ffffff' });
         livesLabel = game.add.text(game.world.width * .4, game.world.height * .65, `LIVES: ${gameManager.lives}`, { font: '65px VT323', fill: '#ffffff' });
         livesLabel.anchor.setTo(0.5,0.5);
+
+        volumeLabel = game.add.text(game.world.width * .4, game.world.height *.4, `Volume: ${gameManager.volumeSetting}`, { font: '65px Permanent Marker', fill: '#ffffff' });
+        volumeLabel.anchor.setTo(0.5,0.5);
 
         minLabel.font = 'Permanent Marker'; //'VT323';
         minLabel.fontSize = 60;
@@ -78,8 +86,11 @@ var optionsState = {
         plusButton2.onInputUp.add(this.gameLivesInc, this);
         minusButton2.onInputUp.add(this.gameLivesDec, this);
 
+        plusButton3.onInputUp.add(this.gameVolInc, this);
+        minusButton3.onInputUp.add(this.gameVolDec, this);
+
         buttonSound = game.add.audio('buttonSound');
-        buttonSound.volume = musicvol;
+        buttonSound.volume = gameManager.volume * 0.2;
 
         //the sliding bars part
 
@@ -103,17 +114,26 @@ var optionsState = {
         minLabel.text = `MINUTES: ${gameManager.gameMinutes}`;
         //secLabel.text = `SECONDS: ${gameManager.gameSeconds}`;
         livesLabel.text = `Lives: ${gameManager.lives}`;
+        volumeLabel.text = `Volume: ${gameManager.volumeSetting}`;
+    },
+    updateSound:function () {
+        music.volume = gameManager.volume;
+        buttonSound.volume = gameManager.volume * 0.2;
     },
     gameMinInc: function () {
         if(gameManager.gameMinutes + 1 <= 5){
             gameManager.gameMinutes++;
         }
+        buttonSound.volume = gameManager.volume;
+
         buttonSound.play();
     },
     gameSecInc: function () {
         if(gameManager.gameSeconds + 30 < 60){           
             gameManager.gameSeconds = gameManager.gameSeconds + 30;
         }
+        buttonSound.volume = gameManager.volume;
+
         buttonSound.play();
     },
     gameMinDec: function () {
@@ -128,6 +148,22 @@ var optionsState = {
         if (gameManager.gameSeconds - 1 >= 0) {
             gameManager.gameSeconds = gameManager.gameSeconds - 30;
         }
+    },
+    gameVolDec: function () {
+        if (gameManager.volumeSetting - 1 >= 0) {
+            gameManager.volumeSetting -= 1;
+            gameManager.volume = gameManager.volumeSetting/ 5;
+            this.updateSound();
+        }
+        buttonSound.play();
+    },
+    gameVolInc: function () {
+        if (gameManager.volumeSetting + 1 <= 5) {
+            gameManager.volumeSetting += 1;
+            gameManager.volume = gameManager.volumeSetting/ 5;
+            this.updateSound();
+        }
+        buttonSound.play();
     },
     gameLivesInc: function () {
         if(gameManager.lives + 1 <= 5){
@@ -205,7 +241,8 @@ function dragUpdate (sprite){
     }
 
     musicvol = (xPos-mulRight) / range;
-    music.volume = musicvol;
+    music.plusButton1.onInputUp.add(this.gameMinInc, this);
+    minusButton1.onInputUp.add(this.gameMinDec, this);
     buttonSound.volume = musicvol;
 
     if(sprite.y != yValue){

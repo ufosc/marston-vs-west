@@ -88,16 +88,24 @@ var menuState = {
 
         buttonSound = game.add.audio('buttonSound', 0.06);
         buttonSound.stop();
-        //buttonSound.volume -= .3;
-        //buttonSound.volume = musicvol;
+        
+        buttonSound.volume = gameManager.volume * 0.2;
 
         if (music.name != 'menuMusic') {
-            music = game.add.audio('menuMusic,musicvol');
+            music = game.add.audio('menuMusic',gameManager.volume);
             music.loopFull();
         }
 
     },
     start: function () {
+
+        if (music.name != 'menuMusic') {
+            music = game.add.audio('menuMusic',gameManager.volume);
+            music.loopFull();
+        }
+
+        music.volume = gameManager.volume;
+        music.mute = muteState;
 
         if(muteState==false){
             buttonSound.play();
@@ -110,7 +118,6 @@ var menuState = {
         console.log("go to normal css?");
         gameManager.changemode("MultiPlayer");
         game.state.start('css');
-        //game.state.start('options');
         gameManager.playerTint[0] = "0xff8615";
         gameManager.playerTint[1] = "0x1c6bff";
 
@@ -120,7 +127,6 @@ var menuState = {
 
         if(muteState==false){
             buttonSound.play();
-            //music.stop();
         }
 
         gameManager.lives = 1;
@@ -160,7 +166,6 @@ var menuState = {
     credits: function () {
         if(muteState==false)
         buttonSound.play();
-        music.stop();
         game.state.start('credits');
     },
     update: function () {
@@ -168,7 +173,7 @@ var menuState = {
         if (game.device.android || game.device.iOS) {
             fullScreenButton.visible = true;
         }
-        music.volume = musicvol;
+        music.volume = gameManager.volume;
         music.mute = muteState;
         //buttonSound.volume = musicvol;
         //console.log("buttonSound: ", buttonSound.volume);

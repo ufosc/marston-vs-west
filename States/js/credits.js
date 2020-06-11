@@ -24,13 +24,13 @@ var creditsState = {
         });
 
         //Will eventually have its own music
-        music = game.add.audio('creditsMusic');
-        music.loopFull();
+        //music = game.add.audio('creditsMusic');
+        //music.loopFull();
 
     },
 
     menu: function () {
-        music.stop();
+        //music.stop();
 
         game.state.start('menu');
     },

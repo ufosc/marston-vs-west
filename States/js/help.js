@@ -18,7 +18,7 @@ var helpState = {
         backgroundSprite.anchor.setTo(0,0);
         
         buttonSound = game.add.audio('buttonSound');
-        buttonSound.volume = musicvol;
+        buttonSound.volume = gameManager.volume * 0.2;
         
         menuButton = game.add.button(0, 0, 'menuButton');
         menuButton.anchor.setTo(0, 0);

@@ -394,7 +394,7 @@ var playState = {
 
         //Play music
         music.stop();
-        music = game.add.audio('allstar', musicvol*0.1);
+        music = game.add.audio('allstar', gameManager.volume*0.1);
 
         music.loopFull();
 
@@ -777,7 +777,7 @@ var playState = {
         jumpSound = game.add.audio('jumpSound',0.1);
         itemSound = game.add.audio('itemSound',0.05);
         buttonSound = game.add.audio('buttonSound', 0.4);
-        buttonSound.volume = musicvol;
+        buttonSound.volume = gameManager.volume * 0.2;
         //buttonSound.volume -= .5;
 
         if (game.device.android || game.device.iOS) {
@@ -978,7 +978,7 @@ var playState = {
                 // Check if the click was menu text
                 if (event.x > x1 && event.x < x2 && event.y > y1+65 && event.y < y2+65) {
                     console.log("go to menu!!!");
-                    music.stop();
+                    //music.stop();
                     if(muteState==false)
                     buttonSound.play();
                     game.state.start('menu');
@@ -1026,6 +1026,7 @@ var playState = {
     
         timer.stop();
         //checkArcadeWin();
+        //music.stop();
         game.state.start('win');
     },
     update: function () {
@@ -1392,6 +1393,7 @@ var playState = {
             }
             
             this.checkArcadeWin();
+            //music.stop();
             game.state.start('win');
         }
         if (Player2.lives === 0 && multimanmode === false) {
@@ -1399,6 +1401,7 @@ var playState = {
                 gameManager.ScoreKeeper.updatePoint(0, 4, timer.duration);
             }
             this.checkArcadeWin();
+            //music.stop();
             game.state.start('win');
         }
         
@@ -1408,6 +1411,7 @@ var playState = {
                     gameManager.ScoreKeeper.updatePoint(0, 4, timer.duration);
                 }
                 this.checkArcadeWin();
+                //music.stop();
                 game.state.start('win');
             }
         }
@@ -1488,6 +1492,7 @@ var playState = {
         }
         this.checkArcadeWin();
         //console.log("Time Left: Start func?" + timer.duration)
+        //music.stop();
         game.state.start('win');
     },
 

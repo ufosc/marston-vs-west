@@ -63,6 +63,8 @@ class form extends Phaser.Text {
 var winState = {
     create: function () {
 
+        music.stop();
+
         //TextButton
         menuLabel = new TextButton(this.game, game.world.width * .65, game.world.height * .1, 'MENU', { font: '90px Permanent Marker', fill: '#ffffff' });
         //var menuLabel = game.add.text(game.world.width * .65, game.world.height * .1, 'MENU', { font: '90px Permanent Marker', fill: '#ffffff' });

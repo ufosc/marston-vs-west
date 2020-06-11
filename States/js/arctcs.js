@@ -35,7 +35,7 @@ var arctcsState = {
 
         player1ico = game.add.sprite(game.world.width * .05 - 100, game.world.height * .7, charName1);
         musicToPlay = game.add.audio('titleCardSound');
-        musicToPlay.volume = musicvol;
+        musicToPlay.volume = gameManager.volume;
         if(!muteState)
         musicToPlay.play();
 
@@ -48,7 +48,8 @@ var arctcsState = {
             player1ico.alpha = 1;
         }
 
-        buttonSound.volume = musicvol;
+        buttonSound.volume = gameManager.volume * 0.2;
+        
         if(muteState == false)
         buttonSound.play();
         

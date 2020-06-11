@@ -39,6 +39,9 @@ class GameInfo {
 
         this.ScoreKeeper = new ScoreCounter();
 
+        this.volumeSetting = 3;
+        this.volume = 0.6;
+
         //Tint list
         this.orange = "0xff8615";
         this.blue = "0x1c6bff";

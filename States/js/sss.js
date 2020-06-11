@@ -70,8 +70,8 @@ var sssState = {
       
         
         buttonSound = game.add.audio('buttonSound');
-        //buttonSound.volume -= .5;
-        buttonSound.volume = musicvol;
+        
+        buttonSound.volume = gameManager.volume * 0.2;
 
         gameReadyText = game.add.text(game.world.width * .5, game.world.height * .5 + 475, '', { font: '90px Permanent Marker', fill: '#ffffff' });
         gameReadyText.anchor.setTo(.5, .5);
