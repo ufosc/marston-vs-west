@@ -564,7 +564,7 @@ var playState = {
             platformsERight = game.add.group();
 
             // Create the ground.
-            land = new platform(game.world.width * 0.5, game.world.height - 100, false, 'plat1',40, 2)
+            land = new platform(game.world.width * 0.5, game.world.height * 0.9, false, 'plat1',40, 2)
             
             ground = platforms.add(land.plat);
             leftledge = platformsELeft.add(land.leftledge);
@@ -573,8 +573,8 @@ var playState = {
             //  The platforms group contains the ground and the 5 ledges we can jump on
             miniPlatforms = game.add.group();
             
-            miniland1 = new platform(game.world.width*0.45, game.world.height * 0.62, false, 'plat2', 5,0.7);
-            miniland2 = new platform(game.world.width*0.63, game.world.height * 0.65, false, 'plat2', 5,0.7);
+            miniland1 = new platform(game.world.width*0.45, game.world.height * 0.6, false, 'plat2', 5,0.7);
+            miniland2 = new platform(game.world.width*0.63, game.world.height * 0.58, false, 'plat2', 5,0.7);
             
             var plat1 = miniPlatforms.add(miniland1.plat);
             var plat2 = miniPlatforms.add(miniland2.plat);
@@ -606,7 +606,7 @@ var playState = {
             plat4.body.checkCollision.down = false;
             plat4.body.immovable = true;
             
-            miniland5 = new platform(game.world.width*0.18, game.world.height * 0.47, false, 'plat2', 5,0.7);
+            miniland5 = new platform(game.world.width*0.15, game.world.height * 0.47, false, 'plat2', 5,0.7);
             var plat5 = miniPlatforms.add(miniland5.plat);
             plat5.anchor.setTo(0.5,1);
             //plat5.body.collideWorldBounds = true;
@@ -625,7 +625,7 @@ var playState = {
             platformsERight = game.add.group();
 
             // Create the ground.
-            land = new platform(game.world.width * 0.48, game.world.height * 0.9, false, 'plat1',40, 2)
+            land = new platform(game.world.width * 0.48, game.world.height * 0.95, false, 'plat1',40, 2)
             
             ground = platforms.add(land.plat);
             leftledge = platformsELeft.add(land.leftledge);
@@ -633,21 +633,21 @@ var playState = {
 
             miniPlatforms = game.add.group();
 
-            miniland1 = new platform(game.world.width * 0.47, game.world.height * 0.48, false, 'plat2', 14,0.7);
+            miniland1 = new platform(game.world.width * 0.47, game.world.height * 0.47, false, 'plat2', 14,0.7);
             var plat1 = miniPlatforms.add(miniland1.plat);
             plat1.anchor.setTo(0.5,1);
             //plat1.body.collideWorldBounds = true;
             plat1.body.checkCollision.down = false;
             plat1.body.immovable = true;
             
-            miniland2 = new platform(game.world.width * 0.28, game.world.height * 0.63, false, 'plat2', 7,0.7);
+            miniland2 = new platform(game.world.width * 0.28, game.world.height * 0.68, false, 'plat2', 7,0.7);
             var plat2 = miniPlatforms.add(miniland2.plat);
             plat2.anchor.setTo(0.5,1);
             //plat2.body.collideWorldBounds = true;
             plat2.body.checkCollision.down = false;
             plat2.body.immovable = true;
 
-            miniland3 = new platform(game.world.width * 0.67, game.world.height * 0.63, false, 'plat2', 7,0.7);
+            miniland3 = new platform(game.world.width * 0.67, game.world.height * 0.68, false, 'plat2', 7,0.7);
             var plat3 = miniPlatforms.add(miniland3.plat);
             plat3.anchor.setTo(0.5,1);
             //plat3.body.collideWorldBounds = true;
@@ -692,20 +692,54 @@ var playState = {
             platformsERight = game.add.group();
 
             // Create the ground.
-            land = new platform(game.world.width * 0.5, game.world.height - 100, false, 'plat1',40, 2)
+            land = new platform(game.world.width * 0.5, game.world.height *0.85, false, 'plat1',40, 2)
             
             ground = platforms.add(land.plat);
             leftledge = platformsELeft.add(land.leftledge);
             rightledge = platformsERight.add(land.rightledge);
             
+            //  The platforms group contains the ground and the 5 ledges we can jump on
             miniPlatforms = game.add.group();
-
-            miniland1 = new platform(game.world.width*0.82, game.world.height * 0.6, false, 'plat2', 5,0.7);
+            
+            miniland1 = new platform(game.world.width*0.1, game.world.height * 0.53, false, 'plat2', 5,0.7);
+            miniland2 = new platform(game.world.width*0.3, game.world.height * 0.4, false, 'plat2', 5,0.7);
+            
             var plat1 = miniPlatforms.add(miniland1.plat);
+            var plat2 = miniPlatforms.add(miniland2.plat);
+            
             plat1.anchor.setTo(0.5,1);
-            //plat3.body.collideWorldBounds = true;
+            plat2.anchor.setTo(0.5,1);
+
+            plat1.body.collideWorldBounds = true;
+            plat2.body.collideWorldBounds = true;
+            
             plat1.body.checkCollision.down = false;
+            plat2.body.checkCollision.down = false;
+            
             plat1.body.immovable = true;
+            plat2.body.immovable = true;
+            
+            
+            miniland3 = new platform(game.world.width*0.5, game.world.height * 0.53, false, 'plat2', 5,0.7);
+            var plat3 = miniPlatforms.add(miniland3.plat);
+            plat3.anchor.setTo(0.5,1);
+            //plat3.body.collideWorldBounds = true;
+            plat3.body.checkCollision.down = false;
+            plat3.body.immovable = true;
+            
+            miniland4 = new platform(game.world.width*0.7, game.world.height * 0.4, false, 'plat2', 5,0.7);
+            var plat4 = miniPlatforms.add(miniland4.plat);
+            plat4.anchor.setTo(0.5,1);
+            //plat4.body.collideWorldBounds = true;
+            plat4.body.checkCollision.down = false;
+            plat4.body.immovable = true;
+            
+            miniland5 = new platform(game.world.width*0.9, game.world.height * 0.53, false, 'plat2', 5,0.7);
+            var plat5 = miniPlatforms.add(miniland5.plat);
+            plat5.anchor.setTo(0.5,1);
+            //plat5.body.collideWorldBounds = true;
+            plat5.body.checkCollision.down = false;
+            plat5.body.immovable = true;
 
             }
         else {

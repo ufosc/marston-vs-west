@@ -67,13 +67,10 @@ var winState = {
 
         //TextButton
         menuLabel = new TextButton(this.game, game.world.width * .65, game.world.height * .1, 'MENU', { font: '90px Permanent Marker', fill: '#ffffff' });
-        //var menuLabel = game.add.text(game.world.width * .65, game.world.height * .1, 'MENU', { font: '90px Permanent Marker', fill: '#ffffff' });
-            //menuLabel.inputEnabled = true;
 
         menuLabel.events.onInputUp.add(function () {
             game.state.start('menu');
         });
-
 
         var startLabel = new TextButton(this.game, game.world.width * 0.75, game.world.height * 0.7, 'Press "W" key\nor tap this label\nto continue', { font: '50px Permanent Marker', fill: '#ffffff' });
         startLabel.anchor.setTo(0.5,0.5);
@@ -86,15 +83,11 @@ var winState = {
         if(gameManager.gameType === "Arcade") {
 
             if(Player1.lives < 0){
-                //gameManager.matchOutcome = "Win"
                 gameManager.matchOutcome = "Loss"
             }
 
             gameManager.ScoreKeeper.ArcCalcScore(1);
             gameManager.ScoreKeeper.updateMasterScore(1);
-            
-            //console.log("SCORES:");
-            //console.log(gameManager.ScoreKeeper.scoreTemp);
             
             if(gameManager.matchOutcome === "Win"){
             
@@ -153,15 +146,17 @@ var winState = {
             + `Damage Taken Bonus: ${gameManager.ScoreKeeper.calcDmgTakenPoints(2)}` + '\n'
             , { font: '50px Permanent Marker', fill: '#ffffff' });
 
-            menuLabel.x = 0;
-            menuLabel.y = game.world.height * 0.9;
+            //menuLabel.x = 0;
+            //menuLabel.y = game.world.height * 0.9;
             
-            startLabel.x = game.world.width * 0.35;
-            startLabel.y = game.world.height * 0.85;            
+            //startLabel.x = game.world.width * 0.35;
+            //startLabel.y = game.world.height * 0.85;            
 
-            feedbackLabel.x = game.world.width * 0.7;
-            feedbackLabel.y = game.world.height * 0.9;
+            startLabel.inputEnabled = false;
+            startLabel.alpha = 0;
 
+            feedbackLabel.x = game.world.width * 0.25;
+            feedbackLabel.y = game.world.height * 0.12;
 
         }
         else {
@@ -188,7 +183,8 @@ var winState = {
         /*var startLabel = game.add.text(game.world.width * 0.75, game.world.height * 0.7, 'Press "W" key\nor tap this label\nto continue', { font: '50px Permanent Marker', fill: '#ffffff' });
         startLabel.anchor.setTo(0.5,0.5);        
         startLabel.inputEnabled = true;*/
-                startLabel.events.onInputUp.add(function () {
+
+            startLabel.events.onInputUp.add(function () {
                 music.stop();
                 gameManager.ScoreKeeper.resetAll();
                 //gameManager.changemode("Menu");
