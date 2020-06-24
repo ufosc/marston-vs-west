@@ -146,12 +146,6 @@ var winState = {
             + `Damage Taken Bonus: ${gameManager.ScoreKeeper.calcDmgTakenPoints(2)}` + '\n'
             , { font: '50px Permanent Marker', fill: '#ffffff' });
 
-            //menuLabel.x = 0;
-            //menuLabel.y = game.world.height * 0.9;
-            
-            //startLabel.x = game.world.width * 0.35;
-            //startLabel.y = game.world.height * 0.85;            
-
             startLabel.inputEnabled = false;
             startLabel.alpha = 0;
 
@@ -177,110 +171,62 @@ var winState = {
                 var winLabel = game.add.text(80, 80, 'Nice Game!', { font: '50px Permanent Marker', fill: '#ffffff' });
                 var statsLabel1 = game.add.text(80, 160, `Player 1 stats:` + '\n' + `KO(s): ${multimenko}`, { font: '50px Permanent Marker', fill: '#ffffff' });
             }
-
         }
-
-        /*var startLabel = game.add.text(game.world.width * 0.75, game.world.height * 0.7, 'Press "W" key\nor tap this label\nto continue', { font: '50px Permanent Marker', fill: '#ffffff' });
-        startLabel.anchor.setTo(0.5,0.5);        
-        startLabel.inputEnabled = true;*/
-
             startLabel.events.onInputUp.add(function () {
                 music.stop();
                 gameManager.ScoreKeeper.resetAll();
-                //gameManager.changemode("Menu");
-                //game.state.start('menu');
-                //this.start();
-                //this.start();
-
-                console.log("Start???");
 
                 music.stop();
 
                 if(gameManager.gameType === "Arcade") {
-                    console.log("Arcade start?");
-                    if(gameManager.matchOutcome === "Win" && gameManager.arcadeLevel < 4) {
+                    if(gameManager.matchOutcome === "Win" && gameManager.arcadeLevel < 5) {
                         gameManager.arcadeLevel += 1;
                     }
-                    
-                    if(gameManager.matchOutcome === "Win" && gameManager.arcadeLevel >= 4 ){
-        
-                        gameManager.ScoreKeeper.resetAll();
+                    if(gameManager.matchOutcome === "Win" && gameManager.arcadeLevel >= 5 ){
                         
+                        console.log("win state back to menu");
+
+                        gameManager.ScoreKeeper.resetAll();
                         
                         gameManager.changemode("Menu");
                         
                         game.state.start('menu');
-
                     }
                     else{
-                        //gameManager.ScoreKeeper.scoreMaster = gameManager.ScoreKeeper.scoreMaster - 2000;
                         gameManager.ScoreKeeper.softReset();
                         game.state.start('arctcs');
                     }
-                    
-                    //gameManager.ScoreKeeper.softReset();
-                    //game.state.start('arctcs');
                 }
                 else{
                     gameManager.ScoreKeeper.resetAll();
                     gameManager.changemode("Menu");
                     game.state.start('menu');
                 }
-
             });
-
-            /*var restartLabel = game.add.text(80, game.world.height - 180, 'Press this label to restart', { font: '40px Permanent Marker', fill: '#ffffff' });
-            restartLabel.inputEnabled = true;
-            restartLabel.events.onInputUp.add(function () {
-                music.stop();
-                gameManager.ScoreKeeper.softReset();
-                game.state.start('play');
-            });*/
-
-        
-            /*feedbackLabel = new Link(this.game, game.world.width * 0.75, game.world.height * 0.4, "Click here to\nsend feedback!", "https://goo.gl/forms/wA6NGUAJ4OiKhVC93", { font: '50px Permanent Marker', fill: '#ffffff' });
-            feedbackLabel.anchor.setTo(0.5, 0.5);*/
 
         var wkey = game.input.keyboard.addKey(Phaser.Keyboard.W);
         wkey.onDown.addOnce(this.start, this);
 
         var esckey = game.input.keyboard.addKey(Phaser.Keyboard.ESC);
         esckey.onDown.addOnce(this.start, this);
-
-        /*
-        if(game.device.android || game.device.iOS)
-        {
-          menuButton = game.add.button(game.world.width *.5,game.world.height * - 100, 'menuButton');
-          menuButton.onInputUp.add(this.start,this);
-        }
-        */
     },
-    //start: function () {
     start() {
         music.stop();
 
         if(gameManager.gameType === "Arcade") {
-            if(gameManager.matchOutcome === "Win" && gameManager.arcadeLevel < 4) {
+            if(gameManager.matchOutcome === "Win" && gameManager.arcadeLevel <= 5) {
                 gameManager.arcadeLevel += 1;
                 //gameManager.ScoreKeeper.scoreMaster = gameManager.ScoreKeeper.scoreMaster - 2000;
                 gameManager.ScoreKeeper.softReset();
                 game.state.start('arctcs');
             }
-            else if(gameManager.matchOutcome === "Win" && gameManager.arcadeLevel >= 4 ){
+            if(gameManager.matchOutcome === "Win" && gameManager.arcadeLevel >= 5 ){
 
                 gameManager.ScoreKeeper.resetAll();
                 gameManager.changemode("Menu");
                 gameManager.resetsettings();
                 game.state.start('menu');
             }
-            /*else{
-                //gameManager.ScoreKeeper.scoreMaster = gameManager.ScoreKeeper.scoreMaster - 2000;
-                gameManager.ScoreKeeper.softReset();
-                game.state.start('arctcs');
-            }*/
-            
-            //gameManager.ScoreKeeper.softReset();
-            //game.state.start('arctcs');
         }
         else{
             gameManager.ScoreKeeper.resetAll();

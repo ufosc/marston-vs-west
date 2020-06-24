@@ -862,7 +862,7 @@ class Fighter {
         this.character.alpha = 0.5;
         this.invincible = true;
         this.xZero = false;
-        if (this.controller1.left.isDown || this.controller1.right.isDown) {
+        if (this.getleft() || this.getright()) {
             this.character.body.velocity.y = 0;
             this.character.body.velocity.x = 200 * this.character.scale.x;
         }

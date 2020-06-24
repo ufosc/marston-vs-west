@@ -5,6 +5,27 @@ class vpad {
         this.controlnum = controlnum;
 
         //Virtual controller variables
+        this.left = false;
+        this.right = false;
+        this.up = false;
+        this.down = false;
+
+        this.apress = false;//regular attack button
+        this.bpress = false;//special button
+        this.xpress = false;//jump button
+        this.ypress = false;//block button
+
+    }
+    //end of vpad class
+}
+
+/*
+class vpad {
+    constructor(controlnum) {
+
+        this.controlnum = controlnum;
+
+        //Virtual controller variables
         this.leftpress = false;
         this.rightpress = false;
         this.uppress = false;
@@ -18,6 +39,8 @@ class vpad {
     }
     //end of vpad class
 }
+
+*/
 
 class nespad {
     constructor(controlnum) {

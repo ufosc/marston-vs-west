@@ -373,6 +373,12 @@ var playState = {
         game.time.advancedTiming = true;
         FrameTimer = 0;
         FrameTarget = 3;
+
+        //Items = game.add.group();
+        //Items.add();
+
+        Items = [];
+
         //create a timer for the game
         timer = game.time.create(false);
         timerEvent = timer.add(Phaser.Timer.MINUTE * gameManager.gameMinutes + Phaser.Timer.SECOND * gameManager.gameSeconds, this.timeOutGame, this);
@@ -886,9 +892,19 @@ var playState = {
             item3 = new Item('gator', game.world.width * .5, game.world.height * .5, this);
             item4 = new Item('gator', game.world.width * .45, game.world.height * .5, this);
             item5 = new Item('gator', game.world.width * .75, game.world.height * .5, this);
+            
+            Items = [ item1, item2, item3, item4, item5];
+
+            /*Items.add(item1);
+            Items.add(item2);
+            Items.add(item3);
+            Items.add(item4);
+            Items.add(item5);*/
         }
         else {
             item1 = new Item('bottle', game.world.width * .5, game.world.height * .5, this);
+            //Items.add(item1);
+            Items = [ item1];
         }
 
         if (Player1.controlnum === -1) {
@@ -1012,7 +1028,7 @@ var playState = {
                 // Check if the click was menu text
                 if (event.x > x1 && event.x < x2 && event.y > y1+65 && event.y < y2+65) {
                     console.log("go to menu!!!");
-                    //music.stop();
+                    music.stop();
                     if(muteState==false)
                     buttonSound.play();
                     game.state.start('menu');
@@ -1553,6 +1569,39 @@ var playState = {
         }
     },
 
+    aiXPosCheck: function (Target, AIFighter){
+        AIxdist = AIFighter.character.body.position.x - Target.character.body.position.x;
+         
+        return AIxdist;
+    },
+
+    aiYPosCheck: function (Target, AIFighter){
+        AIydist = AIFighter.character.body.position.y - Target.character.body.position.y;
+        
+        return AIydist;
+    },
+
+    aiItemCheck: function (AIFighter, Items){
+        if (AIFighter.character.hasItem === false){
+            AIFighter.controller1.ypress = false;
+            Items.forEach(element => {
+                if(element.type != null){
+                    xDist = AIFighter.character.body.position.x - element.type.body.x;
+                    yDist = AIFighter.character.body.position.y - element.type.body.y;
+
+                    if(Math.abs(xDist) < AIFighter.character.body.width && Math.abs(yDist) < AIFighter.character.body.height){
+                        AIFighter.controller1.apress = true;
+                    }
+                    /*xDist = this.AIXPosCheck(element, AIFighter);
+                    yDist = this.AIYPosCheck(element, AIFighter);*/
+                }
+            });
+            AIFighter.controller1.xpress = false;
+        }
+
+       //console.log("Itemcheck?");
+    },
+
     defendMode: function (AIFighter, AIxdist, AIydist) {
         //defensive behavior mode
         if (AIxdist < 150 && AIxdist > 0 || AIxdist < -250) {
@@ -1575,15 +1624,15 @@ var playState = {
         }
     },
 
-    defendMode2: function (AIFighter, AIxdist, AIydist) {
+    defendMode2: function (AIFighter, AIxdist, AIydist) { 
         //defensive behavior mode2, try to stay close to center of stage
-        if (AIFighter.character.body.position.x < 200) {
+        if (AIFighter.character.body.position.x < game.world.width * 0.35) {
 
             //console.log("AI should be keeping right");
             AIFighter.controller1.leftpress = false;
             AIFighter.controller1.rightpress = true;
         }
-        else if (AIFighter.character.body.position.x > 400) {
+        else if (AIFighter.character.body.position.x > game.world.width * 0.65) {
 
             AIFighter.controller1.leftpress = true;
             AIFighter.controller1.rightpress = false;
@@ -1596,10 +1645,23 @@ var playState = {
         }
     },
 
+    AIUseItem: function (AIFighter) {
+        if(AIFighter.character.hasItem === true ){
+            console.log("USE ITEM!")
+            AIFighter.controller1.xpress = true;
+        }
+    },
+
     AIplay: function (Target, AIFighter, FrameTimer) {
-        if(FrameTimer == FrameTarget) {
+        if(FrameTimer === FrameTarget) {
             this.AIFighter = AIFighter;
             this.Target = Target;
+
+            this.AIUseItem(AIFighter);
+
+            this.aiItemCheck(AIFighter, Items);
+
+            
 
             function attackMode(Fighter, AIxdist, AIydist) 
             {
@@ -1636,7 +1698,7 @@ var playState = {
             AIFighter.xpress = false;//jump button
             AIFighter.ypress = false;//block button
 
-            //random number generator between 1 and 1000
+            //random number generator between 1 and 10
             react = Math.floor((Math.random() * 10) + 1);
             if (react == 1) {
                 console.log("Behavior switch!");
@@ -1647,16 +1709,16 @@ var playState = {
                     AIFighter.controller1.ypress = true;
                 }
             }
-            if (react > 7) {
-                AIFighter.leftpress = false;
-                AIFighter.rightpress = false;
-                AIFighter.uppress = false;
-                AIFighter.downpress = false;
+            if (react == 10) {
+                AIFighter.controller1.leftpress = false;
+                AIFighter.controller1.rightpress = false;
+                AIFighter.controller1.uppress = false;
+                AIFighter.controller1.downpress = false;
 
-                AIFighter.apress = false;//regular attack button
-                AIFighter.bpress = false;//special button
-                AIFighter.xpress = false;//jump button
-                AIFighter.ypress = false;//block button
+                AIFighter.controller1.apress = false;//regular attack button
+                AIFighter.controller1.bpress = false;//special button
+                AIFighter.controller1.xpress = false;//jump button
+                AIFighter.controller1.ypress = false;//block button
                 console.log("reacting to nothing");
                 return;
             }

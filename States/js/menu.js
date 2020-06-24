@@ -171,7 +171,7 @@ var menuState = {
     update: function () {
         //filter.update();
         if (game.device.android || game.device.iOS) {
-            fullScreenButton.visible = true;
+            //fullScreenButton.visible = true;
         }
         music.volume = gameManager.volume;
         music.mute = muteState;
