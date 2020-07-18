@@ -86,8 +86,8 @@ var winState = {
                 gameManager.matchOutcome = "Loss"
             }
 
-            gameManager.ScoreKeeper.ArcCalcScore(1);
-            gameManager.ScoreKeeper.updateMasterScore(1);
+            gameManager.ScoreKeeper.ArcCalcScore(0);
+            gameManager.ScoreKeeper.updateMasterScore(0);
             
             if(gameManager.matchOutcome === "Win"){
             
@@ -174,7 +174,7 @@ var winState = {
         }
             startLabel.events.onInputUp.add(function () {
                 music.stop();
-                gameManager.ScoreKeeper.resetAll();
+                gameManager.ScoreKeeper.softReset();
 
                 music.stop();
 
