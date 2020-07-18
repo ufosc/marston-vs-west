@@ -86,6 +86,12 @@ var menuState = {
             menuState.credits();
         });
 
+        helpLabel = new TextButton(this.game, game.world.width * .2, game.world.height * .85, 'HELP', { font: '80px Permanent Marker', fill: '#ffffff' });
+        helpLabel.anchor.setTo(0, 0);
+        helpLabel.events.onInputUp.add(function () {
+            menuState.help();
+        });
+
         buttonSound = game.add.audio('buttonSound', 0.06);
         buttonSound.stop();
         
@@ -206,6 +212,5 @@ var menuState = {
         buttonSound.play();
         game.state.start('help');
     }
-
 
 };
