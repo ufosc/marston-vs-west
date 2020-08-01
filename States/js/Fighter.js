@@ -643,13 +643,6 @@ class Fighter {
     }
 
     airforwardStart() {
-        if (this.character.scale.x < 0) //If facing left, flip the angle of the hitbox
-        {
-            this.weapon1.bulletAngleOffset = 40;
-        }
-        else {
-            this.weapon1.bulletAngleOffset = -40;
-        }
         this.attack = 'airforward';
         this.weaponSwipeFU.fire();
         this.attacking = true;
@@ -1031,6 +1024,14 @@ class Fighter {
             this.weaponSwipeFD.trackSprite(this.character, 25, 30, true);
             this.weaponSwipeFU.trackSprite(this.character, 25, 20, true);
             this.weaponSwipeU.trackSprite(this.character, 0, 10, true);
+
+            /*if(this.weaponSwipeFU.scale.x >= 0){
+                this.weaponSwipeD.bullets.scale.x*=-1;
+                this.weaponSwipeFU.bullets.scale.x*=-1;
+                this.weaponSwipeFD.bullets.scale.x*=-1;
+                this.weaponSwipeU.bullets.scale.x*=-1;
+            }*/
+            
         }
         else if (this.character.scale.x < 0) {
             
@@ -1045,6 +1046,12 @@ class Fighter {
             this.weaponSwipeFU.trackSprite(this.character, 25, -20, true);
             this.weaponSwipeU.trackSprite(this.character, 0, -10, true);
 
+            /*if(this.weaponSwipeFU.scale.x <= 0){
+                this.weaponSwipeD.bullets.scale.x*=-1;
+                this.weaponSwipeFU.bullets.scale.x*=-1;
+                this.weaponSwipeFD.bullets.scale.x*=-1;
+                this.weaponSwipeU.bullets.scale.x*=-1;
+            }*/
         }
 
     }

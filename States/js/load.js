@@ -52,8 +52,11 @@ var loadState = {
         game.load.image('SwipeFU', 'assets/swipeFU.png');
         game.load.image('SwipeU', 'assets/swipeU.png');*/
         
-        game.load.image('SwipeV', 'assets/swipeFU.png');
-        game.load.image('SwipeH', 'assets/swipeU.png');
+        /*game.load.image('SwipeV', 'assets/swipeFU.png');
+        game.load.image('SwipeH', 'assets/swipeU.png');*/
+
+        game.load.image('SwipeV', 'assets/swipeV.png');
+        game.load.image('SwipeH', 'assets/swipeH.png');
 
         /*game.load.image('SwipeV', 'assets/SwipeBoxV.png');
         game.load.image('SwipeH', 'assets/SwipeBoxH.png');*/
