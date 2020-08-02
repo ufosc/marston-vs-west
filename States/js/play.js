@@ -17,47 +17,47 @@ var playState = {
             Player1.attacking = false;
             switch (Player2.attack) {
                 case 'punch':
-                    hitDmg = 9;
+                    hitDmg = 9 + Player2.DMGModifier;
                     attackDistance = 2;
                     hitAngle = 1;
                     break;
                 case 'kick':
-                    hitDmg = 15;
+                    hitDmg = 15 + Player2.DMGModifier;
                     attackDistance = 10;
                     hitAngle = 1;
                     break;
                 case 'uppercut':
-                    hitDmg = 35;
+                    hitDmg = 35 + Player2.DMGModifier;
                     attackDistance = 70;
                     hitAngle = 1.35;
                     break;
                 case 'jumpKick':
-                    hitDmg = 10;
+                    hitDmg = 10 + Player2.DMGModifier;
                     attackDistance = 25;
                     hitAngle = 1;
                     break;
                 case 'warlock':
-                    hitDmg = 65;
+                    hitDmg = 65 + Player2.DMGModifier;
                     attackDistance = 300;
                     hitAngle = 1.25;
                     break;
                 case 'airneutral':
-                    hitDmg = 15;
+                    hitDmg = 15 + Player2.DMGModifier;
                     attackDistance = 300;
                     hitAngle = 0.7;
                     break;
                 case 'airforward':
-                    hitDmg = 15;
+                    hitDmg = 15 + Player2.DMGModifier;
                     attackDistance = 300;
                     hitAngle = 1.25;
                     break;
                 case 'airdown':
-                    hitDmg = 15;
+                    hitDmg = 15 + Player2.DMGModifier;
                     attackDistance = 300;
                     hitAngle = 0.7 //1.25;
                     break;
                 case 'juggle':
-                    hitDmg = 15;
+                    hitDmg = 15 + Player2.DMGModifier;
                     attackDistance = 300;
                     hitAngle = 1.6;
                     break;
@@ -157,7 +157,11 @@ var playState = {
     },
 
     respawn: function (Fighter) {
-        
+        /*
+        if(Fighter.lives -1 >= 0){
+            Fighter.lives += -1;
+        }*/
+
         game.time.events.add(Phaser.Timer.SECOND, this.playRespawnSound, this);
         Fighter.aniIdle.play(10, false);
 
@@ -249,7 +253,7 @@ var playState = {
                 Fighter.xZero = true;
             }
             Fighter.health = 0;
-            Fighter.lives += -1;
+            
             if(gameManager.OnePunchDeath === true){
                 Fighter.lives = 0;
             }
@@ -325,12 +329,19 @@ var playState = {
     KO: function (Fighter) {
         
         //if (Fighter.character.body.position.x < -50 || Fighter.character.body.position.x > 900) {
-        if (Fighter.character.body.position.x < -100 || Fighter.character.body.position.x > game.world.width + 100) {
+        if (Fighter.character.body.position.x < -100 || Fighter.character.body.position.x > game.world.width + 100 || Fighter.health > 300) {
             Fighter.character.hasItem = false;
             if(muteState==false)
             deathSound.play();
-            
-            this.respawn(Fighter);
+           
+            if(Fighter.lives > 1){
+                Fighter.lives += -1;
+                console.log('KO player died?');
+                this.respawn(Fighter);
+            }
+            else{
+                Fighter.lives = 0;
+            }
             
             var live = Fighter.stocks.getFirstAlive();
             if (live) {
@@ -345,8 +356,14 @@ var playState = {
             Fighter.character.hasItem = false;
             if(muteState==false)
             deathSound.play();
-            this.respawn(Fighter);
-
+            if(Fighter.lives > 1){
+                Fighter.lives += -1;
+                console.log('KO player died vertically?');
+                this.respawn(Fighter);
+            }
+            else{
+                Fighter.lives = 0;
+            }
             var live = Fighter.stocks.getFirstAlive();
             if (live) {
                 live.kill();
@@ -863,12 +880,24 @@ var playState = {
         }
 
         if (multimanmode === true) {
-            Player3 = new lab(charName2, 0, gameManager.lives, game.world.width * 0.5, game.world.height * 0.25, controlOptionAI);
+            if (charName2 === 'Fighter') {
+                Player3 = new dj(charName2, 0, gameManager.lives, game.world.width * 0.5, game.world.height * 0.25, controlOptionAI);
+            }
+            else if (charName2 === 'Goth') {
+                Player3 = new goth(charName2, 0, gameManager.lives, game.world.width * 0.5, game.world.height * 0.25, controlOptionAI);
+            }
+            else if (charName2 === 'Lab') {
+                Player3 = new lab(charName2, 0, gameManager.lives, game.world.width * 0.5, game.world.height * 0.25, controlOptionAI);
+            }
+            else if (charName2 === 'Boxer') {
+                Player3 = new boxer(charName2, 0, gameManager.lives, game.world.width * 0.5, game.world.height * 0.25, controlOptionAI);
+            }
 
-            console.log("Player 3 is lab");
+            Player1.DMGModifier =  20;
+            Player2.DMGModifier = -10;
+            Player3.DMGModifier = -10;
 
-            Player4 = new lab(charName2, 0, gameManager.lives, game.world.width * 0.62, game.world.height * 0.25, controlOptionAI);
-            console.log("Player 4 is lab");
+            //Player3 = new lab(charName2, 0, gameManager.lives, game.world.width * 0.5, game.world.height * 0.25, controlOptionAI);
         }
 
 
@@ -910,56 +939,64 @@ var playState = {
 
         if (Player1.controlnum === -1) {
             //console.log("virtual buttons are made buttons");
-            Player1.controller1.buttonleft = game.add.button(5, 472, 'leftButton', null, this, 0, 1, 0, 1);
+            //Player1.controller1.buttonleft = game.add.button(5, 472, 'leftButton', null, this, 0, 1, 0, 1);
+            Player1.controller1.buttonleft = game.add.button(0, game.world.height*0.7, 'leftButton', null, this, 0, 1, 0, 1);
             Player1.controller1.buttonleft.events.onInputOver.add(function () { Player1.controller1.leftpress = true; });
             Player1.controller1.buttonleft.events.onInputOut.add(function () { Player1.controller1.leftpress = false; });
             Player1.controller1.buttonleft.events.onInputDown.add(function () { Player1.controller1.leftpress = true; });
             Player1.controller1.buttonleft.events.onInputUp.add(function () { Player1.controller1.leftpress = false; });
 
             //Right button
-            Player1.controller1.buttonright = game.add.button(105, 472, 'rightButton', null, this, 0, 1, 0, 1);
+            //Player1.controller1.buttonright = game.add.button(105, 472, 'rightButton', null, this, 0, 1, 0, 1);
+            Player1.controller1.buttonright = game.add.button(Player1.controller1.buttonleft.width * 2, game.world.height*0.7, 'rightButton', null, this, 0, 1, 0, 1);
             Player1.controller1.buttonright.events.onInputOver.add(function () { Player1.controller1.rightpress = true; });
             Player1.controller1.buttonright.events.onInputOut.add(function () { Player1.controller1.rightpress = false; });
             Player1.controller1.buttonright.events.onInputDown.add(function () { Player1.controller1.rightpress = true; });
             Player1.controller1.buttonright.events.onInputUp.add(function () { Player1.controller1.rightpress = false; });
 
             //Up button
-            Player1.controller1.buttonup = game.add.button(55, 412, 'upButton', null, this, 0, 1, 0, 1);
+            //Player1.controller1.buttonup = game.add.button(55, 412, 'upButton', null, this, 0, 1, 0, 1);
+            Player1.controller1.buttonup = game.add.button(Player1.controller1.buttonleft.width, game.world.height*0.7 - Player1.controller1.buttonleft.height, 'upButton', null, this, 0, 1, 0, 1);            
             Player1.controller1.buttonup.events.onInputOver.add(function () { Player1.controller1.uppress = true; });
             Player1.controller1.buttonup.events.onInputOut.add(function () { Player1.controller1.uppress = false; });
             Player1.controller1.buttonup.events.onInputDown.add(function () { Player1.controller1.uppress = true; });
             Player1.controller1.buttonup.events.onInputUp.add(function () { Player1.controller1.uppress = false; });
 
             //Down button
-            Player1.controller1.buttondown = game.add.button(55, 535, 'downButton', null, this, 0, 1, 0, 1);
+            //Player1.controller1.buttondown = game.add.button(55, 535, 'downButton', null, this, 0, 1, 0, 1);
+            Player1.controller1.buttondown = game.add.button(Player1.controller1.buttonleft.width, game.world.height*0.7 + Player1.controller1.buttonleft.height, 'downButton', null, this, 0, 1, 0, 1);
             Player1.controller1.buttondown.events.onInputOver.add(function () { Player1.controller1.downpress = true; });
             Player1.controller1.buttondown.events.onInputOut.add(function () { Player1.controller1.downpress = false; });
             Player1.controller1.buttondown.events.onInputDown.add(function () { Player1.controller1.downpress = true; });
             Player1.controller1.buttondown.events.onInputUp.add(function () { Player1.controller1.downpress = false; });
 
             //A button
-            Player1.controller1.buttona = game.add.button(685, 425, 'aButton', null, this, 0, 1, 0, 1);
+            //Player1.controller1.buttona = game.add.button(685, 425, 'aButton', null, this, 0, 1, 0, 1);
+            Player1.controller1.buttona = game.add.button(game.world.width - (Player1.controller1.buttonleft.width), game.world.height*0.7, 'aButton', null, this, 0, 1, 0, 1);
             Player1.controller1.buttona.events.onInputOver.add(function () { Player1.controller1.apress = true; });
             Player1.controller1.buttona.events.onInputOut.add(function () { Player1.controller1.apress = false; });
             Player1.controller1.buttona.events.onInputDown.add(function () { Player1.controller1.apress = true; });
             Player1.controller1.buttona.events.onInputUp.add(function () { Player1.controller1.apress = false; });
 
             //B button
-            Player1.controller1.buttonb = game.add.button(735, 475, 'bButton', null, this, 0, 1, 0, 1);
+            //Player1.controller1.buttonb = game.add.button(735, 475, 'bButton', null, this, 0, 1, 0, 1);
+            Player1.controller1.buttonb = game.add.button(game.world.width - (2 * Player1.controller1.buttonleft.width), game.world.height*0.7 + Player1.controller1.buttonleft.height, 'bButton', null, this, 0, 1, 0, 1);
             Player1.controller1.buttonb.events.onInputOver.add(function () { Player1.controller1.bpress = true; });
             Player1.controller1.buttonb.events.onInputOut.add(function () { Player1.controller1.bpress = false; });
             Player1.controller1.buttonb.events.onInputDown.add(function () { Player1.controller1.bpress = true; });
             Player1.controller1.buttonb.events.onInputUp.add(function () { Player1.controller1.bpress = false; });
 
             //X button
-            Player1.controller1.buttonx = game.add.button(635, 475, 'xButton', null, this, 0, 1, 0, 1);
+            //Player1.controller1.buttonx = game.add.button(635, 475, 'xButton', null, this, 0, 1, 0, 1);
+            Player1.controller1.buttonx = game.add.button(game.world.width - (2 * Player1.controller1.buttonleft.width), game.world.height*0.7 - Player1.controller1.buttonleft.height, 'xButton', null, this, 0, 1, 0, 1);
             Player1.controller1.buttonx.events.onInputOver.add(function () { Player1.controller1.xpress = true; });
             Player1.controller1.buttonx.events.onInputOut.add(function () { Player1.controller1.xpress = false; });
             Player1.controller1.buttonx.events.onInputDown.add(function () { Player1.controller1.xpress = true; });
             Player1.controller1.buttonx.events.onInputUp.add(function () { Player1.controller1.xpress = false; });
 
             //Y button
-            Player1.controller1.buttony = game.add.button(685, 525, 'yButton', null, this, 0, 1, 0, 1);
+            //Player1.controller1.buttony = game.add.button(685, 525, 'yButton', null, this, 0, 1, 0, 1);
+            Player1.controller1.buttony = game.add.button(game.world.width - (3 * Player1.controller1.buttonleft.width), game.world.height*0.7, 'yButton', null, this, 0, 1, 0, 1);
             Player1.controller1.buttony.events.onInputOver.add(function () { Player1.controller1.ypress = true; });
             Player1.controller1.buttony.events.onInputOut.add(function () { Player1.controller1.ypress = false; });
             Player1.controller1.buttony.events.onInputDown.add(function () { Player1.controller1.ypress = true; });
@@ -998,7 +1035,6 @@ var playState = {
         
         if(multimanmode === true) {
             nameText3 = game.add.text(0, 0, "P3", style);
-            nameText4 = game.add.text(0, 0, "P4", style);
         }
 
         //Pause
@@ -1106,7 +1142,6 @@ var playState = {
 
             if (multimanmode === true){
                 Player3.character.alpha = 0;
-                Player4.character.alpha = 0;
             }
         }
 
@@ -1115,7 +1150,6 @@ var playState = {
 
             if (multimanmode === true){
                 Player3.character.alpha = 0;
-                Player4.character.alpha = 0;
             }
         }
         //console.log('Inside update function');
@@ -1240,10 +1274,9 @@ var playState = {
 
         if (multimanmode === true ) {
             game.physics.arcade.collide(Player3.character, platforms);
-            game.physics.arcade.collide(Player4.character, platforms);
+            
             if(passtimer1v2 < 100){
                 game.physics.arcade.collide(Player1.character, Player3.character);
-                game.physics.arcade.collide(Player1.character, Player4.character);
             }
         }
         //Player1.nespad.connectgamepad();
@@ -1328,16 +1361,6 @@ var playState = {
                 game.physics.arcade.overlap(Player1.weaponSwipeFD, Player3.character, this.hitPlayer12(Player3, Player1));
                 game.physics.arcade.overlap(Player1.weaponSwipeFU, Player3.character, this.hitPlayer12(Player3, Player1));
                 game.physics.arcade.overlap(Player1.weaponSwipeD, Player3.character, this.hitPlayer12(Player3, Player1));
-
-                game.physics.arcade.overlap(Player1.weapon1.bullets, Player4.character, this.hitPlayer12(Player4, Player1));
-                game.physics.arcade.overlap(Player1.weaponKick.bullets, Player4.character, this.hitPlayer12(Player4, Player1));
-                game.physics.arcade.overlap(Player1.weaponUppercut.bullets, Player4.character, this.hitPlayer12(Player4, Player1));
-                game.physics.arcade.overlap(Player1.jumpKick.bullets, Player4.character, this.hitPlayer12(Player4, Player1));
-
-                game.physics.arcade.overlap(Player1.weaponSwipeU, Player4.character, this.hitPlayer12(Player4, Player1));
-                game.physics.arcade.overlap(Player1.weaponSwipeFD, Player4.character, this.hitPlayer12(Player4, Player1));
-                game.physics.arcade.overlap(Player1.weaponSwipeFU, Player4.character, this.hitPlayer12(Player4, Player1));
-                game.physics.arcade.overlap(Player1.weaponSwipeD, Player4.character, this.hitPlayer12(Player4, Player1));
             }
         }
         if (Player2.attacking) {
@@ -1370,18 +1393,6 @@ var playState = {
                 game.physics.arcade.overlap(Player3.weaponSwipeFU, Player1.character, this.hitPlayer12(Player1, Player3));
                 game.physics.arcade.overlap(Player3.weaponSwipeD, Player1.character, this.hitPlayer12(Player1, Player3));
             }
-            if (Player4.attacking) {
-                //hitbox collision for player 1, we pass the type of hit into the hit player function
-                game.physics.arcade.overlap(Player4.weapon1.bullets, Player1.character, this.hitPlayer12(Player1,Player4));
-                game.physics.arcade.overlap(Player4.weaponKick.bullets, Player1.character, this.hitPlayer12(Player1,Player4));
-                game.physics.arcade.overlap(Player4.weaponUppercut.bullets, Player1.character, this.hitPlayer12(Player1,Player4));
-                game.physics.arcade.overlap(Player4.jumpKick.bullets, Player1.character, this.hitPlayer12(Player1,Player4));
-
-                game.physics.arcade.overlap(Player4.weaponSwipeU, Player1.character, this.hitPlayer12(Player1, Player4));
-                game.physics.arcade.overlap(Player4.weaponSwipeFD, Player1.character, this.hitPlayer12(Player1, Player4));
-                game.physics.arcade.overlap(Player4.weaponSwipeFU, Player1.character, this.hitPlayer12(Player1, Player4));
-                game.physics.arcade.overlap(Player4.weaponSwipeD, Player1.character, this.hitPlayer12(Player1, Player4));
-            }
         }
 
         //Name tag align/follow
@@ -1403,15 +1414,10 @@ var playState = {
             //Multiman mode on so AI controls 2 additional fighters
             if (multimanmode === true) {
                 this.AIplay(Player1, Player3, FrameTimer);
-                this.AIplay(Player1, Player4, FrameTimer);
                 Player3.updateInput();
-                Player4.updateInput();
                 this.KO(Player3);
-                this.KO(Player4);
                 this.respawnEvent(Player3);
-                this.respawnEvent(Player4);
                 nameText3.alignTo(Player3.character, Phaser.TOP, 16);
-                nameText4.alignTo(Player4.character, Phaser.TOP, 16);
             }
         }
 
@@ -1457,7 +1463,7 @@ var playState = {
         }
         
         if (multimanmode === true) {
-            if(Player2.lives == 0 && Player3.lives == 0 && Player4.lives == 0) {
+            if(Player2.lives == 0 && Player3.lives == 0) {
                 if(gameManager.gameType === "Arcade") {
                     gameManager.ScoreKeeper.updatePoint(0, 4, timer.duration);
                 }

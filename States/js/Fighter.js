@@ -20,6 +20,9 @@ class Fighter {
         this.hangingState = "NotHanging";
         this.hangingTimer = 0;
 
+        this.DMGModifier = 0;
+        //this.DMGModifier = [0,0,0,0,0,0,0,0,0];
+
         this.resettint();
 
         switch (character) {
