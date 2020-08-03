@@ -1,10 +1,10 @@
 console.log("bootstate reached");
-var bootState={
+var bootState = {
 
-	create: function(){
-		game.physics.startSystem(Phaser.Physics.ARCADE);
-		game.state.start ('load');
+    create: function () {
+        game.physics.startSystem(Phaser.Physics.ARCADE);
+        game.state.start('load');
 
 
-	}
+    }
 };

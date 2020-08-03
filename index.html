@@ -5,24 +5,57 @@
     <title>Marston V West</title>
 		<!-- Order actually matters, you can get bugs if you create a state and put it in the wrong place i.e it won't load -->
     <script type="text/javascript" src="phaser.js"></script>
+    <script type="text/javascript" src="States/js/TextButton.js"></script>
+    <script type="text/javascript" src="States/js/ScoreCounter.js"></script>
+    <script type="text/javascript" src="states/js/GameInfo.js"></script>
     <script type="text/javascript" src="States/js/boot.js"></script>
     <script type="text/javascript" src="States/js/css.js"></script>
-	<script type="text/javascript" src="States/js/sss.js"></script>
+    <script type="text/javascript" src="States/js/sss.js"></script>
+    <script type="text/javascript" src="States/js/tcs.js"></script>
+    <script type="text/javascript" src="States/js/arc.js"></script>
+    <script type="text/javascript" src="States/js/arccss.js"></script>
+    <script type="text/javascript" src="States/js/arcsss.js"></script>
+    <script type="text/javascript" src="States/js/arctcs.js"></script>
+	
 	<script type="text/javascript" src="States/js/credits.js"></script>
+    <script type="text/javascript" src="States/js/help.js"></script>
 	<script type="text/javascript" src="States/js/options.js"></script>
     <script type="text/javascript" src="States/js/load.js"></script>
     <script type="text/javascript" src="States/js/menu.js"></script>
     <script type="text/javascript" src="States/js/play.js"></script>
     <script type="text/javascript" src="States/js/win.js"></script>
     <script type="text/javascript" src="States/js/game.js"></script>
+    <script type="text/javascript" src="States/js/cam.js"></script>
+    <script type="text/javascript" src="States/js/Controller.js"></script>
+    <script type="text/javascript" src="States/js/Crowd.js"></script>
+    <script type="text/javascript" src="States/js/Fighter.js"></script>
+    <script type="text/javascript" src="States/js/dj.js"></script>
+    <script type="text/javascript" src="States/js/goth.js"></script>
+    <script type="text/javascript" src="States/js/lab.js"></script>
+    <script type="text/javascript" src="States/js/boxer.js"></script>
+    <script type="text/javascript" src="States/js/Item.js"></script>
+    <script type="text/javascript" src="States/js/platform.js"></script>
+    <!--<script type="text/javascript" src="States/js/Utilities/Slider.js"></script>-->
+    <script type="text/javascript" src="States/js/Utilities/ColorMenu.js"></script>
+    <script type="text/javascript" src="states/js/Utilities/DialogueManager.js"></script>
+
     <style type="text/css">
         body {
-            margin: 0;
+            margin: auto;
+            overflow: auto;
+            background-color: #1a1a1a
         }
     </style>
+
+<link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap" rel="stylesheet"> 
+
+<link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet"> 
+
 </head>
 <body>
-		<div id="ganeDiv"> </div>
-		<div id = 'feedbackForm'></div>
-	</body>
+    <div id="container">
+        <div id="gameDiv"> </div>
+        <div id='feedbackForm'></div>
+    </div>
+</body>
 </html>
