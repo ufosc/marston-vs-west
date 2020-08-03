@@ -3,23 +3,33 @@ var loadState = {
 
     preload: function () {
         var loadingLabel = game.add.text(80, 150, 'Loading...', { font: '30px Courier', fill: '#ffffff' });
-
         //Fighting assets
 
         //game.load.image('sky', 'assets/sky.png');
         game.load.image('sky', 'assets/TestStage2.png');
+        game.load.image('WestPrintStage', 'assets/Stage/WestPrint.jpg');
+        game.load.image('WestDeskStage', 'assets/Stage/WestDesk.jpg');
+        game.load.image('MarstonTableStage', 'assets/Stage/MarstonTable.jpg');
+        game.load.image('GatorStage', 'assets/Stage/gator.jpg');
+        game.load.image('TreeStage', 'assets/Stage/Tree.jpg');
+        game.load.image('TableTopStage', 'assets/Stage/TableTop.jpg');
+        game.load.image('TableTop2Stage', 'assets/Stage/TableTop2.jpg');
+        game.load.image('ReitzPondStage', 'assets/Stage/ReitzPond.jpg');
+        game.load.image('ReitzStepStage', 'assets/Stage/ReitzSteps.jpg');
+        
+        
         //game.load.image('ground', 'assets/platform.png');
         //game.load.image('ground', 'assets/platform2.png');
         game.load.image('ground', 'assets/floorblock.png');
+        game.load.image('plat1', 'assets/Floor/Plat1.png');
+        game.load.image('plat2', 'assets/Floor/Plat2.png');
         game.load.image('star', 'assets/star.png');
-        //game.load.spritesheet('dude', 'assets/dude.png', 32, 48);
-
-        //game.load.spritesheet('dude', 'assets/Fighter1master.png', 36, 42);
-        //game.load.spritesheet('chick', 'assets/Fighter2master.png', 36, 42);
-        game.load.spritesheet('dude', 'assets/TESTFIGHTER1.png', 64, 84);
-        game.load.spritesheet('chick', 'assets/TESTFIGHTER2.png', 64, 84);
-
-
+        game.load.image('ColorBottle', 'assets/ColorBottleB.png');
+        
+        game.load.spritesheet('Fighter', 'assets/Fighters/Canvas/Fighter_Blank.png', 64, 84);
+        game.load.spritesheet('Lab','assets/Fighters/Canvas/Nerd_Blank.png', 60, 94);
+        game.load.spritesheet('Goth', 'assets/Fighters/Canvas/Goth_Blank.png', 64, 96);
+        game.load.spritesheet('Boxer','assets/Fighters/Canvas/Boxer_Blank.png', 100, 93);
 
         game.load.image('hitboxTest', 'assets/testHitbox.png');
         game.load.spritesheet('baddie', 'assets/baddie.png', 32, 32);
@@ -30,6 +40,11 @@ var loadState = {
         game.load.spritesheet('book', 'assets/book.png', 32, 32);
         game.load.spritesheet('Sandbag', 'assets/sandbag.png', 32, 32);
         game.load.image('deathBlast', 'assets/DeathBlast.png');
+        
+        //Punching effect assets
+        game.load.image('pow', 'assets/pow.png');
+        game.load.image('ugh', 'assets/ugh.png');
+        game.load.image('ouch', 'assets/ouch.png');
 
         //swipe attack sprites
         /*game.load.image('SwipeD', 'assets/swipeD.png');
@@ -37,12 +52,17 @@ var loadState = {
         game.load.image('SwipeFU', 'assets/swipeFU.png');
         game.load.image('SwipeU', 'assets/swipeU.png');*/
         
-        game.load.image('SwipeV', 'assets/SwipeBoxV.png');
-        game.load.image('SwipeH', 'assets/SwipeBoxH.png');
+        /*game.load.image('SwipeV', 'assets/swipeFU.png');
+        game.load.image('SwipeH', 'assets/swipeU.png');*/
+
+        game.load.image('SwipeV', 'assets/swipeV.png');
+        game.load.image('SwipeH', 'assets/swipeH.png');
+
+        /*game.load.image('SwipeV', 'assets/SwipeBoxV.png');
+        game.load.image('SwipeH', 'assets/SwipeBoxH.png');*/
 
         //Virtual controller assets
         game.load.image('leftButton', 'assets/ButtonLeftbig.png');
-
         game.load.image('rightButton', 'assets/ButtonRightbig.png');
         game.load.image('upButton', 'assets/ButtonUpbig.png');
         game.load.image('downButton', 'assets/ButtonDownbig.png');
@@ -52,9 +72,7 @@ var loadState = {
         game.load.image('xButton', 'assets/ButtonXbig.png');
         game.load.image('yButton', 'assets/ButtonYbig.png');
 
-
-        //Menu Assets
-        
+        //Menu Assets   
         game.load.image('menuButton', 'assets/menuButton.png');
         this.game.load.audio('creditsMusic', 'assets/Birdbeat.ogg');
         this.game.load.audio('menuMusic', 'assets/Birdbeat.ogg');
@@ -70,12 +88,16 @@ var loadState = {
         game.load.image('player2cssIcon', 'assets/player2cssIcon.png');
         game.load.image('minusButton', 'assets/minusButton.png');
         game.load.image('plusButton', 'assets/plusButton.png');
-        game.load.image('dudeIcon', 'assets/dudeIcon.png');
-        game.load.image('chickIcon', 'assets/chickIcon.png');
-        game.load.spritesheet('crowd', 'assets/dude.png', 32, 48);
+        //game.load.image('dudeIcon', 'assets/dudeIcon.png');
+        //game.load.image('chickIcon', 'assets/chickIcon.png');
+        game.load.image('LabIcon', 'assets/CharIcon/LabIcon.png');
+        game.load.image('GothIcon', 'assets/CharIcon/GothIcon.png');
+        game.load.image('FighterIcon', 'assets/CharIcon/FighterIcon.png');
+        game.load.image('BoxIcon', 'assets/CharIcon/BoxIcon.png');
+
+        //game.load.spritesheet('crowd', 'assets/dude.png', 32, 48);        
         
-        
-        //Audio
+        //Audio 
         game.load.audio('hitSound', 'assets/audio/jab.wav');
         game.load.audio('hitSound1', 'assets/audio/RightCross.wav');
         game.load.audio('hitSound2', 'assets/audio/LeftHook.wav');
@@ -91,6 +113,7 @@ var loadState = {
         game.load.script('filter', 'https://cdn.rawgit.com/photonstorm/phaser-ce/master/filters/Fire.js');
         game.load.audio('itemSound', 'assets/itemSound.wav');
         game.load.audio('titleCardSound', 'assets/titlecarddota.mp3');
+        
         //game.load.audio('playMusic', 'assets/playTestMusic.ogg');
         game.load.tilemap('tilemap1', 'assets/Floor.json', null, Phaser.Tilemap.TILED_JSON);
         game.load.spritesheet('gator', 'assets/gatorBat.png', 32, 32);
@@ -103,11 +126,11 @@ var loadState = {
         game.load.image('dust', 'assets/dust.png');
         game.load.image('music_icon', 'assets/music_sprite.png');
 
-
         //Menu Images
         game.load.image('menuBackground', 'assets/MvW Menus/MainMenu_Sprites/Sprites/Brick Wall_Background.png');
         game.load.image('logo', 'assets/MvW Menus/MainMenu_Sprites/Sprites/Main_Menu_Logo_Sprite.png');
         game.load.image('startButton', 'assets/MvW Menus/MainMenu_Sprites/Buttons/Start_Button.png');
+        game.load.image('arcadeButton', 'assets/MvW Menus/MainMenu_Sprites/Buttons/Arcade_Button.png');
         game.load.image('optionButton', 'assets/MvW Menus/MainMenu_Sprites/Buttons/Options_Button.png');
         game.load.image('creditButton', 'assets/MvW Menus/MainMenu_Sprites/Buttons/Exit_Button.png');
         game.load.image('chooseStage', 'assets/MvW Menus/MapMenu_Sprites/Sprites/ChooseYourStage_Sprite.png');
@@ -119,12 +142,16 @@ var loadState = {
         game.load.image('settings', 'assets/MvW Menus/OptionMenu_Sprites/Sprites/Settings_Sprite.png');
         game.load.image('Pause Menu', 'assets/MvW Menus/Pause_Screen.png');
         game.load.image('Kim', 'assets/bottle.png');//for sliding bar and needs to be modified (?)
-        game.load.image('Chi', 'assets/uselessWhiteBall.png');//for sliding bar and needs to be modified (?)
+        game.load.image('Chi', 'assets/WhiteBall.png');//for sliding bar and needs to be modified (?)
+        game.load.image('knob', 'assets/WhiteBall.png');//for sliding bar and needs to be modified (?)
         game.load.image('mute', 'assets/mute.png');
-
+        
+        game.load.image('helpButton', '/assets/helpButton.png');
     },
     create: function () {
+        musicvol = 0.1;
         music = game.add.audio('menuMusic');
+        music.volume = musicvol;
         music.loopFull();
         game.state.start('menu');
     },

@@ -30,6 +30,7 @@ class Item {
 
     useItem(target) { //Only call if item has a user and is pickedUp
         //When you use the item, first check the type of item used, then do the approipiate action
+        console.log("USE ME???");
         this.type.angle = 0;
         this.type.body.angularVelocity = 0;
         if (this.pickedUp && this.user != null) {
@@ -42,27 +43,29 @@ class Item {
                 itemSound.play();
                 this.type.destroy();
                 this.type = null;
-                target.health -= 10;
+                target.health -= 50;
                 if (target.health < 0) {
                     target.health = 0;
                 }
                 game.time.events.add(Phaser.Timer.SECOND * 2, this.spawnItem, this); //After 2 seconds, spawn the item
             }
-            else if (this.type.key == 'gator') //Current does the same thing as bottle but does damange to player instead
+            else if (this.type.key == 'gator')
             {
-                if(muteState==false)
+                this.throwItem(target);
+                /*if(muteState==false)
                 itemSound.play();
                 this.type.destroy();
                 this.type = null;
                 target.health += 10;
-                game.time.events.add(Phaser.Timer.SECOND * 2, this.spawnItem, this); //After 2 seconds, spawn the item
+                game.time.events.add(Phaser.Timer.SECOND * 2, this.spawnItem, this); //After 2 seconds, spawn the item*/
             }
             else if (this.type.key == 'helmet') //Current respawns player without decrementing lives
             {
                 if(muteState==false)
                 itemSound.play();
                 target.lives++; //respawn decrements lives, this increments lives first
-                this.gameRef.respawn(target);
+                target.updateStocks();
+                //this.gameRef.respawn(target);
                 game.time.events.add(Phaser.Timer.SECOND * 2, this.spawnItem, this); //After 2 seconds, spawn the item
                 this.type.destroy();
                 this.type = null;
@@ -128,7 +131,6 @@ class Item {
                 target.hitVelocity += 200;
                 target.character.body.velocity.y -= 250;
                 target.health += 10;
-
             }
             else {
                 target.hitVelocity -= 200;
@@ -136,9 +138,15 @@ class Item {
                 target.health += 10;
                 
             }
+
+            if(this.type.key == 'gator'){
+                target.hitVelocity *= 200;
+                this.respawnItem();
+            }
             //Change direction and slow on impact
             this.type.body.velocity.x *= -.25;
             this.active = false;
+            hitSound.play();
 
         }
 
