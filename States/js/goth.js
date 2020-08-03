@@ -2,6 +2,7 @@ class goth extends Fighter {
     constructor(character, health, lives, startx, starty, controlnum) {
 
         super(character, health, lives, startx, starty, controlnum);
+        
         this.character.body.gravity.y = 650;
         //console.log("we created the lab construtor");
 
@@ -21,7 +22,8 @@ class goth extends Fighter {
         this.aniRight.onComplete.add(this.walkEnd, this);
 
         //idle animation
-        this.aniIdle = this.character.animations.add('idle', [3, 4, 5], 5, true);
+        this.aniIdle = this.character.animations.add('idle', [3, 4, 5, 5, 4, 3], 6, true);
+        this.aniIdle.onComplete.add(this.IdleEnd, this);
 
         //jump animation
         this.aniJump = this.character.animations.add('jump', [23, 23], 5, false); //need to adjust animation speed
@@ -29,7 +31,7 @@ class goth extends Fighter {
         this.aniJump.onComplete.add(this.jumpEnd, this);
         
         //shield animation
-        this.aniShield = this.character.animations.add('shield', [13], 5, false);
+        this.aniShield = this.character.animations.add('shield', [13], 2, false);
         this.aniShield.onComplete.add(this.shieldEnd, this);
 
         //punch animations
@@ -128,4 +130,35 @@ class goth extends Fighter {
         this.aniAirDodge.onComplete.add(this.airDodgeEnd, this);
 
     }
+
+    warlockStart() {
+        this.xZero = false;
+        this.inputLock = true;
+        this.attacking = true;
+        console.log("Attack??");
+        if (this.character.body.touching.down) {
+            this.character.body.moves = false;
+        }
+        this.attack = 'warlock';
+        this.weapon1.fire();               
+    }
+
+    jumpKickStart() {
+        this.attacking = true;
+        this.attack = 'jumpKick';
+        this.inputLock = true;
+        this.xZero = false;
+        game.time.events.add(Phaser.Timer.SECOND * .3, this.jumpKickTimer, this);
+    }
+
+    jumpKickEnd() {
+        this.aniIdle.play(10, false);
+        this.attacking = true;
+        this.deltDamage = false;
+        this.inputLock = false;
+        game.time.events.add(Phaser.Timer.SECOND * .05, this.jumpKickTimer2, this);
+        this.attack = '';
+        //this.velocity.x = 0;
+    }
+
 }

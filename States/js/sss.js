@@ -49,7 +49,8 @@ var sssState = {
         var logo = game.add.image(game.world.width * .5, game.world.height * .5, 'logo');
         logo.anchor.setTo(.5,.5);
         logo.scale.setTo(.8,.8);
-        var text = game.add.image(game.world.width * .5, game.world.height * .5 + 100, 'chooseStage');
+        //var text = game.add.image(game.world.width * .5, game.world.height * .5 + 100, 'chooseStage');
+        var text = game.add.text(game.world.width * .5, game.world.height * .5 + 100, 'Choose a Stage', { font: '90px Permanent Marker', fill: '#ffffff' });
         text.anchor.setTo(.5,.5);
        
         key1 = game.input.keyboard.addKey(Phaser.Keyboard.ONE);
@@ -69,13 +70,13 @@ var sssState = {
       
         
         buttonSound = game.add.audio('buttonSound');
-        //buttonSound.volume -= .5;
-        buttonSound.volume = musicvol;
+        
+        buttonSound.volume = gameManager.volume * 0.2;
 
-        gameReadyText = game.add.text(game.world.width * .5, game.world.height * .5 + 475, '', { font: '50px Arial', fill: '#ffffff' });
+        gameReadyText = game.add.text(game.world.width * .5, game.world.height * .5 + 475, '', { font: '90px Permanent Marker', fill: '#ffffff' });
         gameReadyText.anchor.setTo(.5, .5);
 
-        var backbutton = game.add.text(50, 200, 'Click to go back', { font: '25px Arial', fill: '#ffffff' });
+        var backbutton = new TextButton(this.game, 50, 0, 'BACK', { font: '90px Permanent Marker', fill: '#ffffff' });
         backbutton.inputEnabled = true;
         backbutton.events.onInputUp.add(function () {
             game.state.start('css');

@@ -3,33 +3,33 @@ class lab extends Fighter {
 
         super(character, health, lives, startx, starty, controlnum);
         this.character.body.gravity.y = 650;
-        //console.log("we created the lab construtor");
 
         this.jumpSpeed = 25;
         this.fallSpeed = 50;
         this.runSpeed = 50;
-        this.attackSpeed = 1; //250;
+        this.attackSpeed = 1;
         this.attackDmg = 1;
         this.moveSpeed = 200;
-
+        this.jumpKickBulletSpeedCons = 600;
         //Player animations
 
-        //idle animation
+        //hanging from ledge animation
         this.aniHang = this.character.animations.add('hang', [24, 25, 26], 5, true);
 
-        this.aniRight = this.character.animations.add('right', [6, 7, 8, 9], 10, true);
+        this.aniRight = this.character.animations.add('right', [6, 7, 8, 9], 10, false);
         this.aniRight.onComplete.add(this.walkEnd, this);
 
         //idle animation
-        this.aniIdle = this.character.animations.add('idle', [1, 2, 3, 4, 5], 5, true);
+        this.aniIdle = this.character.animations.add('idle', [1, 2, 3, 4, 4, 3, 2, 1], 8, true);
+        this.aniIdle.onComplete.add(this.IdleEnd, this);
 
         //jump animation
-        this.aniJump = this.character.animations.add('jump', [20], 5, false); //need to adjust animation speed
+        this.aniJump = this.character.animations.add('jump', [20], 5, false);
         this.aniJump.onStart.add(this.jumpStart, this);
         this.aniJump.onComplete.add(this.jumpEnd, this);
         
         //shield animation
-        this.aniShield = this.character.animations.add('shield', [20], 5, false);
+        this.aniShield = this.character.animations.add('shield', [20], 2, false);
         this.aniShield.onComplete.add(this.shieldEnd, this);
 
         //punch animations
@@ -55,7 +55,7 @@ class lab extends Fighter {
         this.aniDash.onStart.add(this.dashStart, this);
         this.aniDash.onComplete.add(this.dashEnd, this);
 
-        //Tatsumaki (i am weeb)
+        //Tatsumaki
         this.aniJumpKickWindUp= this.character.animations.add('JumpKickwindup', [10, 11, 12, 13], 5, false);
         this.aniJumpKickWindUp.onStart.add(this.JumpKickWindUpStart, this);
         this.aniJumpKickWindUp.onComplete.add(this.JumpKickWindUpEnd, this);
@@ -64,7 +64,7 @@ class lab extends Fighter {
         this.aniJumpKick.onStart.add(this.jumpKickStart, this);
         this.aniJumpKick.onComplete.add(this.jumpKickEnd, this);
 
-        //Uppercut (change 16 later for a better uppercut frame)
+        //Uppercut
         this.aniUppercutWindUp= this.character.animations.add('Uppercutwindup', [21, 22], 5, false);
         this.aniUppercutWindUp.onStart.add(this.UppercutWindUpStart, this);
         this.aniUppercutWindUp.onComplete.add(this.UppercutWindUpEnd, this);
@@ -127,5 +127,107 @@ class lab extends Fighter {
         this.aniAirDodge.onStart.add(this.airDodgeStart, this);
         this.aniAirDodge.onComplete.add(this.airDodgeEnd, this);
 
+        //overridden weapons
+        this.weaponKick = game.add.weapon(10, 'slash');
+        this.weaponKick.bulletKillType = Phaser.Weapon.KILL_LIFESPAN;
+        this.weaponKick.bulletLifespan = 700;
+        this.weaponKick.bulletSpeed = 500;
+        this.weaponKick.fireRate = 2;
+        this.weaponKick.trackSprite(this.character, 50, 50, true);
+
+        //Weapon used for jump kick
+        this.jumpKick = game.add.weapon(10, 'slash');
+        this.jumpKick.bulletKillType = Phaser.Weapon.KILL_LIFESPAN;
+        this.jumpKick.bulletLifespan = 600;
+        this.jumpKick.bulletSpeed = 500;
+        this.jumpKick.fireRate = 2;
+        this.jumpKick.trackSprite(this.character, 50, 50, false);
+        this.jumpKick.fireAngle = 45;
+    }
+
+    weapontracking() {
+
+        if(this.character.scale.x > 0) {
+            
+            this.weapon1.trackSprite(this.character, 30, 20, true);
+            this.weaponKick.trackSprite(this.character, 50, 50, true);
+            this.weaponKick.bulletSpeed = 500;
+            this.weaponUppercut.trackSprite(this.character, 30, 10, true);
+            this.jumpKick.trackSprite(this.character, 50, 50, false);
+            this.jumpKick.bulletSpeed = this.jumpKickBulletSpeedCons;
+
+            this.weaponSwipeD.trackSprite(this.character, 0, 90, true);                    
+            this.weaponSwipeFD.trackSprite(this.character, 25, 30, true);
+            this.weaponSwipeFU.trackSprite(this.character, 25, 20, true);
+            this.weaponSwipeU.trackSprite(this.character, 0, 10, true);
+        }
+        else if (this.character.scale.x < 0) {
+            
+            this.weapon1.trackSprite(this.character, 30, -20, true);
+            this.weaponKick.trackSprite(this.character, 50, -50, true);
+            this.weaponKick.bulletSpeed = -500;
+            this.weaponUppercut.trackSprite(this.character, 30, -10, true);
+            this.jumpKick.trackSprite(this.character, 0, 50, false );
+            this.jumpKick.bulletSpeed = -1 * this.jumpKickBulletSpeedCons;
+            
+            this.weaponSwipeD.trackSprite(this.character, 0, -90, true);                    
+            this.weaponSwipeFD.trackSprite(this.character, 25, -30, true);
+            this.weaponSwipeFU.trackSprite(this.character, 25, -20, true);
+            this.weaponSwipeU.trackSprite(this.character, 0, -10, true);
+
+        }
+
+    }
+
+    jumpKickTimer() {
+        if (this.attacking) {
+            this.jumpKick.fire();
+            this.character.body.velocity.x = 150 * this.character.scale.x;
+            this.character.body.velocity.y = -100;
+            this.inputLock = true;
+        }
+        else {
+            this.xZero = true;
+            this.inputLock = false;
+            this.aniIdle.play(10, false);   
+        }
+    }
+    jumpKickTimer2() {
+        this.xZero = true;
+    }
+    jumpKickStart() {
+        if (this.character.scale.x < 0) //If facing left, flip the angle of the hitbox
+        {
+            this.jumpKick.fireAngle = -45;
+        }
+        else {
+            this.jumpKick.fireAngle = 45;
+        }
+
+        this.attacking = true;
+        this.attack = 'jumpKick';
+        this.inputLock = true;
+        this.xZero = false;
+        game.time.events.add(Phaser.Timer.SECOND * .3, this.jumpKickTimer, this);
+    }
+    jumpKickEnd() {
+        this.aniIdle.play(10, false);
+        this.deltDamage = false;
+        this.inputLock = false;
+        game.time.events.add(Phaser.Timer.SECOND * .05, this.jumpKickTimer2, this);
+    }
+
+    warlockStart() {
+        this.xZero = false;
+        this.inputLock = true;
+        this.attacking = true;
+
+        if (this.character.body.touching.down) {
+            this.character.body.moves = false;
+        }
+        this.attack = 'warlock';
+        this.character.body.velocity.x = 5 * this.character.scale.x;
+        
+        this.weaponKick.fire();
     }
 }

@@ -52,8 +52,14 @@ var loadState = {
         game.load.image('SwipeFU', 'assets/swipeFU.png');
         game.load.image('SwipeU', 'assets/swipeU.png');*/
         
-        game.load.image('SwipeV', 'assets/SwipeBoxV.png');
-        game.load.image('SwipeH', 'assets/SwipeBoxH.png');
+        /*game.load.image('SwipeV', 'assets/swipeFU.png');
+        game.load.image('SwipeH', 'assets/swipeU.png');*/
+
+        game.load.image('SwipeV', 'assets/swipeV.png');
+        game.load.image('SwipeH', 'assets/swipeH.png');
+
+        /*game.load.image('SwipeV', 'assets/SwipeBoxV.png');
+        game.load.image('SwipeH', 'assets/SwipeBoxH.png');*/
 
         //Virtual controller assets
         game.load.image('leftButton', 'assets/ButtonLeftbig.png');
@@ -91,7 +97,7 @@ var loadState = {
 
         //game.load.spritesheet('crowd', 'assets/dude.png', 32, 48);        
         
-        //Audio
+        //Audio 
         game.load.audio('hitSound', 'assets/audio/jab.wav');
         game.load.audio('hitSound1', 'assets/audio/RightCross.wav');
         game.load.audio('hitSound2', 'assets/audio/LeftHook.wav');
@@ -143,7 +149,9 @@ var loadState = {
         game.load.image('helpButton', '/assets/helpButton.png');
     },
     create: function () {
+        musicvol = 0.1;
         music = game.add.audio('menuMusic');
+        music.volume = musicvol;
         music.loopFull();
         game.state.start('menu');
     },

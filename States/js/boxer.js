@@ -3,25 +3,25 @@ class boxer extends Fighter {
 
         super(character, health, lives, startx, starty, controlnum);
         this.character.body.gravity.y = 650;
-        //console.log("we created the lab construtor");
 
         this.jumpSpeed = 40;
         this.fallSpeed = 55;
         this.runSpeed = 60;
-        this.attackSpeed = 1; //250;
+        this.attackSpeed = 1;
         this.attackDmg = 1;
         this.moveSpeed = 230;
 
         //Player animations
 
-        //idle animation
+        //Hanging from ledge animation
         this.aniHang = this.character.animations.add('hang', [26, 27, 28], 5, true);
 
-        this.aniRight = this.character.animations.add('right', [7, 8, 9, 10, 11], 10, true);
+        this.aniRight = this.character.animations.add('right', [7, 8, 9, 10, 11], 10, false);
         this.aniRight.onComplete.add(this.walkEnd, this);
 
         //idle animation
-        this.aniIdle = this.character.animations.add('idle', [1, 2, 3, 4], 5, true);
+        this.aniIdle = this.character.animations.add('idle', [1, 2, 3, 4, 4, 3, 2, 1], 8, true);
+        this.aniIdle.onComplete.add(this.IdleEnd, this);
 
         //jump animation
         this.aniJump = this.character.animations.add('jump', [20], 5, false); //need to adjust animation speed
@@ -29,7 +29,7 @@ class boxer extends Fighter {
         this.aniJump.onComplete.add(this.jumpEnd, this);
         
         //shield animation
-        this.aniShield = this.character.animations.add('shield', [19], 5, false);
+        this.aniShield = this.character.animations.add('shield', [19], 2, false);
         this.aniShield.onComplete.add(this.shieldEnd, this);
 
         //punch animations
@@ -60,7 +60,7 @@ class boxer extends Fighter {
         this.aniJumpKickWindUp.onStart.add(this.JumpKickWindUpStart, this);
         this.aniJumpKickWindUp.onComplete.add(this.JumpKickWindUpEnd, this);
 
-        this.aniJumpKick = this.character.animations.add('jumpKick', [22], 5, false);
+        this.aniJumpKick = this.character.animations.add('jumpKick', [22, 22, 22, 22, 22], 5, false);
         this.aniJumpKick.onStart.add(this.jumpKickStart, this);
         this.aniJumpKick.onComplete.add(this.jumpKickEnd, this);
 
@@ -126,5 +126,54 @@ class boxer extends Fighter {
         this.aniAirDodge = this.character.animations.add('airDodge', [20], 15, false);
         this.aniAirDodge.onStart.add(this.airDodgeStart, this);
         this.aniAirDodge.onComplete.add(this.airDodgeEnd, this);
+
+        //weapons
+        this.weaponKick = game.add.weapon(10, 'slash');
+        this.weaponKick.bulletKillType = Phaser.Weapon.KILL_LIFESPAN;
+        this.weaponKick.bulletLifespan = 500;
+        this.weaponKick.bulletSpeed = 0;
+        this.weaponKick.fireRate = 2;
+        this.weaponKick.multiFire = true;
+        this.weaponKick.trackSprite(this.character, 50, 50, true);
+    }
+
+    kickStart() {
+        this.attacking = true;
+        this.attack = 'kick';
+        this.weaponKick.bulletSpeed = 0;
+        this.weaponKick.fire();
+        this.inputLock = true;
+    }
+
+    warlockStart() {
+        this.xZero = false;
+        this.inputLock = true;
+        this.attacking = true;
+
+        if (this.character.body.touching.down) {
+            this.character.body.moves = false;
+        }
+        this.attack = 'warlock';
+        this.character.body.velocity.x = 5 * this.character.scale.x;
+
+        let i = 0;
+        if(this.character.scale.x < 0){  
+            while (i < 5){
+
+                this.weaponKick.trackSprite(this.character, 50, -1*(50 + Math.floor(Math.random() * 51)), true);
+                this.weaponKick.bulletSpeed = -150;
+                this.weaponKick.fire();
+                i++;
+            }    
+        }
+        else {
+            while (i < 5){
+
+                this.weaponKick.trackSprite(this.character, 50, (50 + Math.floor(Math.random() * 51)), true);
+                this.weaponKick.bulletSpeed = 150;
+                this.weaponKick.fire();
+                i++;
+            }
+        }
     }
 }

@@ -1,25 +1,43 @@
 //title card file
 var timer;
+var words; 
 
 var arctcsState = {
     create:function(){
-        
-        console.log('yoshi');
-        
+
+        console.log("Test:" + gameManager.gameType)
+        console.log("in arctcs????")
+
         numX = 20;
         numY = 20;
+        
+        Words = new DialogueManager();
+
+        Words.selectPhrase();
+
+        if (gameManager.matchOutcome !== "Loss") {
+  
+            gameManager.randomcharacter(1);
+            gameManager.randomtint(1);
+            gameManager.randomstage();
+            charName2 = gameManager.characters[1];
+
+            gameManager.randomscenario();
+            
+            //gameManager.scenario = "Reverse";
+        }
+
+        console.log("chars:" + charName1 +", " + charName2 + ", " + gameManager.charName2);
 
         key1 = game.input.keyboard.addKey(Phaser.Keyboard.ENTER);
-        var skipLabel = game.add.text(game.world.width * .5 , game.world.height - 25, "Press 'Enter' to skip", { font: '25px Arial', fill: '#ffffff' });
+        var skipLabel = game.add.text(game.world.width * .5 , game.world.height - 25, "Press 'Enter' to skip", { font: '50px Permanent Marker', fill: '#ffffff' });
         skipLabel.anchor.setTo(.5,.5);
 
         player1ico = game.add.sprite(game.world.width * .05 - 100, game.world.height * .7, charName1);
         musicToPlay = game.add.audio('titleCardSound');
-        musicToPlay.volume = musicvol;
-        if (!muteState)
+        musicToPlay.volume = gameManager.volume;
+        if(!muteState)
         musicToPlay.play();
-
-        //dudeIcon.tint = 0xffff00;
 
         player1ico.scale.setTo(15, 15);
         player1ico.anchor.setTo(.5,.5);
@@ -29,78 +47,98 @@ var arctcsState = {
         if (player1ico.animations) {
             player1ico.alpha = 1;
         }
-        buttonSound.volume = musicvol;
-        if(muteState==false)
-        buttonSound.play();
-        //chickIcon.tint = 0xffffff;
 
+        buttonSound.volume = gameManager.volume * 0.2;
+        
+        if(muteState == false)
+        buttonSound.play();
+        
+        console.log("making sprite");
         player2ico = game.add.sprite(game.world.width * .95 + 100, game.world.height * .7, charName2);
+        console.log("making sprite2");
         player2ico.scale.setTo(15, 15);
         player2ico.anchor.setTo(.5,.5);
-
+        console.log("making sprite anchors done");
         player2ico.animations.add('idle', [1, 2], 5, true);
         player2ico.animations.add('kick', [6], 5, true);
-
+        console.log("middle of making?");
+        
         if (player2ico.animations) {
             player2ico.alpha = 1;
         }
-
+        
         player1ico.animations.play('idle');
         player2ico.animations.play('idle');
         game.physics.enable(player1ico, Phaser.Physics.ARCADE);
         game.physics.enable(player2ico, Phaser.Physics.ARCADE);
 
-        game.time.events.add(Phaser.Timer.SECOND * 3.5, this.rush, this);
+        game.time.events.add(Phaser.Timer.SECOND * 1.5, this.rush, this);
 
         player1ico.inputEnabled = true;
         player1ico.events.onInputDown.add(this.start, this);
         player2ico.inputEnabled = true;
         player2ico.events.onInputDown.add(this.start, this);
+
+        player1ico.tint = gameManager.playerTint[0];
+        player2ico.tint = gameManager.playerTint[1];
+
+        console.log("players made?");
+
+            player2response = game.add.text((game.world.width), 50, 
+            `Player2: ${Words.Phrase}` + '\n'
+          , { font: '50px Permanent Marker', fill: '#ffffff' });
+
+          player2response.anchor.setTo(1,0);
+          
+
+          var scenarioLabel = game.add.text(game.world.width * 0.5, game.world.height * 0.9, gameManager.scenario, { font: '50px Permanent Marker', fill: '#ffffff' });
+          scenarioLabel.anchor.setTo(0.5, 0.5);
     },
+
     rush:function(){
-    player1ico.animations.play('kick');
-    player1ico.scale.x *= -1;//flip
-    player1ico.x = game.world.width * .15 + 100;
+        player1ico.animations.play('kick');
+        player1ico.scale.x *= -1;//flip
+        player1ico.x = game.world.width * .15 + 100;
 
-    player2ico.animations.play('kick');
-    player2ico.scale.x *= -1;//flip
-    player2ico.x = game.world.width * .85 - 100;
+        player2ico.animations.play('kick');
+        player2ico.scale.x *= -1;//flip
+        player2ico.x = game.world.width * .85 - 100;
 
-    player1ico.body.velocity.x = 100;
-    player2ico.body.velocity.x = -100;
+        player1ico.body.velocity.x = 70;
+        player2ico.body.velocity.x = -70;
 
-    game.time.events.add(Phaser.Timer.SECOND * 4.7, this.rushStop, this);
-   },
+        game.time.events.add(Phaser.Timer.SECOND * 4.7, this.rushStop, this);
+        
+        player1response = game.add.text((game.world.width* 0), 50, 
+        `Player1: ${Words.Response}`
+        , { font: '50px Permanent Marker', fill: '#ffffff' });
+
+        player1response.anchor.setTo(0,0);
+    },
     rushStop:function(){
-    player1ico.body.velocity.x = 0;
-    player2ico.body.velocity.x = 0;
+        player1ico.body.velocity.x = 0;
+        player2ico.body.velocity.x = 0;
 
-    vs = game.add.sprite(game.world.width * 0.5, game.world.height * 0.5, 'vsIcon');
+        vs = game.add.sprite(game.world.width * 0.5, game.world.height * 0.5, 'vsIcon');
 
-
-    vs.anchor.setTo(0.5, 0.5);
-    vs.scale.setTo(20,20);
-    game.add.tween(vs.scale).to({x: 1, y: 1}, 1000, Phaser.Easing.Sinusoidal.InOut, true, 0, 0, false);
-   
-    game.time.events.add(Phaser.Timer.SECOND * 3, this.start, this);
-},
+        vs.anchor.setTo(0.5, 0.5);
+        vs.scale.setTo(20,20);
+        game.add.tween(vs.scale).to({x: 1, y: 1}, 1000, Phaser.Easing.Sinusoidal.InOut, true, 0, 0, false);
+    
+        game.time.events.add(Phaser.Timer.SECOND * 3, this.start, this);
+    },
+    
     start:function(){
-    musicToPlay.stop();
-    gameReadyText.text = `Game Start!`;
-    console.log('stoobid');
-    game.state.start('arc');
-},
+        musicToPlay.stop();
+        gameReadyText.text = `Game Start!`;
+        game.state.start('play');
+    },
 
     update: function() {
         if(key1.isDown) {
-            game.state.start('arc');
+            game.state.start('play');
             musicToPlay.stop();
         }
     }
-
     
 };
-
-
-
-

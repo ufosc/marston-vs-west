@@ -2,11 +2,15 @@ var menuState = {
 
     create: function () {
         //Create the menu & settings
-        game.scale.fullScreenScaleMode = Phaser.ScaleManager.EXACT_FIT;
-        game.stage.backgroundColor = '#000000';   //Give us some color pls
+        
         background = game.add.sprite(0, 0);
-        background.width = 1920;
-        background.height = 1080;
+        background.width = game.width;
+        background.height = game.height;
+
+        game.stage.backgroundColor = '#000000';   //Give us some color pls
+
+        game.scale.fullScreenScaleMode = Phaser.ScaleManager.EXACT_FIT;
+        //game.scale._scaleMode = 3;
 
         filter = game.add.filter('Fire', 1920, 1080);
         filter.alpha = 0.0;
@@ -22,6 +26,7 @@ var menuState = {
         var gkey = game.input.keyboard.addKey(Phaser.Keyboard.G);
         gkey.onDown.addOnce(this.characterSelect, this); //Keep for debugging purposes, makes launching the game quicker
 
+        /*
         arcadeButton = game.add.button(game.world.width * .5, game.world.height * .5, 'arcadeButton');
         arcadeButton.anchor.setTo(.5,.5);
         arcadeButton.onInputUp.add(this.arcade, this);
@@ -47,33 +52,96 @@ var menuState = {
         helpButton = game.add.button(0, game.world.height, 'helpButton');
         helpButton.anchor.setTo(0, 1);
         helpButton.onInputUp.add(this.help, this);
+        
+        */
+        
+        //var arcadeLabel = game.add.text(game.world.width * .4, game.world.height * .45, 'ARCADE', { font: '90px Permanent Marker', fill: '#ffffff' });
+        arcadeLabel = new TextButton(this.game, game.world.width * .2, game.world.height * .45, 'ARCADE', { font: '80px Permanent Marker', fill: '#ffffff' });
+        arcadeLabel.anchor.setTo(0, 0);
+        arcadeLabel.events.onInputUp.add(function () {
+            menuState.arcade();            
+        });
 
-        buttonSound = game.add.audio('buttonSound');
-        //buttonSound.volume -= .3;
-        buttonSound.volume = musicvol;
+        //var versusLabel = game.add.text(game.world.width * .4, game.world.height * .55 + 30, 'VERSUS', { font: '90px Permanent Marker', fill: '#ffffff' });
+        versusLabel = new TextButton(this.game, game.world.width * .8, game.world.height * .45, 'VERSUS', { font: '80px Permanent Marker', fill: '#ffffff' });
+        versusLabel.anchor.setTo(1, 0);
+
+        versusLabel.events.onInputUp.add(function () {
+            menuState.start();
+        });
+        
+        //var optionsLabel = game.add.text(game.world.width * .4, game.world.height * .65 + 60, 'OPTIONS', { font: '90px Permanent Marker', fill: '#ffffff' });
+        optionsLabel = new TextButton(this.game, game.world.width * .2, game.world.height * .65, 'OPTIONS', { font: '80px Permanent Marker', fill: '#ffffff' });
+        optionsLabel.anchor.setTo(0, 0);
+        optionsLabel.events.onInputUp.add(function () {
+            menuState.options();            
+        });
+
+        //var creditsLabel = game.add.text(game.world.width * .4, game.world.height * .75 + 90, 'CREDITS', { font: '90px Permanent Marker', fill: '#ffffff' });
+        
+        creditsLabel =  new TextButton(this.game, game.world.width * .8, game.world.height * .65, 'CREDITS', { font: '80px Permanent Marker', fill: '#ffffff' });
+        creditsLabel.anchor.setTo(1, 0);
+        creditsLabel.inputEnabled = true;
+        creditsLabel.events.onInputUp.add(function () {
+            menuState.credits();
+        });
+
+        helpLabel = new TextButton(this.game, game.world.width * .2, game.world.height * .85, 'HELP', { font: '80px Permanent Marker', fill: '#ffffff' });
+        helpLabel.anchor.setTo(0, 0);
+        helpLabel.events.onInputUp.add(function () {
+            menuState.help();
+        });
+
+        buttonSound = game.add.audio('buttonSound', 0.06);
+        buttonSound.stop();
+        
+        buttonSound.volume = gameManager.volume * 0.2;
 
         if (music.name != 'menuMusic') {
-            music = game.add.audio('menuMusic');
+            music = game.add.audio('menuMusic',gameManager.volume);
             music.loopFull();
         }
 
     },
     start: function () {
 
-        if(muteState==false)
-        buttonSound.play();
-        //music.stop();
+        if (music.name != 'menuMusic') {
+            music = game.add.audio('menuMusic',gameManager.volume);
+            music.loopFull();
+        }
+
+        music.volume = gameManager.volume;
+        music.mute = muteState;
+
+        if(muteState==false){
+            buttonSound.play();
+            //music.stop();
+        }
+
+        gameManager.resetsettings();
+        gameManager.ScoreKeeper.resetAll();
+        
         console.log("go to normal css?");
         gameManager.changemode("MultiPlayer");
         game.state.start('css');
-        //game.state.start('options');
+        gameManager.playerTint[0] = "0xff8615";
+        gameManager.playerTint[1] = "0x1c6bff";
 
     },
     arcade: function(){
         console.log('arcade');
-        if(muteState==false)
-        buttonSound.play();
-        //music.stop();
+
+        if(muteState==false){
+            buttonSound.play();
+        }
+
+        gameManager.lives = 1;
+
+        gameManager.playerTint[0] = "0xff8615";
+        gameManager.playerTint[1] = "0x1c6bff";
+
+        gameManager.resetsettings();
+        gameManager.ScoreKeeper.resetAll();
         gameManager.changemode("Arcade");
         game.state.start('arccss');
     },
@@ -81,7 +149,10 @@ var menuState = {
         if(muteState==false)
         buttonSound.play();
         console.log("css State");
+        gameManager.resetsettings();
+        gameManager.ScoreKeeper.resetAll();
         gameManager.changemode("Multi");
+        
         game.state.start('css');
 
     },
@@ -101,15 +172,14 @@ var menuState = {
     credits: function () {
         if(muteState==false)
         buttonSound.play();
-        music.stop();
         game.state.start('credits');
     },
     update: function () {
         //filter.update();
         if (game.device.android || game.device.iOS) {
-            fullScreenButton.visible = true;
+            //fullScreenButton.visible = true;
         }
-        music.volume = musicvol;
+        music.volume = gameManager.volume;
         music.mute = muteState;
         //buttonSound.volume = musicvol;
         //console.log("buttonSound: ", buttonSound.volume);
@@ -142,6 +212,5 @@ var menuState = {
         buttonSound.play();
         game.state.start('help');
     }
-
 
 };

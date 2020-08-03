@@ -2,7 +2,7 @@
 This code also serves as a test implementation of how to optimize css
 */
 
-class Stage {
+/*class Stage {
     constructor(startx, starty, icon) {
         this.icon = game.add.sprite(startx, starty, icon);
         this.icon.anchor.setTo(.5, .5);
@@ -39,7 +39,7 @@ class Stage {
         game.state.start('tcs');
         //game.state.start('play');
     }
-}
+}*/
 
 var arcsssState = {
     create: function () {
@@ -60,14 +60,13 @@ var arcsssState = {
         stage2 = new Stage(game.world.width * .5 + 250, game.world.height * .5 + 300, 'westPic');
        
         buttonSound = game.add.audio('buttonSound');
-        //buttonSound.volume -= .5;
-        buttonSound.volume = musicvol;
+        buttonSound.volume = gameManager.volume * 0.2;
 
         gameReadyText = game.add.text(game.world.width * .5, game.world.height * .5 + 475, '', { font: '50px Arial', fill: '#ffffff' });
         gameReadyText.anchor.setTo(.5, .5);
 
-        var backbutton = game.add.text(50, 200, 'Click to go back', { font: '25px Arial', fill: '#ffffff' });
-        backbutton.inputEnabled = true;
+        var backbutton = new textButton(this.game, 50, 200, 'Click to go back', { font: '25px Arial', fill: '#ffffff' });
+        
         backbutton.events.onInputUp.add(function () {
             game.state.start('arccss');
         });
