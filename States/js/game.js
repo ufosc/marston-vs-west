@@ -15,6 +15,7 @@ var config =
     antialias: false,
     state: this,
     scaleMode: Phaser.ScaleManager.RESIZE
+    
     //scaleMode: Phaser.ScaleManager.SHOW_ALL
     //scaleMode: Phaser.ScaleManager.SHOW_ALL
 }
@@ -25,8 +26,8 @@ var game = new Phaser.Game(config);
 
 var gameManager = new GameInfo();
 
-var gamewidth = 1920;
-var gameheight = 1080;
+var gamewidth = window.innerWidth;
+var gameheight = window.innerHeight;
 /*var gamewidth = 1920;
 var gameheight = 1080;*/
 
@@ -70,7 +71,7 @@ var marstonPicture;
 var westPicture;
 var mob;
 var people;
-
+window.onresize = adjustWindowSize;
 //var lives = 3;
 
 var hitpause;
@@ -205,6 +206,11 @@ var numY = 20;
 var vs;
 //end of title card state section
 
+function adjustWindowSize(){
+    console.log("resize?");
+    this.game.width = window.innerWidth;
+    this.gameheight = window.innerHeight;
+}
 
 var style =
 {

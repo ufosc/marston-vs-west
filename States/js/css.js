@@ -61,11 +61,11 @@ var cssState = {
         });
         //.onInputUp.add(this.arcade, this);
 
-        player1Icon = game.add.sprite(game.world.width * .45, game.world.height * .5, 'player1cssIcon');
+        player1Icon = game.add.sprite(game.world.width * .45, game.world.height * .25, 'player1cssIcon');
         player1Icon.scale.setTo(3, 3);
         player1Icon.anchor.setTo(.5, .5);
 
-        player2Icon = game.add.sprite(game.world.width * .55, game.world.height * .5, 'player2cssIcon');
+        player2Icon = game.add.sprite(game.world.width * .55, game.world.height * .25, 'player2cssIcon');
         player2Icon.scale.setTo(3, 3);
         player2Icon.anchor.setTo(.5, .5);
 
