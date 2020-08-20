@@ -104,6 +104,7 @@ var loadState = {
         game.load.audio('hitSound3', 'https://ufosc.github.io/marston-vs-west/assets/audio/RightHook.wav');
 
         //game.load.audio('hitSound', 'assets/hitSound.wav');
+
         game.load.audio('jumpSound', 'https://ufosc.github.io/marston-vs-west/assets/jumpSound.wav');
         game.load.audio('buttonSound', 'https://ufosc.github.io/marston-vs-west/assets/buttonSound.wav');
         game.load.audio('deathSound', 'https://ufosc.github.io/marston-vs-west/assets/deathSound.wav');
