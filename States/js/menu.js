@@ -1,3 +1,34 @@
+class form extends Phaser.Text {
+    constructor(game, x, y, text, url, style) {
+        super(game, x, y, text, style);
+        this.url = url;
+        this._oldFill = null;
+        //add custom objects to the game
+        this.game.add.existing(this);
+        //Activate inpute events
+        this.inputEnabled = true;
+        //Change hover cursor
+        this.input.useHandCursor = true;
+        //Listen to the events
+        this.events.onInputOver.add(this.onOver, this);
+        this.events.onInputOut.add(this.onOut, this);
+        this.events.onInputDown.add(this.onClick, this);
+    }
+
+    onOver() {
+        this._oldFill = this.fill;
+        this.fill = "blue";
+    }
+
+    onOut() {
+        this.fill = this._oldFill;
+    }
+
+    onClick() {
+        document.getElementById("feedbackForm").innerHTML = '<iframe src="https://docs.google.com/forms/d/e/1FAIpQLSem2W45GCSasljASseR6tbXA_H7vwtgezITt_A97JBNJ0maug/viewform?embedded=true" width="760" height="500" frameborder="0" marginheight="0" marginwidth="0">Loading...</iframe>';
+    }
+}
+
 var menuState = {
 
     create: function () {
@@ -12,9 +43,9 @@ var menuState = {
         game.scale.fullScreenScaleMode = Phaser.ScaleManager.EXACT_FIT;
         //game.scale._scaleMode = 3;
 
-        filter = game.add.filter('Fire', 1920, 1080);
+        /*filter = game.add.filter('Fire', 1920, 1080);
         filter.alpha = 0.0;
-        background.filters = [filter];
+        background.filters = [filter];*/
         var backgroundSprite = game.add.image(0, 0, 'menuBackground');
         backgroundSprite.anchor.setTo(0,0);
         var logo = game.add.image(game.world.width * .5, game.world.height * .5, 'logo');
@@ -91,6 +122,9 @@ var menuState = {
         helpLabel.events.onInputUp.add(function () {
             menuState.help();
         });
+
+        feedbackLabel = new Link(this.game, game.world.width * .8, game.world.height * .85, "FEEDBACK", "https://goo.gl/forms/wA6NGUAJ4OiKhVC93", { font: '50px Permanent Marker', fill: '#ffffff' });
+        feedbackLabel.anchor.setTo(1, 0);
 
         buttonSound = game.add.audio('buttonSound', 0.06);
         buttonSound.stop();
