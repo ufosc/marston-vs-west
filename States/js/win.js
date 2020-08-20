@@ -29,7 +29,7 @@ class Link extends Phaser.Text {
     }
 }
 
-class form extends Phaser.Text {
+/*class form extends Phaser.Text {
     constructor(game, x, y, text, url, style) {
         super(game, x, y, text, style);
         this.url = url;
@@ -58,7 +58,7 @@ class form extends Phaser.Text {
     onClick() {
         document.getElementById("feedbackForm").innerHTML = '<iframe src="https://docs.google.com/forms/d/e/1FAIpQLSem2W45GCSasljASseR6tbXA_H7vwtgezITt_A97JBNJ0maug/viewform?embedded=true" width="760" height="500" frameborder="0" marginheight="0" marginwidth="0">Loading...</iframe>';
     }
-}
+}*/
 
 var winState = {
     create: function () {
