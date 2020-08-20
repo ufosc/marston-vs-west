@@ -123,7 +123,7 @@ var menuState = {
             menuState.help();
         });
 
-        feedbackLabel = new Link(this.game, game.world.width * .8, game.world.height * .85, "FEEDBACK", "https://goo.gl/forms/wA6NGUAJ4OiKhVC93", { font: '50px Permanent Marker', fill: '#ffffff' });
+        feedbackLabel = new Link(this.game, game.world.width * .8, game.world.height * .85, "FEEDBACK", "https://goo.gl/forms/wA6NGUAJ4OiKhVC93", { font: '80px Permanent Marker', fill: '#ffffff' });
         feedbackLabel.anchor.setTo(1, 0);
 
         buttonSound = game.add.audio('buttonSound', 0.06);
