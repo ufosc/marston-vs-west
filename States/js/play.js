@@ -821,8 +821,8 @@ var playState = {
         back.width = game.world.width;
         back.height = game.world.height * 1.05;
 
-        var scenarioLabel = game.add.text(game.world.width * 0.5, game.world.height * 0.9, gameManager.scenario, { font: '50px Permanent Marker', fill: '#ffffff' });
-        scenarioLabel.anchor.setTo(0.5, 0.5);
+        var scenarioLabel = game.add.text(game.world.width * 0.5, game.world.height, gameManager.scenario, { font: '50px Permanent Marker', fill: '#ffffff' });
+        scenarioLabel.anchor.setTo(0.5, 1);
 
         hitvol = 0.07;
         hitSound = game.add.audio('hitSound',hitvol);
@@ -940,7 +940,11 @@ var playState = {
         if (Player1.controlnum === -1) {
             //console.log("virtual buttons are made buttons");
             //Player1.controller1.buttonleft = game.add.button(5, 472, 'leftButton', null, this, 0, 1, 0, 1);
-            Player1.controller1.buttonleft = game.add.button(0, game.world.height*0.7, 'leftButton', null, this, 0, 1, 0, 1);
+            Player1.controller1.buttonleft = game.add.button(0, game.world.height*0.8, 'leftButton', null, this, 0, 1, 0, 1);
+            Player1.controller1.buttonleft.scale.x =3;
+            Player1.controller1.buttonleft.scale.y =3;
+            Player1.controller1.buttonleft.position.x = 0;
+            Player1.controller1.buttonleft.position.y = game.world.height*0.85;
             Player1.controller1.buttonleft.events.onInputOver.add(function () { Player1.controller1.leftpress = true; });
             Player1.controller1.buttonleft.events.onInputOut.add(function () { Player1.controller1.leftpress = false; });
             Player1.controller1.buttonleft.events.onInputDown.add(function () { Player1.controller1.leftpress = true; });
@@ -948,7 +952,11 @@ var playState = {
 
             //Right button
             //Player1.controller1.buttonright = game.add.button(105, 472, 'rightButton', null, this, 0, 1, 0, 1);
-            Player1.controller1.buttonright = game.add.button(Player1.controller1.buttonleft.width * 2, game.world.height*0.7, 'rightButton', null, this, 0, 1, 0, 1);
+            Player1.controller1.buttonright = game.add.button(Player1.controller1.buttonleft.width * 2, game.world.height*0.8, 'rightButton', null, this, 0, 1, 0, 1);
+            Player1.controller1.buttonright.scale.x =3;
+            Player1.controller1.buttonright.scale.y =3;
+            Player1.controller1.buttonleft.position.x = (2 * Player1.controller1.buttonleft.width);
+            Player1.controller1.buttonleft.position.y = game.world.height*0.85;
             Player1.controller1.buttonright.events.onInputOver.add(function () { Player1.controller1.rightpress = true; });
             Player1.controller1.buttonright.events.onInputOut.add(function () { Player1.controller1.rightpress = false; });
             Player1.controller1.buttonright.events.onInputDown.add(function () { Player1.controller1.rightpress = true; });
@@ -957,6 +965,10 @@ var playState = {
             //Up button
             //Player1.controller1.buttonup = game.add.button(55, 412, 'upButton', null, this, 0, 1, 0, 1);
             Player1.controller1.buttonup = game.add.button(Player1.controller1.buttonleft.width, game.world.height*0.7 - Player1.controller1.buttonleft.height, 'upButton', null, this, 0, 1, 0, 1);            
+            Player1.controller1.buttonup.scale.x =3;
+            Player1.controller1.buttonup.scale.y =3;
+            Player1.controller1.buttonleft.position.x = Player1.controller1.buttonleft.width;
+            Player1.controller1.buttonleft.position.y = game.world.height*0.85 - Player1.controller1.buttonleft.height;
             Player1.controller1.buttonup.events.onInputOver.add(function () { Player1.controller1.uppress = true; });
             Player1.controller1.buttonup.events.onInputOut.add(function () { Player1.controller1.uppress = false; });
             Player1.controller1.buttonup.events.onInputDown.add(function () { Player1.controller1.uppress = true; });
@@ -965,6 +977,10 @@ var playState = {
             //Down button
             //Player1.controller1.buttondown = game.add.button(55, 535, 'downButton', null, this, 0, 1, 0, 1);
             Player1.controller1.buttondown = game.add.button(Player1.controller1.buttonleft.width, game.world.height*0.7 + Player1.controller1.buttonleft.height, 'downButton', null, this, 0, 1, 0, 1);
+            Player1.controller1.buttondown.scale.x =3;
+            Player1.controller1.buttondown.scale.y =3;
+            Player1.controller1.buttonleft.position.x = Player1.controller1.buttonleft.width;
+            Player1.controller1.buttonleft.position.y = game.world.height*0.85 + Player1.controller1.buttonleft.height;
             Player1.controller1.buttondown.events.onInputOver.add(function () { Player1.controller1.downpress = true; });
             Player1.controller1.buttondown.events.onInputOut.add(function () { Player1.controller1.downpress = false; });
             Player1.controller1.buttondown.events.onInputDown.add(function () { Player1.controller1.downpress = true; });
@@ -972,15 +988,23 @@ var playState = {
 
             //A button
             //Player1.controller1.buttona = game.add.button(685, 425, 'aButton', null, this, 0, 1, 0, 1);
-            Player1.controller1.buttona = game.add.button(game.world.width - (Player1.controller1.buttonleft.width), game.world.height*0.7, 'aButton', null, this, 0, 1, 0, 1);
+            Player1.controller1.buttona = game.add.button(game.world.width - (Player1.controller1.buttonleft.width), game.world.height*0.8, 'aButton', null, this, 0, 1, 0, 1);
+            Player1.controller1.buttona.scale.x =3;
+            Player1.controller1.buttona.scale.y =3;
+            Player1.controller1.buttonleft.position.x = game.world.width - (Player1.controller1.buttonleft.width);
+            Player1.controller1.buttonleft.position.y = game.world.height*0.85;
             Player1.controller1.buttona.events.onInputOver.add(function () { Player1.controller1.apress = true; });
             Player1.controller1.buttona.events.onInputOut.add(function () { Player1.controller1.apress = false; });
             Player1.controller1.buttona.events.onInputDown.add(function () { Player1.controller1.apress = true; });
             Player1.controller1.buttona.events.onInputUp.add(function () { Player1.controller1.apress = false; });
-
+           
             //B button
             //Player1.controller1.buttonb = game.add.button(735, 475, 'bButton', null, this, 0, 1, 0, 1);
-            Player1.controller1.buttonb = game.add.button(game.world.width - (2 * Player1.controller1.buttonleft.width), game.world.height*0.7 + Player1.controller1.buttonleft.height, 'bButton', null, this, 0, 1, 0, 1);
+            Player1.controller1.buttonb = game.add.button(game.world.width - (2 * Player1.controller1.buttonleft.width), game.world.height*0.8 + Player1.controller1.buttonleft.height, 'bButton', null, this, 0, 1, 0, 1);
+            Player1.controller1.buttonb.scale.x =3;
+            Player1.controller1.buttonb.scale.y =3;
+            Player1.controller1.buttonb.position.x = game.world.width - (2 * Player1.controller1.buttonleft.width);
+            Player1.controller1.buttonb.position.y = game.world.height*0.85 + Player1.controller1.buttonleft.height;
             Player1.controller1.buttonb.events.onInputOver.add(function () { Player1.controller1.bpress = true; });
             Player1.controller1.buttonb.events.onInputOut.add(function () { Player1.controller1.bpress = false; });
             Player1.controller1.buttonb.events.onInputDown.add(function () { Player1.controller1.bpress = true; });
@@ -988,7 +1012,11 @@ var playState = {
 
             //X button
             //Player1.controller1.buttonx = game.add.button(635, 475, 'xButton', null, this, 0, 1, 0, 1);
-            Player1.controller1.buttonx = game.add.button(game.world.width - (2 * Player1.controller1.buttonleft.width), game.world.height*0.7 - Player1.controller1.buttonleft.height, 'xButton', null, this, 0, 1, 0, 1);
+            Player1.controller1.buttonx = game.add.button(game.world.width - (2 * Player1.controller1.buttonleft.width), game.world.height*0.8 - Player1.controller1.buttonleft.height, 'xButton', null, this, 0, 1, 0, 1);
+            Player1.controller1.buttonx.scale.x =3;
+            Player1.controller1.buttonx.scale.y =3;
+            Player1.controller1.buttonleft.position.x = game.world.width - (2 * Player1.controller1.buttonleft.width);
+            Player1.controller1.buttonleft.position.y = game.world.height*0.85 - Player1.controller1.buttonleft.height;
             Player1.controller1.buttonx.events.onInputOver.add(function () { Player1.controller1.xpress = true; });
             Player1.controller1.buttonx.events.onInputOut.add(function () { Player1.controller1.xpress = false; });
             Player1.controller1.buttonx.events.onInputDown.add(function () { Player1.controller1.xpress = true; });
@@ -996,7 +1024,11 @@ var playState = {
 
             //Y button
             //Player1.controller1.buttony = game.add.button(685, 525, 'yButton', null, this, 0, 1, 0, 1);
-            Player1.controller1.buttony = game.add.button(game.world.width - (3 * Player1.controller1.buttonleft.width), game.world.height*0.7, 'yButton', null, this, 0, 1, 0, 1);
+            Player1.controller1.buttony = game.add.button(game.world.width - (3 * Player1.controller1.buttonleft.width), game.world.height*0.8, 'yButton', null, this, 0, 1, 0, 1);
+            Player1.controller1.buttony.scale.x =3;
+            Player1.controller1.buttony.scale.y =3;
+            Player1.controller1.buttonleft.position.x = game.world.width - (3 * Player1.controller1.buttonleft.width);
+            Player1.controller1.buttonleft.position.y = game.world.height*0.85;
             Player1.controller1.buttony.events.onInputOver.add(function () { Player1.controller1.ypress = true; });
             Player1.controller1.buttony.events.onInputOut.add(function () { Player1.controller1.ypress = false; });
             Player1.controller1.buttony.events.onInputDown.add(function () { Player1.controller1.ypress = true; });
@@ -1010,18 +1042,18 @@ var playState = {
 
         //mob = new crowd(0,0);
 
-        healthtext1 = game.add.text(game.world.width*0.1, game.world.height * 0.95, `DMG ${Player1.health}`,{ font: '20px Permanent Marker'}, Player1.fighterStyle );
+        healthtext1 = game.add.text(game.world.width*0.1, game.world.height, `DMG ${Player1.health}`,{ font: '20px Permanent Marker'}, Player1.fighterStyle );
         healthtext1.stroke = '#ffffff';
         healthtext1.strokeThickness = 10;
-        healthtext1.scale.x = 2;
-        healthtext1.scale.y = 2;
+        healthtext1.scale.x =3;
+        healthtext1.scale.y =3;
         healthtext1.anchor.setTo(0,1);
 
-        healthtext2 = game.add.text(game.world.width*0.9, game.world.height * 0.95, `DMG ${Player2.health}`,{ font: '20px Permanent Marker'}, Player2.fighterStyle);
+        healthtext2 = game.add.text(game.world.width*0.9, game.world.height, `DMG ${Player2.health}`,{ font: '20px Permanent Marker'}, Player2.fighterStyle);
         healthtext2.stroke = '#ffffff';
         healthtext2.strokeThickness = 10;
-        healthtext2.scale.x = 2;
-        healthtext2.scale.y = 2;
+        healthtext2.scale.x =3;
+        healthtext2.scale.y =3;
         healthtext2.anchor.setTo(1,1);
 
 
