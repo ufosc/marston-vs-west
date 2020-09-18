@@ -13,142 +13,149 @@ var playState = {
         let hitDmg = 0;
         let hitAngle = 0;
         let attackDistance = 0;
-        if (!Player2.deltDamage && !Player1.invincible && Player2.attacking && (game.physics.arcade.overlap(Player1.character, Player2.weapon1.bullets) || game.physics.arcade.overlap(Player1.character, Player2.weaponKick.bullets) || game.physics.arcade.overlap(Player1.character, Player2.weaponUppercut.bullets) || game.physics.arcade.overlap(Player1.character, Player2.jumpKick.bullets) || game.physics.arcade.overlap(Player1.character, Player2.weaponSwipeD.bullets) || game.physics.arcade.overlap(Player1.character, Player2.weaponSwipeFD.bullets) || game.physics.arcade.overlap(Player1.character, Player2.weaponSwipeFU.bullets) || game.physics.arcade.overlap(Player1.character, Player2.weaponSwipeU.bullets) )) {
-            Player1.attacking = false;
-            switch (Player2.attack) {
-                case 'punch':
-                    hitDmg = 9 + Player2.DMGModifier;
-                    attackDistance = 2;
-                    hitAngle = 1;
-                    break;
-                case 'kick':
-                    hitDmg = 15 + Player2.DMGModifier;
-                    attackDistance = 10;
-                    hitAngle = 1;
-                    break;
-                case 'uppercut':
-                    hitDmg = 35 + Player2.DMGModifier;
-                    attackDistance = 70;
-                    hitAngle = 1.35;
-                    break;
-                case 'jumpKick':
-                    hitDmg = 10 + Player2.DMGModifier;
-                    attackDistance = 25;
-                    hitAngle = 1;
-                    break;
-                case 'warlock':
-                    hitDmg = 65 + Player2.DMGModifier;
-                    attackDistance = 300;
-                    hitAngle = 1.25;
-                    break;
-                case 'airneutral':
-                    hitDmg = 15 + Player2.DMGModifier;
-                    attackDistance = 300;
-                    hitAngle = 0.7;
-                    break;
-                case 'airforward':
-                    hitDmg = 15 + Player2.DMGModifier;
-                    attackDistance = 300;
-                    hitAngle = 1.25;
-                    break;
-                case 'airdown':
-                    hitDmg = 15 + Player2.DMGModifier;
-                    attackDistance = 300;
-                    hitAngle = 0.7 //1.25;
-                    break;
-                case 'juggle':
-                    hitDmg = 15 + Player2.DMGModifier;
-                    attackDistance = 300;
-                    hitAngle = 1.6;
-                    break;
-                default:
-                    console.log("No attacks went off, you have an error");
+        if (!Player2.deltDamage && Player2.attacking && (game.physics.arcade.overlap(Player1.character, Player2.weapon1.bullets) || game.physics.arcade.overlap(Player1.character, Player2.weaponKick.bullets) || game.physics.arcade.overlap(Player1.character, Player2.weaponUppercut.bullets) || game.physics.arcade.overlap(Player1.character, Player2.jumpKick.bullets) || game.physics.arcade.overlap(Player1.character, Player2.weaponSwipeD.bullets) || game.physics.arcade.overlap(Player1.character, Player2.weaponSwipeFD.bullets) || game.physics.arcade.overlap(Player1.character, Player2.weaponSwipeFU.bullets) || game.physics.arcade.overlap(Player1.character, Player2.weaponSwipeU.bullets) )) {
+            
+            if(Player1.invincible || Player1.shielding === true){
+                hitpause = 10;
+                Player2.stuncounterset(300);
             }
+            else if (!Player1.invincible){
+                Player1.attacking = false;
+                switch (Player2.attack) {
+                    case 'punch':
+                        hitDmg = 9 + Player2.DMGModifier;
+                        attackDistance = 2;
+                        hitAngle = 1;
+                        break;
+                    case 'kick':
+                        hitDmg = 15 + Player2.DMGModifier;
+                        attackDistance = 10;
+                        hitAngle = 1;
+                        break;
+                    case 'uppercut':
+                        hitDmg = 35 + Player2.DMGModifier;
+                        attackDistance = 70;
+                        hitAngle = 1.35;
+                        break;
+                    case 'jumpKick':
+                        hitDmg = 10 + Player2.DMGModifier;
+                        attackDistance = 25;
+                        hitAngle = 1;
+                        break;
+                    case 'warlock':
+                        hitDmg = 65 + Player2.DMGModifier;
+                        attackDistance = 300;
+                        hitAngle = 1.25;
+                        break;
+                    case 'airneutral':
+                        hitDmg = 15 + Player2.DMGModifier;
+                        attackDistance = 300;
+                        hitAngle = 0.7;
+                        break;
+                    case 'airforward':
+                        hitDmg = 15 + Player2.DMGModifier;
+                        attackDistance = 300;
+                        hitAngle = 1.25;
+                        break;
+                    case 'airdown':
+                        hitDmg = 15 + Player2.DMGModifier;
+                        attackDistance = 300;
+                        hitAngle = 0.7 //1.25;
+                        break;
+                    case 'juggle':
+                        hitDmg = 15 + Player2.DMGModifier;
+                        attackDistance = 300;
+                        hitAngle = 1.6;
+                        break;
+                    default:
+                        console.log("No attacks went off, you have an error");
+                }
 
-            if (Player1.m === 0 && !Player1.shielding) {
-                
-                RandHit = Math.floor((Math.random() * 4));
-                
-                if(muteState == false){
-                    if(RandHit === 0){
-                        hitSound.play();
+                if (Player1.m === 0 && !Player1.shielding) {
+                    
+                    RandHit = Math.floor((Math.random() * 4));
+                    
+                    if(muteState == false){
+                        if(RandHit === 0){
+                            hitSound.play();
+                        }
+                        else if(RandHit === 1){
+                            hitSound1.play();
+                        }
+                        else if(RandHit === 2){
+                            hitSound2.play();
+                        }
+                        else if(RandHit === 3){
+                            hitSound3.play();
+                        }
+                        else {
+                            hitSound.play();
+                        }
                     }
-                    else if(RandHit === 1){
-                        hitSound1.play();
+
+                    Player1.hangingState = "LetGo";
+                    Player1.hangingTimer = 100;
+                    Player1.health += hitDmg + OnePunchBonus;
+                    Player1.hitVelocity = Player2.character.scale.x * Player1.health * 2 + OnePunchBonus;
+
+                    //update points for damage dealt
+                    gameManager.ScoreKeeper.updatePoint(gameManager.ScoreKeeper.verifyPlayer(Player2.controlnum), 1, hitDmg);
+
+                    //update points for damage taken
+                    gameManager.ScoreKeeper.updatePoint(gameManager.ScoreKeeper.verifyPlayer(Player1.controlnum), 2, hitDmg);
+
+                    /*dmgText = game.add.text(Player1.character.x, Player1.character.y, `${hitDmg}`);
+                    dmgText.anchor.setTo(.5,.5);
+                    dmgText.fill = '#ffffff';
+                    //dmgText.velocity.y = 100;
+                    game.time.events.add(Phaser.Timer.SECOND * 3, this.textGoAway, this);*/
+                    if(hitDmg <= 10)
+                        game.time.events.add(Phaser.Timer.SECOND * 0, function(){
+                            let animation = game.add.sprite(Player1.character.x, Player1.character.y, 'pow');
+                            animation.anchor.setTo(0.5, 0.5);
+                            game.add.tween(animation).to( { alpha: 0 }, 1000, Phaser.Easing.Linear.None, true);
+                            game.add.tween(animation).to( { y: Player1.character.y - 50 }, 1000, Phaser.Easing.Linear.None, true);
+                        }, this);
+                    else if((hitDmg > 10) && (hitDmg <= 20))
+                        game.time.events.add(0, function(){
+                            let animation = game.add.sprite(Player1.character.x, Player1.character.y, 'ugh');
+                            animation.anchor.setTo(0.5, 0.5);
+                            game.add.tween(animation).to( { alpha: 0 }, 1000, Phaser.Easing.Linear.None, true);
+                            game.add.tween(animation).to( { y: Player1.character.y - 50 }, 1000, Phaser.Easing.Linear.None, true);
+                        }, this);
+                    else
+                        game.time.events.add(Phaser.Timer.SECOND * 0, function() {
+                            let animation = game.add.sprite(Player1.character.x, Player1.character.y, 'ouch');
+                            animation.anchor.setTo(0.5, 0.5);
+                            game.add.tween(animation).to( { alpha: 0 }, 1000, Phaser.Easing.Linear.None, true);
+                            game.add.tween(animation).to( { y: Player1.character.y - 50 }, 1000, Phaser.Easing.Linear.None, true);
+                        }, this);
+
+                    Player1.character.body.velocity.y = -(Math.pow(Player1.health, hitAngle));
+                    
+                    if (gameManager.scenario == "Metal"){
+                        Player1.stuncounterset(0);
                     }
-                    else if(RandHit === 2){
-                        hitSound2.play();
+                    else if (Player1.health >= 0 || Player1.health <= 75) {
+                        Player1.stuncounterset(60);
                     }
-                    else if(RandHit === 3){
-                        hitSound3.play();
+                    else if (Player1.health > 75 || Player1.health <= 150) {
+                        Player1.stuncounterset(120);
+                        if (Player1.health >= 120) {
+                            hitpause = 10;
+                        }
+                    }
+                    else if (Player1.health > 150 || Player1.health < 200) {
+                        hitpause = 10;
+                        Player1.stuncounterset(300);
                     }
                     else {
-                        hitSound.play();
-                    }
-                }
-
-                Player1.hangingState = "LetGo";
-                Player1.hangingTimer = 100;
-                Player1.health += hitDmg + OnePunchBonus;
-                Player1.hitVelocity = Player2.character.scale.x * Player1.health * 2 + OnePunchBonus;
-
-                //update points for damage dealt
-                gameManager.ScoreKeeper.updatePoint(gameManager.ScoreKeeper.verifyPlayer(Player2.controlnum), 1, hitDmg);
-
-                //update points for damage taken
-                gameManager.ScoreKeeper.updatePoint(gameManager.ScoreKeeper.verifyPlayer(Player1.controlnum), 2, hitDmg);
-
-                /*dmgText = game.add.text(Player1.character.x, Player1.character.y, `${hitDmg}`);
-                dmgText.anchor.setTo(.5,.5);
-                dmgText.fill = '#ffffff';
-                //dmgText.velocity.y = 100;
-                game.time.events.add(Phaser.Timer.SECOND * 3, this.textGoAway, this);*/
-                if(hitDmg <= 10)
-                    game.time.events.add(Phaser.Timer.SECOND * 0, function(){
-                        let animation = game.add.sprite(Player1.character.x, Player1.character.y, 'pow');
-                        animation.anchor.setTo(0.5, 0.5);
-                        game.add.tween(animation).to( { alpha: 0 }, 1000, Phaser.Easing.Linear.None, true);
-                        game.add.tween(animation).to( { y: Player1.character.y - 50 }, 1000, Phaser.Easing.Linear.None, true);
-                    }, this);
-                else if((hitDmg > 10) && (hitDmg <= 20))
-                    game.time.events.add(0, function(){
-                        let animation = game.add.sprite(Player1.character.x, Player1.character.y, 'ugh');
-                        animation.anchor.setTo(0.5, 0.5);
-                        game.add.tween(animation).to( { alpha: 0 }, 1000, Phaser.Easing.Linear.None, true);
-                        game.add.tween(animation).to( { y: Player1.character.y - 50 }, 1000, Phaser.Easing.Linear.None, true);
-                    }, this);
-                else
-                    game.time.events.add(Phaser.Timer.SECOND * 0, function() {
-                        let animation = game.add.sprite(Player1.character.x, Player1.character.y, 'ouch');
-                        animation.anchor.setTo(0.5, 0.5);
-                        game.add.tween(animation).to( { alpha: 0 }, 1000, Phaser.Easing.Linear.None, true);
-                        game.add.tween(animation).to( { y: Player1.character.y - 50 }, 1000, Phaser.Easing.Linear.None, true);
-                    }, this);
-
-                Player1.character.body.velocity.y = -(Math.pow(Player1.health, hitAngle));
-                
-                if (gameManager.scenario == "Metal"){
-                    Player1.stuncounterset(0);
-                }
-                else if (Player1.health >= 0 || Player1.health <= 75) {
-                    Player1.stuncounterset(60);
-                }
-                else if (Player1.health > 75 || Player1.health <= 150) {
-                    Player1.stuncounterset(120);
-                    if (Player1.health >= 120) {
                         hitpause = 10;
+                        Player1.stuncounterset(450);
                     }
                 }
-                else if (Player1.health > 150 || Player1.health < 200) {
-                    hitpause = 10;
-                    Player1.stuncounterset(300);
-                }
-                else {
-                    hitpause = 10;
-                    Player1.stuncounterset(450);
-                }
+                Player2.deltDamage = true;
             }
-            Player2.deltDamage = true;
         }
     },
 
