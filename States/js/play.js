@@ -18,6 +18,7 @@ var playState = {
             if(Player1.invincible || Player1.shielding === true){
                 hitpause = 10;
                 Player2.stuncounterset(300);
+                console.log("block stun?");
             }
             else if (!Player1.invincible){
                 Player1.attacking = false;
