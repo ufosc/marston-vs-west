@@ -17,7 +17,7 @@ var playState = {
             
             if(Player1.invincible || Player1.shielding === true){
                 hitpause = 10;
-                Player2.stuncounterset(120);
+                Player2.stuncounterset(60);
             }
             else if (!Player1.invincible){
                 Player1.attacking = false;
