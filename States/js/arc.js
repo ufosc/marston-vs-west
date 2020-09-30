@@ -53,7 +53,7 @@ var arcplayState = {
                     hitAngle = 1.6;
                     break;
                 default:
-                    console.log("No attacks went off, you have an error");
+                    //console.log("No attacks went off, you have an error");
             }
 
             if (Player1.m === 0 && !Player1.shielding) {
@@ -158,9 +158,9 @@ var arcplayState = {
         }
 
         if (Fighter.controlnum === 1) {
-            //console.log("controlnum = 1");
-            Fighter.character.x = 0.25 * game.width  //200;
-            Fighter.character.y = 0.25 * game.height //230;
+
+            Fighter.character.x = 0.25 * game.width;
+            Fighter.character.y = 0.25 * game.height;
             Fighter.respawnSwitch = true;
             Fighter.m = 0;
             Fighter.inputLock = false;
@@ -169,7 +169,7 @@ var arcplayState = {
         }
 
         else if (Fighter.controlnum === 2) {
-            //console.log("controlnum = 2");
+            
             Fighter.character.x = 0.75 * game.width;
             Fighter.character.y = 0.25 * game.height;
             Fighter.respawnSwitch = true;
@@ -180,10 +180,9 @@ var arcplayState = {
         }
 
         else if (Fighter.controlnum === -1) {
-            //console.log("controlnum = -1");
-            //Fighter.character.body.position.x = 200;
-            Fighter.character.x = 0.25 * game.width  //200;
-            Fighter.character.y = 0.25 * game.height //230;
+            
+            Fighter.character.x = 0.25 * game.width;
+            Fighter.character.y = 0.25 * game.height;
             Fighter.respawnSwitch = true;
             Fighter.m = 0;
             Fighter.inputLock = false;
@@ -191,10 +190,7 @@ var arcplayState = {
             Fighter.xZero = true;
         }
         else if (Fighter.controlnum === -2) {
-            //console.log("controlnum = -2");
-            //Fighter.character.body.position.x = 200;
-            //Fighter.character.x = 600;
-            //Fighter.character.y = 230;
+
             Fighter.character.x = 0.75 * game.width;
             Fighter.character.y = 0.25 * game.height;
             Fighter.respawnSwitch = true;
@@ -313,7 +309,6 @@ var arcplayState = {
     },
 
     create: function () {
-        console.log("in arc????");
         //  We're going to be using physics, so enable the Arcade Physics system
         //w = 800;
         //h = 600;
@@ -431,16 +426,6 @@ var arcplayState = {
 
             //  This stops it from falling away when you jump on it
             ground.body.immovable = true;
-
-
-			/*
-			chosenMap = game.add.tilemap('tilemap1');
-			console.log(chosenMap);
-			chosenMap.addTilesetImage('floor', 'hitboxTest');
-			let layer = chosenMap.createLayer('Tile Layer 1');
-			layer.resizeWorld();
-			chosenMap.setCollisionBetween(37, 62);
-			*/
         }
 
         hitSound = game.add.audio('hitSound');
@@ -468,57 +453,36 @@ var arcplayState = {
 
         if (charName1 === 'dude') {
             Player1 = new dj(charName1, 0, 3, game.world.width * 0.25, game.world.height * 0.5, controlOptionVpad);
-            console.log(Player1);
-            console.log("Player 1 is dj");
         }
         else if (charName1 === 'chick') {
             Player1 = new lab(charName1, 0, 3, game.world.width * 0.25, game.world.height * 0.5, controlOptionVpad);
-
-            console.log("Player 1 is lab");
         }
         else {
             Player1 = new lab(charName1, 0, lives, game.world.width * 0.25, game.world.height * 0.5, controlOptionVpad);
-            console.log("Player 1 is lab");
         }
 
 
         if (charName2 === 'dude') {
             Player2 = new dj(charName2, 0, 3, game.world.width * 0.75, game.world.height * 0.5, controlOptionAI);
-            console.log("Player 2 is dj");
         }
         else if (charName2 === 'chick') {
             Player2 = new lab(charName2, 0, 3, game.world.width * 0.75, game.world.height * 0.5, controlOptionAI);
-
-            console.log("Player 2 is lab");
         }
         else {
             Player2 = new lab(charName2, 0, lives, game.world.width * 0.75, game.world.height * 0.5, controlOptionAI);
-            console.log("Player 2 is lab");
         }
-
-
-
 
         if (multimanmode === true) {
             Player3 = new lab(charName2, 0, 3, game.world.width * 0.5, game.world.height * 0.5, controlOptionAI);
 
-            console.log("Player 3 is lab");
-
             Player4 = new lab(charName2, 0, lives, game.world.width * 0.62, game.world.height * 0.5, controlOptionAI);
-            console.log("Player 4 is lab");
         }
-
-        //event listener for player1 touch controls
-        //console.log("test print");
-
-        //console.log(Player1.controlnum);
 
         //Create an item
         item1 = new Item('bottle', game.world.width * .5, game.world.height * .5, this);
 
-
+        //event listener for player1 touch controls
         if (Player1.controlnum === -1) {
-            //console.log("virtual buttons are made buttons");
             Player1.controller1.buttonleft = game.add.button(5, 472, 'leftButton', null, this, 0, 1, 0, 1);
             Player1.controller1.buttonleft.events.onInputOver.add(function () { Player1.controller1.leftpress = true; });
             Player1.controller1.buttonleft.events.onInputOut.add(function () { Player1.controller1.leftpress = false; });
@@ -638,7 +602,7 @@ var arcplayState = {
 
                 // Check if the click was menu text
                 if (event.x > x1 && event.x < x2 && event.y > y1+65 && event.y < y2+65) {
-                    console.log("go to menu!!!");
+                    
                     music.stop();
                     if(muteState==false)
                     buttonSound.play();

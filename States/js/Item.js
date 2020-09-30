@@ -30,13 +30,12 @@ class Item {
 
     useItem(target) { //Only call if item has a user and is pickedUp
         //When you use the item, first check the type of item used, then do the approipiate action
-        console.log("USE ME???");
+
         this.type.angle = 0;
         this.type.body.angularVelocity = 0;
         if (this.pickedUp && this.user != null) {
             this.inAir = false;
-            console.log("Used item!")
-            console.log(this);
+           
             if (this.type.key == 'bottle') //heal the player and destroy bottle
             {
                 if(muteState==false)
@@ -79,8 +78,6 @@ class Item {
         return this.thrown;
     }
     throwItem(holder) { //Takes the holder sprite as a parameter to calculate which direction he's facing
-        //console.log("You threw item!!");
-        //this.spin = game.add.tween(this.type).to( { angle: '-1440' }, 2400, Phaser.Easing.Linear.None, true);
         this.type.angle = 0;
         this.type.body.angularVelocity = 0;
         this.type.body.rotation = 0;
@@ -90,12 +87,10 @@ class Item {
         this.active = true;
         this.previousUser = this.user;
         this.user = null;
-        //console.log('item1.thrown: ' + this.thrown);
-        //console.log('item1.active: ' + this.active);
+       
         if (holder.character.scale.x < 0) { //If they user is facing left
             if(muteState==false)
             itemSound.play();
-            //console.log("facing left");
 
             this.type.body.velocity.x -= 700;
             this.type.body.velocity.y -= 200;
@@ -103,13 +98,11 @@ class Item {
             this.thrown = true;
             this.active = true;
             this.inAir = true;
-
         }
         else //if facing to the left
         {
             if(muteState==false)
             itemSound.play();
-            //console.log("facing right");
 
             this.type.body.velocity.x += 700;
             this.type.body.velocity.y -= 200;
@@ -123,9 +116,8 @@ class Item {
     }
     itemCollision(target) //target is Fighter sprite who is getting hit by thrown item
     {
-        //  console.log("In itemCollision w/target");
         if (this.thrown && this.active && game.physics.arcade.overlap(target.character, this.type)) //active controls when the damage is applied ie only apply it once
-        { //console.log("deal the item throw damage")
+        {
             if (this.type.body.velocity.x > 0) //If item is thrown to the right, obv. the target is gonna fly to the right
             {
                 target.hitVelocity += 200;
@@ -154,11 +146,9 @@ class Item {
     spawnItem() {
         //Called after a timer goes off to reassign type and change position of item (allows for a reusable item)
         //For now, respawn it default as a bottle
-        console.log("ITEM SPAWNN ~~~~~~~~~~~~~~~~~~~~~~~~~~~");
         this.inAir = true;
         this.user = null;
         this.previousUser = null;
-
 
         //Depending on the random selection, spawn a random item
         let itemSelect = Math.floor(Math.random() * 3); // A random number generator of integers from 0 to 1 used to randomly spawn an item
@@ -174,8 +164,7 @@ class Item {
         }
 
         let itemOffset = Math.floor(Math.random() * 300);
-        console.log("Item Offset: " + itemOffset);
-        console.log("itemPosNeg: " + itemPosNeg);
+        
         switch (itemSelect) {
             case 0:
                 this.type = game.add.sprite(game.world.width * .5 + (itemOffset * itemPosNeg), game.world.height * .5, 'gator');

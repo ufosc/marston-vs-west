@@ -207,7 +207,6 @@ var vs;
 //end of title card state section
 
 function adjustWindowSize(){
-    console.log("resize?");
     this.game.width = window.innerWidth;
     this.gameheight = window.innerHeight;
 }

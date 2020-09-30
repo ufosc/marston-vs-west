@@ -3,8 +3,6 @@ class dj extends Fighter {
 
         super(character, health, lives, startx, starty, controlnum);
         this.character.body.gravity.y = 650;
-        //console.log("we created the dj construtor");
-
         this.jumpSpeed = 75;
         this.fallSpeed = 50;
         this.runSpeed = 50;

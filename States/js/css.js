@@ -51,7 +51,6 @@ var cssState = {
         
         computerIcon.events.onInputUp.add(function () {
             controlOptionAI *= -1;
-            console.log(controlOptionAI);
             if (controlOptionAI == -2){
                 computerIcon.tint = 0xffff00;
             }
@@ -164,28 +163,16 @@ var cssState = {
             game.state.start('menu');
         });
 
-        console.log("css?");
         ColorMenu1 = new ColorMenu(1);
         
         ColorMenu2 = new ColorMenu(2);
         
-        /*
-        var i;
-        for(i = 0; i < 8; i++){
-            ColorMenu1.button[i].onInputUp.add(function (){
-                console.log(i);
-                gameManager.playerTint[0] = ColorMenu1.colorPick(i);
-            });
-        }
-        */
         //player 1 color selection events
         ColorMenu1.button[0].onInputUp.add(function (){
-                //console.log("button1");
                 gameManager.playerTint[0] = ColorMenu1.colorPick(0);
         });
 
         ColorMenu1.button[1].onInputUp.add(function (){
-                //console.log("button2");
                 gameManager.playerTint[0] = ColorMenu1.colorPick(1);
         });
         
@@ -207,12 +194,10 @@ var cssState = {
         
         //player 2 color selection events
         ColorMenu2.button[0].onInputUp.add(function (){
-                //console.log("button1");
                 gameManager.playerTint[1] = ColorMenu2.colorPick(0);
         });
 
         ColorMenu2.button[1].onInputUp.add(function (){
-                //console.log("button2");
                 gameManager.playerTint[1] = ColorMenu2.colorPick(1);
         });
         

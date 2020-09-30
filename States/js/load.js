@@ -1,4 +1,3 @@
-console.log("loadstate reached");
 var loadState = {
 
     preload: function () {
