@@ -78,8 +78,6 @@ var winState = {
         feedbackLabel = new Link(this.game, game.world.width * 0.75, game.world.height * 0.4, "Click here to\nsend feedback!", "https://goo.gl/forms/wA6NGUAJ4OiKhVC93", { font: '50px Permanent Marker', fill: '#ffffff' });
         feedbackLabel.anchor.setTo(0.5, 0.5);
 
-        console.log("win.js???");
-
         if(gameManager.gameType === "Arcade") {
 
             if(Player1.lives < 0){
@@ -183,8 +181,6 @@ var winState = {
                         gameManager.arcadeLevel += 1;
                     }
                     if(gameManager.matchOutcome === "Win" && gameManager.arcadeLevel >= 5 ){
-                        
-                        console.log("win state back to menu");
 
                         gameManager.ScoreKeeper.resetAll();
                         

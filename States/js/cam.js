@@ -21,15 +21,7 @@ class cam {
     }
 
     updatecamera(sprite1, sprite2, xmin, ymin, xmax, ymax) {
-
-        //console.log(game.camera.x);
-        //console.log(game.camera.y);
-        //console.log(xdist);
-        //console.log(ydist);
-
         //update topleft x coordinate
-
-        //console.log(game.camera.x);
 
         //average pixel positions of sprite1 and sprite2
 
@@ -59,7 +51,6 @@ class cam {
 
         game.camera.x += 0.2 * (xtarget - game.camera.x);
 
-        //console.log(game.camera.x);
         //update topleft y coordinate
         game.camera.y += 0.2 * ((-1 * ytarget) - game.camera.y);
 
@@ -93,7 +84,7 @@ class cam {
 		if(xscaletarget < 0){
 			xscaletarget = xscaletarget * -1;
 		}
-		console.log(xscaletarget);
+		
 		if(xscaletarget < 100 && xscaletarget > 50){
 			game.camera.scale.x += 0.001;
 			//game.camera.scale.y += 0.001;
@@ -130,10 +121,6 @@ class cam {
 			game.camera.height = ytarget;
 		}
 		*/
-
-        //console.log(game.camera.width);
-        //console.log(game.camera.height);
-
 
         //update width
         //game.camera.deadzone.width = ;

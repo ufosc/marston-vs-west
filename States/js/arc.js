@@ -602,7 +602,7 @@ var arcplayState = {
 
                 // Check if the click was menu text
                 if (event.x > x1 && event.x < x2 && event.y > y1+65 && event.y < y2+65) {
-                    
+
                     music.stop();
                     if(muteState==false)
                     buttonSound.play();
@@ -612,11 +612,10 @@ var arcplayState = {
 
                     // Unpause the game, required to actually jump to the menu
                     game.paused = false;
-                    console.log('inside menu');
                 }
                 //if resume is clicked
                 else if (event.x > x1 && event.x < x2 && event.y > y1-50 && event.y < y2-30) {
-                    console.log("resume game!!!");
+
                     // Remove the menu and the label
                     pauseMenu.destroy();
                     //choiseLabel.destroy();
@@ -625,13 +624,11 @@ var arcplayState = {
                     game.paused = false;
                 }
                 else if (event.x > x1+80 && event.x < x2-100 && event.y > y1+160 && event.y < y2+160){
-                    console.log("Exit game!!!");
                     game.destroy();
                 }
             }
 
         };
-
 
         timerText = game.add.text(game.world.width * .5, game.world.height* 0.1, `Time: ${timer.duration}`, { font: '80px Arial', fill: '#000000' });
         timerText.anchor.setTo(.5, .5);
@@ -657,8 +654,7 @@ var arcplayState = {
 
 
     update: function () {
-        //console.log('Inside update function');
-        //console.log("controlOptionAI: " + controlOptionAI);
+        
         game.physics.arcade.overlap(Player1.character, this.win, this.Win, null, this);
         game.physics.arcade.overlap(Player2.character, this.win, this.Win, null, this);
 
@@ -666,10 +662,8 @@ var arcplayState = {
         music.volume = musicvol;
         music.mute = muteState;
 
-
-
         if (chosenStageName === 'pool') {
-            console.log("gravity set low!");
+
             Player1.character.body.gravity.y = 250; //gravity may need to oscillate between positive and negative so that fighter has a floaty feel to it while swimming 
             Player1.jumps = 0;
             Player2.character.body.gravity.y = 250;
@@ -688,8 +682,6 @@ var arcplayState = {
         }
 
         // Check for combos
-        //console.log(Player1.combo);
-        //console.log(Player1.comboclock);
         Player1.combocheck();
         Player2.combocheck();
 
@@ -729,8 +721,6 @@ var arcplayState = {
         game.physics.arcade.collide(Player2.character, platforms);
 
         //stop goomba stomp logic
-        //console.log("Velocity is Player1.character.body.velocity.y");
-        //console.log(Player1.character.body.velocity.y);
         //implement a terminal velocity
         if (Player1.character.body.velocity.y > 450) {
             Player1.character.body.velocity.y = 450;
@@ -773,8 +763,7 @@ var arcplayState = {
                 passtimer1v2--;
             }
 
-        }
-        //console.log(passtimer1v2);    
+        } 
         // end of logic for player to bump against then pass through other character
 
         //add physics for item (eventually just add items to a group and use collision detection for the group)
@@ -938,34 +927,12 @@ var arcplayState = {
                 nameText4.alignTo(Player4.character, Phaser.TOP, 16);
             }
         }
-
-        /*
-        //Multiman mode on so AI controls 2 additional fighters
-        if (multimanmode === true) {
-            console.log("attack 3 and 4!")
-            this.AIplay(Player1, Player3);
-            this.AIplay(Player1, Player4);
-            Player3.updateInput();
-            Player4.updateInput();
-            this.KO(Player3);
-            this.KO(Player4);
-            this.respawnEvent(Player3);
-            this.respawnEvent(Player4);
-            nameText3.alignTo(Player3.character, Phaser.TOP, 16);
-            nameText4.alignTo(Player4.character, Phaser.TOP, 16);
-        }*/
         
-
-        //console.log("echo");
         Player1.updateInput();
         Player2.updateInput();
 
-        //console.log("echo");
         healthtext1.text = `DMG ${Math.ceil(Player1.health)} %`;
         healthtext2.text = `DMG ${Math.ceil(Player2.health)} %`;
-
-        //livetext1.text = `Lives ${Player1.lives}`;
-        //livetext2.text = `Lives ${Player2.lives}`;
 
         this.KO(Player1);
         this.KO(Player2);
@@ -974,21 +941,11 @@ var arcplayState = {
         this.respawnEvent(Player2);
 
         //If out of lives, end the game
-        if (Player1.lives === 0) {
-            game.state.start('win');
-            if (multimanmode === true) {
-                console.log("# of KOs in multiman mode:");
-                console.log(multimenko);
-            }
-        }
-        if (Player2.lives === 0 && multimanmode === false) {
+        if (Player1.lives === 0 || Player2.lives === 0) {
             game.state.start('win');
         }
 
         timerText.text = this.formatTime(Math.round((timerEvent.delay - timer.ms) / 1000));
-
-        //stagecam.updatecamera(Player1,Player2,100,100,800,600);
-
     },
 
     //actually is the win function
@@ -998,41 +955,29 @@ var arcplayState = {
 
     //AI Logic and functions
     AIdistcheck: function (Target, AIFighter) {
-        //Fighter.character.body.position.x < -50
 
         AIxdist = AIFighter.character.body.position.x - Target.character.body.position.x;
         AIydist = AIFighter.character.body.position.y - Target.character.body.position.y;
         if (AIxdist > 50) {
             AIFighter.character.body.velocity.x = -150;
-            //controller2.right.isDown === true;
-            //console.log("AI should be moving left");
         }
         else if (AIxdist < -50) {
-            //controller2.left.isDown === true;
             AIFighter.character.body.velocity.x = 150;
-            //controller2.right.isDown === true;
-            console.log("AI should be moving right");
         }
         if (AIydist > 100) {
-            console.log("jump?");
             AIFighter.character.body.velocity.y = -100;
         }
     },
-
-    
-
 
     defendMode: function (AIFighter, AIxdist, AIydist) {
         //defensive behavior mode
         if (AIxdist < 150 && AIxdist > 0 || AIxdist < -250) {
 
-            //console.log("AI should be keeping right");
             AIFighter.controller1.leftpress = false;
             AIFighter.controller1.rightpress = true;
         }
         else if (AIxdist > -150 && AIxdist < 0 || AIxdist > 250) {
 
-            //console.log("AI should be keeping left");
             AIFighter.controller1.leftpress = true;
             AIFighter.controller1.rightpress = false;
         }
@@ -1045,16 +990,15 @@ var arcplayState = {
     },
 
     defendMode2: function (AIFighter, AIxdist, AIydist) {
+
         //defensive behavior mode2, try to stay close to center of stage
         if (AIFighter.character.body.position.x < 200) {
 
-            //console.log("AI should be keeping right");
             AIFighter.controller1.leftpress = false;
             AIFighter.controller1.rightpress = true;
         }
         else if (AIFighter.character.body.position.x > 400) {
 
-            //console.log("AI should be keeping left");
             AIFighter.controller1.leftpress = true;
             AIFighter.controller1.rightpress = false;
         }
@@ -1077,13 +1021,11 @@ var arcplayState = {
 
             if (AIxdist > 50) {
 
-                //console.log("AI should be moving left");
                 Fighter.controller1.leftpress = true;
                 Fighter.controller1.rightpress = false;
             }
             else if (AIxdist < -50) {
 
-                //console.log("AI should be moving right");
                 Fighter.controller1.leftpress = false;
                 Fighter.controller1.rightpress = true;
             }
@@ -1109,14 +1051,10 @@ var arcplayState = {
         AIFighter.bpress = false;//special button
         AIFighter.xpress = false;//jump button
         AIFighter.ypress = false;//block button
-        console.log(AIydist);
+
         //random number generator between 1 and 1000
         react = Math.floor((Math.random() * 1000) + 1);
         if (react < 10) {
-            console.log("Behavior switch!");
-
-            //console.log(AIFighter.AImode);
-
             AIFighter.AImode = AIFighter.AImode * -1;
         }
         if (react > 100) {
@@ -1129,11 +1067,13 @@ var arcplayState = {
             AIFighter.bpress = false;//special button
             AIFighter.xpress = false;//jump button
             AIFighter.ypress = false;//block button
-            console.log("reacting to nothing");
+           
             return;
         }
+        
         //random number to determine if AI should use a jab or normal attack
         attack = Math.floor((Math.random() * 100) + 1);
+        
         //normal attack logic
         if(attack > 5){
             if (AIxdist < 60 && AIxdist > 0) {
@@ -1164,14 +1104,6 @@ var arcplayState = {
             }
         }
         //jump logic
-		/*
-		if(AIydist > 100 || AIFighter.character.body.position.y < 40){
-				//AIFighter.controller1.ypress = true;
-		}
-		else{
-				AIFighter.controller1.ypress = false;
-		}
-		*/
 
         //General movement/walk behavior
 
@@ -1180,7 +1112,6 @@ var arcplayState = {
             // if the distance between the AI and the user is greater than 50 pixels, then the AI should move left
             if (AIxdist > 50) {
 
-                //console.log("AI should be moving left");
                 AIFighter.controller1.leftpress = true;
                 AIFighter.controller1.rightpress = false;
 
@@ -1188,51 +1119,54 @@ var arcplayState = {
             // if the distance between the AI and the user is less than -50 pixels, then the AI should move right
             else if (AIxdist < -50) {
 
-                //console.log("AI should be moving right");
                 AIFighter.controller1.leftpress = false;
                 AIFighter.controller1.rightpress = true;
             }
             else {
+
                 AIFighter.controller1.leftpress = false;
                 AIFighter.controller1.rightpress = false;
                 AIFighter.controller1.ypress = false;
             }
         }
         else if (AIFighter.AImode === -10) {
+
             //defensive behavior1 (AI tries to stay away from User)
-            //defendMode(AIFighter, AIxdist, AIydist);
 
             if (AIxdist < 150 && AIxdist > 0 || AIxdist < -250) {
-                //console.log("AI should be keeping right");
+
                 AIFighter.controller1.leftpress = false;
                 AIFighter.controller1.rightpress = true;
             }
             else if (AIxdist > -150 && AIxdist < 0 || AIxdist > 250) {
-                //console.log("AI should be keeping left");
+
                 AIFighter.controller1.leftpress = true;
                 AIFighter.controller1.rightpress = false;
             }
             else {
+
                 AIFighter.controller1.leftpress = false;
                 AIFighter.controller1.rightpress = false;
                 AIFighter.controller1.ypress = false;
             }
         }
         else if (AIFighter.AImode === -1) {
+
             //defensive behavior2 (AI tries to stay in center of stage)
             //defendMode(AIFighter, AIxdist, AIydist);
 
             if (AIFighter.character.body.position.x < 300) {
-                //console.log("AI should be keeping right");
+
                 AIFighter.controller1.leftpress = false;
                 AIFighter.controller1.rightpress = true;
             }
             else if (AIFighter.character.body.position.x > 400) {
-                //console.log("AI should be keeping left");
+
                 AIFighter.controller1.leftpress = true;
                 AIFighter.controller1.rightpress = false;
             }
             else {
+
                 AIFighter.controller1.leftpress = false;
                 AIFighter.controller1.rightpress = false;
                 AIFighter.controller1.ypress = false;
@@ -1241,17 +1175,18 @@ var arcplayState = {
 
         //avoid going out of bounds, this logic is always checked 
         if (AIFighter.character.body.position.x < 250) {
+
             //Avoid left bound
             AIFighter.controller1.rightpress = true;
             AIFighter.controller1.ypress = true;
         }
         else if (AIFighter.character.body.position.x > 650) {
+
             //Avoid right bound
             AIFighter.controller1.leftpress = true;
             AIFighter.controller1.ypress = true;
         }
         else {
-            //temporary fix need to remove later
             //AIFighter.controller1.leftpress = false;
             //AIFighter.controller1.rightpress = false;
         }

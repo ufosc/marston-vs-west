@@ -87,11 +87,10 @@ class GameInfo {
     randomcharacter(numSpot) {
         //randNum = 0;
         var randNum = Math.floor(Math.random() * 4);
-        console.log(randNum);
+        
         //randNum = this.checkHistory(4, randNum, this.characterHistory)
         randNum = this.checkHistory(4, randNum, this.characterHistory)
         this.characters[numSpot] = this.characterList[randNum];
-        console.log(this.characters[numSpot]);
         this.characterHistory[this.characterHistory.length] = randNum;
     }
 
@@ -117,7 +116,6 @@ class GameInfo {
     resetsettings() {
 
         //this.gameType = "Menu"
-        console.log("reset?");
         this.matchOutcome = "";
         this.characterHistory = [];
         this.stageHistory = [];

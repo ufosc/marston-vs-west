@@ -42,11 +42,6 @@ class platform {
 
             this.rightledge.scale.setTo(1, 0.4);
             this.leftledge.scale.setTo(1, 0.4);
-
-            //console.log(this.plat.width);
-            //console.log(this.plat.x);
-            //this.rightledge = game.add.sprite(x, y,'SwipeV'); // right recovery hitbox
-            //plat.create(x, y,'SwipeV'); //right recovery hitbox
             
             game.physics.arcade.enable(this.leftledge);
             this.leftledge.enableBody = true;

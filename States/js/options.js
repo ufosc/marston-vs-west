@@ -1,4 +1,3 @@
-//console.log("Reached options state");
 //  The Google WebFont Loader will look for this object, so create it before loading the script.
 WebFontConfig = {
     //  The Google Fonts we want to load (specify as many as you like in the array)

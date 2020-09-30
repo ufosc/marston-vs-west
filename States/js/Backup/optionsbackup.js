@@ -1,4 +1,3 @@
-console.log("Reached options state");
 //  The Google WebFont Loader will look for this object, so create it before loading the script.
 WebFontConfig = {
     //  The Google Fonts we want to load (specify as many as you like in the array)
@@ -163,12 +162,10 @@ var optionsState = {
     gameMinInc: function () {
         gameManager.gameMinutes++;
         buttonSound.play();
-        console.log("Minutes: " + gameManager.gameMinutes);
     },
     gameSecInc: function () {
         gameManager.gameSeconds = gameManager.gameSeconds + 30;
         buttonSound.play();
-        console.log("Seconds: " + gameManager.gameSeconds);
     },
     gameMinDec: function () {
         buttonSound.play();
@@ -176,7 +173,6 @@ var optionsState = {
         if (gameManager.gameMinutes < 0) {
             gameManager.gameMinutes = 0;
         }
-        console.log("Minutes: " + gameManager.gameMinutes);
     },
     gameSecDec: function () {
         gameManager.gameSeconds = gameManager.gameSeconds - 30;
@@ -184,12 +180,10 @@ var optionsState = {
         if (gameManager.gameSeconds < 0) {
             gameManager.gameSeconds = 0;
         }
-        console.log("Seconds: " + gameManager.gameSeconds);
     },
     gameLivesInc: function () {
         gameManager.lives++;
         buttonSound.play();
-        console.log("Lives: " + gameManager.lives);
     },
     gameLivesDec: function () {
         gameManager.lives--;
@@ -197,7 +191,6 @@ var optionsState = {
             gameManager.lives = 1;
         }
         buttonSound.play();
-        console.log("Lives: " + gameManager.lives);
     },
     onFullScreenChange: function (scale) {
         //if you need to change something when fullscreen toggled
@@ -219,7 +212,6 @@ var optionsState = {
         game.state.start('menu');
     },
     fullScreenConfig: function () {
-        console.log("Calling fullscreen function");
         if (!game.scale.isFullScreen) {
             game.scale.startFullScreen();
             //game.scaleMode = SHOW_ALL;
@@ -227,8 +219,6 @@ var optionsState = {
         else {
             //game.scaleMode = EXACT_FIT;
         }
-
-
     },
 
 };
@@ -337,13 +327,6 @@ function dragUpdate2 (sprite){
     valColor1 = parseInt(valColor1);
     sprite.tint = valColor1;
 
-    //printing the hex val
-    /*hexString = sprite.tint.toString(16);
-    if (hexString.length % 2) {
-        hexString = '0' + hexString;
-    }
-    console.log(hexString);*/
-
     colorChange(colorOverlap);
 
     if(sprite.y != yValue){
@@ -370,13 +353,6 @@ function dragUpdate5 (sprite){
     valColor4 = (xPos5 - right2) /range * 255;
     valColor4 = parseInt(valColor4);
     sprite.tint = valColor4;
-
-    //printing the hex val
-    /*hexString = sprite.tint.toString(16);
-    if (hexString.length % 2) {
-        hexString = '0' + hexString;
-    }
-    console.log(hexString);*/
 
     colorChange2(colorOverlap2);
 
@@ -465,7 +441,6 @@ function dragUpdate4 (sprite){
     if (hexString.length % 2) {
         hexString = '0' + hexString;
     }
-    console.log(hexString);
 
     colorChange(colorOverlap);
 

@@ -5,9 +5,6 @@ var words;
 var arctcsState = {
     create:function(){
 
-        console.log("Test:" + gameManager.gameType)
-        console.log("in arctcs????")
-
         numX = 20;
         numY = 20;
         
@@ -26,8 +23,6 @@ var arctcsState = {
             
             //gameManager.scenario = "Reverse";
         }
-
-        console.log("chars:" + charName1 +", " + charName2 + ", " + gameManager.charName2);
 
         key1 = game.input.keyboard.addKey(Phaser.Keyboard.ENTER);
         var skipLabel = game.add.text(game.world.width * .5 , game.world.height - 25, "Press 'Enter' to skip", { font: '50px Permanent Marker', fill: '#ffffff' });
@@ -53,16 +48,12 @@ var arctcsState = {
         if(muteState == false)
         buttonSound.play();
         
-        console.log("making sprite");
         player2ico = game.add.sprite(game.world.width * .95 + 100, game.world.height * .7, charName2);
-        console.log("making sprite2");
         player2ico.scale.setTo(15, 15);
         player2ico.anchor.setTo(.5,.5);
-        console.log("making sprite anchors done");
         player2ico.animations.add('idle', [1, 2], 5, true);
         player2ico.animations.add('kick', [6], 5, true);
-        console.log("middle of making?");
-        
+          
         if (player2ico.animations) {
             player2ico.alpha = 1;
         }
@@ -81,8 +72,6 @@ var arctcsState = {
 
         player1ico.tint = gameManager.playerTint[0];
         player2ico.tint = gameManager.playerTint[1];
-
-        console.log("players made?");
 
             player2response = game.add.text((game.world.width), 50, 
             `Player2: ${Words.Phrase}` + '\n'

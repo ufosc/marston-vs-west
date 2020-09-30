@@ -51,8 +51,9 @@ var arccssState = {
         computerIcon.tint = 0xffffff;
         
         computerIcon.events.onInputUp.add(function () {
+         
             controlOptionAI *= -1;
-            console.log(controlOptionAI);
+         
             if (controlOptionAI == -2){
                 computerIcon.tint = 0xffff00;
             }
@@ -165,7 +166,6 @@ var arccssState = {
             game.state.start('menu');
         });
 
-        console.log("arcade css?");
         ColorMenu1 = new ColorMenu(1);
         
         //player 1 color selection events

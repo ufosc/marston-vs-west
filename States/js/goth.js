@@ -4,8 +4,6 @@ class goth extends Fighter {
         super(character, health, lives, startx, starty, controlnum);
         
         this.character.body.gravity.y = 650;
-        //console.log("we created the lab construtor");
-
         this.jumpSpeed = 25;
         this.fallSpeed = 50;
         this.runSpeed = 50;
@@ -135,7 +133,7 @@ class goth extends Fighter {
         this.xZero = false;
         this.inputLock = true;
         this.attacking = true;
-        console.log("Attack??");
+        
         if (this.character.body.touching.down) {
             this.character.body.moves = false;
         }

@@ -86,7 +86,7 @@ class nespad {
             this.nescontroller.addCallbacks(this, {
                 onConnect: function () {
                     this.testconnect = true;
-                    console.log("controller recognized and connected! buttons set!");
+                    //console.log("controller recognized and connected! buttons set!");
                     // you could use a different button here if you want...
 
                     //buttons seem to go from 0 to 10
@@ -133,7 +133,7 @@ class nespad {
         nescontroller.addCallbacks(this, {
             onConnect: function () {
                 testconnect1 = true;
-                console.log("controller recognized and connected! buttons set!");
+                //console.log("controller recognized and connected! buttons set!");
                 // you could use a different button here if you want...
 
                 //buttons seem to go from 0 to 10

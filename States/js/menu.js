@@ -155,7 +155,6 @@ var menuState = {
         gameManager.resetsettings();
         gameManager.ScoreKeeper.resetAll();
         
-        console.log("go to normal css?");
         gameManager.changemode("MultiPlayer");
         game.state.start('css');
         gameManager.playerTint[0] = "0xff8615";
@@ -163,8 +162,7 @@ var menuState = {
 
     },
     arcade: function(){
-        console.log('arcade');
-
+        
         if(muteState==false){
             buttonSound.play();
         }
@@ -182,7 +180,7 @@ var menuState = {
     characterSelect: function () {
         if(muteState==false)
         buttonSound.play();
-        console.log("css State");
+      
         gameManager.resetsettings();
         gameManager.ScoreKeeper.resetAll();
         gameManager.changemode("Multi");
@@ -193,11 +191,11 @@ var menuState = {
     options: function () {
         if(muteState==false)
         buttonSound.play();
-        console.log("options state");
+        
         game.state.start('options');
     },
     quit: function () {
-        console.log("quit state");
+        
         if(muteState==false)
         buttonSound.play();
         music.stop();
@@ -216,16 +214,11 @@ var menuState = {
         music.volume = gameManager.volume;
         music.mute = muteState;
         //buttonSound.volume = musicvol;
-        //console.log("buttonSound: ", buttonSound.volume);
-        //console.log("musicVolume: ", music.volume);
         //this is where music volume should handled by updating
         //but this is never triggered
-
     },
 
-
     fullScreenConfig: function () {
-        console.log("Calling fullscreen function");
        /* if (!game.scale.isFullScreen) {
             game.scale.fullScreenScaleMode = Phaser.ScaleManager.EXACT_FIT;
             game.scale.startFullScreen(true);

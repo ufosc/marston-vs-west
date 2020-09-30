@@ -1,6 +1,5 @@
 var cssState = {
     create: function () {
-        console.log("CSS???!");
         //Reset values to default so if player wants to play again, it does not start off "ready" to play
         charSelected1 = false;
         charSelected2 = false;
@@ -87,7 +86,6 @@ var cssState = {
 
         player1BodyIcon.tint = gameManager.playerTint[0];
         player2BodyIcon.tint = gameManager.playerTint[1];
-        console.log("TINT!");
 
         //Chose your library: Click on label to set variable to a library, then send info later
         var player1Label = game.add.text(game.world.width*0.25, 50, 'Choose your Library!', { font: '25px Arial', fill: '#ffffff' });
@@ -212,10 +210,9 @@ var cssState = {
         }
     },
     onDragStop: function () {
-        console.log("test?");
+
         //If you drop the cursor on the icon
         if (game.physics.arcade.overlap(player1Icon, LabIcon)) {
-            console.log("test?");
             if(muteState==false)
             buttonSound.play();
             //Determine's what's spawned, and lets you start game
@@ -317,7 +314,7 @@ var cssState = {
             computerIcon.tint = 0xffff00;
             player2BodyIcon.kill();
             controlOptionAI = -2; //Temporary till we have the AI logic, then replace this with a -2 instead,using vpad to test functionality
-            console.log("controlOptionAI: " + controlOptionAI);
+            
             player2BodyIcon = game.add.sprite(game.world.width * .75 + 150, game.world.height * .5 - 50, 'Goth');
             player2BodyIcon.scale.setTo(3.5, 3.5);
             player2BodyIcon.animations.add('idle', [1, 2], 5, true);
@@ -390,13 +387,10 @@ var cssState = {
             botSelected = false;
             computerIcon.tint = 0xffffff;
 
-            console.log("controlOptionAI: " + controlOptionAI);
-
             if (player2BodyIcon.animations) {
                 player2BodyIcon.alpha = .5;
             }
         }
-
 
     }
 };

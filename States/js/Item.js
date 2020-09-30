@@ -197,7 +197,6 @@ class Item {
         this.type.body.rotation = 0;
     }
     respawnItem() {
-        console.log("RESPAWN ITEM");
         this.type.destroy(); //Delete the old item sprite
         this.spawnItem();
     }
@@ -261,10 +260,6 @@ class Item {
             if (!this.user) {
                 this.user = null;
             }
-            //console.log("user: " + this.user)
-
         }
     }
-
-
 }

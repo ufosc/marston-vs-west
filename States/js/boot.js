@@ -1,4 +1,3 @@
-console.log("bootstate reached");
 var bootState = {
 
     create: function () {
